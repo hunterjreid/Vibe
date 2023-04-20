@@ -1,5 +1,11 @@
+
+<img width=150 alt='Get Sharezone for iOS' src='https://user-images.githubusercontent.com/62681404/233503168-ce39d966-297b-4343-9a1e-f2bc3d6fdddf.png'/>
+
+
+
 # Vibe 🎵🎼
 Find your Vibes
+
 
 Vibe is a video sharing app where you can add filters and music to your videos. Inside this repo includes Andriod, iOS, and web-app files and is the master copy.
 
