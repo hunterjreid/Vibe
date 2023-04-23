@@ -14,9 +14,9 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 
 | Problem/Implementation                     | Todo | Note | Date Noted | Time |
 |--------------------------|------------------------|------|------------|------|
-| --        | -- | N/A  | 2023-04-21 | 10:00 AM |
-| --        | -- | N/A  | 2023-04-21 | 10:00 AM |
-| --        | -- | N/A  | 2023-04-21 | 10:00 AM |
+| Link Firebase        | -- | N/A  | 2023-04-23 | 3:00 PM |
+| Create User account working        | -- | N/A  | 2023-04-23 | 3:00 PM |
+| Login working        | -- | N/A  | 2023-04-23 | 3:00 PM |
 
 <i>Built 100% by Hunter Reid as a project for Yoobee Colleges CS301 lectures: Arthur, Mohammad, Rouwa, All rights resereved.</i>
 
