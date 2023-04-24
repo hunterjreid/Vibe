@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
-import 'package:vibe/views/screens/auth/text_input_field.dart';
+import 'package:vibe/views/widgets/text_input_field.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key? key}) : super(key: key);
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,9 @@ class SignupScreen extends StatelessWidget {
                   bottom: -10,
                   left:30,
                   child: IconButton(
-                    onPressed: () {
-                      print("user clicked upload image");
-                    },
+                    onPressed: () =>
+                      authController.pickImage()
+                    ,
                     icon: const Icon(Icons.add_a_photo,)
                   ))
               ],
@@ -55,7 +57,7 @@ class SignupScreen extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextInputField(controller: _emailController, labelText: 'Username', icon: Icons.person),
+            child: TextInputField(controller: _usernameController, labelText: 'Username', icon: Icons.person),
           ),
           const SizedBox(height: 15,),
           Container(
@@ -67,7 +69,7 @@ class SignupScreen extends StatelessWidget {
             Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextInputField(controller: _passwordController, labelText: 'Password', icon: Icons.lock),
+            child: TextInputField(controller: _passwordController, labelText: 'Password', icon: Icons.lock, isObscure: true,),
           ),
           const SizedBox(height: 10,),
           Container(
@@ -78,9 +80,7 @@ class SignupScreen extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10))
             ),
             child: InkWell(
-              onTap: () {
-                print('create account button clicked by user');
-              },
+              onTap: () => authController.registeredUser(_usernameController.text, _emailController.text, _passwordController.text, authController.profilePhoto),
           child: const Center(
             child: Text('Create Account',
             style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700,),),

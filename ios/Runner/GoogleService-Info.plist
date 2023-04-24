@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>782902269864-nod047ogmlrel5vrohsdbi45m44ivn6t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.782902269864-nod047ogmlrel5vrohsdbi45m44ivn6t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBBspdmiZmMJljDxckkSfHnbZ06I__I0Ig</string>
+	<key>GCM_SENDER_ID</key>
+	<string>782902269864</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.vibe</string>
+	<key>PROJECT_ID</key>
+	<string>vibe-d9b2d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vibe-d9b2d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:782902269864:ios:99f783ceb1b2df56f5ef9d</string>
+</dict>
+</plist>

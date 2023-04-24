@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
-import 'package:vibe/views/screens/auth/text_input_field.dart';
+import 'package:vibe/views/widgets/text_input_field.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
             Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextInputField(controller: _passwordController, labelText: 'Password', icon: Icons.lock),
+            child: TextInputField(controller: _passwordController, labelText: 'Password', icon: Icons.lock, isObscure: true,),
           ),
           const SizedBox(height: 30,),
           Container(
@@ -47,7 +47,7 @@ class LoginScreen extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                print('login button clicked by user');
+                authController.loginUser(_emailController.text, _passwordController.text);
               },
           child: const Center(
             child: Text('Login',
