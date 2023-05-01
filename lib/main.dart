@@ -10,7 +10,7 @@ import 'package:vibe/views/screens/auth/signup_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(apiKey: "AIzaSyAZh_j8C_YUkXSUHqPTX6AwMc-veEirBqY", appId: "1:782902269864:web:629aeb7c1f08e7a2f5ef9d", messagingSenderId: "782902269864", projectId: "vibe-d9b2d", storageBucket: "vibe-d9b2d.appspot.com",)

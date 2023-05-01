@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/views/screens/auth/confirm_screen.dart';
 
 
 class AddVideoScreen extends StatelessWidget {
@@ -11,7 +12,14 @@ class AddVideoScreen extends StatelessWidget {
   pickVideo(ImageSource src, BuildContext context) async {
     final video = await ImagePicker().pickVideo(source: src);
     if (video != null) {
-      print("goto confirm screen");
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ConfirmScreen(
+            videoFile: File(video.path),
+            videoPath: video.path
+            ),
+            ),
+      );
     }
   }
 
