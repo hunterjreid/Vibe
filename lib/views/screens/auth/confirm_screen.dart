@@ -23,8 +23,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   TextEditingController _songController = TextEditingController();
   TextEditingController _captionController = TextEditingController();
 
-  UploadVideoController uploadVideoController =
-      Get.put(UploadVideoController());
+  UploadVideoController uploadVideoController = Get.put(UploadVideoController());
 
   @override
   void initState() {
@@ -92,9 +91,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   ),
                   ElevatedButton(
                       onPressed: () => uploadVideoController.uploadVideo(
-                          _songController.text,
-                          _captionController.text,
-                          widget.videoPath),
+                          _songController.text, _captionController.text, widget.videoPath),
                       child: const Text(
                         'Share!',
                         style: TextStyle(

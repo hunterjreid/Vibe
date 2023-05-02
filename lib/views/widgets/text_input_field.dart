@@ -5,14 +5,13 @@ class TextInputField extends StatelessWidget {
   final String labelText;
   final bool isObscure;
   final IconData icon;
-  const TextInputField({
-    Key? key,
-    required this.controller,
-    required this.labelText,
-    this.isObscure = false,
-    required this.icon})
-    : super(key: key);
-    
+  const TextInputField(
+      {Key? key,
+      required this.controller,
+      required this.labelText,
+      this.isObscure = false,
+      required this.icon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +22,21 @@ class TextInputField extends StatelessWidget {
         prefixIcon: Icon(icon),
         labelStyle: const TextStyle(),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10,),
-          borderSide: const BorderSide(
-            color: Color.fromARGB(255, 214, 40, 147),
-          )
-        ),
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 214, 40, 147),
+            )),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10,),
-          borderSide: const BorderSide(
-            color: Color.fromARGB(255, 214, 40, 147),
-          )
-        ),
-        ),
-        obscureText: isObscure,
-    
-
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 214, 40, 147),
+            )),
+      ),
+      obscureText: isObscure,
     );
   }
 }

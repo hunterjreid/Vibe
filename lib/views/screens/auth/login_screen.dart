@@ -11,75 +11,84 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            
-          Image.asset("assets/images/logo.png", width: 100,),
-
-
-   
-          const Text('Login', style:TextStyle(
-            fontSize: 25, 
-            fontWeight: FontWeight.w700
-          ),),
-          const SizedBox(height: 25,),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextInputField(controller: _emailController, labelText: 'Email', icon: Icons.email),
+        body: Container(
+      alignment: Alignment.center,
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Image.asset(
+          "assets/images/logo.png",
+          width: 100,
+        ),
+        const Text(
+          'Login',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child:
+              TextInputField(controller: _emailController, labelText: 'Email', icon: Icons.email),
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: TextInputField(
+            controller: _passwordController,
+            labelText: 'Password',
+            icon: Icons.lock,
+            isObscure: true,
           ),
-          const SizedBox(height: 25,),
-            Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextInputField(controller: _passwordController, labelText: 'Password', icon: Icons.lock, isObscure: true,),
-          ),
-          const SizedBox(height: 30,),
-          Container(
-            width: MediaQuery.of(context).size.width - 40,
-            height: 50,
-            decoration: BoxDecoration(
-              color: buttonColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10))
-            ),
-            child: InkWell(
-              onTap: () {
-                authController.loginUser(_emailController.text, _passwordController.text);
-              },
-          child: const Center(
-            child: Text('Login',
-            style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700,),),
-          ),
-          ),
-          ),
-          SizedBox(
-            height: 15,
-            ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Don\'t have an account?',
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width - 40,
+          height: 50,
+          decoration: BoxDecoration(
+              color: buttonColor, borderRadius: const BorderRadius.all(Radius.circular(10))),
+          child: InkWell(
+            onTap: () {
+              authController.loginUser(_emailController.text, _passwordController.text);
+            },
+            child: const Center(
+              child: Text(
+                'Login',
                 style: TextStyle(
-                fontSize: 17
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Don\'t have an account?',
+              style: TextStyle(fontSize: 17),
+            ),
             InkWell(
               onTap: () {
                 print('going to create account');
-              }, child: Text(
+              },
+              child: Text(
                 ' Create Account',
-                 style: TextStyle(fontSize: 17, color: buttonColor),),
-             ),
-            ],
-          )
-       
-        ]  
-      ),
-    )
-    );
+                style: TextStyle(fontSize: 17, color: buttonColor),
+              ),
+            ),
+          ],
+        )
+      ]),
+    ));
   }
 }

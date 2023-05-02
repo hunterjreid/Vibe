@@ -8,10 +8,9 @@ class VideoPlayerItem extends StatefulWidget {
     required this.videoUrl,
   }) : super(key: key);
 
-    @override
+  @override
   _VideoPlayerItemState createState() => _VideoPlayerItemState();
 }
-
 
 class _VideoPlayerItemState extends State<VideoPlayerItem> {
   late VideoPlayerController videoPlayerController;
@@ -19,10 +18,11 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
   @override
   void initState() {
     super.initState();
-    videoPlayerController = VideoPlayerController.network(widget.videoUrl)..initialize().then((value) {
-      videoPlayerController.play();
-      videoPlayerController.setVolume(1);
-    });
+    videoPlayerController = VideoPlayerController.network(widget.videoUrl)
+      ..initialize().then((value) {
+        videoPlayerController.play();
+        videoPlayerController.setVolume(1);
+      });
   }
 
   @override
@@ -36,14 +36,12 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     final size = MediaQuery.of(context).size;
 
     return Container(
-      width:  size.width,
+      width: size.width,
       height: size.height,
-      decoration:  const BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.black,
       ),
       child: VideoPlayer(videoPlayerController),
     );
   }
-
-
 }

@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/auth/confirm_screen.dart';
 
-
 class AddVideoScreen extends StatelessWidget {
   const AddVideoScreen({Key? key}) : super(key: key);
 
@@ -14,11 +13,8 @@ class AddVideoScreen extends StatelessWidget {
     if (video != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ConfirmScreen(
-            videoFile: File(video.path),
-            videoPath: video.path
-            ),
-            ),
+          builder: (context) => ConfirmScreen(videoFile: File(video.path), videoPath: video.path),
+        ),
       );
     }
   }

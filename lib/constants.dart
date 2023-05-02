@@ -3,8 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vibe/controller/auth_controller.dart';
+
 import 'package:vibe/views/screens/add_video_screen.dart';
-import 'package:vibe/views/screens/auth/video_screen.dart';
+import 'package:vibe/views/screens/video_screen.dart';
 
 const pages = [
   VideoScreen(),
@@ -13,7 +14,6 @@ const pages = [
   Text('Messages Screen'),
   Text('Profile Screen'),
 ];
-
 
 const backgroundColor = Colors.black;
 var buttonColor = Color.fromARGB(255, 44, 113, 179);
