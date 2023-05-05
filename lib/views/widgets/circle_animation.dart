@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class CircleAnimation extends StatefulWidget {
   final Widget child;
@@ -8,10 +8,11 @@ class CircleAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CircleAnimation> createState() => _CircleAnimationState();
+  _CircleAnimationState createState() => _CircleAnimationState();
 }
 
-class _CircleAnimationState extends State<CircleAnimation> with SingleTickerProviderStateMixin {
+class _CircleAnimationState extends State<CircleAnimation>
+    with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
   @override
@@ -19,7 +20,9 @@ class _CircleAnimationState extends State<CircleAnimation> with SingleTickerProv
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 5000),
+      duration: const Duration(
+        milliseconds: 5000,
+      ),
     );
     controller.forward();
     controller.repeat();
@@ -27,10 +30,11 @@ class _CircleAnimationState extends State<CircleAnimation> with SingleTickerProv
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return RotationTransition(
       turns: Tween(begin: 0.0, end: 1.0).animate(controller),

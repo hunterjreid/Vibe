@@ -23,22 +23,22 @@ class Video {
     required this.songName,
     required this.caption,
     required this.videoUrl,
-    required this.thumbnail,
     required this.profilePhoto,
+    required this.thumbnail,
   });
 
   Map<String, dynamic> toJson() => {
         "username": username,
         "uid": uid,
+        "profilePhoto": profilePhoto,
         "id": id,
         "likes": likes,
         "commentCount": commentCount,
         "shareCount": shareCount,
         "songName": songName,
         "caption": caption,
-        "thumbnail": thumbnail,
         "videoUrl": videoUrl,
-        "profilePhoto": profilePhoto,
+        "thumbnail": thumbnail,
       };
 
   static Video fromSnap(DocumentSnapshot snap) {

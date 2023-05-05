@@ -16,7 +16,12 @@ class CustomIcon extends StatelessWidget {
             ),
             width: 38,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 214, 40, 147),
+              color: const Color.fromARGB(
+                255,
+                250,
+                45,
+                108,
+              ),
               borderRadius: BorderRadius.circular(7),
             ),
           ),
@@ -26,7 +31,12 @@ class CustomIcon extends StatelessWidget {
             ),
             width: 38,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 44, 113, 179),
+              color: const Color.fromARGB(
+                255,
+                32,
+                211,
+                234,
+              ),
               borderRadius: BorderRadius.circular(7),
             ),
           ),
@@ -35,12 +45,12 @@ class CustomIcon extends StatelessWidget {
               height: double.infinity,
               width: 38,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 0, 0, 0),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(7),
               ),
               child: const Icon(
                 Icons.add,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Colors.black,
                 size: 20,
               ),
             ),

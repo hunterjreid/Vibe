@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
-import 'package:vibe/controller/video_controller.dart';
+import 'package:vibe/controllers/video_controller.dart';
+import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/widgets/circle_animation.dart';
-import 'package:vibe/views/widgets/video_player_item.dart';
+import 'package:vibe/views/widgets/video_player_iten.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
-
 
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
@@ -71,7 +70,6 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -79,7 +77,7 @@ class VideoScreen extends StatelessWidget {
     return Scaffold(
       body: Obx(() {
         return PageView.builder(
-          // itemCount: videoController.videoList.length,
+          itemCount: videoController.videoList.length,
           controller: PageController(initialPage: 0, viewportFraction: 1),
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
@@ -158,7 +156,16 @@ class VideoScreen extends StatelessWidget {
                                 Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () =>
+                                          videoController.likeVideo(data.id),
+                                      child: Icon(
+                                        Icons.favorite,
+                                        size: 40,
+                                        color: data.likes.contains(
+                                                authController.user.uid)
+                                            ? Colors.red
+                                            : Colors.white,
+                                      ),
                                     ),
                                     const SizedBox(height: 7),
                                     Text(
@@ -173,7 +180,13 @@ class VideoScreen extends StatelessWidget {
                                 Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => CommentScreen(
+                                            id: data.id,
+                                          ),
+                                        ),
+                                      ),
                                       child: const Icon(
                                         Icons.comment,
                                         size: 40,

@@ -22,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
-        selectedItemColor: Color.fromARGB(255, 214, 40, 147),
-        unselectedItemColor: Color.fromARGB(255, 44, 113, 179),
+        backgroundColor: backgroundColor,
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.white,
         currentIndex: pageIdx,
         items: const [
           BottomNavigationBarItem(

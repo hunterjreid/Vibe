@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:vibe/controller/auth_controller.dart';
+import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
 
