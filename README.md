@@ -9,15 +9,11 @@ Find your Vibes
 
 Vibe is a video sharing app where you can add filters and music to your videos. Inside this repo includes Andriod, iOS, and web-app files and is the master copy.
 
-
-![image](https://user-images.githubusercontent.com/62681404/235561035-51d4b46f-9db8-4f64-9acf-29ebc7b9314c.png)
-
-
 | Problem/Implementation                     | Todo | Note | Date Noted | Time |
 |--------------------------|------------------------|------|------------|------|
-| Display Video       | 1st priority | N/A  | 2023-05-02 | 1:30 PM |
-| Liking Videos        | 2nd priority | N/A  | 2023-05-02 | 1:30 PM |
-| Commenting on Videos       | 3rd priority | N/A  | 2023-05-02 | 1:30 PM |
+| Fliters on videos       | 1st priority | N/A  | 2023-05-05 | 1:20 PM |
+| Faster Loading times        | 2nd priority | N/A  | 2023-05-05 | 1:20 PM |
+| Messaging other user accounts       | 3rd priority | N/A  | 2023-05-05 | 1:20 PM |
 
 <i>Built 100% by Hunter Reid as a project for Yoobee Colleges CS301 lectures: Arthur, Mohammad, Rouwa, All rights resereved.</i>
 
