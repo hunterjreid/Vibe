@@ -43,7 +43,7 @@ class CommentScreen extends StatelessWidget {
                                 "${comment.username}  ",
                                 style: const TextStyle(
                                   fontSize: 20,
-                                  color: Colors.red,
+                                  color: Color.fromARGB(255, 44, 113, 179),
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -88,7 +88,7 @@ class CommentScreen extends StatelessWidget {
                               size: 25,
                               color: comment.likes
                                       .contains(authController.user.uid)
-                                  ? Colors.red
+                                  ? Color.fromARGB(255, 214, 40, 147)
                                   : Colors.white,
                             ),
                           ),
@@ -113,12 +113,12 @@ class CommentScreen extends StatelessWidget {
                     ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.red,
+                        color: Color.fromARGB(255, 214, 40, 147),
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: Colors.red,
+                        color: Color.fromARGB(255, 214, 40, 147),
                       ),
                     ),
                   ),

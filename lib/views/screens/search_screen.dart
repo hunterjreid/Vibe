@@ -14,7 +14,12 @@ class SearchScreen extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
+
+
+  
+          
+          
+          backgroundColor: Color.fromARGB(255, 44, 113, 179),
           title: TextFormField(
             decoration: const InputDecoration(
               filled: false,
@@ -26,18 +31,31 @@ class SearchScreen extends StatelessWidget {
             ),
             onFieldSubmitted: (value) => searchController.searchUser(value),
           ),
+          
         ),
+        
         body: searchController.searchedUsers.isEmpty
-            ? const Center(
-                child: Text(
-                  'Search for users!',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+            ? Column(
+              children: [
+                const Center(
+                  
+                    child: Text(
+                      'Search for users!',
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+      
+                    ),
+                    
                   ),
-                ),
-              )
+
+
+
+                  
+              ],
+            )
             : ListView.builder(
                 itemCount: searchController.searchedUsers.length,
                 itemBuilder: (context, index) {
@@ -67,5 +85,6 @@ class SearchScreen extends StatelessWidget {
               ),
       );
     });
+    
   }
 }
