@@ -81,23 +81,47 @@ class AddVideoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: InkWell(
-          onTap: () => showOptionsDialog(context),
-          child: Container(
-            width: 190,
-            height: 50,
-            decoration: BoxDecoration(color: buttonColor),
-            child: const Center(
-              child: Text(
-                'Add Video',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () => showOptionsDialog(context),
+              child: Container(
+                width: 190,
+                height: 50,
+                decoration: BoxDecoration(color: buttonColor),
+                child: const Center(
+                  child: Text(
+                    'Add Video',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+            const SizedBox(height: 20),
+            InkWell(
+              onTap: () => print('Camera Face Filter button pressed'),
+              child: Container(
+                width: 190,
+                height: 50,
+                decoration: BoxDecoration(color: Colors.purple),
+                child: const Center(
+                  child: Text(
+                    'Face Filters',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -145,82 +145,129 @@ class VideoScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 100,
+                            //  width: 100,
                             margin: EdgeInsets.only(top: size.height / 5),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                buildProfile(
-                                  data.profilePhoto,
-                                ),
-                                Column(
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    InkWell(
-                                      onTap: () =>
-                                          videoController.likeVideo(data.id),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: 40,
-                                        color: data.likes.contains(
-                                                authController.user.uid)
-                                            ? Color.fromARGB(255, 44, 113, 179)
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 7),
-                                    Text(
-                                      data.likes.length.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => CommentScreen(
-                                            id: data.id,
+                                    buildProfile(data.profilePhoto),
+                                    Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () => videoController
+                                              .likeVideo(data.id),
+                                          child: Icon(
+                                            Icons.favorite,
+                                            size: 45,
+                                            color: data.likes.contains(
+                                                    authController.user.uid)
+                                                ? Color.fromARGB(
+                                                    255, 44, 113, 179)
+                                                : Colors.white,
                                           ),
                                         ),
-                                      ),
-                                      child: const Icon(
-                                        Icons.comment,
-                                        size: 40,
-                                        color: Colors.white,
-                                      ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          data.likes.length.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    const SizedBox(height: 7),
-                                    Text(
-                                      data.commentCount.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {},
-                                      child: const Icon(
-                                        Icons.reply,
-                                        size: 40,
-                                        color: Colors.white,
-                                      ),
+                                    Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () =>
+                                              Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CommentScreen(
+                                                id: data.id,
+                                              ),
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.comment,
+                                            size: 45,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          data.commentCount.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    const SizedBox(height: 7),
-                                    Text(
-                                      data.shareCount.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    )
+                                    Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Icon(
+                                            Icons.share,
+                                            size: 45,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          data.shareCount.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Icon(
+                                            Icons.folder,
+                                            size: 30,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          "Save",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Icon(
+                                            Icons.upload,
+                                            size: 30,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          "Repost",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
                                 CircleAnimation(

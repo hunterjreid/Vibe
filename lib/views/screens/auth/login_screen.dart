@@ -17,8 +17,13 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/logo.png',
+              width: 300,
+              height: 300,
+            ),
             Text(
-              'Vibe',
+              'Vibe: Feel The Vibes™',
               style: TextStyle(
                 fontSize: 35,
                 color: buttonColor,

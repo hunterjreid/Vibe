@@ -17,38 +17,37 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
-        
-
         color: Colors.black12,
         child: Padding(
-        
           padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20),
-        child: GNav(
-          gap: 8, 
-          onTabChange: (index) {
-          
-          setState(() {
-                    pageIdx = index;
-                  });
-          },
-
-          
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          color: Color.fromARGB(255, 0, 0, 0),
-          activeColor: Colors.black,
-          tabBackgroundColor: Color.fromARGB(255, 250, 250, 250),
-          tabs: [
-          GButton(icon: Icons.explore,
-          text: 'Feed',),
-          GButton(icon: Icons.home,
-          text: 'Home',),
-          GButton(icon: Icons.create,
-          text: 'Create',),
-        ],),
+          child: GNav(
+            gap: 8,
+            onTabChange: (index) {
+              setState(() {
+                pageIdx = index;
+              });
+            },
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            color: Color.fromARGB(255, 0, 0, 0),
+            activeColor: Colors.black,
+            tabBackgroundColor: Color.fromARGB(255, 250, 250, 250),
+            tabs: [
+              GButton(
+                icon: Icons.explore,
+                text: 'Feed',
+              ),
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.create,
+                text: 'Create',
+              ),
+            ],
+          ),
         ),
       ),
-      
-      
 
       // bottomNavigationBar: BottomNavigationBar(
       //   onTap: (idx) {

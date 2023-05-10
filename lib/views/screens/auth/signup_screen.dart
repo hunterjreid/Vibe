@@ -39,11 +39,28 @@ class SignupScreen extends StatelessWidget {
             ),
             Stack(
               children: [
-                const CircleAvatar(
-                  radius: 64,
-                  backgroundImage: NetworkImage(
-                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'),
-                  backgroundColor: Colors.black,
+                Container(
+                  width: 128,
+                  height: 128,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        Color.fromARGB(255, 175, 175, 175),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                      stops: [0.0, 1.0],
+                      center: Alignment.center,
+                      radius: 1.0,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundImage: NetworkImage(
+                      'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                    ),
+                    backgroundColor: Colors.transparent,
+                  ),
                 ),
                 Positioned(
                   bottom: -10,
