@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
+import 'package:vibe/views/screens/facefilter_screen.dart';
 
 class AddVideoScreen extends StatelessWidget {
   const AddVideoScreen({Key? key}) : super(key: key);
@@ -104,7 +105,12 @@ class AddVideoScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             InkWell(
-              onTap: () => print('Camera Face Filter button pressed'),
+              
+               onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const FaceFilterScreen(),
+                      ),
+                    ),
               child: Container(
                 width: 190,
                 height: 50,
