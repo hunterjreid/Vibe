@@ -73,11 +73,15 @@ class VideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-  
+
 
     return Scaffold(
-      body: Obx(() {
-        return PageView.builder(
+  body: Obx(() {
+    return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      child: SizedBox(
+        height: Get.height,
+        child: PageView.builder(
           itemCount: videoController.videoList.length,
           controller: PageController(initialPage: 0, viewportFraction: 1),
           scrollDirection: Axis.vertical,
@@ -86,19 +90,27 @@ class VideoScreen extends StatelessWidget {
             return Stack(
               children: [
                 Card(
-                   margin: EdgeInsets.all(16.0), // add a gap of 16.0 around the card
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16.0), // 
-      ),
-                  child: Container(
-                  
-                               width: double.infinity,
-                      height: double.infinity,
+                  margin: EdgeInsets.all(16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
                     child: VideoPlayerItem(
                       videoUrl: data.videoUrl,
                     ),
                   ),
                 ),
+
+
+
+
+
+
+
+
+
                 Column(
                   children: [
                     const SizedBox(
@@ -297,9 +309,14 @@ class VideoScreen extends StatelessWidget {
                 ),
               ],
             );
-          },
-        );
-      }),
+      
+    
+
+           },
+        ),
+      ),
     );
+  }),
+);
   }
 }

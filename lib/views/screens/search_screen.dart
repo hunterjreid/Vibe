@@ -91,7 +91,7 @@ class SearchScreen extends StatelessWidget {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation
-            .centerFloat, // added this line to position the button in the center
+            .centerFloat, // added this} line to position the button in the center
       );
     });
   }

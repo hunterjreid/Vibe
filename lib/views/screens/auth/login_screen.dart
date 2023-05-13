@@ -12,7 +12,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+     body: Row(
+        children: [      
+     Expanded(
+            child: Container(
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +69,7 @@ class LoginScreen extends StatelessWidget {
               height: 30,
             ),
             Container(
-              width: MediaQuery.of(context).size.width - 40,
+              width: MediaQuery.of(context).size.width,
               height: 50,
               decoration: BoxDecoration(
                 color: buttonColor,
@@ -93,6 +96,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
+              if (MediaQuery.of(context).size.width < 768)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -118,6 +122,42 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
       ),
+     ),
+     
+
+     
+
+  
+          // Sidebar on desktop screens
+          if (MediaQuery.of(context).size.width > 768)
+           Positioned(
+    right: 100,
+    child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(255, 243, 33, 180),
+              ),
+              child: Center(
+                child:  InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SignupScreen(),
+                    ),
+                  ),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(fontSize: 25, color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
+                ),
+              ),
+            ),
+           ),
+      ])
     );
+
+
+
   }
 }

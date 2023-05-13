@@ -6,11 +6,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
+import 'package:vibe/views/screens/home_screen.dart';
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
+       Get.put(AuthController());
     await Firebase.initializeApp(
         options: const FirebaseOptions(
       apiKey: "AIzaSyAZh_j8C_YUkXSUHqPTX6AwMc-veEirBqY",

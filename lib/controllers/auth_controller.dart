@@ -11,7 +11,7 @@ import 'package:vibe/views/screens/home_screen.dart';
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
-  late Rx<File?> _pickedImage;
+  late Rx<File?> _pickedImage = Rx<File?>(null);
 
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
@@ -57,8 +57,19 @@ class AuthController extends GetxController {
 
   // registering the user
   void registerUser(
+
+
+
+    
       String username, String email, String password, File? image) async {
     try {
+          if (image == null) {
+        Get.snackbar(
+          'Error Creating Account',
+          'Please select a profile picture',
+        );
+        return;
+      }
       if (username.isNotEmpty &&
           email.isNotEmpty &&
           password.isNotEmpty &&
