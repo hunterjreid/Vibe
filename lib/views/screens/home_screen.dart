@@ -16,74 +16,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        color: Colors.black12,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20),
-          child: GNav(
-            gap: 8,
-            onTabChange: (index) {
-              setState(() {
-                pageIdx = index;
-              });
-            },
-            backgroundColor: Color.fromARGB(255, 255, 255, 255),
-            color: Color.fromARGB(255, 0, 0, 0),
-            activeColor: Colors.black,
-            tabBackgroundColor: Color.fromARGB(255, 250, 250, 250),
-            tabs: [
-              GButton(
-                icon: Icons.explore,
-                text: 'Feed',
-              ),
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.create,
-                text: 'Create',
-              ),
-            ],
-          ),
+   bottomNavigationBar: Container(
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(20),
+      topRight: Radius.circular(20),
+    ),
+    color: Color.fromARGB(255, 255, 255, 255),
+  ),
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20),
+    child: GNav(
+      gap: 8,
+      onTabChange: (index) {
+        setState(() {
+          pageIdx = index;
+        });
+      },
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      color: Color.fromARGB(255, 0, 0, 0),
+      activeColor: Color.fromARGB(255, 0, 0, 0),
+      tabBackgroundColor: Color.fromARGB(255, 240, 240, 240),
+      tabs: [
+        GButton(
+          icon: Icons.explore,
+          text: 'Feed',
         ),
-      ),
-
-      // bottomNavigationBar: BottomNavigationBar(
-      //   onTap: (idx) {
-      //     setState(() {
-      //       pageIdx = idx;
-      //     });
-      //   },
-      //   type: BottomNavigationBarType.fixed,
-      //   backgroundColor: backgroundColor,
-      //   selectedItemColor: Color.fromARGB(255, 214, 40, 147),
-      //   unselectedItemColor: Colors.white,
-      //   currentIndex: pageIdx,
-      //   items: const [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home, size: 30),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.search, size: 30),
-      //       label: 'Search',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: CustomIcon(),
-      //       label: '',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.message, size: 30),
-      //       label: 'Messages',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.person, size: 30),
-      //       label: 'Profile',
-      //     ),
-      //   ],
-      // ),
-      body: pages[pageIdx],
+        GButton(
+          icon: Icons.home,
+          text: 'Home',
+        ),
+        GButton(
+          icon: Icons.create,
+          text: 'Create',
+        ),
+      ],
+    ),
+  ),
+),
+body: pages[pageIdx],
     );
   }
 }

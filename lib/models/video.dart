@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+
 class Video {
   String username;
   String uid;
@@ -42,6 +44,7 @@ class Video {
       };
 
   static Video fromSnap(DocumentSnapshot snap) {
+    
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Video(

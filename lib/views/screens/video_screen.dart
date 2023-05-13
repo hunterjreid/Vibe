@@ -73,6 +73,7 @@ class VideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+  
 
     return Scaffold(
       body: Obx(() {
@@ -84,13 +85,24 @@ class VideoScreen extends StatelessWidget {
             final data = videoController.videoList[index];
             return Stack(
               children: [
-                VideoPlayerItem(
-                  videoUrl: data.videoUrl,
+                Card(
+                   margin: EdgeInsets.all(16.0), // add a gap of 16.0 around the card
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(16.0), // 
+      ),
+                  child: Container(
+                  
+                               width: double.infinity,
+                      height: double.infinity,
+                    child: VideoPlayerItem(
+                      videoUrl: data.videoUrl,
+                    ),
+                  ),
                 ),
                 Column(
                   children: [
                     const SizedBox(
-                      height: 100,
+                      height: 0,
                     ),
                     Expanded(
                       child: Row(
@@ -146,11 +158,13 @@ class VideoScreen extends StatelessWidget {
                           ),
                           Container(
                             //  width: 100,
-                            margin: EdgeInsets.only(top: size.height / 5),
+                    
+                            // margin: EdgeInsets.only(top: size.height / 5),
+                             margin: EdgeInsets.all(16.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Row(
+                                Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
