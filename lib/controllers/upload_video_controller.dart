@@ -60,6 +60,7 @@ class UploadVideoController extends GetxController {
         videoUrl: videoUrl,
         profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
         thumbnail: thumbnail,
+        timestamp: Timestamp.now(), 
       );
 
       await firestore.collection('videos').doc('Video $len').set(

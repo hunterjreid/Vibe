@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/comment_screen.dart';
+import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/usesong_screen.dart';
 import 'package:vibe/views/widgets/circle_animation.dart';
 import 'package:vibe/views/widgets/video_player_iten.dart';
 import 'package:video_player/video_player.dart';
@@ -9,7 +11,8 @@ import 'package:get/get.dart';
 
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
-
+  
+  bool _isSaved = false;
   final VideoController videoController = Get.put(VideoController());
 
   buildProfile(String profilePhoto) {
@@ -40,47 +43,68 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-  buildMusicAlbum(String profilePhoto) {
-    return SizedBox(
+
+  buildMusicAlbum(BuildContext context, String profilePhoto) {
+    
+  return InkWell(
+
+    
+
+
+         onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => UseSongScreen(),
+                      )
+                    ),
+
+
+
+
+    child: SizedBox(
       width: 60,
       height: 60,
       child: Column(
         children: [
           Container(
-              padding: EdgeInsets.all(11),
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Colors.grey,
-                      Colors.white,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(25)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Image(
-                  image: NetworkImage(profilePhoto),
-                  fit: BoxFit.cover,
-                ),
-              ))
+            padding: EdgeInsets.all(11),
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [
+                  Colors.grey,
+                  Colors.white,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image(
+                image: NetworkImage(profilePhoto),
+                fit: BoxFit.cover,
+              ),
+            ),
+          )
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
+    
     final size = MediaQuery.of(context).size;
 
 
     return Scaffold(
   body: Obx(() {
     return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+   
       child: SizedBox(
-        height: Get.height,
+        height: size.height * .85,
         child: PageView.builder(
           itemCount: videoController.videoList.length,
           controller: PageController(initialPage: 0, viewportFraction: 1),
@@ -88,20 +112,20 @@ class VideoScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             final data = videoController.videoList[index];
             return Stack(
-              children: [
-                Card(
-                  margin: EdgeInsets.all(16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: VideoPlayerItem(
-                      videoUrl: data.videoUrl,
+                children: [
+                Container(
+                  margin: EdgeInsets.all(5.0),
+               
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: VideoPlayerItem(
+                        videoUrl: data.videoUrl,
+                      ),
                     ),
-                  ),
+          
                 ),
+              
 
 
 
@@ -132,14 +156,24 @@ class VideoScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(
-                                    data.username,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                        GestureDetector(
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfileScreen(uid: data.uid),
+      ),
+    );
+  },
+  child: Text(
+    data.username,
+    style: const TextStyle(
+      fontSize: 20,
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+),
                                   Text(
                                     data.caption,
                                     style: const TextStyle(
@@ -254,27 +288,43 @@ class VideoScreen extends StatelessWidget {
                                         )
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Icon(
-                                            Icons.folder,
-                                            size: 30,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "Save",
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Column(
+                                Column(
+  children: [
+    InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Video saved"),
+              content: Text("Your video has been saved to your saved folder."),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("OK"),
+                  
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child:   Icon(
+              _isSaved ? Icons.folder_open : Icons.folder,
+              size: 30,
+              color: _isSaved ? Colors.purple : Colors.white,
+            ),
+    ),
+    const SizedBox(height: 5),
+    Text(
+      "Save",
+      style: const TextStyle(
+        fontSize: 14,
+        color: Colors.white,
+      ),
+    )
+  ],
+),    Column(
                                       children: [
                                         InkWell(
                                           onTap: () {},
@@ -297,7 +347,7 @@ class VideoScreen extends StatelessWidget {
                                   ],
                                 ),
                                 CircleAnimation(
-                                  child: buildMusicAlbum(data.profilePhoto),
+                                  child: buildMusicAlbum(context, data.profilePhoto),
                                 ),
                               ],
                             ),

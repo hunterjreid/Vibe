@@ -9,19 +9,22 @@ class VideoController extends GetxController {
   List<Video> get videoList => _videoList.value;
 
   @override
-  void onInit() {
-    super.onInit();
-    _videoList.bindStream(
-        firestore.collection('videos').snapshots().map((QuerySnapshot query) {
-      List<Video> retVal = [];
-      for (var element in query.docs) {
-        retVal.add(
-          Video.fromSnap(element),
-        );
-      }
-      return retVal;
-    }));
-  }
+void onInit() {
+  super.onInit();
+  _videoList.bindStream(
+      firestore.collection('videos')
+      .orderBy('timestamp', descending: true) // add this line to order by timestamp in descending order
+      .snapshots()
+      .map((QuerySnapshot query) {
+    List<Video> retVal = [];
+    for (var element in query.docs) {
+      retVal.add(
+        Video.fromSnap(element),
+      );
+    }
+    return retVal;
+  }));
+}
 
   likeVideo(String id) async {
     DocumentSnapshot doc = await firestore.collection('videos').doc(id).get();
