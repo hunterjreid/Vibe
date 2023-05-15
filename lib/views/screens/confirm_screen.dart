@@ -90,6 +90,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   const SizedBox(
                     height: 10,
                   ),
+                  Obx(() => LinearProgressIndicator(
+                      value: uploadVideoController.progress.value / 100)),
                   ElevatedButton(
                       onPressed: () => uploadVideoController.uploadVideo(
                           _songController.text,

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -6,18 +7,53 @@ import 'package:vibe/models/video.dart';
 import 'package:video_compress/video_compress.dart';
 
 class UploadVideoController extends GetxController {
-  _compressVideo(String videoPath) async {
+  RxDouble progress = 0.0.obs;
+
+  Future<File> _compressVideo(String videoPath) async {
+         Get.snackbar(
+        'Preparing Video',
+        'Video is being compressed, Don\'t close or change this page',
+      );
     final compressedVideo = await VideoCompress.compressVideo(
       videoPath,
       quality: VideoQuality.MediumQuality,
     );
-    return compressedVideo!.file;
+     Get.snackbar(
+        'Compressing Done',
+        'Video is done being compressed',
+      );
+    if (compressedVideo != null) {
+      return compressedVideo.file!;
+    } else {
+      throw Exception("Failed to compress video");
+    }
   }
 
   Future<String> _uploadVideoToStorage(String id, String videoPath) async {
     Reference ref = firebaseStorage.ref().child('videos').child(id);
 
-    UploadTask uploadTask = ref.putFile(await _compressVideo(videoPath));
+    // get file size before compression
+    final originalFile = File(videoPath);
+    final originalFileSize = await originalFile.length();
+
+    // compress video
+    final compressedFile = await _compressVideo(videoPath);
+
+    UploadTask uploadTask = ref.putFile(
+      compressedFile,
+      // set metadata with original file size
+      SettableMetadata(contentType: 'video/mp4', customMetadata: {
+        'originalFileSize': originalFileSize.toString(),
+      }),
+    );
+
+    uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+      final double progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100.0;
+      this.progress.value = progress;
+      print('Upload progress: ${progress.toStringAsFixed(2)}%');
+    });
+
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
@@ -60,13 +96,13 @@ class UploadVideoController extends GetxController {
         videoUrl: videoUrl,
         profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
         thumbnail: thumbnail,
-        timestamp: Timestamp.now(), 
+        timestamp: Timestamp.now(),
       );
 
       await firestore.collection('videos').doc('Video $len').set(
             video.toJson(),
           );
-      Get.back();
+      Get.toNamed('/HomeScreen');
     } catch (e) {
       Get.snackbar(
         'Error Uploading Video',

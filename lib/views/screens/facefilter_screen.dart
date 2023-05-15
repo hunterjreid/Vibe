@@ -67,49 +67,46 @@ class _FaceFilterScreenState extends State<FaceFilterScreen> {
     super.dispose();
   }
 
-
-@override
-Widget build(BuildContext context) {
-  if (!controller.value.isInitialized) {
-    return Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
-  } else {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(child: CameraPreview(controller)),
-          ElevatedButton(
-            onPressed: () {
-              if (isRecording) {
-                _stopTimer();
-              } else {
-                _startTimer();
-              }
-              isRecording = !isRecording;
-              setState(() {});
-            },
-            child: Text(isRecording ? _secondsElapsed.toString() : 'Record'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isRecording ? Colors.grey : Colors.red,
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(32.0),
+  @override
+  Widget build(BuildContext context) {
+    if (!controller.value.isInitialized) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    } else {
+      return Scaffold(
+        body: Column(
+          children: [
+            Expanded(child: CameraPreview(controller)),
+            ElevatedButton(
+              onPressed: () {
+                if (isRecording) {
+                  _stopTimer();
+                } else {
+                  _startTimer();
+                }
+                isRecording = !isRecording;
+                setState(() {});
+              },
+              child: Text(isRecording ? _secondsElapsed.toString() : 'Record'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isRecording ? Colors.grey : Colors.red,
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(32.0),
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Implement cycle filter functionality here
-            },
-            child: const Text('Cycle Filter'),
-          ),
-        ],
-      ),
-    );
+            ElevatedButton(
+              onPressed: () {
+                // Implement cycle filter functionality here
+              },
+              child: const Text('Cycle Filter'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
-}
-
-
 
 class RecordingCompleteScreen extends StatelessWidget {
   const RecordingCompleteScreen({Key? key}) : super(key: key);
@@ -130,8 +127,6 @@ class RecordingCompleteScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
-  
-              
             },
             child: const Text('Retake'),
             style: ElevatedButton.styleFrom(

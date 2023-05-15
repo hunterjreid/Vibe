@@ -7,7 +7,7 @@ import 'package:vibe/controllers/profile_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
-  
+
   const ProfileScreen({
     Key? key,
     required this.uid,

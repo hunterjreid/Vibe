@@ -2,7 +2,26 @@ import 'package:flutter/material.dart';
 
 class UseSongScreen extends StatelessWidget {
   final String albumCoverUrl = 'https://picsum.photos/400/300';
-  final List<Map<String, String>> sounds = [    {      'title': 'Sound 1',      'description': 'Lorem ipsum dolor sit amet',      'url': 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',    },    {      'title': 'Sound 2',      'description': 'Consectetur adipiscing elit',      'url': 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',    },    {      'title': 'Sound 3',      'description': 'Sed do eiusmod tempor incididunt',      'url': 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',    },  ];
+  final List<Map<String, String>> sounds = [
+    {
+      'title': 'Sound 1',
+      'description': 'Lorem ipsum dolor sit amet',
+      'url':
+          'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
+    },
+    {
+      'title': 'Sound 2',
+      'description': 'Consectetur adipiscing elit',
+      'url':
+          'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
+    },
+    {
+      'title': 'Sound 3',
+      'description': 'Sed do eiusmod tempor incididunt',
+      'url':
+          'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {

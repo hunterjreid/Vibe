@@ -105,12 +105,11 @@ class AddVideoScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             InkWell(
-              
-               onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const FaceFilterScreen(),
-                      ),
-                    ),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const FaceFilterScreen(),
+                ),
+              ),
               child: Container(
                 width: 190,
                 height: 50,

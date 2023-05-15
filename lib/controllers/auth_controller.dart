@@ -57,13 +57,9 @@ class AuthController extends GetxController {
 
   // registering the user
   void registerUser(
-
-
-
-    
       String username, String email, String password, File? image) async {
     try {
-          if (image == null) {
+      if (image == null) {
         Get.snackbar(
           'Error Creating Account',
           'Please select a profile picture',

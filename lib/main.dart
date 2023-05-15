@@ -7,13 +7,13 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
 import 'package:vibe/views/screens/home_screen.dart';
-
+import 'package:vibe/views/screens/video_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
-       Get.put(AuthController());
+    Get.put(AuthController());
     await Firebase.initializeApp(
         options: const FirebaseOptions(
       apiKey: "AIzaSyAZh_j8C_YUkXSUHqPTX6AwMc-veEirBqY",
@@ -39,10 +39,14 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Vibe',
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => LoginScreen()),
+        GetPage(name: '/HomeScreen', page: () => const HomeScreen()),
+      ],
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: LoginScreen(),
     );
   }
 }

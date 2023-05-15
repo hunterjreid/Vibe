@@ -16,45 +16,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   bottomNavigationBar: Container(
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(20),
-      topRight: Radius.circular(20),
-    ),
-    color: Color.fromARGB(255, 255, 255, 255),
-  ),
-  child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20),
-    child: GNav(
-      gap: 8,
-      onTabChange: (index) {
-        setState(() {
-          pageIdx = index;
-        });
-      },
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      color: Color.fromARGB(255, 0, 0, 0),
-      activeColor: Color.fromARGB(255, 0, 0, 0),
-      tabBackgroundColor: Color.fromARGB(255, 240, 240, 240),
-      tabs: [
-        GButton(
-          icon: Icons.explore,
-          text: 'Feed',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
-        GButton(
-          icon: Icons.home,
-          text: 'Home',
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20),
+          child: GNav(
+            gap: 8,
+            onTabChange: (index) {
+              setState(() {
+                pageIdx = index;
+              });
+            },
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            color: Color.fromARGB(255, 0, 0, 0),
+            activeColor: Color.fromARGB(255, 0, 0, 0),
+            tabBackgroundColor: Color.fromARGB(255, 240, 240, 240),
+            tabs: [
+              GButton(
+                icon: Icons.explore,
+                text: 'Feed',
+              ),
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.create,
+                text: 'Create',
+              ),
+            ],
+          ),
         ),
-        GButton(
-          icon: Icons.create,
-          text: 'Create',
-        ),
-      ],
-    ),
-  ),
-),
-body: pages[pageIdx],
+      ),
+      body: pages[pageIdx],
     );
   }
 }
