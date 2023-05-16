@@ -8,6 +8,7 @@ import 'package:vibe/views/widgets/circle_animation.dart';
 import 'package:vibe/views/widgets/video_player_iten.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
@@ -246,7 +247,10 @@ class VideoScreen extends StatelessWidget {
                                         Column(
                                           children: [
                                             InkWell(
-                                              onTap: () {},
+                                              onTap: () {
+                            _showShareOptions(context);
+
+                                              },
                                               child: Icon(
                                                 Icons.share,
                                                 size: 45,
@@ -320,7 +324,7 @@ class VideoScreen extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 5),
                                             Text(
-                                              "Repost",
+                                              "sidebar lol",
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
@@ -351,4 +355,7 @@ class VideoScreen extends StatelessWidget {
       }),
     );
   }
+ void _showShareOptions(BuildContext context) {
+ Share.share('Check out this video on vibe!', subject: 'Look what I made!');
+ }
 }
