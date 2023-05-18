@@ -11,6 +11,7 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 
 | Problem/Implementation                     | Todo | Note | Date Noted | Time |
 |--------------------------|------------------------|------|------------|------|
+| videos to auto replay       | bug | N/A  | 2023-05-05 | 1:20 PM |
 | Fliters on videos       | 1st priority | N/A  | 2023-05-05 | 1:20 PM |
 | Faster Loading times        | 2nd priority | N/A  | 2023-05-05 | 1:20 PM |
 | Messaging other user accounts       | 3rd priority | N/A  | 2023-05-05 | 1:20 PM |

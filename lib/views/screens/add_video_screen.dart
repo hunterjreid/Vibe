@@ -85,12 +85,19 @@ class AddVideoScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+                   Text(
+            'Welcome to Create!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
             InkWell(
               onTap: () => showOptionsDialog(context),
               child: Container(
                 width: 190,
                 height: 50,
-                decoration: BoxDecoration(color: buttonColor),
+                decoration: BoxDecoration(color: borderColor),
                 child: const Center(
                   child: Text(
                     'Add Video',
@@ -113,10 +120,56 @@ class AddVideoScreen extends StatelessWidget {
               child: Container(
                 width: 190,
                 height: 50,
-                decoration: BoxDecoration(color: Colors.purple),
+                decoration: BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
                 child: const Center(
                   child: Text(
                     'Face Filters',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+               const SizedBox(height: 20),
+            InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const FaceFilterScreen(),
+                ),
+              ),
+              child: Container(
+                width: 190,
+                height: 50,
+                decoration: BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
+                child: const Center(
+                  child: Text(
+                    'Browse Sounds',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+               const SizedBox(height: 20),
+            InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const FaceFilterScreen(),
+                ),
+              ),
+              child: Container(
+                width: 190,
+                height: 50,
+                decoration: BoxDecoration(color: Color.fromARGB(255, 52, 2, 61)),
+                child: const Center(
+                  child: Text(
+                    'Upload Sound',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,

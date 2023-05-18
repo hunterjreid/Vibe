@@ -20,15 +20,31 @@ class CommentScreen extends StatelessWidget {
     commentController.updatePostId(id);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Obx(() {
+          final commentCount = commentController.comments.length;
+          return Text(
+            'This video has $commentCount comment${commentCount != 1 ? 's' : ''}',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          );
+        }),
+        backgroundColor: Colors.red, // Set the app bar color here
+      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: size.width,
           height: size.height,
           child: Column(
             children: [
-              Expanded(
-                child: Obx(() {
-                  return ListView.builder(
+              Container(
+                 height: 300, 
+                child: Expanded(
+                  child: Obx(() {
+                    return ListView.builder(
                       itemCount: commentController.comments.length,
                       itemBuilder: (context, index) {
                         final comment = commentController.comments[index];
@@ -77,7 +93,7 @@ class CommentScreen extends StatelessWidget {
                                   fontSize: 12,
                                   color: Colors.white,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                           trailing: InkWell(
@@ -86,17 +102,18 @@ class CommentScreen extends StatelessWidget {
                             child: Icon(
                               Icons.favorite,
                               size: 25,
-                              color: comment.likes
-                                      .contains(authController.user.uid)
+                              color: comment.likes.contains(authController.user.uid)
                                   ? Color.fromARGB(255, 214, 40, 147)
                                   : Colors.white,
                             ),
                           ),
                         );
-                      });
-                }),
+                      },
+                    );
+                  }),
+                ),
               ),
-              const Divider(),
+       
               ListTile(
                 title: TextFormField(
                   controller: _commentController,
