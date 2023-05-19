@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -7,20 +5,18 @@ import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/usesong_screen.dart';
 import 'package:vibe/views/widgets/circle_animation.dart';
-import 'package:vibe/views/widgets/video_player_iten.dart';
+import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-
-
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
 
+  
+
   bool _isSaved = false;
   final VideoController videoController = Get.put(VideoController());
-
-
 
   buildProfile(String profilePhoto) {
     return SizedBox(
@@ -87,41 +83,35 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-  
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    
 
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
-
         title: Obx(() {
+          final currentVideo =
+              videoController.videoList[videoController.currentPage.value];
 
-
-           final currentVideo = videoController.videoList[videoController.currentPage.value];
-
-  return Text(
-    currentVideo.caption,
-    style: const TextStyle(
-      fontSize: 20,
-      color: Color.fromARGB(255, 0, 0, 0),
-      fontWeight: FontWeight.bold,
-    ),
-  );
-        
+          return Text(
+            currentVideo.caption,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Color.fromARGB(255, 0, 0, 0),
+              fontWeight: FontWeight.bold,
+            ),
+          );
         }),
         centerTitle: true,
       ),
-
-
-
       drawer: Drawer(
         child: Container(
-           color: Color.fromARGB(255, 202, 202, 202), 
+          color: Color.fromARGB(255, 255, 255, 255),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
@@ -137,35 +127,35 @@ class VideoScreen extends StatelessWidget {
                   ),
                 ),
               ),
-           buildMenuItem(
-              title: 'Settings',
-              gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle Settings tap
-              },
-            ),
-            buildMenuItem(
-              title: 'Careers',
-              gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle Career Help tap
-              },
-            ),
-            buildMenuItem(
-              title: 'Help',
-              gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle Career Help tap
-              },
-            ),
-            buildMenuItem(
-              title: 'About Us',
-              gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle About Us tap
-              },
-            ),
-              // Add more list items as needed
+              buildMenuItem(
+                title: 'Settings',
+                gradientColors: [Colors.purple, Colors.blue],
+                onTap: () {
+                  // Handle Settings tap
+                },
+              ),
+              buildMenuItem(
+                title: 'Careers',
+                gradientColors: [Colors.purple, Colors.blue],
+                onTap: () {
+                  // Handle Career Help tap
+                },
+              ),
+              buildMenuItem(
+                title: 'Help',
+                gradientColors: [Colors.purple, Colors.blue],
+                onTap: () {
+                  // Handle Career Help tap
+                },
+              ),
+              buildMenuItem(
+                title: 'About Us',
+                gradientColors: [Colors.purple, Colors.blue],
+                onTap: () {
+                  // Handle About Us tap
+                },
+              ),
+    
             ],
           ),
         ),
@@ -177,29 +167,27 @@ class VideoScreen extends StatelessWidget {
               return SingleChildScrollView(
                 child: SizedBox(
                   height: size.height * .75,
-                  child: PageView.builder(
-                    itemCount: videoController.videoList.length,
-                    controller: PageController(initialPage: 0, viewportFraction: 1),
-                    scrollDirection: Axis.vertical,
-        
-                    onPageChanged: (index) {
-                      videoController.currentPage.value = index;
-                    },
-
-                    itemBuilder: (context, index) {
-                      final data = videoController.videoList[index];
-                      return Stack(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(5.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: double.infinity,
-                              child: VideoPlayerItem(
-                                videoUrl: data.videoUrl,
-                              ),
-                            ),
-                          ),
+                  child:PageView.builder(
+  itemCount: videoController.videoList.length,
+  controller: PageController(initialPage: 0, viewportFraction: 1),
+  scrollDirection: Axis.vertical,
+  onPageChanged: (index) {
+    videoController.currentPage.value = index;
+  },
+  itemBuilder: (context, index) {
+    final data = videoController.videoList[index];
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.all(5.0),
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: VideoPlayerItem(
+              videoUrl: data.videoUrl,
+            ),
+          ),
+        ),
                           Column(
                             children: [
                               const SizedBox(
@@ -228,7 +216,8 @@ class VideoScreen extends StatelessWidget {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ProfileScreen(uid: data.uid),
+                                                        ProfileScreen(
+                                                            uid: data.uid),
                                                   ),
                                                 );
                                               },
@@ -281,7 +270,24 @@ class VideoScreen extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              buildProfile(data.profilePhoto),
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ProfileScreen(
+                                                              uid: data.uid),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    buildProfile(
+                                                        data.profilePhoto),
+                                                  ],
+                                                ),
+                                              ),
                                               Column(
                                                 children: [
                                                   InkWell(
@@ -290,8 +296,10 @@ class VideoScreen extends StatelessWidget {
                                                     child: Icon(
                                                       Icons.favorite,
                                                       size: 45,
-                                                      color: data.likes.contains(
-                                                              authController.user.uid)
+                                                      color: data.likes
+                                                              .contains(
+                                                                  authController
+                                                                      .user.uid)
                                                           ? Color.fromARGB(
                                                               255, 44, 113, 179)
                                                           : Colors.white,
@@ -299,7 +307,8 @@ class VideoScreen extends StatelessWidget {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    data.likes.length.toString(),
+                                                    data.likes.length
+                                                        .toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,
@@ -311,7 +320,8 @@ class VideoScreen extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () =>
-                                                        Navigator.of(context).push(
+                                                        Navigator.of(context)
+                                                            .push(
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             CommentScreen(
@@ -327,7 +337,8 @@ class VideoScreen extends StatelessWidget {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    data.commentCount.toString(),
+                                                    data.commentCount
+                                                        .toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,
@@ -339,7 +350,8 @@ class VideoScreen extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      _showShareOptions(context);
+                                                      _showShareOptions(
+                                                          context);
                                                     },
                                                     child: Icon(
                                                       Icons.share,
@@ -363,11 +375,11 @@ class VideoScreen extends StatelessWidget {
                                                     onTap: () {
                                                       showDialog(
                                                         context: context,
-                                                        builder:
-                                                            (BuildContext context) {
+                                                        builder: (BuildContext
+                                                            context) {
                                                           return AlertDialog(
-                                                            title:
-                                                                Text("Video saved"),
+                                                            title: Text(
+                                                                "Video saved"),
                                                             content: Text(
                                                                 "Your video has been saved to your saved folder."),
                                                             actions: [
@@ -375,7 +387,8 @@ class VideoScreen extends StatelessWidget {
                                                                 onPressed: () =>
                                                                     Navigator.pop(
                                                                         context),
-                                                                child: Text("OK"),
+                                                                child:
+                                                                    Text("OK"),
                                                               ),
                                                             ],
                                                           );
@@ -436,11 +449,17 @@ class VideoScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          
                         ],
+                        
                       );
+                      
                     },
+                    
                   ),
+                  
                 ),
+                
               );
             }),
           ),
@@ -448,7 +467,8 @@ class VideoScreen extends StatelessWidget {
       ),
     );
   }
-    Widget buildMenuItem({
+
+  Widget buildMenuItem({
     required String title,
     required List<Color> gradientColors,
     required VoidCallback onTap,
@@ -476,7 +496,6 @@ class VideoScreen extends StatelessWidget {
       ),
     );
   }
-
 
   void _showShareOptions(BuildContext context) {
     Share.share('Check out this video on vibe!', subject: 'Look what I made!');

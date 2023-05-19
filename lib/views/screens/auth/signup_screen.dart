@@ -15,8 +15,7 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Row(children: [
-      if (MediaQuery.of(context).size.width >
-          768) 
+      if (MediaQuery.of(context).size.width > 768)
         Container(
           width: 300,
           height: MediaQuery.of(context).size.height,
@@ -26,7 +25,7 @@ class SignupScreen extends StatelessWidget {
               topRight: Radius.circular(500.0),
               bottomRight: Radius.circular(500.0),
             ),
-          ), 
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

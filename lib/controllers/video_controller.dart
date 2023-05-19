@@ -8,7 +8,7 @@ class VideoController extends GetxController {
 
   List<Video> get videoList => _videoList.value;
 
-   RxInt currentPage = 0.obs;
+  RxInt currentPage = 0.obs;
 
   @override
   void onInit() {

@@ -10,18 +10,18 @@ class UploadVideoController extends GetxController {
   RxDouble progress = 0.0.obs;
 
   Future<File> _compressVideo(String videoPath) async {
-         Get.snackbar(
-        'Preparing Video',
-        'Video is being compressed, Don\'t close or change this page',
-      );
+    Get.snackbar(
+      'Preparing Video',
+      'Video is being compressed, Don\'t close or change this page',
+    );
     final compressedVideo = await VideoCompress.compressVideo(
       videoPath,
       quality: VideoQuality.MediumQuality,
     );
-     Get.snackbar(
-        'Compressing Done',
-        'Video is done being compressed',
-      );
+    Get.snackbar(
+      'Compressing Done',
+      'Video is done being compressed',
+    );
     if (compressedVideo != null) {
       return compressedVideo.file!;
     } else {

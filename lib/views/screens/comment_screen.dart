@@ -41,7 +41,7 @@ class CommentScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                 height: 300, 
+                height: 300,
                 child: Expanded(
                   child: Obx(() {
                     return ListView.builder(
@@ -102,7 +102,8 @@ class CommentScreen extends StatelessWidget {
                             child: Icon(
                               Icons.favorite,
                               size: 25,
-                              color: comment.likes.contains(authController.user.uid)
+                              color: comment.likes
+                                      .contains(authController.user.uid)
                                   ? Color.fromARGB(255, 214, 40, 147)
                                   : Colors.white,
                             ),
@@ -113,7 +114,6 @@ class CommentScreen extends StatelessWidget {
                   }),
                 ),
               ),
-       
               ListTile(
                 title: TextFormField(
                   controller: _commentController,

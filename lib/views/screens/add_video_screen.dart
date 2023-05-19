@@ -85,13 +85,13 @@ class AddVideoScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-                   Text(
-            'Welcome to Create!',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+            Text(
+              'Welcome to Create!',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
             InkWell(
               onTap: () => showOptionsDialog(context),
               child: Container(
@@ -120,7 +120,8 @@ class AddVideoScreen extends StatelessWidget {
               child: Container(
                 width: 190,
                 height: 50,
-                decoration: BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
                 child: const Center(
                   child: Text(
                     'Face Filters',
@@ -133,7 +134,7 @@ class AddVideoScreen extends StatelessWidget {
                 ),
               ),
             ),
-               const SizedBox(height: 20),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
@@ -143,7 +144,8 @@ class AddVideoScreen extends StatelessWidget {
               child: Container(
                 width: 190,
                 height: 50,
-                decoration: BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
                 child: const Center(
                   child: Text(
                     'Browse Sounds',
@@ -156,7 +158,7 @@ class AddVideoScreen extends StatelessWidget {
                 ),
               ),
             ),
-               const SizedBox(height: 20),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
@@ -166,7 +168,8 @@ class AddVideoScreen extends StatelessWidget {
               child: Container(
                 width: 190,
                 height: 50,
-                decoration: BoxDecoration(color: Color.fromARGB(255, 52, 2, 61)),
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 52, 2, 61)),
                 child: const Center(
                   child: Text(
                     'Upload Sound',

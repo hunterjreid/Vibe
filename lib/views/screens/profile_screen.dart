@@ -4,6 +4,9 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+import 'package:vibe/views/screens/show_single_video.dart';
+
+import 'direct_message_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -161,59 +164,98 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 15,
                           ),
                           Container(
-                            width: 140,
-                            height: 47,
+                            width: 160,
+                            height: 87,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.black12,
                               ),
                             ),
                             child: Center(
-                              child: InkWell(
-                                onTap: () {
-                                  if (widget.uid == authController.user.uid) {
-                                    authController.signOut();
-                                  } else {
-                                    controller.followUser();
-                                  }
-                                },
-                                child: Text(
-                                  widget.uid == authController.user.uid
-                                      ? 'Sign Out'
-                                      : controller.user['isFollowing']
-                                          ? 'Unfollow'
-                                          : 'Follow',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      if (widget.uid ==
+                                          authController.user.uid) {
+                                        authController.signOut();
+                                      } else {
+                                        controller.followUser();
+                                      }
+                                    },
+                                    child: Text(
+                                      widget.uid == authController.user.uid
+                                          ? 'Sign Out'
+                                          : controller.user['isFollowing']
+                                              ? 'Unfollow'
+                                              : 'Follow',
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(
+                                      height:
+                                          8), // Add some spacing between the buttons
+                                  if (widget.uid != authController.user.uid)
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DirectMessageScreen(
+                                                    recipientName: controller
+                                                        .user['name']),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        'OPEN DIRECT MESSAGE',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
                           ),
                           const SizedBox(
                             height: 25,
                           ),
+
                           // video list
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: controller.user['thumbnails'].length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1,
-                              crossAxisSpacing: 5,
-                            ),
-                            itemBuilder: (context, index) {
-                              String thumbnail =
-                                  controller.user['thumbnails'][index];
-                              return CachedNetworkImage(
-                                imageUrl: thumbnail,
-                                fit: BoxFit.cover,
-                              );
-                            },
-                          )
+         GridView.builder(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  itemCount: controller.user['thumbnails'].length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    childAspectRatio: 1,
+    crossAxisSpacing: 5,
+  ),
+  itemBuilder: (context, index) {
+    String thumbnail = controller.user['thumbnails'][index];
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowSingleVideo(videoIndex: index),
+          ),
+        );
+      },
+      child: CachedNetworkImage(
+        imageUrl: thumbnail,
+        fit: BoxFit.cover,
+      ),
+    );
+  },
+)
                         ],
                       ),
                     ),
