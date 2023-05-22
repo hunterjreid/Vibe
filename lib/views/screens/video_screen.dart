@@ -10,6 +10,7 @@ import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
+
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
 
@@ -244,6 +245,12 @@ class VideoScreen extends StatelessWidget {
                                                   size: 15,
                                                   color: Colors.white,
                                                 ),
+                                                
+                                                   InkWell(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => UseSongScreen(),
+      )),
+      child: 
                                                 Text(
                                                   data.songName,
                                                   style: const TextStyle(
@@ -252,6 +259,7 @@ class VideoScreen extends StatelessWidget {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
+                                                   )
                                               ],
                                             )
                                           ],
