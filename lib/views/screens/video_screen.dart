@@ -3,6 +3,7 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/settings_screen.dart';
 import 'package:vibe/views/screens/usesong_screen.dart';
 import 'package:vibe/views/widgets/circle_animation.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
@@ -85,6 +86,8 @@ class VideoScreen extends StatelessWidget {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -131,9 +134,11 @@ class VideoScreen extends StatelessWidget {
               buildMenuItem(
                 title: 'Settings',
                 gradientColors: [Colors.purple, Colors.blue],
-                onTap: () {
-                  // Handle Settings tap
-                },
+                onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>  SettingsPage(),
+                ),
+                ),
               ),
               buildMenuItem(
                 title: 'Careers',
@@ -169,26 +174,26 @@ class VideoScreen extends StatelessWidget {
                 child: SizedBox(
                   height: size.height * .75,
                   child:PageView.builder(
-  itemCount: videoController.videoList.length,
-  controller: PageController(initialPage: 0, viewportFraction: 1),
-  scrollDirection: Axis.vertical,
-  onPageChanged: (index) {
-    videoController.currentPage.value = index;
-  },
-  itemBuilder: (context, index) {
-    final data = videoController.videoList[index];
-    return Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.all(5.0),
-          child: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: VideoPlayerItem(
-              videoUrl: data.videoUrl,
-            ),
-          ),
-        ),
+                      itemCount: videoController.videoList.length,
+                      controller: PageController(initialPage: 0, viewportFraction: 1),
+                      scrollDirection: Axis.vertical,
+                      onPageChanged: (index) {
+                        videoController.currentPage.value = index;
+                      },
+                      itemBuilder: (context, index) {
+                        final data = videoController.videoList[index];
+                        return Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(5.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: VideoPlayerItem(
+                                  videoUrl: data.videoUrl,
+                                ),
+                              ),
+                            ),
                           Column(
                             children: [
                               const SizedBox(
@@ -423,26 +428,7 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                              Column(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: Icon(
-                                                      Icons.upload,
-                                                      size: 30,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 5),
-                                                  Text(
-                                                    "Repost",
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                        
                                             ],
                                           ),
                                           CircleAnimation(

@@ -1,4 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+
+import 'browsesongs_screen.dart';
 
 class UseSongScreen extends StatelessWidget {
   final String albumCoverUrl = 'https://picsum.photos/400/300';
@@ -63,9 +66,7 @@ class UseSongScreen extends StatelessWidget {
                 child: Text('Use Sound'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  // Handle preview sound button tap
-                },
+                 onPressed: () => AudioPlayer().play(AssetSource('wop.wav')),
                 child: Text('Preview Sound'),
               ),
               ElevatedButton(
@@ -75,6 +76,24 @@ class UseSongScreen extends StatelessWidget {
                 child: Text('Share Sound'),
               ),
             ],
+          ),
+             SizedBox(height: 16.0), // Add spacing between the ListView and the buttons
+          Container(
+            color: Colors.pink,
+            child: ElevatedButton(
+              onPressed:  () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>  BrowseSongsPage(),
+                ),
+              ),
+              child: Text(
+                'Browse Sound',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ),
         ],
       ),
