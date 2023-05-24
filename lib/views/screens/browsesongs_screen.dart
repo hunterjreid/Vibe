@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class BrowseSongsPage extends StatefulWidget {
   @override
@@ -7,25 +6,13 @@ class BrowseSongsPage extends StatefulWidget {
 }
 
 class _BrowseSongsPageState extends State<BrowseSongsPage> {
-  late AudioPlayer audioPlayer;
+
   List<String> songs = [
     'Song 1',
     'Song 2',
     'Song 3',
     // Add more songs here...
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer = AudioPlayer();
-  }
-
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    super.dispose();
-  }
 
 
   @override

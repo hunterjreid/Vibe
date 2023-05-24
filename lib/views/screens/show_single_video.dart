@@ -48,6 +48,26 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
     return Scaffold(
       appBar: AppBar(
         title: Text(data.caption),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              // Handle favorite button tap
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: () {
+              // Handle share button tap
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              // Handle settings button tap
+            },
+          ),
+        ],
       ),
       body: Center(
         child: _isVideoLoading

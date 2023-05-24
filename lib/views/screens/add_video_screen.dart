@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
 import 'package:vibe/views/screens/facefilter_screen.dart';
+import 'package:vibe/views/screens/uploadAudio_screen.dart';
 
 import 'browsesongs_screen.dart';
 
@@ -164,7 +165,7 @@ class AddVideoScreen extends StatelessWidget {
             InkWell(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const FaceFilterScreen(),
+                  builder: (context) => AudioUploadScreen(),
                 ),
               ),
               child: Container(

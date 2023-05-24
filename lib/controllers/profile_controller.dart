@@ -32,6 +32,7 @@ class ProfileController extends GetxController {
     int likes = 0;
     int followers = 0;
     int following = 0;
+
     bool isFollowing = false;
 
     for (var item in myVideos.docs) {
@@ -42,6 +43,7 @@ class ProfileController extends GetxController {
         .doc(_uid.value)
         .collection('followers')
         .get();
+       
     var followingDoc = await firestore
         .collection('users')
         .doc(_uid.value)
@@ -49,6 +51,12 @@ class ProfileController extends GetxController {
         .get();
     followers = followerDoc.docs.length;
     following = followingDoc.docs.length;
+
+
+  
+    List<String> followersList = followerDoc.docs.map((doc) => doc.id).toList();
+    List<String> followingList = followingDoc.docs.map((doc) => doc.id).toList();
+    
 
     firestore
         .collection('users')
@@ -72,6 +80,8 @@ class ProfileController extends GetxController {
       'profilePhoto': profilePhoto,
       'name': name,
       'thumbnails': thumbnails,
+       'followersList': followersList,
+        'followingList': followingList,
     };
     update();
   }

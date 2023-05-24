@@ -44,7 +44,9 @@ dependencies:
   video_player: ^2.2.11
   google_nav_bar: ^5.0.6
   share_plus: ^7.0.0
-  audioplayers: ^0.19.1
+  file_picker: ^5.3.1
+  
+
 
 
 

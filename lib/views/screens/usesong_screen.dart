@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:flutter/material.dart';
 
 import 'browsesongs_screen.dart';
@@ -66,7 +66,7 @@ class UseSongScreen extends StatelessWidget {
                 child: Text('Use Sound'),
               ),
               ElevatedButton(
-                 onPressed: () => AudioPlayer().play(AssetSource('wop.wav')),
+                 onPressed: () {},
                 child: Text('Preview Sound'),
               ),
               ElevatedButton(
