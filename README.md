@@ -22,15 +22,15 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 
 # Features 👷‍♂️🌎 
 
-[ ] Vibe can handle a large number of users and content without slowing down.
-[x] Vibe is available at all times for users to access 24/7 (99.7% Up-time).
-[ ] Vibe user data must be kept secure and protected.
-[x] Vibe doesn't store any users data.
-[x] Vibe works on alot of different types of devices.
-[ ] Vibe app/web-app is relatively easy to use and navigate.
-[ ] Thanks to Vibe own deticacted Content Delivery Network (CDN), videos should load quickly and smoothly.
-[ ] Vibe app doesn't drain the user's battery or use excessive data.
-[ ] Vibe has regular updates and maintenance is performed to keep the app up-to-date and bug-free.
+- [ ] Vibe can handle a large number of users and content without slowing down.  
+- [x] Vibe is available at all times for users to access 24/7 (99.7% Up-time).  
+- [ ] Vibe user data must be kept secure and protected.  
+- [x] Vibe doesn't store any users data.  
+- [x] Vibe works on alot of different types of devices.  
+- [ ] Vibe app/web-app is relatively easy to use and navigate.  
+- [ ] Thanks to Vibe own deticacted Content Delivery Network (CDN), videos should load quickly and smoothly.  
+- [ ] Vibe app doesn't drain the user's battery or use excessive data.  
+- [ ] Vibe has regular updates and maintenance is performed to keep the app up-to-date and bug-free.  
 
 ## Try Vibe today!🤙 <br> What are you waiting for?📲
 <hr>
