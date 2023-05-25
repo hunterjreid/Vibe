@@ -11,6 +11,8 @@ import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'friendSearch_screen.dart';
+
 
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
@@ -364,7 +366,7 @@ class VideoScreen extends StatelessWidget {
                                                   InkWell(
                                                     onTap: () {
                                                       _showShareOptions(
-                                                          context);
+                                                          context, data.uid);
                                                     },
                                                     child: Icon(
                                                       Icons.share,
@@ -491,7 +493,53 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-  void _showShareOptions(BuildContext context) {
-    Share.share('Check out this video on vibe!', subject: 'Look what I made!');
-  }
+void _showShareOptions(BuildContext context, String videoId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Share Options'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+                           leading: Icon(Icons.people),
+              title: Text('Share to Friends'),
+              onTap: () {
+                Share.share('Check out this video on vibe!', subject: 'Look what I made!');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+
+               leading: Icon(Icons.message),
+              title: Text('Share to DM'),
+             onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FriendSearchPage(videoId: videoId,)),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void _openFriendSearchPage(BuildContext context) {
+  // TODO: Implement the friend search page
+  // You can use Navigator.push to navigate to the search page
+  // and pass any necessary arguments if needed.
+  // Upon selecting a user, call _openChatWithThumbnail(uid) method.
+}
+
+void _openChatWithThumbnail(String uid) {
+  // TODO: Implement opening the conversation with the specified UID
+  // You can use Navigator.push to navigate to the chat page and pass
+  // the UID and the post's thumbnail as arguments.
+  // In the chat page, send the post's thumbnail to the selected user's conversation.
+}
+
 }
