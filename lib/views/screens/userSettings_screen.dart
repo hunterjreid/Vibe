@@ -8,6 +8,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   TextEditingController _usernameController = TextEditingController();
   String _username = 'JohnDoe'; // Initial username
+  
 
   @override
   void initState() {
@@ -43,6 +44,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 labelText: 'Username',
               ),
             ),
+                TextField(
+    
+              decoration: InputDecoration(
+                labelText: 'Bio',
+              ),
+            ),
+            SizedBox(height: 16.0),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _updateUsername,
@@ -56,6 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+           
           ],
         ),
       ),

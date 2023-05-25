@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
@@ -13,7 +14,6 @@ class ShowSingleVideo extends StatefulWidget {
   @override
   _ShowSingleVideoState createState() => _ShowSingleVideoState();
 }
-
 class _ShowSingleVideoState extends State<ShowSingleVideo> {
   late VideoPlayerController _videoPlayerController;
   bool _isVideoLoading = true;
@@ -41,6 +41,56 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
       });
   }
 
+  void _showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete this video?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                _deleteVideo();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+void _deleteVideo() {
+  final data = widget.videoController.videoList[widget.videoIndex];
+
+  debugPrint(data.uid);
+
+
+  FirebaseFirestore.instance
+    .collection('videos')
+    .doc(data.id)
+    .delete()
+    .then((_) {
+      // Video deleted successfully
+      // You can perform any additional tasks or show a success message
+      print('Video deleted successfully');
+            Navigator.popUntil(context, (route) => route.isFirst);
+    })
+    .catchError((error) {
+      // An error occurred while deleting the video
+      // Handle the error or show an error message
+      print('Error deleting video: $error');
+    });
+}
+
   @override
   Widget build(BuildContext context) {
     final data = widget.videoController.videoList[widget.videoIndex];
@@ -62,9 +112,9 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.delete), // Change the icon to delete
             onPressed: () {
-              // Handle settings button tap
+              _showDeleteConfirmationDialog(); // Show delete confirmation dialog
             },
           ),
         ],

@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Color.fromARGB(255, 255, 255, 255),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 2),
           child: GNav(
             gap: 8,
             onTabChange: (index) {

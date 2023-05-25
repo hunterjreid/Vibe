@@ -8,20 +8,40 @@ import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
 import 'direct_message_screen.dart';
 
+import 'dart:math';
+import 'dart:ui';
+
 class ProfileScreen extends StatefulWidget {
   final String uid;
+
+
 
   const ProfileScreen({
     Key? key,
     required this.uid,
   }) : super(key: key);
 
+
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+Color generateRandomColor() {
+  Random random = Random();
+  int alpha = 255; // You can adjust the alpha value (transparency) if needed
+
+  int red = random.nextInt(256); // Random red value between 0 and 255
+  int green = random.nextInt(256); // Random green value between 0 and 255
+  int blue = random.nextInt(256); // Random blue value between 0 and 255
+
+  return Color.fromARGB(alpha, red, green, blue);
+}
+
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController profileController = Get.put(ProfileController());
+  Color randomColor1 = generateRandomColor();
+  Color randomColor2 = generateRandomColor();
 
   @override
   void initState() {
@@ -84,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 gradient: LinearGradient(
-          colors: [Color.fromARGB(204, 235, 0, 235), Color.fromARGB(255, 7, 41, 192)], // Replace Colors.blue with the desired end color
+          colors: [randomColor1, randomColor2], // Replace Colors.blue with the desired end color
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
         ),
@@ -257,8 +277,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               DirectMessageScreen(
-                                                  recipientName:
-                                                      controller.user['name']),
+                                                  recipientUID:
+                                                      widget.uid),
                                         ),
                                       );
                                     },

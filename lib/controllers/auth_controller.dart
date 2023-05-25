@@ -8,6 +8,7 @@ import 'package:vibe/models/user.dart' as model;
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/home_screen.dart';
 
+
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
