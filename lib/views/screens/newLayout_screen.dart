@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/cupertino.dart';
 
 class NewLayoutScreen extends StatefulWidget {
   @override
@@ -23,33 +24,46 @@ class _NewLayoutScreenState extends State<NewLayoutScreen> {
   List<ChewieController> chewieControllers = [];
   List<bool> isVideoPlaying = [];
   int currentIndex = 0;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    for (var i = 0; i < videoUrls.length; i++) {
-      final videoUrl = videoUrls[i];
-      final videoController = VideoPlayerController.network(videoUrl);
-      final chewieController = ChewieController(
-        videoPlayerController: videoController,
-        autoPlay: i == 0,
-        looping: true,
-        autoInitialize: true,
-        allowFullScreen: false,
-        allowMuting: true, // Add this line to allow muting
-        showControls: false,
-      );
-      videoControllers.add(videoController);
-      chewieControllers.add(chewieController);
-      isVideoPlaying.add(i == 0);
-    }
-    videoControllers[currentIndex].initialize().then((_) {
-      setState(() {
-        chewieControllers[currentIndex].play();
-        isVideoPlaying[currentIndex] = true;
-      });
-    });
+    loadVideos();
   }
+
+void loadVideos() async {
+  for (var i = 0; i < videoUrls.length; i++) {
+    final videoUrl = videoUrls[i];
+    final videoController = VideoPlayerController.network(videoUrl);
+    await videoController.initialize();
+    final chewieController = ChewieController(
+      videoPlayerController: videoController,
+      autoPlay: i == 0,
+      looping: true,
+      autoInitialize: true,
+      allowFullScreen: false,
+      allowMuting: true,
+      showControls: false,
+    );
+    videoControllers.add(videoController);
+    chewieControllers.add(chewieController);
+    isVideoPlaying.add(i == 0);
+
+    if (i == 0) {
+      videoController.addListener(() {
+        if (videoController.value.isInitialized) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      });
+    }
+  }
+
+  chewieControllers[currentIndex].play();
+  isVideoPlaying[currentIndex] = true;
+}
 
   @override
   void dispose() {
@@ -65,110 +79,197 @@ class _NewLayoutScreenState extends State<NewLayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Scrol lazyload + Pause and autoplay '),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refreshVideos,
-        child: PageView.builder(
-          itemCount: videoUrls.length,
-          scrollDirection: Axis.vertical,
-          controller: PageController(
-            initialPage: currentIndex,
-          ),
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (chewieControllers[currentIndex].isPlaying) {
-                        chewieControllers[currentIndex].pause();
-                        isVideoPlaying[currentIndex] = false;
-                      } else {
-                        chewieControllers[currentIndex].play();
-                        isVideoPlaying[currentIndex] = true;
-                      }
-                    });
-                  },
-                  child: Container(
-                    color: Colors.black,
-                    child: Center(
-                      child: AspectRatio(
-                        aspectRatio: 9 / 16,
-                        child: Chewie(
-                          controller: chewieControllers[currentIndex],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            AnimatedSwitcher(
-  duration: Duration(milliseconds: 100),
-  transitionBuilder: (child, animation) {
-    return ScaleTransition(
-      scale: animation,
-      child: child,
-    );
-  },
-  child: Stack(
+ appBar: AppBar(
+  backgroundColor: Colors.black, // Set the app bar background color to black
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Center(
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              if (chewieControllers[currentIndex].isPlaying) {
-                chewieControllers[currentIndex].pause();
-                isVideoPlaying[currentIndex] = false;
-              } else {
-                chewieControllers[currentIndex].play();
-                isVideoPlaying[currentIndex] = true;
-              }
-            });
-          },
+      InkWell(
+        onTap: () {
+          // Handle the action when the more button is pressed
+        },
+        child: Icon(
+          Icons.more_horiz_outlined, // Use the outlined variant of the more icon
+          // Specify the desired size and color for the icon
+          size: 24,
+          color: Colors.white,
         ),
       ),
-      IgnorePointer(
-        // Ignores touches while the animation is in progress
-        child: Center(
-          child: AnimatedScale(
-            duration: Duration(milliseconds: 200),
-            scale: isVideoPlaying[currentIndex] ? 0.0 : 0.7,
-            child: Icon(
-              chewieControllers[currentIndex].isPlaying
-                  ? Icons.play_arrow
-                  : Icons.pause,
-              size: 48,
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
-          ),
+      Image.asset(
+        'assets/images/logo.png', // Replace with your logo image path
+        width: 50,
+        height: 50,
+      ),
+      InkWell(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Settings'),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Color theme:'),
+                    RadioListTile(
+                      title: Text('System'),
+                      value: 'System',
+                      groupValue: 'System',
+                      onChanged: (value) {
+                        // Handle color theme change
+                      },
+                    ),
+                    RadioListTile(
+                      title: Text('White'),
+                      value: 'White',
+                      groupValue: 'System',
+                      onChanged: (value) {
+                        // Handle color theme change
+                      },
+                    ),
+                    RadioListTile(
+                      title: Text('Black'),
+                      value: 'Black',
+                      groupValue: 'System',
+                      onChanged: (value) {
+                        // Handle color theme change
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+        child: Icon(
+          Icons.settings,
+          // Specify the desired size and color for the icon
+          size: 24,
+          color: Colors.white,
         ),
       ),
     ],
   ),
 ),
-   ],
-            );
-          },
-          onPageChanged: (index) {
-            setState(() {
-              currentIndex = index;
-              for (var i = 0; i < isVideoPlaying.length; i++) {
-                if (i != currentIndex && isVideoPlaying[i]) {
-                  chewieControllers[i].pause();
-                  isVideoPlaying[i] = false;
-                }
-              }
-              chewieControllers[currentIndex].play();
-              isVideoPlaying[currentIndex] = true;
-            });
-          },
-        ),
-      ),
+
+   
+   
+   
+   
+   
+   
+   body: isLoading
+          ? Center(
+              child: CupertinoActivityIndicator(
+                radius: 16.0,
+              ),
+            )
+          
+          : RefreshIndicator(
+              onRefresh: _refreshVideos,
+              child: PageView.builder(
+                itemCount: videoUrls.length,
+                scrollDirection: Axis.vertical,
+                controller: PageController(
+                  initialPage: currentIndex,
+                ),
+                itemBuilder: (context, index) {
+                  return Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (chewieControllers[currentIndex].isPlaying) {
+                              chewieControllers[currentIndex].pause();
+                              isVideoPlaying[currentIndex] = false;
+                            } else {
+                              chewieControllers[currentIndex].play();
+                              isVideoPlaying[currentIndex] = true;
+                            }
+                          });
+                        },
+                        child: Container(
+                          color: Colors.black,
+                          child: Center(
+                            child: AspectRatio(
+                              aspectRatio: 9 / 16,
+                              child: Chewie(
+                                controller: chewieControllers[currentIndex],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      AnimatedSwitcher(
+                        duration: Duration(milliseconds: 100),
+                        transitionBuilder: (child, animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (chewieControllers[currentIndex]
+                                        .isPlaying) {
+                                      chewieControllers[currentIndex].pause();
+                                      isVideoPlaying[currentIndex] = false;
+                                    } else {
+                                      chewieControllers[currentIndex].play();
+                                      isVideoPlaying[currentIndex] = true;
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                            IgnorePointer(
+                              child: Center(
+                                child: AnimatedScale(
+                                  duration: Duration(milliseconds: 200),
+                                  scale: isVideoPlaying[currentIndex] ? 0.0 : 0.7,
+                                  child: Icon(
+                                    chewieControllers[currentIndex].isPlaying
+                                        ? Icons.play_arrow
+                                        : Icons.pause,
+                                    size: 48,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                onPageChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                    for (var i = 0; i < isVideoPlaying.length; i++) {
+                      if (i != currentIndex && isVideoPlaying[i]) {
+                        chewieControllers[i].pause();
+                        isVideoPlaying[i] = false;
+                      }
+                    }
+                    chewieControllers[currentIndex].play();
+                    isVideoPlaying[currentIndex] = true;
+                  });
+                },
+              ),
+            ),
     );
   }
 
   Future<void> _refreshVideos() async {
+    setState(() {
+      isLoading = true;
+    });
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       videoUrls.shuffle();
@@ -178,32 +279,13 @@ class _NewLayoutScreenState extends State<NewLayoutScreen> {
       for (var controller in chewieControllers) {
         controller.dispose();
       }
-      videoControllers.clear();
+
       chewieControllers.clear();
       isVideoPlaying.clear();
-      currentIndex = 0;
-      for (var i = 0; i < videoUrls.length; i++) {
-        final videoUrl = videoUrls[i];
-        final videoController = VideoPlayerController.network(videoUrl);
-        final chewieController = ChewieController(
-          videoPlayerController: videoController,
-          autoPlay: i == 0,
-          looping: true,
-          autoInitialize: true,
-          allowFullScreen: false,
-          allowMuting: true, // Add this line to allow muting
-          showControls: false,
-        );
-        videoControllers.add(videoController);
-        chewieControllers.add(chewieController);
-        isVideoPlaying.add(i == 0);
-      }
-      videoControllers[currentIndex].initialize().then((_) {
-        setState(() {
-          chewieControllers[currentIndex].play();
-          isVideoPlaying[currentIndex] = true;
-        });
-      });
+
+
+
+      loadVideos();
     });
   }
 }
