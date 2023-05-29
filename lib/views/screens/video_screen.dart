@@ -9,7 +9,7 @@ import 'package:vibe/views/widgets/circle_animation.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
+
 
 import 'friendSearch_screen.dart';
 
@@ -506,7 +506,7 @@ void _showShareOptions(BuildContext context, String videoId) {
                            leading: Icon(Icons.people),
               title: Text('Share to Friends'),
               onTap: () {
-                Share.share('Check out this video on vibe!', subject: 'Look what I made!');
+                // Share.share('Check out this video on vibe!', subject: 'Look what I made!');
                 Navigator.pop(context);
               },
             ),

@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int pageIdx = 0;
+  int pageIdx = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
               GButton(
                 icon: Icons.create,
                 text: 'Create',
+              ),
+              GButton(
+                icon: Icons.new_label_outlined,
+                text: '',
               ),
             ],
           ),

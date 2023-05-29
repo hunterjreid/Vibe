@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/add_video_screen.dart';
+import 'package:vibe/views/screens/newLayout_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/search_screen.dart';
 import 'package:vibe/views/screens/video_screen.dart';
@@ -12,8 +13,9 @@ List pages = [
   VideoScreen(),
   SearchScreen(),
   const AddVideoScreen(),
-  Text('Messages Screen'),
+  NewLayoutScreen(),
   ProfileScreen(uid: authController.user.uid),
+  NewLayoutScreen(),
 ];
 
 // COLORS
