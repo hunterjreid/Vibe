@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/widgets/custom_icon.dart';
 
@@ -11,51 +10,145 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int pageIdx = 4;
+  int pageIdx = 0;
+  int feedNotificationCount = 2; // Notification count for Feed
+  int homeNotificationCount = 4; // Notification count for Home
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
           ),
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: Colors.black,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 2),
-          child: GNav(
-            gap: 8,
-            onTabChange: (index) {
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+            Radius.circular(50),
+          ),
+          child: 
+          
+          
+          
+          
+          
+          
+          BottomNavigationBar(
+            backgroundColor: Color.fromRGBO(253, 252, 252, 1),
+            selectedItemColor: Color.fromARGB(255, 0, 0, 0),
+            unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+         selectedLabelStyle: TextStyle(
+    fontWeight: FontWeight.w400,
+       fontFamily: 'MonaSansExtraBoldWideItalic',
+  ),
+  unselectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.bold,
+     fontFamily: 'MonaSans',
+  ),
+            currentIndex: pageIdx,
+            onTap: (index) {
               setState(() {
                 pageIdx = index;
               });
             },
-            backgroundColor: Color.fromARGB(255, 255, 255, 255),
-            color: Color.fromARGB(255, 0, 0, 0),
-            activeColor: Color.fromARGB(255, 0, 0, 0),
-            tabBackgroundColor: Color.fromARGB(255, 240, 240, 240),
-            tabs: [
-              GButton(
-                icon: Icons.explore,
-                text: 'Feed',
+            items: [
+              BottomNavigationBarItem(
+                icon: Stack(
+                  children: [
+                    Icon(
+                      Icons.animation_rounded,
+                      size: 38, // Adjust the icon size here
+                    ),
+                    if (feedNotificationCount > 0)
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                              color: Color.fromARGB(255, 245, 34, 19),
+                          ),
+                          child: Text(
+                            
+                            feedNotificationCount.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                label: 'Feed',
+                
               ),
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
+              BottomNavigationBarItem(
+          
+
+
+                icon: Stack(
+                  children: [
+                    Icon(
+                      Icons.home,
+                      size: 38, // Adjust the icon size here
+                    ),
+                    if (homeNotificationCount > 0)
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromARGB(255, 245, 34, 19),
+                          ),
+                          child: Text(
+                            homeNotificationCount.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                label: 'Home',
               ),
-              GButton(
-                icon: Icons.create,
-                text: 'Create',
-              ),
-              GButton(
-                icon: Icons.new_label_outlined,
-                text: '',
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.create,
+                  size: 38, // Adjust the icon size here
+                ),
+                label: 'Create',
               ),
             ],
           ),
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
         ),
       ),
       body: pages[pageIdx],

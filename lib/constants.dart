@@ -12,10 +12,10 @@ import 'package:vibe/views/screens/video_screen.dart';
 List pages = [
   VideoScreen(),
   SearchScreen(),
-  const AddVideoScreen(),
   NewLayoutScreen(),
   ProfileScreen(uid: authController.user.uid),
   NewLayoutScreen(),
+
 ];
 
 // COLORS

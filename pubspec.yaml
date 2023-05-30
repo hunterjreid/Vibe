@@ -73,6 +73,20 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+
+
+  fonts:
+    - family: MonaSans
+      fonts:
+        - asset: assets/fonts/Mona-Sans.ttf
+    - family: MonaSansExtraBoldWide
+      fonts:
+        - asset: assets/fonts/Mona-Sans-ExtraBoldWide.ttf
+    - family: MonaSansExtraBoldWideItalic
+      fonts:
+        - asset: assets/fonts/Mona-Sans-ExtraBoldWideItalic.ttf
+
   
   assets:
     - assets/images/logo.png
@@ -86,7 +100,7 @@ flutter:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
-  # For details regarding adding assets from package dependencies, see
+  # For details regarding adding assets from package dependencies, se
   # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,
