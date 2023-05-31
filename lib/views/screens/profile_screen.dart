@@ -8,23 +8,22 @@ import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
 import 'direct_message_screen.dart';
 
+
+
 import 'dart:math';
 import 'dart:ui';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
 
-
-
   const ProfileScreen({
     Key? key,
     required this.uid,
   }) : super(key: key);
 
-
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
+  
 }
 
 Color generateRandomColor() {
@@ -73,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingsScreen(),
+                        builder: (context) => UserSettingsScreen(),
                       ),
                     );
                   },
@@ -81,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Icon(Icons.more_horiz),
             ],
             title: Text(
-              controller.user['name'] + "" + widget.uid + ")",
+              controller.user['name'] + " (" + widget.uid + ")",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -92,54 +91,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    child: Column(
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: 500,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                gradient: LinearGradient(
-          colors: [randomColor1, randomColor2], // Replace Colors.blue with the desired end color
-          begin: Alignment.topCenter,
-          end: Alignment.bottomRight,
-        ),
-                              ),
-                            ),
-                            
-                            ClipOval(
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: controller.user['profilePhoto'],
-                                height: 90,
-                                width: 90,
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(
-                                  Icons.error,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                          const SizedBox(height: 10),
-    Text(
-      'This is my bio!',
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
+       SizedBox(
+  child: Column(
+    children: [
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: 500,
+            height: 140,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              gradient: LinearGradient(
+                colors: [
+                  randomColor1,
+                  randomColor2,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+          ClipOval(
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: controller.user['profilePhoto'],
+              height: 90,
+              width: 90,
+              placeholder: (context, url) =>
+                  const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+              ),
+            ),
+          ),
+        ],
       ),
-    ),
-  
-                        Row(
+      const SizedBox(
+        height: 15,
+      ),
+      const SizedBox(height: 10),
+      Text(
+        controller.user['bio'] ?? '', // Add null check and provide a default value
+        style: const TextStyle(
+          fontSize: 16,
+             color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+   const SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.link,
+                                  color: Colors.blue,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  controller.user['website'] ?? '',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+      Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
@@ -147,9 +166,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     _showFollowingPopup(
-                                        context,
-                                        controller.user[
-                                            'followersList']);
+                                      context,
+                                      controller.user['followingList'],
+                                    );
                                   },
                                   child: Text(
                                     controller.user['following'],
@@ -181,9 +200,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     _showFollowerPopup(
-                                        context,
-                                        controller.user[
-                                            'followersList']);
+                                      context,
+                                      controller.user['followersList'],
+                                    );
                                   },
                                   child: Text(
                                     controller.user['followers'],
@@ -268,7 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 SizedBox(
                                   height: 8,
-                                ), // Add some spacing between the buttons
+                                ),
                                 if (widget.uid != authController.user.uid)
                                   TextButton(
                                     onPressed: () {
@@ -277,8 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               DirectMessageScreen(
-                                                  recipientUID:
-                                                      widget.uid),
+                                                  recipientUID: widget.uid),
                                         ),
                                       );
                                     },
@@ -362,10 +380,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-
-
-  void _showFollowingPopup(
-      BuildContext context, List<String> followingList) {
+  void _showFollowingPopup(BuildContext context, List<String> followingList) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -380,8 +395,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProfileScreen(uid: user),
+                        builder: (context) => ProfileScreen(uid: user),
                       ),
                     );
                   },
@@ -402,8 +416,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _showFollowerPopup(
-      BuildContext context, List<String> followersList) {
+  void _showFollowerPopup(BuildContext context, List<String> followersList) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -418,8 +431,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProfileScreen(uid: user),
+                        builder: (context) => ProfileScreen(uid: user),
                       ),
                     );
                   },

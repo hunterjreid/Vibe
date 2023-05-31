@@ -29,6 +29,8 @@ class ProfileController extends GetxController {
     final userData = userDoc.data()! as dynamic;
     String name = userData['name'];
     String profilePhoto = userData['profilePhoto'];
+    String bio = userData['bio'] ?? ''; // Add null check for bio
+    String website = userData['website'] ?? ''; // Add null check for website
     int likes = 0;
     int followers = 0;
     int following = 0;
@@ -43,7 +45,7 @@ class ProfileController extends GetxController {
         .doc(_uid.value)
         .collection('followers')
         .get();
-       
+
     var followingDoc = await firestore
         .collection('users')
         .doc(_uid.value)
@@ -52,11 +54,8 @@ class ProfileController extends GetxController {
     followers = followerDoc.docs.length;
     following = followingDoc.docs.length;
 
-
-  
     List<String> followersList = followerDoc.docs.map((doc) => doc.id).toList();
     List<String> followingList = followingDoc.docs.map((doc) => doc.id).toList();
-    
 
     firestore
         .collection('users')
@@ -79,9 +78,11 @@ class ProfileController extends GetxController {
       'likes': likes.toString(),
       'profilePhoto': profilePhoto,
       'name': name,
+      'bio': bio,
+      'website': website,
       'thumbnails': thumbnails,
-       'followersList': followersList,
-        'followingList': followingList,
+      'followersList': followersList,
+      'followingList': followingList,
     };
     update();
   }

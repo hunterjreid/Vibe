@@ -5,18 +5,25 @@ class User {
   String profilePhoto;
   String email;
   String uid;
+  String website; // Added website field
+  String bio; // Added bio field
 
-  User(
-      {required this.name,
-      required this.email,
-      required this.uid,
-      required this.profilePhoto});
+  User({
+    required this.name,
+    required this.email,
+    required this.uid,
+    required this.profilePhoto,
+    required this.website,
+    required this.bio,
+  });
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "profilePhoto": profilePhoto,
         "email": email,
         "uid": uid,
+        "website": website,
+        "bio": bio,
       };
 
   static User fromSnap(DocumentSnapshot snap) {
@@ -26,6 +33,8 @@ class User {
       profilePhoto: snapshot['profilePhoto'],
       uid: snapshot['uid'],
       name: snapshot['name'],
+      website: snapshot['website'],
+      bio: snapshot['bio'],
     );
   }
 }

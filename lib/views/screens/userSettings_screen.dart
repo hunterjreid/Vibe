@@ -1,70 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vibe/controllers/settings_controller.dart';
 
-class SettingsScreen extends StatefulWidget {
-  @override
-  _SettingsScreenState createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  TextEditingController _usernameController = TextEditingController();
-  String _username = 'JohnDoe'; // Initial username
+class UserSettingsScreen extends StatelessWidget {
+  final SettingsController controller = Get.put(SettingsController());
   
-
-  @override
-  void initState() {
-    super.initState();
-    _usernameController.text = _username;
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    super.dispose();
-  }
-
-  void _updateUsername() {
-    setState(() {
-      _username = _usernameController.text;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text('User Settings'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Container(
+              width: 128,
+              height: 128,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    Color.fromARGB(255, 175, 175, 175),
+                    Color.fromARGB(255, 255, 255, 255),
+                  ],
+                  stops: [0.0, 1.0],
+                  center: Alignment.center,
+                  radius: 1.0,
+                ),
+              ),
+              child: CircleAvatar(
+                radius: 60,
+                backgroundImage: NetworkImage(
+                  'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+            ),
+              ElevatedButton(
+              onPressed: () => controller.updateSettings(),
+              child: Text('UPDATE PROFILE PICTURE'),
+            ),
+            SizedBox(height: 16.0),
             TextField(
-              controller: _usernameController,
+              controller: controller.usernameController,
+              onChanged: (value) => controller.updateUsername(),
               decoration: InputDecoration(
                 labelText: 'Username',
               ),
             ),
-                TextField(
-    
+            TextField(
+              controller: controller.bioController,
+              onChanged: (value) => controller.updateBio(),
               decoration: InputDecoration(
                 labelText: 'Bio',
               ),
             ),
-            SizedBox(height: 16.0),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _updateUsername,
-              child: Text('Save'),
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              'Current Username: $_username',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+            TextField(
+              controller: controller.websiteController,
+              onChanged: (value) => controller.updateWebsite(),
+              decoration: InputDecoration(
+                labelText: 'Website',
               ),
             ),
-           
+            TextField(
+              controller: controller.emailController,
+              onChanged: (value) => controller.updateEmail(value),
+              decoration: InputDecoration(
+                labelText: 'Email',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => controller.updateSettings(),
+              child: Text('Save Changes'),
+            ),
+            
           ],
         ),
       ),

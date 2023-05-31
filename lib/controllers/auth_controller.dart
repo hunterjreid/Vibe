@@ -82,6 +82,8 @@ class AuthController extends GetxController {
           email: email,
           uid: cred.user!.uid,
           profilePhoto: downloadUrl,
+            website: '', // Set the initial value for website
+  bio: '', // Set the initial value for bio
         );
         await firestore
             .collection('users')
