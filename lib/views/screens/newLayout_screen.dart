@@ -238,22 +238,24 @@ class _NewLayoutScreenState extends State<NewLayoutScreen> {
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
+                
               ),
+              
             ),
 VideoTextOverlay(
   texts: [
-    'Hunter',
-    '#Vibin #Vibe #Vibin',
-    'Thanks for tuning into this epic adventure. Hopefully there many more vibes to come!',
-    'Desc2',
-    'T43',
+          'Hunter',
+          '#Explore #Adventure',
+          'Join usndscapes and experienc th landscapes and experience thrilling adventures!',
+          'Discover the hidden treasures of nature',
+          'Soundtrack: Epic Exploration',
   ],
   textStyles: [
-    TextStyle(fontSize: 20, color: Colors.white,   fontFamily: 'MonaSansExtraBoldWideItalic',),
-    TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
+    TextStyle(fontSize: 28, color: Colors.white,   fontFamily: 'MonaSansExtraBoldWideItalic',),
+    TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
+    TextStyle(fontSize: 15, color: Color.fromARGB(255, 230, 230, 230), fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
     TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
-    TextStyle(fontSize: 14, color: Colors.blue,    fontFamily: 'MonaSansExtraBoldWideItalic',),
-    TextStyle(fontSize: 12, color: Colors.purple,    fontFamily: 'MonaSansExtraBoldWide',),
+    TextStyle(fontSize: 12, color: Colors.white,    fontFamily: 'MonaSansExtraBoldWide',),
   ],
 ),
           ],
@@ -306,8 +308,6 @@ VideoTextOverlay(
   }
 }
 
-
-
 class VideoTextOverlay extends StatelessWidget {
   final List<TextStyle> textStyles;
   final List<String> texts;
@@ -320,24 +320,28 @@ class VideoTextOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double c_width = MediaQuery.of(context).size.width * 0.9;
+
     return Positioned(
       bottom: 16,
       left: 16,
       child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.6),
-          borderRadius: BorderRadius.circular(8),
-        ),
+        padding: const EdgeInsets.all(16.0),
+        width: c_width,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(texts.length, (index) {
-            final textStyle = textStyles.length > index ? textStyles[index] : TextStyle();
-            return Text(
-              texts[index],
-              style: textStyle,
-            );
-          }),
+          children: <Widget>[
+            Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, 
+              children: List.generate(texts.length, (index) {
+                final textStyle = textStyles.length > index ? textStyles[index] : TextStyle();
+                return Text(
+                  texts[index],
+                  style: textStyle,
+                  overflow: TextOverflow.clip,
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );
