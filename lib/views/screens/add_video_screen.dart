@@ -84,108 +84,120 @@ class AddVideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to Create!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.lightBlue,
+              Colors.purple,
+              Colors.black,
+              Colors.black,
+            ],
+            stops: [0.0, 0.3, 0.7, 1.0],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Welcome to Create!',
+                style:  TextStyle(fontSize: 29, color: Colors.lightBlue[100],   fontFamily: 'MonaSansExtraBoldWideItalic',),
               ),
-            ),
-            InkWell(
-              onTap: () => showOptionsDialog(context),
-              child: Container(
-                width: 190,
-                height: 50,
-                decoration: BoxDecoration(color: borderColor),
-                child: const Center(
-                  child: Text(
-                    'Add Video',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () => showOptionsDialog(context),
+                child: Container(
+                  width: 190,
+                  height: 50,
+                  decoration: BoxDecoration(color: borderColor),
+                  child: const Center(
+                    child: Text(
+                      'Add Video',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const FaceFilterScreen(),
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const FaceFilterScreen(),
+                  ),
                 ),
-              ),
-              child: Container(
-                width: 190,
-                height: 50,
-                decoration:
-                    BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
-                child: const Center(
-                  child: Text(
-                    'Face Filters',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: Container(
+                  width: 190,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
+                  child: const Center(
+                    child: Text(
+                      'Face Filters',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>  BrowseSongsPage(),
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => BrowseSongsPage(),
+                  ),
                 ),
-              ),
-              child: Container(
-                width: 190,
-                height: 50,
-                decoration:
-                    BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
-                child: const Center(
-                  child: Text(
-                    'Browse Sounds',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: Container(
+                  width: 190,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
+                  child: const Center(
+                    child: Text(
+                      'Browse Sounds',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AudioUploadScreen(),
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AudioUploadScreen(),
+                  ),
                 ),
-              ),
-              child: Container(
-                width: 190,
-                height: 50,
-                decoration:
-                    BoxDecoration(color: Color.fromARGB(255, 52, 2, 61)),
-                child: const Center(
-                  child: Text(
-                    'Upload Sound',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: Container(
+                  width: 190,
+                  height: 50,
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(255, 52, 2, 61)),
+                  child: const Center(
+                    child: Text(
+                      'Upload Sound',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
