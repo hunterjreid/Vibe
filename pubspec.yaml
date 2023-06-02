@@ -31,6 +31,7 @@ dependencies:
   chewie: ^1.5.0
   camera: ^0.10.0
   cached_network_image: ^3.2.0
+  cached_video_player: ^2.0.4
   cloud_firestore: ^4.6.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.2.2
@@ -44,6 +45,7 @@ dependencies:
   video_compress: ^3.1.0
   video_player: ^2.2.11
   google_nav_bar: ^5.0.6
+  visibility_detector: ^0.4.0
 
 
   

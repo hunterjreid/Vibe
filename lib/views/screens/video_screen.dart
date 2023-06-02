@@ -331,7 +331,31 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                              Column(
+                                        
+                                               Column(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      _showShareOptions(
+                                                          context, data.uid);
+                                                    },
+                                                    child: Icon(
+                                                      Icons.share,
+                                                      size: 45,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    data.shareCount.toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                                  Column(
                                                 children: [
                                                   InkWell(
                                                     onTap: () =>
@@ -361,30 +385,26 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                              Column(
+                                                 Column(
                                                 children: [
                                                   InkWell(
-                                                    onTap: () {
-                                                      _showShareOptions(
-                                                          context, data.uid);
-                                                    },
+                                                    onTap: () {},
                                                     child: Icon(
-                                                      Icons.share,
+                                                      Icons.audio_file,
                                                       size: 45,
                                                       color: Colors.white,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    data.shareCount.toString(),
+                                                    "Use Sound",
                                                     style: const TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: 10,
                                                       color: Colors.white,
                                                     ),
                                                   )
                                                 ],
-                                              ),
-                                              Column(
+                                              ),  Column(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
