@@ -5,6 +5,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/cupertino.dart';
+
 
 import 'comment_screen.dart';
 
@@ -16,22 +18,31 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
   List<VideoPlayerController> videoControllers = [];
+  ChewieController? chewieController;
+  bool _isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    preloadVideos();
-  }
+@override
+void initState() {
+  super.initState();
+  _isLoading = true;
+  preloadVideos();
+}
 
-  void preloadVideos() {
-    for (int i = 0; i < 7; i++) {
-      final Video video = videoController.videoList[i];
-      final VideoPlayerController videoPlayerController =
-          VideoPlayerController.network(video.videoUrl);
-      videoControllers.add(videoPlayerController);
-      videoPlayerController.initialize();
-    }
+void preloadVideos() {
+  for (int i = 0; i < 5; i++) {
+    final Video video = videoController.videoList[i];
+    final VideoPlayerController videoPlayerController =
+        VideoPlayerController.network(video.videoUrl);
+
+    videoPlayerController.initialize().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
+    videoControllers.add(videoPlayerController);
   }
+}
 
   @override
   void dispose() {
@@ -57,8 +68,9 @@ class _FeedScreenState extends State<FeedScreen> {
                 final Video video = videoController.videoList[index];
                 final VideoPlayerController videoPlayerController =
                     videoControllers[index];
-                final ChewieController chewieController = ChewieController(
+                chewieController ??= ChewieController(
                   videoPlayerController: videoPlayerController,
+                  showControlsOnInitialize: false,
                   autoPlay: true,
                   materialProgressColors: ChewieProgressColors(
                     backgroundColor: Color.fromARGB(255, 40, 5, 165),
@@ -66,9 +78,11 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                   looping: true,
                   allowedScreenSleep: false,
+                  overlay: null,
                 );
                 return Stack(
                   children: [
+                        if (!_isLoading)
                     VisibilityDetector(
                       key: Key(video.videoUrl),
                       onVisibilityChanged: (visibilityInfo) {
@@ -78,25 +92,27 @@ class _FeedScreenState extends State<FeedScreen> {
                           videoPlayerController.play();
                         }
                       },
-                      child: Chewie(
-                        controller: chewieController,
-                      ),
+                      
+
+  child: Chewie(
+    controller: chewieController!,
+  ),
+
                     ),
+              if (_isLoading)
+      Center(
+        child: CupertinoActivityIndicator(),
+      ),
+
+         if (!_isLoading)
                     Padding(
-                    padding: EdgeInsets.only(
-
-  bottom: 55.0,
-
-),
+                      padding: EdgeInsets.only(bottom: 55.0),
                       child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.end,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                 
                           // Rest of your overlay content goes here
                           Container(
-                            // Modify the width and margin according to your requirements
-                       
                             margin: EdgeInsets.only(top: 20),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -218,8 +234,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               ],
                             ),
                           ),
-                        
-                                 VideoTextOverlay(
+                          VideoTextOverlay(
                             texts: [
                               'Hunter',
                               '#Explore #Adventure',
@@ -247,7 +262,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               ),
                               TextStyle(
                                 fontSize: 14,
-                             color: Colors.white,
+                                color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'MonaSans',
                               ),
@@ -271,6 +286,7 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 }
+
 class VideoTextOverlay extends StatelessWidget {
   final List<TextStyle> textStyles;
   final List<String> texts;
@@ -295,10 +311,12 @@ class VideoTextOverlay extends StatelessWidget {
           children: List.generate(texts.length, (index) {
             final textStyle =
                 textStyles.length > index ? textStyles[index] : TextStyle();
-            return Text(
-              texts[index],
-              style: textStyle,
-              overflow: TextOverflow.clip,
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Text(
+                texts[index],
+                style: textStyle,
+              ),
             );
           }),
         ),
