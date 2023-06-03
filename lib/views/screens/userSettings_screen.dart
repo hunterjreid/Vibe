@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/settings_controller.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final SettingsController controller = Get.put(SettingsController());
   
-
+  final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +35,7 @@ class UserSettingsScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 60,
                 backgroundImage: NetworkImage(
-                  'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                  profileController.user['profilePhoto'],
                 ),
                 backgroundColor: Colors.transparent,
               ),

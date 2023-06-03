@@ -101,10 +101,10 @@ Future<File> _compressVideo(String videoPath) async {
         thumbnail: thumbnail,
         timestamp: Timestamp.now(),
       );
+      // Save the video document to Firestore
+      await firestore.collection('videos').add(video.toJson());
 
-      await firestore.collection('videos').doc('Video $len').set(
-            video.toJson(),
-          );
+          
       Get.toNamed('/HomeScreen');
     } catch (e) {
       Get.snackbar(
