@@ -9,25 +9,28 @@ import 'package:video_compress/video_compress.dart';
 class UploadVideoController extends GetxController {
   RxDouble progress = 0.0.obs;
 
-  Future<File> _compressVideo(String videoPath) async {
-    Get.snackbar(
-      'Preparing Video',
-      'Video is being compressed, Don\'t close or change this page',
-    );
-    final compressedVideo = await VideoCompress.compressVideo(
-      videoPath,
-      quality: VideoQuality.Res640x480Quality,
-    );
-    Get.snackbar(
-      'Compressing Done',
-      'Video is done being compressed',
-    );
-    if (compressedVideo != null) {
-      return compressedVideo.file!;
-    } else {
-      throw Exception("Failed to compress video");
-    }
+Future<File> _compressVideo(String videoPath) async {
+  Get.snackbar(
+    'Preparing Video',
+    'Video is being compressed, Don\'t close or change this page',
+  );
+
+  final compressedVideo = await VideoCompress.compressVideo(
+    videoPath,
+    quality: VideoQuality.Res640x480Quality,
+  );
+
+  Get.snackbar(
+    'Compressing Done',
+    'Video is done being compressed',
+  );
+
+  if (compressedVideo != null && compressedVideo.file != null) {
+    return compressedVideo.file!;
+  } else {
+    throw Exception("Failed to compress video");
   }
+}
 
   Future<String> _uploadVideoToStorage(String id, String videoPath) async {
     Reference ref = firebaseStorage.ref().child('videos').child(id);

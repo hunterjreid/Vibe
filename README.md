@@ -1,4 +1,4 @@
-<img width=150 alt='Get Sharezone for iOS' src='https://user-images.githubusercontent.com/62681404/233503168-ce39d966-297b-4343-9a1e-f2bc3d6fdddf.png'/>
+<img width=150 alt='Vibe Logo' src='https://user-images.githubusercontent.com/62681404/233503168-ce39d966-297b-4343-9a1e-f2bc3d6fdddf.png'/>
 
 # Vibe 🎵🎼
 Find your Vibes
@@ -13,7 +13,7 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 
 | Android | iOS | Web |
 | --- | ---| --- |
-<a href='https://play.google.com/store/apps/details?id=de.codingbrain.sharezone'><img width=200 alt='Get Sharezone on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/> | <a href='https://apps.apple.com/de/app/sharezone/id1434868489'><img width=150 alt='Get Sharezone for iOS' src='https://user-images.githubusercontent.com/24459435/172480740-d70aff84-fcb6-4f4a-bbd1-a3e2fa58f3a9.svg'/> | <a href='https://web.sharezone.net'><img width=170 alt='Open the Sharezone web app' src='https://user-images.githubusercontent.com/29028262/151261789-ac4d7496-ff14-4ef0-8d9f-c9fee72cb302.png'/> |
+<a href='https://play.google.com/store/apps/details?id=de.codingbrain.sharezone'><img width=200 alt='Get Sharezone on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/> | <a href='https://apps.apple.com/de/app/sharezone/id1434868489'><img width=150 alt='Get Sharezone for iOS' src='https://user-images.githubusercontent.com/24459435/172480740-d70aff84-fcb6-4f4a-bbd1-a3e2fa58f3a9.svg'/> | <a href='https://web.sharezone.net'><img width=170 alt=' web app' src='https://user-images.githubusercontent.com/29028262/151261789-ac4d7496-ff14-4ef0-8d9f-c9fee72cb302.png'/> |
 
 <hr>
 

@@ -89,6 +89,23 @@ class SearchScreen extends StatelessWidget {
           ),
           child: TabBarView(
             children: [
+                InkWell(
+                                  onTap: () {
+                                   
+                                      authController.signOut();
+                                
+                                  },
+                                  child: Text(
+                     
+                               
+                                        
+                                             'LOPGUT GLITCH',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
               // Home Tab
               Center(
                 child: Column(

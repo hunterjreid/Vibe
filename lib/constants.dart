@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/add_video_screen.dart';
 import 'package:vibe/views/screens/feedScreen.dart';
+import 'package:vibe/views/screens/home_screen.dart';
 import 'package:vibe/views/screens/newLayout_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/search_screen.dart';
@@ -12,7 +13,7 @@ import 'package:vibe/views/screens/video_screen.dart';
 
 List pages = [
   FeedScreen(),
-  FeedScreen(),
+  SearchScreen(),
   NewLayoutScreen(),
   ProfileScreen(uid: authController.user.uid),
   NewLayoutScreen(),

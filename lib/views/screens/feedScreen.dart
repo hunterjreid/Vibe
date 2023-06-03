@@ -22,7 +22,7 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void preloadVideos() {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController =
           VideoPlayerController.network(video.videoUrl);
