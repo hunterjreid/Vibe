@@ -14,7 +14,7 @@ import 'package:vibe/views/screens/video_screen.dart';
 List pages = [
   FeedScreen(),
   SearchScreen(),
-  NewLayoutScreen(),
+  AddVideoScreen(),
   ProfileScreen(uid: authController.user.uid),
   NewLayoutScreen(),
 

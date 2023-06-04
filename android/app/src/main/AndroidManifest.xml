@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:tools="http://schemas.android.com/tools" 
     package="com.example.vibe">
+    <uses-sdk tools:overrideLibrary="com.arthenica.ffmpegkit.flutter"/>
    <application
-        android:label="vibe"
+        android:label="Vibe"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

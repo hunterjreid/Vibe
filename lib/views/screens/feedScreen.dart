@@ -59,8 +59,12 @@ class _FeedScreenState extends State<FeedScreen> {
       ),
       body: _isLoading
           ? Center(
-              child: CircularProgressIndicator(), // Show a progress indicator while loading
-            )
+  child: Container(
+    width: 100, // Set the desired width
+    height: 100, // Set the desired height
+    child: CupertinoActivityIndicator(),
+  ),
+)
           : Column(
               children: [
                 Expanded(

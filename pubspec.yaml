@@ -46,8 +46,11 @@ dependencies:
   video_player: ^2.2.11
   google_nav_bar: ^5.0.6
   visibility_detector: ^0.4.0
+  video_editor: ^2.4.0
+  
 
-
+dependency_overrides:
+  ffmpeg_kit_flutter_min_gpl: ^5.1.0-LTS
   
 
 
