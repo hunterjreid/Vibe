@@ -7,7 +7,6 @@ import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 
-
 import 'comment_screen.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -21,34 +20,34 @@ class _FeedScreenState extends State<FeedScreen> {
   ChewieController? chewieController;
   bool _isLoading = true;
 
-@override
-void initState() {
-  super.initState();
-  _isLoading = true;
-  preloadVideos();
-}
+  @override
+  void initState() {
+    super.initState();
+    preloadVideos();
+  }
 
-void preloadVideos() {
-  for (int i = 0; i < 5; i++) {
-    final Video video = videoController.videoList[i];
-    final VideoPlayerController videoPlayerController =
-        VideoPlayerController.network(video.videoUrl);
+  void preloadVideos() async {
+    for (int i = 0; i < videoController.videoList.length; i++) {
+      final Video video = videoController.videoList[i];
+      final VideoPlayerController videoPlayerController =
+          VideoPlayerController.network(video.videoUrl);
 
-    videoPlayerController.initialize().then((_) {
+      await videoPlayerController.initialize();
+
       setState(() {
         _isLoading = false;
       });
-    });
 
-    videoControllers.add(videoPlayerController);
+      videoControllers.add(videoPlayerController);
+    }
   }
-}
 
   @override
   void dispose() {
     for (final controller in videoControllers) {
       controller.dispose();
     }
+    chewieController?.dispose(); // Add this line
     super.dispose();
   }
 
@@ -58,89 +57,68 @@ void preloadVideos() {
       appBar: AppBar(
         title: Text('Feed'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              itemCount: videoController.videoList.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                final Video video = videoController.videoList[index];
-                final VideoPlayerController videoPlayerController =
-                    videoControllers[index];
-                chewieController ??= ChewieController(
-                  videoPlayerController: videoPlayerController,
-                  showControlsOnInitialize: false,
-                  autoPlay: true,
-                  materialProgressColors: ChewieProgressColors(
-                    backgroundColor: Color.fromARGB(255, 40, 5, 165),
-                    bufferedColor: Color.fromARGB(255, 228, 17, 200),
-                  ),
-                  looping: true,
-                  allowedScreenSleep: false,
-                  overlay: null,
-                );
-                return Stack(
-                  children: [
-                        if (!_isLoading)
-                    VisibilityDetector(
-                      key: Key(video.videoUrl),
-                      onVisibilityChanged: (visibilityInfo) {
-                        if (visibilityInfo.visibleFraction == 0) {
-                          videoPlayerController.pause();
-                        } else {
-                          videoPlayerController.play();
-                        }
-                      },
-                      
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(), // Show a progress indicator while loading
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    itemCount: videoController.videoList.length,
+                    controller: PageController(initialPage: 0, viewportFraction: 1),
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      final Video video = videoController.videoList[index];
+                      final VideoPlayerController videoPlayerController =
+                          videoControllers[index];
+                      chewieController = ChewieController(
+                        videoPlayerController: videoPlayerController,
+                        showControlsOnInitialize: false,
+                        autoPlay: true,
+                        materialProgressColors: ChewieProgressColors(
+                          backgroundColor: Color.fromARGB(255, 40, 5, 165),
+                          bufferedColor: Color.fromARGB(255, 228, 17, 200),
+                        ),
+                        looping: true,
+                        allowedScreenSleep: false,
+                        overlay: null,
+                      );
 
-  child: Chewie(
-    controller: chewieController!,
-  ),
-
-                    ),
-              if (_isLoading)
-      Center(
-        child: CupertinoActivityIndicator(),
-      ),
-
-         if (!_isLoading)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 55.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return Stack(
                         children: [
-                          // Rest of your overlay content goes here
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
+                          VisibilityDetector(
+                            key: Key(video.videoUrl),
+                            onVisibilityChanged: (visibilityInfo) {
+                              if (visibilityInfo.visibleFraction != 0) {
+                                chewieController!.play();
+                              } else {
+                                chewieController!.pause();
+                              }
+                            },
+                            child: Chewie(
+                              controller: chewieController!,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 55.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: Icon(
-                                    Icons.favorite,
-                                    size: 45,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  "0",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {},
+                                // Rest of your overlay content goes here
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Icon(
-                                        Icons.share,
-                                        size: 45,
-                                        color: Colors.white,
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Icon(
+                                          Icons.favorite,
+                                          size: 45,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
@@ -149,140 +127,158 @@ void preloadVideos() {
                                           fontSize: 14,
                                           color: Colors.white,
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.comment,
-                                        size: 45,
-                                        color: Colors.white,
                                       ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        "0",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.audio_file,
-                                        size: 45,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        "Use Sound",
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("Video saved"),
-                                          content: Text(
-                                              "Your video has been saved to your saved folder."),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Text("OK"),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.share,
+                                              size: 45,
+                                              color: Colors.white,
                                             ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              "0",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )
                                           ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Icon(
-                                        Icons.folder,
-                                        size: 30,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        "Save",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
                                         ),
-                                      )
+                                      ),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.comment,
+                                              size: 45,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              "0",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.audio_file,
+                                              size: 45,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              "0",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text("Video saved"),
+                                                content: Text(
+                                                  "Your video has been saved to your saved folder."
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text("OK"),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.folder,
+                                              size: 30,
+                                              color: Colors.white,
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              "0",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
+                                ),
+                                VideoTextOverlay(
+                                  texts: [
+                                    'Hunter',
+                                    '#Explore #Adventure',
+                                    'Join usndscapes and experienc th landscapes and experience thrilling adventures!',
+                                    'Discover the hidden treasures of nature',
+                                    'Soundtrack: Epic Exploration',
+                                  ],
+                                  textStyles: [
+                                    TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    ),
+                                    TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                    TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                    TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                    TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                      fontFamily: 'MonaSansExtraBoldWide',
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
-                          VideoTextOverlay(
-                            texts: [
-                              'Hunter',
-                              '#Explore #Adventure',
-                              'Join usndscapes and experienc th landscapes and experience thrilling adventures!',
-                              'Discover the hidden treasures of nature',
-                              'Soundtrack: Epic Exploration',
-                            ],
-                            textStyles: [
-                              TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                              ),
-                              TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'MonaSans',
-                              ),
-                              TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'MonaSans',
-                              ),
-                              TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'MonaSans',
-                              ),
-                              TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontFamily: 'MonaSansExtraBoldWide',
-                              ),
-                            ],
-                          ),
                         ],
-                      ),
-                    ),
-                  ],
-                );
-              },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
