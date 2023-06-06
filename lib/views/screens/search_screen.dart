@@ -1,77 +1,132 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:vibe/controllers/search_controller.dart';
-import 'package:vibe/controllers/auth_controller.dart';
-import 'package:vibe/models/user.dart';
-import 'package:vibe/views/screens/add_video_screen.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/constants.dart';
-import 'package:vibe/views/screens/searchOld_screen.dart';
+import 'package:vibe/views/screens/profile_screen.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
 
-  final SearchController searchController = Get.put(SearchController());
-  final AuthController authController = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SearchController>(
-      builder: (controller) {
-        if (searchController.searchedUsers.isEmpty) {
-          return buildEmptySearchScreen(context);
-        } else {
-            return buildEmptySearchScreen(context);
-        }
-      },
-    );
-  }
-
-  Widget buildEmptySearchScreen(BuildContext context) {
     return DefaultTabController(
       length: 5,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: TextFormField(
-            decoration: const InputDecoration(
-              filled: false,
-              hintText: 'Search',
-              hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-              ),
+          
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+  onTap: () {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProfileScreen(uid: authController.user.uid),
+      ),
+    );
+  },
+  child: CircleAvatar(
+    radius: 30,
+    backgroundImage: AssetImage('assets/profile_picture.jpg'),
+  ),
+),
+SizedBox(width: 16),
+GestureDetector(
+  onTap: () {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProfileScreen(uid: authController.user.uid),
+      ),
+    );
+  },
+  child: Text(
+    'HUNTER',
+    style: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'MonaSansExtraBoldWide',
+    ),
+  ),
+),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // Perform search operation
+                    print("Search button pressed");
+                  },
+                ),
+                SizedBox(width: 16),
+                IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () {
+                    // Perform notifications action
+                    print("Notifications button pressed");
+                  },
+                ),
+              ],
             ),
-            onFieldSubmitted: (value) {
-              print("Search value: $value");
-
-            },
-          ),
-          centerTitle: true,
+          ],
           bottom: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.home),
-                text: 'Home',
-              ),
-              Tab(
-                icon: Icon(Icons.explore),
-                text: 'Explore',
-              ),
-              Tab(
-                icon: Icon(Icons.favorite),
-                text: 'Favorites',
-              ),
-              Tab(
-                icon: Icon(Icons.person),
-                text: 'Profile',
-              ),
-              Tab(
-                icon: Icon(Icons.settings),
-                text: 'Settings',
-              ),
-            ],
+    tabs: [
+      Tab(
+        icon: Icon(Icons.group, size: 24),
+        child: Text(
+          'Friends',
+          style: TextStyle(
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
           ),
+        ),
+      ),
+      Tab(
+        icon: Icon(Icons.explore, size: 24),
+        child: Text(
+          'Explore',
+          style: TextStyle(
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+      ),
+      Tab(
+        icon: Icon(Icons.trending_up, size: 24),
+        child: Text(
+          'Trending',
+          style: TextStyle(
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+      ),
+      Tab(
+        icon: Icon(Icons.favorite, size: 24),
+        child: Text(
+          'Favorites',
+          style: TextStyle(
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+      ),
+      Tab(
+        icon: Icon(Icons.file_copy, size: 24),
+        child: Text(
+          'Saved',
+          style: TextStyle(
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+      ),
+    ],
+    unselectedLabelColor: Color.fromARGB(255, 175, 45, 121), // Customize the color of unselected tabs
+    labelColor: Color.fromARGB(255, 174, 0, 255), // Customize the color of the selected tab
+    indicatorColor: Color.fromARGB(255, 40, 140, 233), // Customize the color of the tab indicator
+  ),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -79,8 +134,8 @@ class SearchScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xFFE68EDC),
-                Color(0xFFA61988),
+                Color.fromARGB(28, 230, 142, 220),
+                Color.fromARGB(29, 166, 25, 135),
               ],
             ),
             borderRadius: BorderRadius.vertical(
@@ -89,68 +144,62 @@ class SearchScreen extends StatelessWidget {
           ),
           child: TabBarView(
             children: [
-                InkWell(
-                                  onTap: () {
-                                   
-                                      authController.signOut();
-                                
-                                  },
-                                  child: Text(
-                     
-                               
-                                        
-                                             'LOPGUT GLITCH',
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-              // Home Tab
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.ac_unit),
-                    Text(
-                      'Home Content',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Montserrat',
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Button'),
-                    ),
-                  ],
-                ),
-              ),
-
               // Explore Tab
               Center(
                 child: GridView.count(
-                  crossAxisCount: 4,
-                  children: List.generate(18, (index) {
+                  crossAxisCount: 3,
+                  children: List.generate(58, (index) {
                     return Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
                         border: Border.all(
-                          color: Colors.black,
                           width: 2,
                         ),
                       ),
                       child: Center(
                         child: Text(
-                          'Item ${index + 1}',
+                          'Other persons video #${index + 1}',
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
                           ),
                         ),
                       ),
                     );
                   }),
+                ),
+              ),
+
+              // Your Friends Tab
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.group),
+                    Text(
+                      'Your Friends Content',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Trending Tab
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.trending_up),
+                    Text(
+                      'Trending Content',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -164,246 +213,48 @@ class SearchScreen extends StatelessWidget {
                       'Favorites Content',
                       style: TextStyle(
                         fontSize: 14,
-                        fontFamily: 'Montserrat',
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
                       ),
                     ),
                   ],
                 ),
               ),
+// Profile Tab
+Center(
+  child: ListView.builder(
+    itemCount: 10, // Replace with the actual number of items in your list
+    itemBuilder: (context, index) {
+      return ListTile(
+        leading: Icon(Icons.video_file),
+        title: Text(
+          'Item $index',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          'Description of Item $index',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        onTap: () {
+          // Handle item tap
+          print('Item $index tapped');
+        },
+      );
+    },
+  ),
+),
 
-              // Profile Tab
-              ListView.builder(
-                itemCount: searchController.searchedUsers.length,
-                itemBuilder: (context, index) {
-                  User user = searchController.searchedUsers[index];
-                  print("itemBuilder: $index");
-                  if (user != null) {
-                    return InkWell(
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(uid: user.uid),
-                        ),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          user.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Container(); // or some other fallback widget
-                  }
-                },
-              ),
 
-              // Settings Tab
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.settings),
-                    Text(
-                      'Settings Content',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Montserrat',
-                      ),
-                    ),
-                    CheckboxListTile(
-                      value: true,
-                      onChanged: (value) {},
-                      title: Text('Setting 1'),
-                    ),
-                    CheckboxListTile(
-                      value: false,
-                      onChanged: (value) {},
-                      title: Text('Setting 2'),
-                    ),
-                  ],
-                ),
-              ),
+
             ],
           ),
         ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FloatingActionButton.extended(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProfileScreen(uid: authController.user.uid),
-                ),
-              ),
-              label: Text(
-                'View your profile',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontFamily: 'Montserrat',
-                ),
-              ),
-              backgroundColor: Color(0xFFAF1388),
-            ),
-            SizedBox(width: 16),
-            FloatingActionButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AddVideoScreen(),
-                ),
-              ),
-              backgroundColor: Colors.black,
-              shape: CircleBorder(
-                side: BorderSide(
-                  color: Colors.purple,
-                  width: 2.0,
-                ),
-              ),
-              child: Icon(
-                Icons.add,
-                color: Colors.purple,
-              ),
-            ),
-            SizedBox(width: 16),
-            FloatingActionButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => SearchOldScreen(),
-                ),
-              ),
-              backgroundColor: Colors.black,
-              shape: CircleBorder(
-                side: BorderSide(
-                  color: Color.fromARGB(255, 18, 167, 253),
-                  width: 2.0,
-                ),
-              ),
-              child: Icon(
-                Icons.search,
-                color: Color.fromARGB(255, 43, 157, 223),
-              ),
-            ),
-          ],
-        ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
       ),
-    );
-  }
-
-  Widget buildSearchResultScreen(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 44, 113, 179),
-        title: TextFormField(
-          decoration: const InputDecoration(
-            filled: false,
-            hintText: 'Search',
-            hintStyle: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
-          ),
-          onFieldSubmitted: (value) {
-            print("Search value: $value");
-            searchController.searchUser(value);
-          },
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: searchController.searchedUsers.length,
-        itemBuilder: (context, index) {
-          User user = searchController.searchedUsers[index];
-          if (user != null) {
-            return InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProfileScreen(uid: user.uid),
-                ),
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    user.profilePhoto,
-                  ),
-                ),
-                title: Text(
-                  user.name,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return Container(); // or some other fallback widget
-          }
-        },
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FloatingActionButton.extended(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ProfileScreen(uid: authController.user.uid),
-              ),
-            ),
-            label: Text(
-              'View your profile',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontFamily: 'Montserrat',
-              ),
-            ),
-            backgroundColor: Color(0xFFAF1388),
-          ),
-          SizedBox(width: 16),
-          FloatingActionButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => AddVideoScreen(),
-              ),
-            ),
-            backgroundColor: Colors.black,
-            shape: CircleBorder(
-              side: BorderSide(
-                color: Colors.purple,
-                width: 2.0,
-              ),
-            ),
-            child: Icon(
-              Icons.add,
-              color: Colors.purple,
-            ),
-          ),
-          SizedBox(width: 16),
-          FloatingActionButton(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => SearchOldScreen(),
-              ),
-            ),
-            backgroundColor: Colors.black,
-            shape: CircleBorder(
-              side: BorderSide(
-                color: Color.fromARGB(255, 18, 167, 253),
-                width: 2.0,
-              ),
-            ),
-            child: Icon(
-              Icons.search,
-              color: Color.fromARGB(255, 43, 157, 223),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

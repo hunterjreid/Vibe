@@ -15,6 +15,7 @@ import 'dart:ui';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
+  
 
   const ProfileScreen({
     Key? key,
@@ -25,6 +26,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
   
 }
+
+
 
 Color generateRandomColor() {
   Random random = Random();
@@ -38,6 +41,7 @@ Color generateRandomColor() {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  
   final ProfileController profileController = Get.put(ProfileController());
   Color randomColor1 = generateRandomColor();
   Color randomColor2 = generateRandomColor();
@@ -60,10 +64,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.black12,
-            leading: const Icon(
-              Icons.person_add_alt_1_outlined,
-            ),
+
+           leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
             actions: [
               if (widget.uid == authController.user.uid)
                 IconButton(
@@ -83,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               controller.user['name'] + " (" + widget.uid + ")",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+           
               ),
             ),
           ),
@@ -188,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Container(
-                              color: Colors.black54,
+                         
                               width: 1,
                               height: 15,
                               margin: const EdgeInsets.symmetric(
@@ -222,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Container(
-                              color: Colors.black54,
+                        
                               width: 1,
                               height: 15,
                               margin: const EdgeInsets.symmetric(
@@ -257,7 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 87,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black12,
+                          
                             ),
                           ),
                           child: Center(
@@ -374,7 +381,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-          ),
+          ),bottomNavigationBar: Container(
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.all(
+      Radius.circular(10),
+    ),
+  ),
+  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+  child: ClipRRect(
+    borderRadius: BorderRadius.all(
+      Radius.circular(50),
+    ),
+    child: BottomNavigationBar(
+  
+      type: BottomNavigationBarType.fixed,
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Direct Messages',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: 'Analytics',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add_circle_outline),
+          label: 'Upload',
+        ),
+      
+      ],
+    ),
+  ),
+),
         );
       },
     );

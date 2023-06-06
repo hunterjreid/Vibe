@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/views/widgets/side_menu_widget.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIdx = 0;
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
@@ -68,6 +71,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void changeBody(int index) {
+    setState(() {
+      pageIdx = index;
+    });
+  }
+
   void _updateColorTheme(String colorOption) {
     setState(() {
       selectedColorOption = colorOption;
@@ -118,7 +127,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Theme(
       data: currentTheme,
+      
       child: Scaffold(
+     
+
+
+
+
+
+
+   appBar: AppBar(
+ 
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+    
+            Image.asset(
+              'assets/images/logo.png', // Replace with your logo image path
+              width: 50,
+              height: 50,
+            ),
+            InkWell(
+                 onTap: () {
+                ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+              },
+              child: Icon(
+                Icons.settings,
+                // Specify the desired size and color for the icon
+                size: 24,
+
+              ),
+            ),
+          ],
+        ),
+      ),
+   
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
@@ -217,72 +285,53 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         body: pages[pageIdx],
-        appBar: AppBar(
-          title: Text('Change Color Theme'),
-          backgroundColor: currentTheme.primaryColor,
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('Set Colors'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ListTile(
-                      title: Text(
-                        'Marble White',
-                        style: TextStyle(
-                          fontWeight: selectedColorOption == 'Marble White'
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                      onTap: () {
-                        _updateColorTheme('Marble White');
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        'Jet Black',
-                        style: TextStyle(
-                          fontWeight: selectedColorOption == 'Jet Black'
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                      onTap: () {
-                        _updateColorTheme('Jet Black');
-                        Navigator.pop(context);
-                      },
-                    ),
-                    ListTile(
-                      title: Text(
-                        'System Detect',
-                        style: TextStyle(
-                          fontWeight: selectedColorOption == 'System Detect'
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                      onTap: () {
-                        _setSystemTheme().then((_) {
-                          _updateColorTheme('System Detect');
-                          Navigator.pop(context);
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-          child: Icon(Icons.color_lens),
-          backgroundColor: currentTheme.colorScheme.secondary,
-        ),
+
+           drawer: MenuWidget(),
+
       ),
+    );
+  }
+}
+
+class ShowDialog {
+  static void showSetColorsDialog(
+      BuildContext context, Function(String) updateColorTheme) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Color Theme'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RadioListTile(
+                title: Text('System Detect'),
+                value: 'System Detect',
+                groupValue: 'System Detect',
+                onChanged: (value) => updateColorTheme(value as String),
+              ),
+              RadioListTile(
+                title: Text('Marble White'),
+                value: 'Marble White',
+                groupValue: 'System Detect',
+                onChanged: (value) => updateColorTheme(value as String),
+              ),
+              RadioListTile(
+                title: Text('Jet Black'),
+                value: 'Jet Black',
+                groupValue: 'System Detect',
+                onChanged: (value) => updateColorTheme(value as String),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

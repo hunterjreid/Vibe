@@ -26,6 +26,8 @@ class _FeedScreenState extends State<FeedScreen> {
     preloadVideos();
   }
 
+  
+
   void preloadVideos() async {
     for (int i = 0; i < videoController.videoList.length; i++) {
       final Video video = videoController.videoList[i];
@@ -54,9 +56,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Feed'),
-      ),
+
       body: _isLoading
           ? Center(
   child: Container(

@@ -40,7 +40,7 @@ class AddVideoScreen extends StatelessWidget {
                   padding: EdgeInsets.all(7.0),
                   child: Text(
                     'Gallery',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, fontFamily: 'Mona Sans'),
                   ),
                 ),
               ],
@@ -55,7 +55,7 @@ class AddVideoScreen extends StatelessWidget {
                   padding: EdgeInsets.all(7.0),
                   child: Text(
                     'Camera',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, fontFamily: 'Mona Sans'),
                   ),
                 ),
               ],
@@ -70,7 +70,7 @@ class AddVideoScreen extends StatelessWidget {
                   padding: EdgeInsets.all(7.0),
                   child: Text(
                     'Cancel',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, fontFamily: 'Mona Sans'),
                   ),
                 ),
               ],
@@ -84,14 +84,26 @@ class AddVideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+  appBar: AppBar(
+        backgroundColor: Color.fromARGB(120, 217, 0, 255),
+        title: Wrap(
+          children: [
+            Text(
+              'This is my BANNER i\'ll announce new filters and trending hashtags here!',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
+      ),
       body: Container(
+        
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.lightBlue,
-              Colors.purple,
-              Colors.black,
-              Colors.black,
+              Color.fromARGB(34, 3, 168, 244),
+              Color.fromARGB(24, 155, 39, 176),
+              Color.fromARGB(38, 0, 0, 0),
+              Color.fromARGB(19, 0, 0, 0),
             ],
             stops: [0.0, 0.3, 0.7, 1.0],
             begin: Alignment.topLeft,
@@ -104,49 +116,58 @@ class AddVideoScreen extends StatelessWidget {
             children: [
               Text(
                 'Welcome to Create!',
-                style:  TextStyle(fontSize: 29, color: Colors.lightBlue[100],   fontFamily: 'MonaSansExtraBoldWideItalic',),
+                style: TextStyle(
+                  fontSize: 29,
+
+                  fontFamily: 'MonaSansExtraBoldWide',
+                ),
               ),
-              InkWell(
-                onTap: () => showOptionsDialog(context),
-                child: Container(
-                  width: 190,
-                  height: 50,
-                  decoration: BoxDecoration(color: borderColor),
-                  child: const Center(
-                    child: Text(
-                      'Add Video',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => showOptionsDialog(context),
+                    child: Container(
+                      width: 190,
+                      height: 50,
+                      decoration: BoxDecoration(color: borderColor),
+                      child: const Center(
+                        child: Text(
+                          'Add Video',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Mona Sans',
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              InkWell(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const FaceFilterScreen(),
-                  ),
-                ),
-                child: Container(
-                  width: 190,
-                  height: 50,
-                  decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
-                  child: const Center(
-                    child: Text(
-                      'Face Filters',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  const SizedBox(width: 20), // Add spacing between the two widgets
+                  InkWell(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const FaceFilterScreen(),
+                      ),
+                    ),
+                    child: Container(
+                      width: 190,
+                      height: 50,
+                      decoration: BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
+                      child: const Center(
+                        child: Text(
+                          'Face Filters',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Mona Sans',
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
               const SizedBox(height: 20),
               InkWell(
@@ -158,39 +179,15 @@ class AddVideoScreen extends StatelessWidget {
                 child: Container(
                   width: 190,
                   height: 50,
-                  decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
+                  decoration: BoxDecoration(color: Color.fromARGB(255, 39, 155, 176)),
                   child: const Center(
                     child: Text(
-                      'Browse Sounds',
+                      'Browse Sounds😋',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              InkWell(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AudioUploadScreen(),
-                  ),
-                ),
-                child: Container(
-                  width: 190,
-                  height: 50,
-                  decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 52, 2, 61)),
-                  child: const Center(
-                    child: Text(
-                      'Upload Sound',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Mona Sans',
                       ),
                     ),
                   ),

@@ -11,7 +11,7 @@ class SettingsPage extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           SwitchListTile(
-            title: Text('Dark Mode'),
+            title: Text('Incoginto Mode'),
             value: false, // Replace with your own logic to get/set the dark mode value
             onChanged: (value) {
               // TODO: Implement logic to toggle dark mode
@@ -30,7 +30,7 @@ class SettingsPage extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('About'),
+            title: Text('Verison'),
             onTap: () {
               // TODO: Navigate to about page
             },
