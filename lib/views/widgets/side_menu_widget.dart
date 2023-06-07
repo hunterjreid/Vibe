@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vibe/views/screens/menu/about_us_screen.dart';
+import 'package:vibe/views/screens/menu/careers_screen.dart';
+import 'package:vibe/views/screens/menu/help_screen.dart';
 import 'package:vibe/views/screens/settings_screen.dart';
 
 class MenuWidget extends StatelessWidget {
@@ -14,10 +17,10 @@ class MenuWidget extends StatelessWidget {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color.fromARGB(54, 33, 149, 243),
               ),
               child: Text(
-                'Menu',
+                'VIBE',
                 style: TextStyle(
         
                   fontSize: 24,
@@ -25,7 +28,7 @@ class MenuWidget extends StatelessWidget {
               ),
             ),
             buildMenuItem(
-              title: 'Settings',
+              title: 'Options',
               gradientColors: [Colors.purple, Colors.blue],
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
@@ -36,23 +39,29 @@ class MenuWidget extends StatelessWidget {
             buildMenuItem(
               title: 'Careers',
               gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle Career Help tap
-              },
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CareersScreen(),
+                ),
+              ),
             ),
             buildMenuItem(
               title: 'Help',
               gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle Help tap
-              },
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => HelpScreen(),
+                ),
+              ),
             ),
             buildMenuItem(
               title: 'About Us',
               gradientColors: [Colors.purple, Colors.blue],
-              onTap: () {
-                // Handle About Us tap
-              },
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AboutUsScreen(),
+                ),
+              ),
             ),
           ],
         ),

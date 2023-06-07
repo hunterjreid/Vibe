@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/views/screens/notification_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/searchOld_screen.dart';
+import 'package:vibe/views/screens/settings_screen.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
@@ -49,18 +52,20 @@ GestureDetector(
 ),
                 IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: () {
-                    // Perform search operation
-                    print("Search button pressed");
-                  },
+                  onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SearchOldScreen(),
+                ),
+              ),
                 ),
                 SizedBox(width: 16),
                 IconButton(
                   icon: Icon(Icons.notifications),
-                  onPressed: () {
-                    // Perform notifications action
-                    print("Notifications button pressed");
-                  },
+                   onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => NotificationScreen(),
+                ),
+              ),
                 ),
               ],
             ),
@@ -134,8 +139,8 @@ GestureDetector(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color.fromARGB(28, 230, 142, 220),
-                Color.fromARGB(29, 166, 25, 135),
+                Color.fromARGB(28, 255, 255, 255),
+                Color.fromARGB(29, 58, 58, 58),
               ],
             ),
             borderRadius: BorderRadius.vertical(
@@ -144,6 +149,99 @@ GestureDetector(
           ),
           child: TabBarView(
             children: [
+
+SingleChildScrollView(
+  child: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.group,
+          size: 64,
+          color: Colors.blue,
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Your Friends Content',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () {
+            // Handle button press
+          },
+          child: Text('View Friends List'),
+        ),
+        SizedBox(height: 32),
+        Container(
+          height: 300,
+          width: double.infinity,
+          child: Placeholder(color: Colors.blueGrey,),
+        ),
+        SizedBox(height: 32),
+        Text(
+          'Your Friend Requests',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          height: 200,
+          width: double.infinity,
+          child: Placeholder(),
+        ),
+        SizedBox(height: 32),
+        Text(
+          'Recent Activity',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          height: 400,
+          width: double.infinity,
+          child: Placeholder(),
+        ),
+        SizedBox(height: 32),
+        Text(
+          'Suggested Friends',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          height: 200,
+          width: double.infinity,
+          child: Placeholder(),
+        ),
+        SizedBox(height: 32),
+        Text(
+          'Friend Activity',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        Container(
+          height: 400,
+          width: double.infinity,
+          child: Placeholder(),
+        ),
+      ],
+    ),
+  ),
+),
+
               // Explore Tab
               Center(
                 child: GridView.count(
@@ -169,56 +267,115 @@ GestureDetector(
                 ),
               ),
 
-              // Your Friends Tab
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.group),
-                    Text(
-                      'Your Friends Content',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Trending Tab
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.trending_up),
-                    Text(
-                      'Trending Content',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+      SingleChildScrollView(
+  child: 
+   // Trending Tab
+Center(
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(
+        Icons.trending_up,
+        size: 64,
+        color: Colors.orange,
+      ),
+      SizedBox(height: 16),
+      Text(
+        'Trending Content',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      SizedBox(height: 16),
+      // Placeholder for a carousel of trending videos
+      Container(
+        height: 200,
+        width: double.infinity,
+        child: Placeholder(),
+      ),
+      SizedBox(height: 32),
+      Text(
+        'Popular Posts',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      SizedBox(height: 16),
+      // Placeholder for a list of popular posts
+      Container(
+        height: 400,
+        width: double.infinity,
+        child: Placeholder(),
+      ),
+      SizedBox(height: 32),
+      Text(
+        'Trending Hashtags',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      SizedBox(height: 16),
+      // Placeholder for a grid of trending hashtags
+      Container(
+        height: 200,
+        width: double.infinity,
+        child: Placeholder(),
+      ),
+    ],
+  ),
+),
+      ),
 
               // Favorites Tab
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.favorite),
-                    Text(
-                      'Favorites Content',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            Center(
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(
+        Icons.favorite,
+        size: 64,
+        color: Colors.red,
+      ),
+      SizedBox(height: 16),
+      Text(
+        'Favorites Content',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      SizedBox(height: 16),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 32),
+        child: TextField(
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            labelText: 'Search',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          onChanged: (value) {
+            // Handle search functionality
+          },
+        ),
+      ),
+      SizedBox(height: 16),
+      IconButton(
+        icon: Icon(Icons.filter_list),
+        onPressed: () {
+          // Handle filter functionality
+        },
+      ),
+      SizedBox(height: 16),
+      
+    ],
+  ),
+),
+
 // Profile Tab
 Center(
   child: ListView.builder(

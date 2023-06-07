@@ -17,11 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
   int homeNotificationCount = 4; // Notification count for Home
 
   bool isDarkTheme = false;
-  String selectedColorOption = 'System Detect';
+  String selectedColorOption = 'Jet Black';
+  
 
   final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: Colors.grey[900],
+    primaryColor: Color.fromARGB(255, 2, 201, 78),
     colorScheme: ColorScheme.dark(
       primary: Color.fromARGB(255, 0, 0, 0),
       onPrimary: Colors.white,
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onSecondary: Colors.black,
       background: Color.fromARGB(255, 0, 0, 0),
       onBackground: Colors.white,
-      surface: Colors.grey,
+      surface: Color.fromARGB(255, 0, 0, 0),
       onSurface: Colors.white,
       error: Colors.red,
       onError: Colors.black,
@@ -39,13 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final lightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: Colors.white,
+    
+    primaryColor: Color.fromARGB(255, 201, 11, 11),
     colorScheme: ColorScheme.light(
-      primary: Colors.white,
+            primary: Colors.white,
+
       onPrimary: Colors.black,
       secondary: Colors.teal,
       onSecondary: Colors.black,
-      background: Colors.white,
+      background: Color.fromARGB(255, 199, 199, 199),
       onBackground: Colors.black,
       surface: Colors.grey,
       onSurface: Colors.black,
@@ -61,7 +64,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _setSystemTheme();
+ 
+      isDarkTheme = true;
+        bottomNavigationBarTheme =
+            darkTheme.bottomNavigationBarTheme.copyWith(
+          backgroundColor: Color.fromRGBO(253, 252, 252, 1),
+          selectedItemColor: Color.fromARGB(255, 0, 0, 0),
+          unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+          selectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSans',
+          )
+            );
+         
   }
 
   Future<void> _setSystemTheme() async {
@@ -136,42 +155,122 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-   appBar: AppBar(
- 
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-    
-            Image.asset(
-              'assets/images/logo.png', // Replace with your logo image path
-              width: 50,
-              height: 50,
-            ),
-            InkWell(
-                 onTap: () {
-                ShowDialog.showSetColorsDialog(context, _updateColorTheme);
-              },
-              child: Icon(
-                Icons.settings,
-                // Specify the desired size and color for the icon
-                size: 24,
 
-              ),
-            ),
-          ],
-        ),
-      ),
+// appBar: AppBar(
+//   centerTitle: true, // this is all you need
+//   title: Row(
+//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//     children: [
+//       Container(
+//         alignment: Alignment.center,
+//         child: Image.asset(
+//           'assets/images/logo.png', // Replace with your logo image path
+//           width: 50,
+//           height: 50,
+//         ),
+//       ),
    
+//     ],
+//   ),
+//   leading:    InkWell(
+//         onTap: () {
+//           ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+//         },
+//         child: Icon(
+//           Icons.settings,
+//           // Specify the desired size and color for the icon
+//           size: 24,
+//         ),
+//       ),
+// ),
+
+
+
+    
+
+// AppBar(centerTitle: true, title: child: Image.asset(
+//     'assets/images/logo.png', // Replace with your logo image path
+//     width: 50,
+//     height: 50,
+//   ),
+// ),)
+
+
+//    appBar: AppBar(
+//       centerTitle: true, // this is all you need
+//   title: Center(
+    
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//       Container(
+//   alignment: Alignment.center,
+//   child: Image.asset(
+//     'assets/images/logo.png', // Replace with your logo image path
+//     width: 50,
+//     height: 50,
+//   ),
+// ),
+//         InkWell(
+//           onTap: () {
+//             ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+//           },
+//           child: Icon(
+//             Icons.settings,
+//             // Specify the desired size and color for the icon
+//             size: 24,
+//           ),
+//         ),
+//       ],
+//     ),
+//   ),
+
+//   leading:    InkWell(
+//         onTap: () {
+//           ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+//         },
+//         child: Icon(
+//           Icons.settings,
+//           // Specify the desired size and color for the icon
+//           size: 24,
+//         ),
+//       ),
+
+
+
+
+// ),
+
 
 
 
     
 
 
-
-
-
-
+appBar: AppBar(
+  centerTitle: true,
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Image.asset(
+        'assets/images/logo.png', // Replace with your logo image path
+        width: 50,
+        height: 50,
+      ),
+    ],
+  ),
+  actions: [
+    IconButton(
+      onPressed: () {
+        ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+      },
+      icon: Icon(
+        Icons.settings,
+        size: 24,
+      ),
+    ),
+  ],
+),
 
 
 
@@ -193,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Radius.circular(10),
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
           child: ClipRRect(
             borderRadius: BorderRadius.all(
               Radius.circular(50),

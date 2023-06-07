@@ -19,6 +19,7 @@ List pages = [
   NewLayoutScreen(),
 
 ];
+var darkTheme = true;
 
 // COLORS
 const backgroundColor = Colors.black;

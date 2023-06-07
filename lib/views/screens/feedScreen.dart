@@ -8,7 +8,6 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'comment_screen.dart';
-
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
@@ -17,16 +16,15 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
   List<VideoPlayerController> videoControllers = [];
-  ChewieController? chewieController;
+  List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
   bool _isLoading = true;
+  bool _isModalVisible = false;
 
   @override
   void initState() {
     super.initState();
     preloadVideos();
   }
-
-  
 
   void preloadVideos() async {
     for (int i = 0; i < videoController.videoList.length; i++) {
@@ -35,13 +33,32 @@ class _FeedScreenState extends State<FeedScreen> {
           VideoPlayerController.network(video.videoUrl);
 
       await videoPlayerController.initialize();
+      print(videoPlayerController);
 
       setState(() {
         _isLoading = false;
       });
 
+
       videoControllers.add(videoPlayerController);
+
+      // Create ChewieController for each video and add it to the list
+      chewieControllers.add(
+        ChewieController(
+          videoPlayerController: videoPlayerController,
+          showControlsOnInitialize: false,
+          autoPlay: true,
+          materialProgressColors: ChewieProgressColors(
+            backgroundColor: Color.fromARGB(255, 40, 5, 165),
+            bufferedColor: Color.fromARGB(255, 228, 17, 200),
+          ),
+          looping: true,
+          allowedScreenSleep: false,
+          overlay: null,
+        ),
+      );
     }
+    
   }
 
   @override
@@ -49,22 +66,22 @@ class _FeedScreenState extends State<FeedScreen> {
     for (final controller in videoControllers) {
       controller.dispose();
     }
-    chewieController?.dispose(); // Add this line
+    for (final controller in chewieControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
-
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: _isLoading
           ? Center(
-  child: Container(
-    width: 100, // Set the desired width
-    height: 100, // Set the desired height
-    child: CupertinoActivityIndicator(),
-  ),
-)
+              child: Container(
+                width: 100, // Set the desired width
+                height: 100, // Set the desired height
+                child: CupertinoActivityIndicator(),
+              ),
+            )
           : Column(
               children: [
                 Expanded(
@@ -76,18 +93,8 @@ class _FeedScreenState extends State<FeedScreen> {
                       final Video video = videoController.videoList[index];
                       final VideoPlayerController videoPlayerController =
                           videoControllers[index];
-                      chewieController = ChewieController(
-                        videoPlayerController: videoPlayerController,
-                        showControlsOnInitialize: false,
-                        autoPlay: true,
-                        materialProgressColors: ChewieProgressColors(
-                          backgroundColor: Color.fromARGB(255, 40, 5, 165),
-                          bufferedColor: Color.fromARGB(255, 228, 17, 200),
-                        ),
-                        looping: true,
-                        allowedScreenSleep: false,
-                        overlay: null,
-                      );
+                      final ChewieController chewieController =
+                          chewieControllers[index]; // Get the ChewieController from the list
 
                       return Stack(
                         children: [
@@ -95,13 +102,13 @@ class _FeedScreenState extends State<FeedScreen> {
                             key: Key(video.videoUrl),
                             onVisibilityChanged: (visibilityInfo) {
                               if (visibilityInfo.visibleFraction != 0) {
-                                chewieController!.play();
+                                chewieController.play();
                               } else {
-                                chewieController!.pause();
+                                chewieController.pause();
                               }
                             },
                             child: Chewie(
-                              controller: chewieController!,
+                              controller: chewieController,
                             ),
                           ),
                           Padding(
@@ -112,6 +119,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               children: [
                                 // Rest of your overlay content goes here
                                 Container(
+                           
                                   margin: EdgeInsets.only(top: 10),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -133,7 +141,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                         ),
                                       ),
                                       InkWell(
-                                        onTap: () {},
+                          onTap: () {
+    setState(() {
+      _isModalVisible = true;
+    });
+  },
                                         child: Column(
                                           children: [
                                             Icon(
@@ -277,12 +289,46 @@ class _FeedScreenState extends State<FeedScreen> {
                             ),
                           ),
                         ],
+                        
                       );
                     },
+                    
                   ),
+                  
                 ),
+                if (_isModalVisible)
+   SizedBox(
+  width: double.infinity,
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+      Positioned(
+        right: 0,
+        child: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      Container(
+        alignment: Alignment.center,
+        child: const Text(
+          "Filters",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      )
+    ],
+  ),
+),
               ],
+              
             ),
+            
     );
   }
 }
@@ -319,7 +365,9 @@ class VideoTextOverlay extends StatelessWidget {
               ),
             );
           }),
+          
         ),
+        
       ),
     );
   }
