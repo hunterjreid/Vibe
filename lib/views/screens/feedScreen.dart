@@ -19,6 +19,7 @@ class _FeedScreenState extends State<FeedScreen> {
   List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
   bool _isLoading = true;
   bool _isModalVisible = false;
+  bool _refreshing = false; // Added refreshing state
 
   @override
   void initState() {
@@ -50,12 +51,13 @@ class _FeedScreenState extends State<FeedScreen> {
           autoPlay: true,
           materialProgressColors: ChewieProgressColors(
             backgroundColor: Color.fromARGB(255, 40, 5, 165),
-            bufferedColor: Color.fromARGB(255, 228, 17, 200),
+            bufferedColor: Color.fromARGB(255, 255, 255, 255),
           ),
           looping: true,
           allowedScreenSleep: false,
           overlay: null,
         ),
+        
       );
     }
     
@@ -71,7 +73,10 @@ class _FeedScreenState extends State<FeedScreen> {
     }
     super.dispose();
   }
- @override
+
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
@@ -82,10 +87,20 @@ class _FeedScreenState extends State<FeedScreen> {
                 child: CupertinoActivityIndicator(),
               ),
             )
-          : Column(
-              children: [
-                Expanded(
-                  child: PageView.builder(
+          : RefreshIndicator(
+              onRefresh: _refreshVideos, // Add the onRefresh callback
+              child: Container(
+                color: Theme.of(context).colorScheme.surface,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: PageView.builder(
+
+
+
+
+
+
                     itemCount: videoController.videoList.length,
                     controller: PageController(initialPage: 0, viewportFraction: 1),
                     scrollDirection: Axis.vertical,
@@ -248,11 +263,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                 ),
                                 VideoTextOverlay(
                                   texts: [
-                                    'Hunter',
+                                     videoController.videoList[index].username,
                                     '#Explore #Adventure',
-                                    'Join usndscapes and experienc th landscapes and experience thrilling adventures!',
+                                    videoController.videoList[index].caption,
                                     'Discover the hidden treasures of nature',
-                                    'Soundtrack: Epic Exploration',
+                                    'Soundtrack: ' + videoController.videoList[index].songName,
                                   ],
                                   textStyles: [
                                     TextStyle(
@@ -296,41 +311,154 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                   
                 ),
-                if (_isModalVisible)
-   SizedBox(
-  width: double.infinity,
-  child: Stack(
-    alignment: Alignment.center,
-    children: [
-      Positioned(
-        right: 0,
-        child: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      
+ if (_isModalVisible)
+   Container(
+     color: Theme.of(context).colorScheme.surface,
+ child: SizedBox(
+
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+              IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+               setState(() {
+        _isModalVisible = false;
+      });
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.facebook),
+              onPressed: () {
+                // Perform action for Facebook icon
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.read_more),
+              onPressed: () {
+                // Perform action for Twitter icon
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.e_mobiledata),
+              onPressed: () {
+                // Perform action for Instagram icon
+              },
+            ),
+            // Add more social icons as needed
+          ],
         ),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: const Text(
-          "Filters",
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.send),
+              onPressed: () {
+                // Perform action for sending message
+              },
+            ),
+            Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Perform action for "Send More" button
+              },
+              child: const Text('Send More'),
+            ),
+          ],
         ),
-      )
-    ],
+          ],
+        ),
+        
+      ],
+    ),
   ),
-),
-              ],
+  ),
+           ],
               
             ),
             
+
+  ),
+
+
+
+    )
     );
   }
+
+
+
+  void _loadVideos() async {
+    // Your video loading logic here...
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _refreshVideos() async {
+    setState(() {
+      _refreshing = true;
+    });
+
+    // Scramble the video list
+    final List<Video> scrambledList = List.of(videoController.videoList);
+    scrambledList.shuffle();
+
+    // Clear the previous video controllers and chewie controllers
+    for (final controller in videoControllers) {
+      controller.dispose();
+    }
+    for (final controller in chewieControllers) {
+      controller.dispose();
+    }
+    videoControllers.clear();
+    chewieControllers.clear();
+
+    // Reinitialize the video and chewie controllers
+    for (int i = 0; i < scrambledList.length; i++) {
+      final Video video = scrambledList[i];
+      final VideoPlayerController videoPlayerController =
+          VideoPlayerController.network(video.videoUrl);
+
+      await videoPlayerController.initialize();
+          setState(() {
+      _refreshing = false;
+    });
+
+      videoControllers.add(videoPlayerController);
+
+      chewieControllers.add(
+        ChewieController(
+          videoPlayerController: videoPlayerController,
+          showControlsOnInitialize: false,
+          autoPlay: true,
+          materialProgressColors: ChewieProgressColors(
+            backgroundColor: Color.fromARGB(255, 121, 121, 121),
+            bufferedColor: Color.fromARGB(255, 204, 204, 204),
+          ),
+          looping: true,
+          allowedScreenSleep: false,
+          overlay: null,
+        ),
+      );
+    }
+
+
+  }
+
+
+
 }
 
 class VideoTextOverlay extends StatelessWidget {

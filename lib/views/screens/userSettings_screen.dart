@@ -50,13 +50,16 @@ class UserSettingsScreen extends StatelessWidget {
               onChanged: (value) => controller.updateUsername(),
               decoration: InputDecoration(
                 labelText: 'Username',
+               
               ),
             ),
             TextField(
+              
               controller: controller.bioController,
               onChanged: (value) => controller.updateBio(),
               decoration: InputDecoration(
                 labelText: 'Bio',
+        
               ),
             ),
             TextField(
@@ -68,7 +71,7 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             TextField(
               controller: controller.emailController,
-              onChanged: (value) => controller.updateEmail(value),
+              onChanged: (value) => controller.updateEmail(),
               decoration: InputDecoration(
                 labelText: 'Email',
               ),

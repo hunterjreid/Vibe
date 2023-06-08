@@ -8,14 +8,11 @@ import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
 import 'direct_message_screen.dart';
 
-
-
 import 'dart:math';
 import 'dart:ui';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
-  
 
   const ProfileScreen({
     Key? key,
@@ -24,10 +21,7 @@ class ProfileScreen extends StatefulWidget {
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
-  
 }
-
-
 
 Color generateRandomColor() {
   Random random = Random();
@@ -40,16 +34,25 @@ Color generateRandomColor() {
   return Color.fromARGB(alpha, red, green, blue);
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  
+class _ProfileScreenState extends State<ProfileScreen>  with SingleTickerProviderStateMixin{
   final ProfileController profileController = Get.put(ProfileController());
+   late TabController _tabController;
   Color randomColor1 = generateRandomColor();
   Color randomColor2 = generateRandomColor();
 
   @override
   void initState() {
     super.initState();
+  
     profileController.updateUserId(widget.uid);
+       _tabController = TabController(length: 3, vsync: this);
+  }
+
+    @override
+  void dispose() {
+    // Dispose the TabController when the screen is disposed
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,13 +67,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
         return Scaffold(
           appBar: AppBar(
-
-           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            bottom: TabBar(
+              controller: _tabController, // Set the TabController
+              tabs: [
+                Tab(text: 'Tab 1'),
+                Tab(text: 'Tab 2'),
+                Tab(text: 'Tab 3'),
+              ],
+            ),
             actions: [
               if (widget.uid == authController.user.uid)
                 IconButton(
@@ -90,82 +100,106 @@ class _ProfileScreenState extends State<ProfileScreen> {
               controller.user['name'] + " (" + widget.uid + ")",
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-           
               ),
             ),
           ),
-          body: SafeArea(
+        
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          body: TabBarView(
+            controller: _tabController, // Set the TabController
+            children: [
+              // First tab view
+                   SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-       SizedBox(
-  child: Column(
-    children: [
-      Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            width: 500,
-            height: 140,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              gradient: LinearGradient(
-                colors: [
-                  randomColor1,
-                  randomColor2,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          ClipOval(
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: controller.user['profilePhoto'],
-              height: 90,
-              width: 90,
-              placeholder: (context, url) =>
-                  const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(
-                Icons.error,
-              ),
-            ),
-          ),
-        ],
-      ),
-      const SizedBox(
-        height: 15,
-      ),
-      const SizedBox(height: 10),
-      Text(
-        controller.user['bio'] ?? '', // Add null check and provide a default value
-        style: const TextStyle(
-          fontSize: 16,
-             color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-   const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.link,
-                                  color: Colors.blue,
+                  SizedBox(
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 500,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    randomColor1,
+                                    randomColor2,
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomRight,
                                 ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  controller.user['website'] ?? '',
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                            const SizedBox(height: 12),
-      Row(
+                            ClipOval(
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: controller.user['profilePhoto'],
+                                height: 90,
+                                width: 90,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
+                                  Icons.error,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+          profileController.user['name'],
+          style: TextStyle(
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+            fontSize: 42.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          controller.user['bio'] ?? '',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.link,
+                              color: Colors.blue,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              controller.user['website'] ?? '',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
@@ -195,7 +229,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Container(
-                         
                               width: 1,
                               height: 15,
                               margin: const EdgeInsets.symmetric(
@@ -229,7 +262,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Container(
-                        
                               width: 1,
                               height: 15,
                               margin: const EdgeInsets.symmetric(
@@ -263,9 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 160,
                           height: 87,
                           decoration: BoxDecoration(
-                            border: Border.all(
-                          
-                            ),
+                            border: Border.all(),
                           ),
                           child: Center(
                             child: Column(
@@ -322,8 +352,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 25,
                         ),
-
-                        // video list
                         GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -367,7 +395,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigate to the home screen
                       Navigator.popUntil(context, (route) => route.isFirst);
                     },
                     child: Text(
@@ -381,38 +408,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-          ),bottomNavigationBar: Container(
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.all(
-      Radius.circular(10),
-    ),
-  ),
-  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-  child: ClipRRect(
-    borderRadius: BorderRadius.all(
-      Radius.circular(50),
-    ),
-    child: BottomNavigationBar(
-  
-      type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Direct Messages',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Analytics',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add_circle_outline),
-          label: 'Upload',
-        ),
-      
-      ],
-    ),
-  ),
-),
+          ),
+     
+              // Second tab view
+              Center(
+                child: Text('Tab 2 View'),
+              ),
+              // Third tab view
+              Center(
+                child: Text('Tab 3 View'),
+              ),
+            ],
+          ),
+          
+          
+          
+          
+          
+          
+          
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(50),
+              ),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Direct Messages',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: 'Analytics',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.add_circle_outline),
+                    label: 'Upload',
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

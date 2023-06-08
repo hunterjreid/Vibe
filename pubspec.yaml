@@ -101,8 +101,10 @@ flutter:
   
   assets:
     - assets/images/logo.png
+    - assets/images/menu.jpg
     - assets/profile_picture.jpg
     - assets/wop.wav
+    
 
   # To add assets to your application, add an assets section, like this:
   # assets:

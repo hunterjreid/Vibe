@@ -4,13 +4,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 
 class SettingsController extends GetxController {
-  
   final AuthController authController = Get.find<AuthController>();
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   TextEditingController websiteController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserData();
+  }
+
+  void fetchUserData() async {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(authController.user.uid)
+        .get();
+
+    Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
+    if (userData != null) {
+      usernameController.text = userData['username'] ?? '';
+      bioController.text = userData['bio'] ?? '';
+      websiteController.text = userData['website'] ?? '';
+      emailController.text = userData['email'] ?? '';
+    }
+  }
 
   void updateUsername() {
     String updatedUsername = usernameController.text;
@@ -51,14 +71,25 @@ class SettingsController extends GetxController {
     });
   }
 
-  void updateEmail(String value) {
-    emailController.text = value;
+  void updateEmail() {
+    String updatedEmail = emailController.text;
+    // Update the email in your authentication provider here
+    // Example: authController.updateEmail(updatedEmail);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(authController.user.uid)
+        .update({'email': updatedEmail})
+        .then((_) {
+      print('Email updated successfully');
+    }).catchError((error) {
+      print('Failed to update email: $error');
+    });
   }
 
   void updateSettings() {
-  updateUsername();
-  updateBio();
-  updateWebsite();
-  updateEmail(emailController.text);
-}
+    updateUsername();
+    updateBio();
+    updateWebsite();
+    updateEmail();
+  }
 }

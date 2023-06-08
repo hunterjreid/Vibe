@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int pageIdx = 0;
+  int pageIdx = 1;
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
 

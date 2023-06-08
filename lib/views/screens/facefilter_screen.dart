@@ -119,7 +119,7 @@ final inputImage = InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
 
       controller = CameraController(
         camera,
-        ResolutionPreset.medium,
+        ResolutionPreset.low,
       );
 
       controller.initialize().then((_) {
@@ -209,8 +209,8 @@ class FaceFilterPainter extends CustomPainter {
     // canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), redPaint);
 
     for (final face in detectedFaces) {
-      final double scaleX = size.width/2;
-      final double scaleY = size.height/2;
+      final double scaleX = size.width/300;
+      final double scaleY = size.height/250;
 
       final Rect boundingBox = Rect.fromLTRB(
         face.boundingBox.left*scaleX,
