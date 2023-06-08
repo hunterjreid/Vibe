@@ -53,7 +53,7 @@ dependencies:
   arcore_flutter_plugin: ^0.1.0
   arkit_plugin: ^1.0.6
   google_ml_kit: ^0.15.0
-  
+
 
 dependency_overrides:
   ffmpeg_kit_flutter_min_gpl: ^5.1.0-LTS
