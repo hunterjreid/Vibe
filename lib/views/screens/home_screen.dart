@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
@@ -15,65 +16,28 @@ class _HomeScreenState extends State<HomeScreen> {
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
 
-  bool isDarkTheme = false;
+
   String selectedColorOption = 'Jet Black';
-
-  final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: Color.fromARGB(255, 2, 201, 78),
-    colorScheme: ColorScheme.dark(
-      primary: Color.fromARGB(255, 0, 0, 0),
-      onPrimary: Colors.white,
-      secondary: Colors.tealAccent,
-      onSecondary: Colors.black,
-      background: Color.fromARGB(255, 0, 0, 0),
-      onBackground: Colors.white,
-      surface: Color.fromARGB(255, 0, 0, 0),
-      onSurface: Colors.white,
-      error: Colors.red,
-      onError: Colors.black,
-    ),
-    // ...
-  );
-
-  final lightTheme = ThemeData(
-    brightness: Brightness.light,
-
-    primaryColor: Color.fromARGB(255, 201, 11, 11),
-    colorScheme: ColorScheme.light(
-      primary: Colors.white,
-      onPrimary: Colors.black,
-      secondary: Colors.teal,
-      onSecondary: Colors.black,
-      background: Color.fromARGB(255, 199, 199, 199),
-      onBackground: Colors.black,
-      surface: Colors.grey,
-      onSurface: Colors.black,
-      error: Colors.red,
-      onError: Colors.black,
-    ),
-    // ...
-  );
 
   BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
 
   @override
   void initState() {
     super.initState();
-
     isDarkTheme = true;
     bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
-        backgroundColor: Color.fromRGBO(253, 252, 252, 1),
-        selectedItemColor: Color.fromARGB(255, 0, 0, 0),
-        unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
-        selectedLabelStyle: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontFamily: 'MonaSansExtraBoldWideItalic',
-        ),
-        unselectedLabelStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontFamily: 'MonaSans',
-        ));
+      backgroundColor: Color.fromRGBO(253, 252, 252, 1),
+      selectedItemColor: Color.fromARGB(255, 0, 0, 0),
+      unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+      selectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontFamily: 'MonaSans',
+      ),
+    );
   }
 
   Future<void> _setSystemTheme() async {
@@ -133,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = isDarkTheme ? darkTheme : lightTheme;
+ final currentTheme = isDarkTheme ? darkTheme : lightTheme;
 
     return Theme(
       data: currentTheme,

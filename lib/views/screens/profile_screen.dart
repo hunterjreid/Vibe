@@ -22,7 +22,10 @@ class ProfileScreen extends StatefulWidget {
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
+  
 }
+
+ ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
 
 Color generateRandomColor() {
   Random random = Random();
@@ -35,30 +38,42 @@ Color generateRandomColor() {
   return Color.fromARGB(alpha, red, green, blue);
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   final ProfileController profileController = Get.put(ProfileController());
   late TabController _tabController;
-  Color randomColor1 = generateRandomColor();
-  Color randomColor2 = generateRandomColor();
+
+   Color randomColor1 =  Colors.blue;
+  Color randomColor2 = Color.fromARGB(255, 243, 33, 233);
+
 
   @override
   void initState() {
     super.initState();
-
     profileController.updateUserId(widget.uid);
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
-    // Dispose the TabController when the screen is disposed
     _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(
+ ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+ print(isDarkTheme);
+
+    if (isDarkTheme == null) {
+      // Fallback theme in case of null value
+      themeData = ThemeData.light();
+    }
+
+  return MaterialApp(
+      theme: themeData , // Apply dark theme
+        debugShowCheckedModeBanner: false,
+      home: GetBuilder<ProfileController>(
       init: ProfileController(),
       builder: (controller) {
         if (controller.user.isEmpty) {
@@ -66,6 +81,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             child: CircularProgressIndicator(),
           );
         }
+
+
+
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -76,6 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             ),
             bottom: TabBar(
               controller: _tabController, // Set the TabController
+              labelColor:   Theme.of(context).colorScheme.surface,
               tabs: [
                 Tab(text: 'Tab 1'),
                 Tab(text: 'Tab 2'),
@@ -163,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               controller.user['bio'] ?? '',
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.white,
+                
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -236,6 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
+                                               fontFamily: 'MonaSansExtraBoldWideItalic',
                                         ),
                                       ),
                                     ),
@@ -244,6 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       'Followers',
                                       style: TextStyle(
                                         fontSize: 14,
+                                             fontFamily: 'MonaSansExtraBoldWideItalic',
                                       ),
                                     ),
                                   ],
@@ -262,6 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
+                                             fontFamily: 'MonaSansExtraBoldWideItalic',
                                       ),
                                     ),
                                     const SizedBox(height: 5),
@@ -269,6 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       'Likes',
                                       style: TextStyle(
                                         fontSize: 14,
+                                             fontFamily: 'MonaSansExtraBoldWideItalic',
                                       ),
                                     ),
                                   ],
@@ -278,6 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             const SizedBox(
                               height: 15,
                             ),
+                                    if (widget.uid != authController.user.uid)
                             Container(
                               width: 160,
                               height: 87,
@@ -288,23 +312,22 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                            
                                     InkWell(
                                       onTap: () {
-                                        if (widget.uid == authController.user.uid) {
-                                          authController.signOut();
-                                        } else {
+                               
                                           controller.followUser();
-                                        }
+                                      
                                       },
                                       child: Text(
-                                        widget.uid == authController.user.uid
-                                            ? 'Sign Out'
-                                            : controller.user['isFollowing']
+                              
+                                            controller.user['isFollowing']
                                                 ? 'Unfollow'
                                                 : 'Follow',
                                         style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
+                                               fontFamily: 'MonaSansExtraBoldWideItalic',
                                         ),
                                       ),
                                     ),
@@ -434,6 +457,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           ),
         );
       },
+      )
     );
   }
 

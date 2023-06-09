@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/settings_controller.dart';
 
@@ -77,6 +78,20 @@ class UserSettingsScreen extends StatelessWidget {
               onPressed: () => controller.updateSettings(),
               child: Text('Save Changes'),
             ),
+            ElevatedButton(
+              onPressed: () => authController.signOut(),
+              child: Text('LOG OUT OF YOUR ACCOUNT!',  style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                               fontFamily: 'MonaSansExtraBoldWideItalic',
+                                        )),
+            ),
+
+
+
+
+
+            
           ],
         ),
       ),

@@ -18,12 +18,53 @@ List pages = [
   ProfileScreen(uid: authController.user.uid),
   NewLayoutScreen(),
 ];
-var darkTheme = true;
+
+
+bool isDarkTheme = true;
+
 
 // COLORS
-const backgroundColor = Colors.black;
-var buttonColor = Color.fromARGB(255, 44, 113, 179);
-const borderColor = Color.fromARGB(255, 214, 40, 147);
+const Color backgroundColor = Colors.black;
+const Color buttonColor = Color.fromARGB(255, 44, 113, 179);
+const Color borderColor = Color.fromARGB(255, 214, 40, 147);
+
+// THEMES
+ThemeData get lightTheme => ThemeData(
+      brightness: Brightness.light,
+      colorScheme: const ColorScheme.light(
+        primary: Colors.white,
+        onPrimary: Colors.black,
+        secondary: borderColor,
+        onSecondary: Colors.black,
+        background: Color.fromARGB(255, 199, 199, 199),
+        onBackground: Colors.black,
+        surface: Colors.grey,
+        onSurface: Colors.black,
+        error: Colors.red,
+        onError: Colors.black,
+      ),
+
+    );
+
+ThemeData get darkTheme => ThemeData(
+      brightness: Brightness.dark,
+      colorScheme: const ColorScheme.dark(
+        primary: Color.fromARGB(255, 0, 0, 0),
+        onPrimary: Colors.white,
+        secondary: borderColor,
+        onSecondary: Colors.black,
+        background: Color.fromARGB(255, 0, 0, 0),
+        onBackground: Colors.white,
+        surface: Color.fromARGB(255, 0, 0, 0),
+        onSurface: Colors.white,
+        error: Colors.red,
+        onError: Colors.black,
+      ),
+
+    );
+
+
+
 
 // FIREBASE
 var firebaseAuth = FirebaseAuth.instance;

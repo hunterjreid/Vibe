@@ -9,12 +9,18 @@ class MenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/menu.jpg'), // Replace with your image path
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              colorScheme.background.withOpacity(0.6),
+              BlendMode.darken,
+            ), // Add black overlay
           ),
         ),
         child: ListView(
@@ -26,14 +32,17 @@ class MenuWidget extends StatelessWidget {
                 'VIBE',
                 style: TextStyle(
                   fontSize: 30,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: colorScheme.onBackground,
                   fontFamily: 'MonaSansExtraBoldWideItalic',
                 ),
               ),
             ),
             buildMenuItem(
               title: 'Options',
-              gradientColors: [Colors.purple, Colors.blue],
+              gradientColors: [
+                colorScheme.primary,
+                colorScheme.secondary,
+              ],
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => SettingsPage(),
@@ -42,7 +51,10 @@ class MenuWidget extends StatelessWidget {
             ),
             buildMenuItem(
               title: 'Careers',
-              gradientColors: [Colors.purple, Colors.blue],
+              gradientColors: [
+                colorScheme.primary,
+                colorScheme.secondary,
+              ],
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => CareersScreen(),
@@ -51,7 +63,10 @@ class MenuWidget extends StatelessWidget {
             ),
             buildMenuItem(
               title: 'Help',
-              gradientColors: [Colors.purple, Colors.blue],
+              gradientColors: [
+                colorScheme.primary,
+                colorScheme.secondary,
+              ],
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => HelpScreen(),
@@ -60,7 +75,10 @@ class MenuWidget extends StatelessWidget {
             ),
             buildMenuItem(
               title: 'About Us',
-              gradientColors: [Colors.purple, Colors.blue],
+              gradientColors: [
+                colorScheme.primary,
+                colorScheme.secondary,
+              ],
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => AboutUsScreen(),
@@ -78,12 +96,12 @@ class MenuWidget extends StatelessWidget {
     required List<Color> gradientColors,
     required VoidCallback onTap,
   }) {
+
     return ListTile(
       title: Text(
         title,
         style: TextStyle(
           fontSize: 30,
-          color: Color.fromARGB(255, 0, 0, 0),
           fontFamily: 'MonaSansExtraBoldWideItalic',
         ),
       ),
