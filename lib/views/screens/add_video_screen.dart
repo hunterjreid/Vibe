@@ -1,17 +1,22 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
 import 'package:vibe/views/screens/facefilter_screen.dart';
+import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/uploadAudio_screen.dart';
 
 import 'browsesongs_screen.dart';
 
 class AddVideoScreen extends StatelessWidget {
-  const AddVideoScreen({Key? key}) : super(key: key);
+  AddVideoScreen({Key? key}) : super(key: key);
 
+  final ProfileController profileController = Get.put(ProfileController());
   pickVideo(ImageSource src, BuildContext context) async {
     final video = await ImagePicker().pickVideo(source: src);
     if (video != null) {
@@ -84,7 +89,7 @@ class AddVideoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Color.fromARGB(120, 217, 0, 255),
         title: Wrap(
           children: [
@@ -96,7 +101,6 @@ class AddVideoScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -114,11 +118,57 @@ class AddVideoScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(uid: authController.user.uid),
+                    ),
+                  );
+                },
+              ),
+              CircleAvatar(
+                radius: 56,
+                backgroundImage: profileController.user['profilePhoto'] != null
+                    ? CachedNetworkImageProvider(profileController.user['profilePhoto'])
+                    : null,
+                child: profileController.user['profilePhoto'] == null ? CircularProgressIndicator() : null,
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: profileController.user['name'] != null
+                      ? Text(
+                          profileController.user['name'],
+                          style: TextStyle(
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : CircularProgressIndicator(),
+                ),
+              ),
+              Text(
+                'You are logged in as: ' + profileController.user['name'].toString(),
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSans',
+                ),
+              ),
               Text(
                 'Welcome to Create!',
                 style: TextStyle(
                   fontSize: 29,
-
                   fontFamily: 'MonaSansExtraBoldWide',
                 ),
               ),
@@ -137,7 +187,7 @@ class AddVideoScreen extends StatelessWidget {
                             fontSize: 20,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Mona Sans',
+                            fontFamily: 'MonaSans',
                           ),
                         ),
                       ),
@@ -161,7 +211,7 @@ class AddVideoScreen extends StatelessWidget {
                             fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Mona Sans',
+                            fontFamily: 'MonaSans',
                           ),
                         ),
                       ),
@@ -187,7 +237,7 @@ class AddVideoScreen extends StatelessWidget {
                         fontSize: 20,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Mona Sans',
+                        fontFamily: 'MonaSans',
                       ),
                     ),
                   ),

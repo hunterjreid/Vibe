@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
+import 'package:vibe/constants.dart';
+import 'package:vibe/views/screens/friendSearch_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/models/video.dart';
@@ -8,6 +10,7 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'comment_screen.dart';
+
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
@@ -24,26 +27,26 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    preloadVideos();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      preloadVideos();
+    });
   }
 
   void preloadVideos() async {
+    if (videoController != null) {}
     for (int i = 0; i < videoController.videoList.length; i++) {
       final Video video = videoController.videoList[i];
-      final VideoPlayerController videoPlayerController =
-          VideoPlayerController.network(video.videoUrl);
+      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
       await videoPlayerController.initialize();
-      print(videoPlayerController);
-
       setState(() {
         _isLoading = false;
       });
 
+      print(videoPlayerController);
 
       videoControllers.add(videoPlayerController);
 
-      // Create ChewieController for each video and add it to the list
       chewieControllers.add(
         ChewieController(
           videoPlayerController: videoPlayerController,
@@ -57,10 +60,8 @@ class _FeedScreenState extends State<FeedScreen> {
           allowedScreenSleep: false,
           overlay: null,
         ),
-        
       );
     }
-    
   }
 
   @override
@@ -74,330 +75,289 @@ class _FeedScreenState extends State<FeedScreen> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isLoading
-          ? Center(
-              child: Container(
-                width: 100, // Set the desired width
-                height: 100, // Set the desired height
-                child: CupertinoActivityIndicator(),
-              ),
-            )
-          : RefreshIndicator(
-              onRefresh: _refreshVideos, // Add the onRefresh callback
-              child: Container(
-                color: Theme.of(context).colorScheme.surface,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: PageView.builder(
+        body: _isLoading
+            ? Center(
+                child: Container(
+                  width: 100, // Set the desired width
+                  height: 100, // Set the desired height
+                  child: CupertinoActivityIndicator(),
+                ),
+              )
+            : RefreshIndicator(
+                onRefresh: _refreshVideos, // Add the onRefresh callback
+                child: Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: PageView.builder(
+                          itemCount: videoController.videoList.length,
+                          controller: PageController(initialPage: 0, viewportFraction: 1),
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            final Video video = videoController.videoList[index];
+                            final VideoPlayerController videoPlayerController = videoControllers[index];
+                            final ChewieController chewieController =
+                                chewieControllers[index]; // Get the ChewieController from the list
 
-
-
-
-
-
-                    itemCount: videoController.videoList.length,
-                    controller: PageController(initialPage: 0, viewportFraction: 1),
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      final Video video = videoController.videoList[index];
-                      final VideoPlayerController videoPlayerController =
-                          videoControllers[index];
-                      final ChewieController chewieController =
-                          chewieControllers[index]; // Get the ChewieController from the list
-
-                      return Stack(
-                        children: [
-                          VisibilityDetector(
-                            key: Key(video.videoUrl),
-                            onVisibilityChanged: (visibilityInfo) {
-                              if (visibilityInfo.visibleFraction != 0) {
-                                chewieController.play();
-                              } else {
-                                chewieController.pause();
-                              }
-                            },
-                            child: Chewie(
-                              controller: chewieController,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 55.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            return Stack(
                               children: [
-                                // Rest of your overlay content goes here
-                                Container(
-                           
-                                  margin: EdgeInsets.only(top: 10),
+                                VisibilityDetector(
+                                  key: Key(video.videoUrl),
+                                  onVisibilityChanged: (visibilityInfo) {
+                                    if (visibilityInfo.visibleFraction != 0) {
+                                      chewieController.play();
+                                    } else {
+                                      chewieController.pause();
+                                    }
+                                  },
+                                  child: Chewie(
+                                    controller: chewieController,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 55.0),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Icon(
-                                          Icons.favorite,
-                                          size: 45,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        "0",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      InkWell(
-                          onTap: () {
-    setState(() {
-      _isModalVisible = true;
-    });
-  },
+                                      // Rest of your overlay content goes here
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Icon(
-                                              Icons.share,
-                                              size: 45,
-                                              color: Colors.white,
+                                            InkWell(
+                                              onTap: () => videoController.likeVideo(video.id),
+                                              child: Icon(
+                                                Icons.favorite,
+                                                size: 45,
+                                                color: video.likes.contains(authController.user.uid)
+                                                    ? Color.fromARGB(255, 44, 113, 179)
+                                                    : Colors.white,
+                                              ),
                                             ),
                                             const SizedBox(height: 5),
                                             Text(
-                                              "0",
+                                              videoController.videoList[index].likes.length.toString(),
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.white,
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Column(
-                                          children: [
-                                            Icon(
-                                              Icons.comment,
-                                              size: 45,
-                                              color: Colors.white,
                                             ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              "0",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Column(
-                                          children: [
-                                            Icon(
-                                              Icons.audio_file,
-                                              size: 45,
-                                              color: Colors.white,
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              "0",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text("Video saved"),
-                                                content: Text(
-                                                  "Your video has been saved to your saved folder."
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: Text("OK"),
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  _isModalVisible = true;
+                                                });
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.share,
+                                                    size: 45,
+                                                    color: Colors.white,
                                                   ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    "0",
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
                                                 ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Icon(
-                                              Icons.folder,
-                                              size: 30,
-                                              color: Colors.white,
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              "0",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
                                               ),
-                                            )
+                                            ),
+                                            InkWell(
+                                              onTap: () => Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => CommentScreen(
+                                                    id: videoController.videoList[index].id,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.comment,
+                                                    size: 45,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    "0",
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {},
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.audio_file,
+                                                    size: 45,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    "0",
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text("Video saved"),
+                                                      content: Text(
+                                                          "Your video has been saved to your saved to your gallery."),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () => Navigator.pop(context),
+                                                          child: Text("OK"),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.folder,
+                                                    size: 30,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    "0",
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
+                                      ),
+                                      VideoTextOverlay(
+                                        texts: [
+                                          videoController.videoList[index].username,
+                                          '#Explore #Adventure',
+                                          videoController.videoList[index].caption,
+                                          'Discover the hidden treasures of nature',
+                                          'Soundtrack: ' + videoController.videoList[index].songName,
+                                        ],
+                                        textStyles: [
+                                          TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),
+                                          TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'MonaSans',
+                                          ),
+                                          TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'MonaSans',
+                                          ),
+                                          TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'MonaSans',
+                                          ),
+                                          TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            fontFamily: 'MonaSansExtraBoldWide',
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-                                VideoTextOverlay(
-                                  texts: [
-                                     videoController.videoList[index].username,
-                                    '#Explore #Adventure',
-                                    videoController.videoList[index].caption,
-                                    'Discover the hidden treasures of nature',
-                                    'Soundtrack: ' + videoController.videoList[index].songName,
-                                  ],
-                                  textStyles: [
-                                    TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      if (_isModalVisible)
+                        Container(
+                          color: Theme.of(context).colorScheme.primary,
+                          child: SizedBox(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isModalVisible = false;
+                                        });
+                                      },
                                     ),
-                                    TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'MonaSans',
+                                    IconButton(
+                                      icon: const Icon(Icons.facebook),
+                                      onPressed: () {
+                                        // Perform action for Facebook icon
+                                      },
                                     ),
-                                    TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'MonaSans',
+                                    IconButton(
+                                      icon: const Icon(Icons.read_more),
+                                      onPressed: () {
+                                        // Perform action for Twitter icon
+                                      },
                                     ),
-                                    TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'MonaSans',
+                                    IconButton(
+                                      icon: const Icon(Icons.e_mobiledata),
+                                      onPressed: () {
+                                        // Perform action for Instagram icon
+                                      },
                                     ),
-                                    TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                      fontFamily: 'MonaSansExtraBoldWide',
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        _showShareOptions(context, '2');
+                                      },
+                                      child: const Text('MORE'),
                                     ),
+                                    // Add more social icons as needed
                                   ],
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                        
-                      );
-                    },
-                    
+                        ),
+                    ],
                   ),
-                  
                 ),
-      
- if (_isModalVisible)
-   Container(
-     color: Theme.of(context).colorScheme.surface,
- child: SizedBox(
-
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-              IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-               setState(() {
-        _isModalVisible = false;
-      });
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.facebook),
-              onPressed: () {
-                // Perform action for Facebook icon
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.read_more),
-              onPressed: () {
-                // Perform action for Twitter icon
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.e_mobiledata),
-              onPressed: () {
-                // Perform action for Instagram icon
-              },
-            ),
-            // Add more social icons as needed
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                ),
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.send),
-              onPressed: () {
-                // Perform action for sending message
-              },
-            ),
-            Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                // Perform action for "Send More" button
-              },
-              child: const Text('Send More'),
-            ),
-          ],
-        ),
-          ],
-        ),
-        
-      ],
-    ),
-  ),
-  ),
-           ],
-              
-            ),
-            
-
-  ),
-
-
-
-    )
-    );
+              ));
   }
-
-
 
   void _loadVideos() async {
     // Your video loading logic here...
@@ -428,13 +388,12 @@ class _FeedScreenState extends State<FeedScreen> {
     // Reinitialize the video and chewie controllers
     for (int i = 0; i < scrambledList.length; i++) {
       final Video video = scrambledList[i];
-      final VideoPlayerController videoPlayerController =
-          VideoPlayerController.network(video.videoUrl);
+      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
       await videoPlayerController.initialize();
-          setState(() {
-      _refreshing = false;
-    });
+      setState(() {
+        _refreshing = false;
+      });
 
       videoControllers.add(videoPlayerController);
 
@@ -453,12 +412,7 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
       );
     }
-
-
   }
-
-
-
 }
 
 class VideoTextOverlay extends StatelessWidget {
@@ -483,8 +437,7 @@ class VideoTextOverlay extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(texts.length, (index) {
-            final textStyle =
-                textStyles.length > index ? textStyles[index] : TextStyle();
+            final textStyle = textStyles.length > index ? textStyles[index] : TextStyle();
             return Padding(
               padding: const EdgeInsets.only(bottom: 4.0),
               child: Text(
@@ -493,10 +446,45 @@ class VideoTextOverlay extends StatelessWidget {
               ),
             );
           }),
-          
         ),
-        
       ),
     );
   }
+}
+
+void _showShareOptions(BuildContext context, String videoId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Share Options'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.people),
+              title: Text('Share other'),
+              onTap: () {
+                // Share.share('Check out this video on vibe!', subject: 'Look what I made!');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Share to DM'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FriendSearchPage(
+                            videoId: videoId,
+                          )),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

@@ -14,6 +14,7 @@ class ShowSingleVideo extends StatefulWidget {
   @override
   _ShowSingleVideoState createState() => _ShowSingleVideoState();
 }
+
 class _ShowSingleVideoState extends State<ShowSingleVideo> {
   late VideoPlayerController _videoPlayerController;
   bool _isVideoLoading = true;
@@ -68,28 +69,22 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
     );
   }
 
-void _deleteVideo() {
-  final data = widget.videoController.videoList[widget.videoIndex];
+  void _deleteVideo() {
+    final data = widget.videoController.videoList[widget.videoIndex];
 
-  debugPrint(data.uid);
+    debugPrint(data.uid);
 
-
-  FirebaseFirestore.instance
-    .collection('videos')
-    .doc(data.id)
-    .delete()
-    .then((_) {
+    FirebaseFirestore.instance.collection('videos').doc(data.id).delete().then((_) {
       // Video deleted successfully
       // You can perform any additional tasks or show a success message
       print('Video deleted successfully');
-            Navigator.popUntil(context, (route) => route.isFirst);
-    })
-    .catchError((error) {
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }).catchError((error) {
       // An error occurred while deleting the video
       // Handle the error or show an error message
       print('Error deleting video: $error');
     });
-}
+  }
 
   @override
   Widget build(BuildContext context) {

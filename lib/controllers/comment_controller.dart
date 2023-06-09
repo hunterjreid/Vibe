@@ -16,12 +16,7 @@ class CommentController extends GetxController {
 
   getComment() async {
     _comments.bindStream(
-      firestore
-          .collection('videos')
-          .doc(_postId)
-          .collection('comments')
-          .snapshots()
-          .map(
+      firestore.collection('videos').doc(_postId).collection('comments').snapshots().map(
         (QuerySnapshot query) {
           List<Comment> retValue = [];
           for (var element in query.docs) {
@@ -36,15 +31,8 @@ class CommentController extends GetxController {
   postComment(String commentText) async {
     try {
       if (commentText.isNotEmpty) {
-        DocumentSnapshot userDoc = await firestore
-            .collection('users')
-            .doc(authController.user.uid)
-            .get();
-        var allDocs = await firestore
-            .collection('videos')
-            .doc(_postId)
-            .collection('comments')
-            .get();
+        DocumentSnapshot userDoc = await firestore.collection('users').doc(authController.user.uid).get();
+        var allDocs = await firestore.collection('videos').doc(_postId).collection('comments').get();
         int len = allDocs.docs.length;
 
         Comment comment = Comment(
@@ -56,16 +44,10 @@ class CommentController extends GetxController {
           uid: authController.user.uid,
           id: 'Comment $len',
         );
-        await firestore
-            .collection('videos')
-            .doc(_postId)
-            .collection('comments')
-            .doc('Comment $len')
-            .set(
+        await firestore.collection('videos').doc(_postId).collection('comments').doc('Comment $len').set(
               comment.toJson(),
             );
-        DocumentSnapshot doc =
-            await firestore.collection('videos').doc(_postId).get();
+        DocumentSnapshot doc = await firestore.collection('videos').doc(_postId).get();
         await firestore.collection('videos').doc(_postId).update({
           'commentCount': (doc.data()! as dynamic)['commentCount'] + 1,
         });
@@ -80,29 +62,14 @@ class CommentController extends GetxController {
 
   likeComment(String id) async {
     var uid = authController.user.uid;
-    DocumentSnapshot doc = await firestore
-        .collection('videos')
-        .doc(_postId)
-        .collection('comments')
-        .doc(id)
-        .get();
+    DocumentSnapshot doc = await firestore.collection('videos').doc(_postId).collection('comments').doc(id).get();
 
     if ((doc.data()! as dynamic)['likes'].contains(uid)) {
-      await firestore
-          .collection('videos')
-          .doc(_postId)
-          .collection('comments')
-          .doc(id)
-          .update({
+      await firestore.collection('videos').doc(_postId).collection('comments').doc(id).update({
         'likes': FieldValue.arrayRemove([uid]),
       });
     } else {
-      await firestore
-          .collection('videos')
-          .doc(_postId)
-          .collection('comments')
-          .doc(id)
-          .update({
+      await firestore.collection('videos').doc(_postId).collection('comments').doc(id).update({
         'likes': FieldValue.arrayUnion([uid]),
       });
     }

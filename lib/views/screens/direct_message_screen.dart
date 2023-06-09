@@ -24,8 +24,7 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
   }
 
   List<String> messages = []; // List to store the messages
-  TextEditingController _textEditingController =
-      TextEditingController(); // Controller for the input field
+  TextEditingController _textEditingController = TextEditingController(); // Controller for the input field
 
   @override
   void initState() {
@@ -34,9 +33,7 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
   }
 
   Future<List<String>> fetchMessages() async {
-    QuerySnapshot snapshot = await dmCollection(widget.recipientUID)
-        .orderBy('sent', descending: true)
-        .get();
+    QuerySnapshot snapshot = await dmCollection(widget.recipientUID).orderBy('sent', descending: true).get();
 
     List<String> fetchedMessages = [];
     snapshot.docs.forEach((doc) {
@@ -54,9 +51,8 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
         'sent': FieldValue.serverTimestamp(),
       });
 
-      
       _textEditingController.clear(); // Clear the input field after sending
-         fetchMessages();
+      fetchMessages();
     }
   }
 
@@ -91,15 +87,11 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
                     itemBuilder: (context, index) {
                       // Display the messages in the list
                       return Align(
-                        alignment: messages[index].startsWith('You: ')
-                            ? Alignment.topRight
-                            : Alignment.topLeft,
+                        alignment: messages[index].startsWith('You: ') ? Alignment.topRight : Alignment.topLeft,
                         child: Container(
                           padding: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            color: messages[index].startsWith('You: ')
-                                ? Colors.blue
-                                : Colors.grey[300],
+                            color: messages[index].startsWith('You: ') ? Colors.blue : Colors.grey[300],
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Text(

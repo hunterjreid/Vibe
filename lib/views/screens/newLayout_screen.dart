@@ -65,8 +65,6 @@ class _NewLayoutScreenState extends State<NewLayoutScreen> {
     isVideoPlaying[currentIndex] = true;
   }
 
-  
-
   @override
   void dispose() {
     for (var controller in chewieControllers) {
@@ -173,98 +171,116 @@ class _NewLayoutScreenState extends State<NewLayoutScreen> {
                   controller: PageController(
                     initialPage: currentIndex,
                   ),
-              itemBuilder: (context, index) {
-  return Stack(
-    children: [
-      GestureDetector(
-        onTap: () {
-          setState(() {
-            if (chewieControllers[currentIndex].isPlaying) {
-              chewieControllers[currentIndex].pause();
-              isVideoPlaying[currentIndex] = false;
-            } else {
-              chewieControllers[currentIndex].play();
-              isVideoPlaying[currentIndex] = true;
-            }
-          });
-        },
-        child: Container(
-          color: Colors.black,
-          child: Center(
-            child: AspectRatio(
-              aspectRatio: 9 / 16,
-              child: Chewie(
-                controller: chewieControllers[currentIndex],
-              ),
-            ),
-          ),
-        ),
-      ),
-      AnimatedSwitcher(
-        duration: Duration(milliseconds: 100),
-        transitionBuilder: (child, animation) {
-          return ScaleTransition(
-            scale: animation,
-            child: child,
-          );
-        },
-        child: Stack(
-          children: [
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (chewieControllers[currentIndex].isPlaying) {
-                      chewieControllers[currentIndex].pause();
-                      isVideoPlaying[currentIndex] = false;
-                    } else {
-                      chewieControllers[currentIndex].play();
-                      isVideoPlaying[currentIndex] = true;
-                    }
-                  });
-                },
-              ),
-            ),
-            IgnorePointer(
-              child: Center(
-                child: AnimatedScale(
-                  duration: Duration(milliseconds: 200),
-                  scale: isVideoPlaying[currentIndex] ? 0.0 : 0.7,
-                  child: Icon(
-                    chewieControllers[currentIndex].isPlaying
-                        ? Icons.play_arrow
-                        : Icons.pause,
-                    size: 48,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-                
-              ),
-              
-            ),
-VideoTextOverlay(
-  texts: [
-          'Hunter',
-          '#Explore #Adventure',
-          'Join usndscapes and experienc th landscapes and experience thrilling adventures!',
-          'Discover the hidden treasures of nature',
-          'Soundtrack: Epic Exploration',
-  ],
-  textStyles: [
-    TextStyle(fontSize: 20, color: Colors.white,   fontFamily: 'MonaSansExtraBoldWideItalic',),
-    TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
-    TextStyle(fontSize: 16, color: Color.fromARGB(255, 230, 230, 230), fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
-    TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold,  fontFamily: 'MonaSans',),
-    TextStyle(fontSize: 12, color: Colors.white,    fontFamily: 'MonaSansExtraBoldWide',),
-  ],
-),
-          ],
-        ),
-      ),
-    ],
-  );
-},
-
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (chewieControllers[currentIndex].isPlaying) {
+                                chewieControllers[currentIndex].pause();
+                                isVideoPlaying[currentIndex] = false;
+                              } else {
+                                chewieControllers[currentIndex].play();
+                                isVideoPlaying[currentIndex] = true;
+                              }
+                            });
+                          },
+                          child: Container(
+                            color: Colors.black,
+                            child: Center(
+                              child: AspectRatio(
+                                aspectRatio: 9 / 16,
+                                child: Chewie(
+                                  controller: chewieControllers[currentIndex],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        AnimatedSwitcher(
+                          duration: Duration(milliseconds: 100),
+                          transitionBuilder: (child, animation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (chewieControllers[currentIndex].isPlaying) {
+                                        chewieControllers[currentIndex].pause();
+                                        isVideoPlaying[currentIndex] = false;
+                                      } else {
+                                        chewieControllers[currentIndex].play();
+                                        isVideoPlaying[currentIndex] = true;
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                              IgnorePointer(
+                                child: Center(
+                                  child: AnimatedScale(
+                                    duration: Duration(milliseconds: 200),
+                                    scale: isVideoPlaying[currentIndex] ? 0.0 : 0.7,
+                                    child: Icon(
+                                      chewieControllers[currentIndex].isPlaying ? Icons.play_arrow : Icons.pause,
+                                      size: 48,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              VideoTextOverlay(
+                                texts: [
+                                  'Hunter',
+                                  '#Explore #Adventure',
+                                  'Join usndscapes and experienc th landscapes and experience thrilling adventures!',
+                                  'Discover the hidden treasures of nature',
+                                  'Soundtrack: Epic Exploration',
+                                ],
+                                textStyles: [
+                                  TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                  ),
+                                  TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MonaSans',
+                                  ),
+                                  TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 230, 230, 230),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MonaSans',
+                                  ),
+                                  TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MonaSans',
+                                  ),
+                                  TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontFamily: 'MonaSansExtraBoldWide',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                   onPageChanged: (index) {
                     setState(() {
                       currentIndex = index;
@@ -283,8 +299,6 @@ VideoTextOverlay(
             ),
     );
   }
-
-
 
   Future<void> _refreshVideos() async {
     setState(() {
@@ -331,7 +345,7 @@ class VideoTextOverlay extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, 
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(texts.length, (index) {
                 final textStyle = textStyles.length > index ? textStyles[index] : TextStyle();
                 return Text(

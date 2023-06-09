@@ -11,8 +11,7 @@ class CircleAnimation extends StatefulWidget {
   _CircleAnimationState createState() => _CircleAnimationState();
 }
 
-class _CircleAnimationState extends State<CircleAnimation>
-    with SingleTickerProviderStateMixin {
+class _CircleAnimationState extends State<CircleAnimation> with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
   @override

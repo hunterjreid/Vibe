@@ -13,8 +13,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Row(children: [
-      if (MediaQuery.of(context).size.width >
-          768) // Only show sidebar on desktop
+      if (MediaQuery.of(context).size.width > 768) // Only show sidebar on desktop
         Container(
           width: 300,
           height: MediaQuery.of(context).size.height,

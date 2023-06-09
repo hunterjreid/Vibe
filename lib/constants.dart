@@ -17,7 +17,6 @@ List pages = [
   AddVideoScreen(),
   ProfileScreen(uid: authController.user.uid),
   NewLayoutScreen(),
-
 ];
 var darkTheme = true;
 

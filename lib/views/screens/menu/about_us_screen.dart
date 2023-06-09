@@ -3,20 +3,17 @@ import 'package:flutter/material.dart';
 class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   final theme = Theme.of(context);
-   print(theme.brightness);
-       final isDarkTheme = theme.brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    print(theme.brightness);
+    final isDarkTheme = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      
       appBar: AppBar(
         title: Text('About Us'),
       ),
       body: Padding(
-        
         padding: EdgeInsets.all(16.0),
         child: Column(
-          
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(

@@ -10,14 +10,10 @@ import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
 
-
 import 'friendSearch_screen.dart';
-
 
 class VideoScreen extends StatelessWidget {
   VideoScreen({Key? key}) : super(key: key);
-
-  
 
   bool _isSaved = false;
   final VideoController videoController = Get.put(VideoController());
@@ -87,22 +83,16 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         title: Obx(() {
-          final currentVideo =
-              videoController.videoList[videoController.currentPage.value];
+          final currentVideo = videoController.videoList[videoController.currentPage.value];
 
           return Text(
             currentVideo.caption,
@@ -137,9 +127,9 @@ class VideoScreen extends StatelessWidget {
                 title: 'Settings',
                 gradientColors: [Colors.purple, Colors.blue],
                 onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>  SettingsPage(),
-                ),
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(),
+                  ),
                 ),
               ),
               buildMenuItem(
@@ -163,7 +153,6 @@ class VideoScreen extends StatelessWidget {
                   // Handle About Us tap
                 },
               ),
-    
             ],
           ),
         ),
@@ -175,27 +164,27 @@ class VideoScreen extends StatelessWidget {
               return SingleChildScrollView(
                 child: SizedBox(
                   height: size.height * .75,
-                  child:PageView.builder(
-                      itemCount: videoController.videoList.length,
-                      controller: PageController(initialPage: 0, viewportFraction: 1),
-                      scrollDirection: Axis.vertical,
-                      onPageChanged: (index) {
-                        videoController.currentPage.value = index;
-                      },
-                      itemBuilder: (context, index) {
-                        final data = videoController.videoList[index];
-                        return Stack(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.all(5.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: double.infinity,
-                                child: VideoPlayerItem(
-                                  videoUrl: data.videoUrl,
-                                ),
+                  child: PageView.builder(
+                    itemCount: videoController.videoList.length,
+                    controller: PageController(initialPage: 0, viewportFraction: 1),
+                    scrollDirection: Axis.vertical,
+                    onPageChanged: (index) {
+                      videoController.currentPage.value = index;
+                    },
+                    itemBuilder: (context, index) {
+                      final data = videoController.videoList[index];
+                      return Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: double.infinity,
+                              child: VideoPlayerItem(
+                                videoUrl: data.videoUrl,
                               ),
                             ),
+                          ),
                           Column(
                             children: [
                               const SizedBox(
@@ -213,19 +202,15 @@ class VideoScreen extends StatelessWidget {
                                         ),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ProfileScreen(
-                                                            uid: data.uid),
+                                                    builder: (context) => ProfileScreen(uid: data.uid),
                                                   ),
                                                 );
                                               },
@@ -252,21 +237,19 @@ class VideoScreen extends StatelessWidget {
                                                   size: 15,
                                                   color: Colors.white,
                                                 ),
-                                                
-                                                   InkWell(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => UseSongScreen(),
-      )),
-      child: 
-                                                Text(
-                                                  data.songName,
-                                                  style: const TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
+                                                InkWell(
+                                                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                                    builder: (context) => UseSongScreen(),
+                                                  )),
+                                                  child: Text(
+                                                    data.songName,
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
-                                                   )
+                                                )
                                               ],
                                             )
                                           ],
@@ -278,52 +261,41 @@ class VideoScreen extends StatelessWidget {
                                       // margin: EdgeInsets.only(top: size.height / 5),
                                       margin: EdgeInsets.all(16.0),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
                                               InkWell(
                                                 onTap: () {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ProfileScreen(
-                                                              uid: data.uid),
+                                                      builder: (context) => ProfileScreen(uid: data.uid),
                                                     ),
                                                   );
                                                 },
                                                 child: Column(
                                                   children: [
-                                                    buildProfile(
-                                                        data.profilePhoto),
+                                                    buildProfile(data.profilePhoto),
                                                   ],
                                                 ),
                                               ),
                                               Column(
                                                 children: [
                                                   InkWell(
-                                                    onTap: () => videoController
-                                                        .likeVideo(data.id),
+                                                    onTap: () => videoController.likeVideo(data.id),
                                                     child: Icon(
                                                       Icons.favorite,
                                                       size: 45,
-                                                      color: data.likes
-                                                              .contains(
-                                                                  authController
-                                                                      .user.uid)
-                                                          ? Color.fromARGB(
-                                                              255, 44, 113, 179)
+                                                      color: data.likes.contains(authController.user.uid)
+                                                          ? Color.fromARGB(255, 44, 113, 179)
                                                           : Colors.white,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    data.likes.length
-                                                        .toString(),
+                                                    data.likes.length.toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,
@@ -331,13 +303,11 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                        
-                                               Column(
+                                              Column(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      _showShareOptions(
-                                                          context, data.uid);
+                                                      _showShareOptions(context, data.uid);
                                                     },
                                                     child: Icon(
                                                       Icons.share,
@@ -355,15 +325,12 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                                  Column(
+                                              Column(
                                                 children: [
                                                   InkWell(
-                                                    onTap: () =>
-                                                        Navigator.of(context)
-                                                            .push(
+                                                    onTap: () => Navigator.of(context).push(
                                                       MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CommentScreen(
+                                                        builder: (context) => CommentScreen(
                                                           id: data.id,
                                                         ),
                                                       ),
@@ -376,8 +343,7 @@ class VideoScreen extends StatelessWidget {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    data.commentCount
-                                                        .toString(),
+                                                    data.commentCount.toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,
@@ -385,7 +351,7 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                                 Column(
+                                              Column(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {},
@@ -404,26 +370,22 @@ class VideoScreen extends StatelessWidget {
                                                     ),
                                                   )
                                                 ],
-                                              ),  Column(
+                                              ),
+                                              Column(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
                                                       showDialog(
                                                         context: context,
-                                                        builder: (BuildContext
-                                                            context) {
+                                                        builder: (BuildContext context) {
                                                           return AlertDialog(
-                                                            title: Text(
-                                                                "Video saved"),
-                                                            content: Text(
-                                                                "Your video has been saved to your saved folder."),
+                                                            title: Text("Video saved"),
+                                                            content:
+                                                                Text("Your video has been saved to your saved folder."),
                                                             actions: [
                                                               TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        context),
-                                                                child:
-                                                                    Text("OK"),
+                                                                onPressed: () => Navigator.pop(context),
+                                                                child: Text("OK"),
                                                               ),
                                                             ],
                                                           );
@@ -431,13 +393,9 @@ class VideoScreen extends StatelessWidget {
                                                       );
                                                     },
                                                     child: Icon(
-                                                      _isSaved
-                                                          ? Icons.folder_open
-                                                          : Icons.folder,
+                                                      _isSaved ? Icons.folder_open : Icons.folder,
                                                       size: 30,
-                                                      color: _isSaved
-                                                          ? Colors.purple
-                                                          : Colors.white,
+                                                      color: _isSaved ? Colors.purple : Colors.white,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 5),
@@ -450,12 +408,10 @@ class VideoScreen extends StatelessWidget {
                                                   )
                                                 ],
                                               ),
-                                        
                                             ],
                                           ),
                                           CircleAnimation(
-                                            child: buildMusicAlbum(
-                                                context, data.profilePhoto),
+                                            child: buildMusicAlbum(context, data.profilePhoto),
                                           ),
                                         ],
                                       ),
@@ -465,17 +421,11 @@ class VideoScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          
                         ],
-                        
                       );
-                      
                     },
-                    
                   ),
-                  
                 ),
-                
               );
             }),
           ),
@@ -513,53 +463,54 @@ class VideoScreen extends StatelessWidget {
     );
   }
 
-void _showShareOptions(BuildContext context, String videoId) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Share Options'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-                           leading: Icon(Icons.people),
-              title: Text('Share to Friends'),
-              onTap: () {
-                // Share.share('Check out this video on vibe!', subject: 'Look what I made!');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
+  void _showShareOptions(BuildContext context, String videoId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Share Options'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.people),
+                title: Text('Share other'),
+                onTap: () {
+                  // Share.share('Check out this video on vibe!', subject: 'Look what I made!');
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Share to DM'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FriendSearchPage(
+                              videoId: videoId,
+                            )),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
-               leading: Icon(Icons.message),
-              title: Text('Share to DM'),
-             onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FriendSearchPage(videoId: videoId,)),
-                );
-              },
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+  void _openFriendSearchPage(BuildContext context) {
+    // TODO: Implement the friend search page
+    // You can use Navigator.push to navigate to the search page
+    // and pass any necessary arguments if needed.
+    // Upon selecting a user, call _openChatWithThumbnail(uid) method.
+  }
 
-void _openFriendSearchPage(BuildContext context) {
-  // TODO: Implement the friend search page
-  // You can use Navigator.push to navigate to the search page
-  // and pass any necessary arguments if needed.
-  // Upon selecting a user, call _openChatWithThumbnail(uid) method.
-}
-
-void _openChatWithThumbnail(String uid) {
-  // TODO: Implement opening the conversation with the specified UID
-  // You can use Navigator.push to navigate to the chat page and pass
-  // the UID and the post's thumbnail as arguments.
-  // In the chat page, send the post's thumbnail to the selected user's conversation.
-}
-
+  void _openChatWithThumbnail(String uid) {
+    // TODO: Implement opening the conversation with the specified UID
+    // You can use Navigator.push to navigate to the chat page and pass
+    // the UID and the post's thumbnail as arguments.
+    // In the chat page, send the post's thumbnail to the selected user's conversation.
+  }
 }

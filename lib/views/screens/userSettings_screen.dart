@@ -5,7 +5,7 @@ import 'package:vibe/controllers/settings_controller.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final SettingsController controller = Get.put(SettingsController());
-  
+
   final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class UserSettingsScreen extends StatelessWidget {
                 backgroundColor: Colors.transparent,
               ),
             ),
-              ElevatedButton(
+            ElevatedButton(
               onPressed: () => controller.updateSettings(),
               child: Text('UPDATE PROFILE PICTURE'),
             ),
@@ -50,16 +50,13 @@ class UserSettingsScreen extends StatelessWidget {
               onChanged: (value) => controller.updateUsername(),
               decoration: InputDecoration(
                 labelText: 'Username',
-               
               ),
             ),
             TextField(
-              
               controller: controller.bioController,
               onChanged: (value) => controller.updateBio(),
               decoration: InputDecoration(
                 labelText: 'Bio',
-        
               ),
             ),
             TextField(
@@ -80,7 +77,6 @@ class UserSettingsScreen extends StatelessWidget {
               onPressed: () => controller.updateSettings(),
               child: Text('Save Changes'),
             ),
-            
           ],
         ),
       ),

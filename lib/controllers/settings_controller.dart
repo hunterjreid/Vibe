@@ -18,10 +18,8 @@ class SettingsController extends GetxController {
   }
 
   void fetchUserData() async {
-    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(authController.user.uid)
-        .get();
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(authController.user.uid).get();
 
     Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
     if (userData != null) {
@@ -37,8 +35,7 @@ class SettingsController extends GetxController {
     FirebaseFirestore.instance
         .collection('users')
         .doc(authController.user.uid)
-        .update({'username': updatedUsername})
-        .then((_) {
+        .update({'username': updatedUsername}).then((_) {
       print('Username updated successfully');
     }).catchError((error) {
       print('Failed to update username: $error');
@@ -47,11 +44,7 @@ class SettingsController extends GetxController {
 
   void updateBio() {
     String updatedBio = bioController.text;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(authController.user.uid)
-        .update({'bio': updatedBio})
-        .then((_) {
+    FirebaseFirestore.instance.collection('users').doc(authController.user.uid).update({'bio': updatedBio}).then((_) {
       print('Bio updated successfully');
     }).catchError((error) {
       print('Failed to update bio: $error');
@@ -63,8 +56,7 @@ class SettingsController extends GetxController {
     FirebaseFirestore.instance
         .collection('users')
         .doc(authController.user.uid)
-        .update({'website': updatedWebsite})
-        .then((_) {
+        .update({'website': updatedWebsite}).then((_) {
       print('Website updated successfully');
     }).catchError((error) {
       print('Failed to update website: $error');
@@ -78,8 +70,7 @@ class SettingsController extends GetxController {
     FirebaseFirestore.instance
         .collection('users')
         .doc(authController.user.uid)
-        .update({'email': updatedEmail})
-        .then((_) {
+        .update({'email': updatedEmail}).then((_) {
       print('Email updated successfully');
     }).catchError((error) {
       print('Failed to update email: $error');

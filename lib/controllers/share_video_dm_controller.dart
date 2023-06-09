@@ -16,7 +16,7 @@ class ShareVideoDMController extends GetxController {
     }
   }
 
-   sendMessage(String uid, String message) async {
+  sendMessage(String uid, String message) async {
     try {
       final collection = await getDMCollection(uid);
       final user = _auth.currentUser;

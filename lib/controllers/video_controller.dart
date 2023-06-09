@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/video.dart';
 
 class VideoController extends GetxController {
   final Rx<List<Video>> _videoList = Rx<List<Video>>([]);
+
+  static var instance;
 
   List<Video> get videoList => _videoList.value;
 
@@ -13,13 +16,8 @@ class VideoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _videoList.bindStream(firestore
-        .collection('videos')
-        .orderBy('timestamp',
-            descending:
-                true) // add this line to order by timestamp in descending order
-        .snapshots()
-        .map((QuerySnapshot query) {
+    _videoList.bindStream(
+        firestore.collection('videos').orderBy('timestamp', descending: true).snapshots().map((QuerySnapshot query) {
       List<Video> retVal = [];
       for (var element in query.docs) {
         retVal.add(
@@ -28,6 +26,13 @@ class VideoController extends GetxController {
       }
       return retVal;
     }));
+  }
+
+  Widget buildVideoThumbnail(int index) {
+    return Image.network(
+      videoList[index].thumbnail,
+      fit: BoxFit.cover,
+    );
   }
 
   likeVideo(String id) async {

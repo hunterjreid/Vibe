@@ -26,6 +26,7 @@ InputImageRotation _rotationIntToImageRotation(int rotation) {
       return InputImageRotation.rotation0deg;
   }
 }
+
 class _FaceFilterScreenState extends State<FaceFilterScreen> {
   FaceDetector? faceDetector;
   List<Face> detectedFaces = [];
@@ -61,11 +62,7 @@ class _FaceFilterScreenState extends State<FaceFilterScreen> {
         ),
       ).then((value) {
         isRecording = false;
-        setState(() {
-
-
-
-        });
+        setState(() {});
       });
     }
   }
@@ -74,35 +71,23 @@ class _FaceFilterScreenState extends State<FaceFilterScreen> {
     if (faceDetector == null) return;
     if (!mounted) return;
 
-
-
-
     final WriteBuffer allBytes = WriteBuffer();
-for (Plane plane in cameraImage.planes) {
-  allBytes.putUint8List(plane.bytes);
-}
-final bytes = allBytes.done().buffer.asUint8List();
+    for (Plane plane in cameraImage.planes) {
+      allBytes.putUint8List(plane.bytes);
+    }
+    final bytes = allBytes.done().buffer.asUint8List();
 
-final Size imageSize = Size(cameraImage.width.toDouble(), cameraImage.height.toDouble());
+    final Size imageSize = Size(cameraImage.width.toDouble(), cameraImage.height.toDouble());
 
-InputImageRotation imageRotation = InputImageRotation.rotation0deg;
+    InputImageRotation imageRotation = InputImageRotation.rotation0deg;
 
+    final inputImageData = InputImageMetadata(
+        size: imageSize,
+        rotation: imageRotation,
+        format: InputImageFormat.yuv420,
+        bytesPerRow: cameraImage.planes[0].bytesPerRow);
 
-
- 
-
-final inputImageData = InputImageMetadata(
-  size: imageSize,
-  rotation: imageRotation,
-  format: InputImageFormat.yuv420,
-  bytesPerRow: cameraImage.planes[0].bytesPerRow
-);
-
-final inputImage = InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
-
-
-
-
+    final inputImage = InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
 
     final List<Face> faces = await faceDetector!.processImage(inputImage);
 
@@ -141,7 +126,6 @@ final inputImage = InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
 
   @override
   void dispose() {
-    
     if (_timer != null) {
       _timer!.cancel();
     }
@@ -150,51 +134,51 @@ final inputImage = InputImage.fromBytes(bytes: bytes, metadata: inputImageData);
     super.dispose();
   }
 
-@override
-Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-  return Scaffold(
-    body: AspectRatio(
-  aspectRatio: 9 / 16,
-  child: Stack(
-    children: [
-      if (controller != null && controller.value.isInitialized)
-        CustomPaint(
-          foregroundPainter: FaceFilterPainter(detectedFaces: detectedFaces),
-          child: CameraPreview(controller),
-        ),
-      Align(
-        alignment: Alignment.bottomLeft,
-        child: Text(
-          detectedFaces.isNotEmpty ? 'Face Found' : 'No face',
-          style: TextStyle(color: Colors.white, fontSize: 20),
+    return Scaffold(
+      body: AspectRatio(
+        aspectRatio: 9 / 16,
+        child: Stack(
+          children: [
+            if (controller != null && controller.value.isInitialized)
+              CustomPaint(
+                foregroundPainter: FaceFilterPainter(detectedFaces: detectedFaces),
+                child: CameraPreview(controller),
+              ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                detectedFaces.isNotEmpty ? 'Face Found' : 'No face',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (isRecording) {
+                    _stopTimer();
+                  } else {
+                    _startTimer();
+                  }
+                  isRecording = !isRecording;
+                  setState(() {});
+                },
+                child: Text(isRecording ? _secondsElapsed.toString() : 'Record'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isRecording ? Colors.grey : Colors.red,
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(32.0),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      Align(
-      alignment: Alignment.bottomRight,
-        child: ElevatedButton(
-          onPressed: () {
-            if (isRecording) {
-              _stopTimer();
-            } else {
-              _startTimer();
-            }
-            isRecording = !isRecording;
-            setState(() {});
-          },
-          child: Text(isRecording ? _secondsElapsed.toString() : 'Record'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: isRecording ? Colors.grey : Colors.red,
-            shape: const CircleBorder(),
-            padding: const EdgeInsets.all(32.0),
-          ),
-        ),
-      ),
-    ],
-  ),
-),
- );
-}
+    );
+  }
 }
 
 class FaceFilterPainter extends CustomPainter {
@@ -209,28 +193,28 @@ class FaceFilterPainter extends CustomPainter {
     // canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), redPaint);
 
     for (final face in detectedFaces) {
-      final double scaleX = size.width/300;
-      final double scaleY = size.height/250;
+      final double scaleX = size.width / 300;
+      final double scaleY = size.height / 250;
 
       final Rect boundingBox = Rect.fromLTRB(
-        face.boundingBox.left*scaleX,
-        face.boundingBox.top*scaleY,
-        face.boundingBox.right*scaleX,
-        face.boundingBox.bottom*scaleY,
+        face.boundingBox.left * scaleX,
+        face.boundingBox.top * scaleY,
+        face.boundingBox.right * scaleX,
+        face.boundingBox.bottom * scaleY,
       );
 
       print(boundingBox);
 
-   final Paint outlinePaint = Paint()
-  ..color = Color.fromARGB(255, 21, 230, 108)
-  ..style = PaintingStyle.stroke
-  ..strokeWidth = 2.0;
+      final Paint outlinePaint = Paint()
+        ..color = Color.fromARGB(255, 21, 230, 108)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.0;
 
 // Draw a rectangle around the face with a purple outline
-canvas.drawRect(
-  boundingBox,
-  outlinePaint,
-);
+      canvas.drawRect(
+        boundingBox,
+        outlinePaint,
+      );
 
       // Add your face filter graphics here
       final double faceWidth = boundingBox.width;

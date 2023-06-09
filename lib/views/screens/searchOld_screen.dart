@@ -72,7 +72,6 @@ class SearchOldScreen extends StatelessWidget {
                   );
                 },
               ),
-  
       );
     });
   }

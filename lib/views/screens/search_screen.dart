@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/notification_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/searchOld_screen.dart';
@@ -11,8 +12,9 @@ import 'package:vibe/views/screens/settings_screen.dart';
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
 
-    final ProfileController profileController = Get.put(ProfileController());
+  final ProfileController profileController = Get.put(ProfileController());
 
+  final VideoController _videoController = Get.put(VideoController());
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -38,53 +40,8 @@ class SearchScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(uid: authController.user.uid),
-                      ),
-                    );
-                  },
-              child: 
-  
-   CircleAvatar(
-  radius: 16,
-  backgroundImage: profileController.user['profilePhoto'] != null
-      ? CachedNetworkImageProvider(profileController.user['profilePhoto'])
-      : null,
-  child: profileController.user['profilePhoto'] == null
-      ? CircularProgressIndicator()
-      : null,
-),
-
-     ),
               ],
             ),
-             Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        decoration: BoxDecoration(
-
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: profileController.user['name'] != null
-  ? Text(
-      profileController.user['name'],
-      style: TextStyle(
-        fontFamily: 'MonaSansExtraBoldWideItalic',
-        fontSize: 12.0,
-        fontWeight: FontWeight.bold,
-      ),
-    )
-  : CircularProgressIndicator(),
-      ),
-    ),
- 
           ],
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(48),
@@ -200,10 +157,29 @@ class SearchScreen extends StatelessWidget {
                         child: Text('View Friends List'),
                       ),
                       SizedBox(height: 32),
+// Replace the placeholder containers with actual content from your followers
                       Container(
                         height: 300,
                         width: double.infinity,
-                        child: Placeholder(color: Colors.blueGrey,),
+                        child: profileController.user['followers'] == null
+                            ? Text('No followers found')
+                            : ListView.builder(
+                                itemCount: profileController.user['followers'].length,
+                                itemBuilder: (context, index) {
+                                  final follower = profileController.user['followers'][index];
+                                  return ListTile(
+                                    title: Text(follower['name']),
+                                  );
+                                },
+                              ),
+                      ),
+                      SizedBox(height: 32),
+                      Container(
+                        height: 300,
+                        width: double.infinity,
+                        child: Placeholder(
+                          color: Colors.blueGrey,
+                        ),
                       ),
                       SizedBox(height: 32),
                       Text(
@@ -268,26 +244,21 @@ class SearchScreen extends StatelessWidget {
 
               // Explore Tab
               Center(
-                child: GridView.count(
-                  crossAxisCount: 3,
-                  children: List.generate(58, (index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Other persons video #${index + 1}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+                child: Obx(
+                  () => GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    itemCount: _videoController.videoList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          // Handle video tap
+                        },
+                        child: _videoController.buildVideoThumbnail(index),
+                      );
+                    },
+                  ),
                 ),
               ),
 
@@ -435,4 +406,3 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-

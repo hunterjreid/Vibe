@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'browsesongs_screen.dart';
@@ -9,20 +8,17 @@ class UseSongScreen extends StatelessWidget {
     {
       'title': 'Sound 1',
       'description': 'Lorem ipsum dolor sit amet',
-      'url':
-          'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
+      'url': 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
     },
     {
       'title': 'Sound 2',
       'description': 'Consectetur adipiscing elit',
-      'url':
-          'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
+      'url': 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
     },
     {
       'title': 'Sound 3',
       'description': 'Sed do eiusmod tempor incididunt',
-      'url':
-          'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
+      'url': 'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',
     },
   ];
 
@@ -66,7 +62,7 @@ class UseSongScreen extends StatelessWidget {
                 child: Text('Use Sound'),
               ),
               ElevatedButton(
-                 onPressed: () {},
+                onPressed: () {},
                 child: Text('Preview Sound'),
               ),
               ElevatedButton(
@@ -77,13 +73,13 @@ class UseSongScreen extends StatelessWidget {
               ),
             ],
           ),
-             SizedBox(height: 16.0), // Add spacing between the ListView and the buttons
+          SizedBox(height: 16.0), // Add spacing between the ListView and the buttons
           Container(
             color: Colors.pink,
             child: ElevatedButton(
-              onPressed:  () => Navigator.of(context).push(
+              onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) =>  BrowseSongsPage(),
+                  builder: (context) => BrowseSongsPage(),
                 ),
               ),
               child: Text(

@@ -79,9 +79,7 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
                 playSong(songPath);
               }
             },
-            trailing: currentSong == songName && isPlaying
-                ? Icon(Icons.pause)
-                : Icon(Icons.play_arrow),
+            trailing: currentSong == songName && isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
           );
         },
       ),

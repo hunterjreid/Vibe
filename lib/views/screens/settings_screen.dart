@@ -11,32 +11,53 @@ class SettingsPage extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           SwitchListTile(
-            title: Text('Incoginto Mode'),
-            value: false, // Replace with your own logic to get/set the dark mode value
+            title: Text('Incognito Mode'),
+            value: false, // Replace with your own logic to get/set the incognito mode value
             onChanged: (value) {
-              // TODO: Implement logic to toggle dark mode
+              // TODO: Implement logic to toggle incognito mode
             },
           ),
           ListTile(
             title: Text('Notification Settings'),
             onTap: () {
-              // TODO: Navigate to notification settings page
+              showPopupDialog(context, 'Notification Settings', 'This feature is coming soon!');
             },
           ),
           ListTile(
             title: Text('Privacy Policy'),
             onTap: () {
-              // TODO: Navigate to privacy policy page
+              showPopupDialog(
+                  context, 'Privacy Policy', 'Your privacy is important to us. This is the privacy policy text.');
             },
           ),
           ListTile(
-            title: Text('Verison'),
+            title: Text('Version'),
             onTap: () {
-              // TODO: Navigate to about page
+              showPopupDialog(context, 'Version', 'App Version 1.0.0');
             },
           ),
         ],
       ),
+    );
+  }
+
+  void showPopupDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

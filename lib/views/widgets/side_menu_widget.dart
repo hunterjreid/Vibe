@@ -11,7 +11,6 @@ class MenuWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-       
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/menu.jpg'), // Replace with your image path
@@ -20,20 +19,16 @@ class MenuWidget extends StatelessWidget {
         ),
         child: ListView(
           padding: EdgeInsets.zero,
-          
-          
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-            
-              ),
+              decoration: BoxDecoration(),
               child: Text(
                 'VIBE',
-                style:   TextStyle(
-                                      fontSize: 30,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    ),
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                ),
               ),
             ),
             buildMenuItem(
@@ -86,11 +81,11 @@ class MenuWidget extends StatelessWidget {
     return ListTile(
       title: Text(
         title,
-        style:    TextStyle(
-                                      fontSize: 30,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    ),
+        style: TextStyle(
+          fontSize: 30,
+          color: Color.fromARGB(255, 0, 0, 0),
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+        ),
       ),
       onTap: onTap,
       shape: RoundedRectangleBorder(

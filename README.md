@@ -24,25 +24,22 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 ![dwqdqwwdqwqd](https://user-images.githubusercontent.com/62681404/233502295-1fd6b5c5-b77b-452e-8160-b9b758ace277.png)
 
 # Features 👷‍♂️🌎 
-
-- [ ] Vibe can handle a large number of users and content without slowing down.  
+- [x] Vibe app doesn't drain the user's battery or use excessive data.  
 - [x] Vibe is available at all times for users to access 24/7 (99.7% Up-time).  
-- [ ] Vibe user data must be kept secure and protected.  
+- [x] Vibe user data must be kept secure and protected.  
 - [x] Vibe doesn't store any users data.  
 - [x] Vibe works on alot of different types of devices.  
-- [ ] Vibe app/web-app is relatively easy to use and navigate.  
-- [ ] Thanks to Vibe own deticacted Content Delivery Network (CDN), videos should load quickly and smoothly.  
-- [ ] Vibe app doesn't drain the user's battery or use excessive data.  
+- [x] Vibe app/web-app is relatively easy to use and navigate.
+- [ ] Vibe can handle a large number of users and content without slowing down.   
 - [ ] Vibe has regular updates and maintenance is performed to keep the app up-to-date and bug-free.  
+- [ ] Thanks to Vibe own deticacted Content Delivery Network (CDN), videos should load quickly and smoothly.  
 
 ## Try Vibe today!🤙 <br> What are you waiting for?📲
  
 
-| Light theme | Dark theme |
+| Dark theme | Light theme |
 | --- | ---| 
-| ![image](https://github.com/hunterjreid/Vibe/assets/62681404/b8e28686-21a6-4fdc-b066-5afa0596494f) | ![image](https://github.com/hunterjreid/Vibe/assets/62681404/2acd65e1-e25c-4d82-9fa6-da9ea15fd36f) |
-| ![image](https://github.com/hunterjreid/Vibe/assets/62681404/c0de7976-1cb9-4212-96c3-4519e7ae7f03) | ![image](https://github.com/hunterjreid/Vibe/assets/62681404/03fa1934-d618-4d84-927b-9aa77da5c28e) |
- 
+| ![Screenshot_1686271343](https://github.com/hunterjreid/Vibe/assets/62681404/f2264cb8-9e72-4bd3-8db9-913a5f5e8f8a) | ![Screenshot_1686271350](https://github.com/hunterjreid/Vibe/assets/62681404/97bccc2a-6c91-48c6-aafb-9afe43f82f45) |
+| ![Screenshot_1686271331](https://github.com/hunterjreid/Vibe/assets/62681404/fdcd3e18-12fc-4fc9-9add-59eb1341bdba) | ![Screenshot_1686271324](https://github.com/hunterjreid/Vibe/assets/62681404/8356fc4d-2942-41a3-9429-f60ef5eb0894) |
+| ![Screenshot_1686272253](https://github.com/hunterjreid/Vibe/assets/62681404/b9ace6d7-f313-4406-b26f-9a180dbcf583) | ![Screenshot_1686272246](https://github.com/hunterjreid/Vibe/assets/62681404/9d436850-9ae9-4f2b-99ae-0fdee3d49b63) |
 <hr>
-
- 

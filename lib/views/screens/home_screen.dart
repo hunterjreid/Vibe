@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -12,13 +11,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int pageIdx = 1;
+  int pageIdx = 0;
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
 
   bool isDarkTheme = false;
   String selectedColorOption = 'Jet Black';
-  
 
   final darkTheme = ThemeData(
     brightness: Brightness.dark,
@@ -40,11 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final lightTheme = ThemeData(
     brightness: Brightness.light,
-    
+
     primaryColor: Color.fromARGB(255, 201, 11, 11),
     colorScheme: ColorScheme.light(
-            primary: Colors.white,
-
+      primary: Colors.white,
       onPrimary: Colors.black,
       secondary: Colors.teal,
       onSecondary: Colors.black,
@@ -58,29 +55,25 @@ class _HomeScreenState extends State<HomeScreen> {
     // ...
   );
 
-  BottomNavigationBarThemeData bottomNavigationBarTheme =
-      ThemeData().bottomNavigationBarTheme;
+  BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
 
   @override
   void initState() {
     super.initState();
- 
-      isDarkTheme = true;
-        bottomNavigationBarTheme =
-            darkTheme.bottomNavigationBarTheme.copyWith(
-          backgroundColor: Color.fromRGBO(253, 252, 252, 1),
-          selectedItemColor: Color.fromARGB(255, 0, 0, 0),
-          unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
-          selectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontFamily: 'MonaSansExtraBoldWideItalic',
-          ),
-          unselectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: 'MonaSans',
-          )
-            );
-         
+
+    isDarkTheme = true;
+    bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
+        backgroundColor: Color.fromRGBO(253, 252, 252, 1),
+        selectedItemColor: Color.fromARGB(255, 0, 0, 0),
+        unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontFamily: 'MonaSans',
+        ));
   }
 
   Future<void> _setSystemTheme() async {
@@ -102,8 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (colorOption == 'Marble White') {
         isDarkTheme = false;
-        bottomNavigationBarTheme =
-            lightTheme.bottomNavigationBarTheme.copyWith(
+        bottomNavigationBarTheme = lightTheme.bottomNavigationBarTheme.copyWith(
           backgroundColor: Color.fromRGBO(0, 0, 0, 1),
           selectedItemColor: Color.fromARGB(255, 255, 255, 255),
           unselectedItemColor: Color.fromARGB(255, 255, 255, 255),
@@ -118,8 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       } else if (colorOption == 'Jet Black') {
         isDarkTheme = true;
-        bottomNavigationBarTheme =
-            darkTheme.bottomNavigationBarTheme.copyWith(
+        bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
           backgroundColor: Color.fromRGBO(253, 252, 252, 1),
           selectedItemColor: Color.fromARGB(255, 0, 0, 0),
           unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
@@ -146,16 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Theme(
       data: currentTheme,
-      
       child: Scaffold(
-     
-
-
-
-
-
-
-
 // appBar: AppBar(
 //   centerTitle: true, // this is all you need
 //   title: Row(
@@ -169,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //           height: 50,
 //         ),
 //       ),
-   
+
 //     ],
 //   ),
 //   leading:    InkWell(
@@ -184,10 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //       ),
 // ),
 
-
-
-    
-
 // AppBar(centerTitle: true, title: child: Image.asset(
 //     'assets/images/logo.png', // Replace with your logo image path
 //     width: 50,
@@ -195,11 +173,10 @@ class _HomeScreenState extends State<HomeScreen> {
 //   ),
 // ),)
 
-
 //    appBar: AppBar(
 //       centerTitle: true, // this is all you need
 //   title: Center(
-    
+
 //     child: Row(
 //       mainAxisAlignment: MainAxisAlignment.center,
 //       children: [
@@ -236,55 +213,32 @@ class _HomeScreenState extends State<HomeScreen> {
 //         ),
 //       ),
 
-
-
-
 // ),
 
-
-
-
-    
-
-
-appBar: AppBar(
-  centerTitle: true,
-  title: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Image.asset(
-        'assets/images/logo.png', // Replace with your logo image path
-        width: 50,
-        height: 50,
-      ),
-    ],
-  ),
-  actions: [
-    IconButton(
-      onPressed: () {
-        ShowDialog.showSetColorsDialog(context, _updateColorTheme);
-      },
-      icon: Icon(
-        Icons.settings,
-        size: 24,
-      ),
-    ),
-  ],
-),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        appBar: AppBar(
+          centerTitle: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/logo.png', // Replace with your logo image path
+                width: 50,
+                height: 50,
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+              },
+              icon: Icon(
+                Icons.settings,
+                size: 24,
+              ),
+            ),
+          ],
+        ),
 
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -385,16 +339,14 @@ appBar: AppBar(
         ),
         body: pages[pageIdx],
 
-           drawer: MenuWidget(),
-
+        drawer: MenuWidget(),
       ),
     );
   }
 }
 
 class ShowDialog {
-  static void showSetColorsDialog(
-      BuildContext context, Function(String) updateColorTheme) {
+  static void showSetColorsDialog(BuildContext context, Function(String) updateColorTheme) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

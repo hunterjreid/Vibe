@@ -9,28 +9,28 @@ import 'package:video_compress/video_compress.dart';
 class UploadVideoController extends GetxController {
   RxDouble progress = 0.0.obs;
 
-Future<File> _compressVideo(String videoPath) async {
-  Get.snackbar(
-    'Preparing Video',
-    'Video is being compressed, Don\'t close or change this page',
-  );
+  Future<File> _compressVideo(String videoPath) async {
+    Get.snackbar(
+      'Preparing Video',
+      'Video is being compressed, Don\'t close or change this page',
+    );
 
-  final compressedVideo = await VideoCompress.compressVideo(
-    videoPath,
-    quality: VideoQuality.Res640x480Quality,
-  );
+    final compressedVideo = await VideoCompress.compressVideo(
+      videoPath,
+      quality: VideoQuality.Res640x480Quality,
+    );
 
-  Get.snackbar(
-    'Compressing Done',
-    'Video is done being compressed',
-  );
+    Get.snackbar(
+      'Compressing Done',
+      'Video is done being compressed',
+    );
 
-  if (compressedVideo != null && compressedVideo.file != null) {
-    return compressedVideo.file!;
-  } else {
-    throw Exception("Failed to compress video");
+    if (compressedVideo != null && compressedVideo.file != null) {
+      return compressedVideo.file!;
+    } else {
+      throw Exception("Failed to compress video");
+    }
   }
-}
 
   Future<String> _uploadVideoToStorage(String id, String videoPath) async {
     Reference ref = firebaseStorage.ref().child('videos').child(id);
@@ -51,8 +51,7 @@ Future<File> _compressVideo(String videoPath) async {
     );
 
     uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-      final double progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100.0;
+      final double progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100.0;
       this.progress.value = progress;
       print('Upload progress: ${progress.toStringAsFixed(2)}%');
     });
@@ -79,8 +78,7 @@ Future<File> _compressVideo(String videoPath) async {
   uploadVideo(String songName, String caption, String videoPath) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
-      DocumentSnapshot userDoc =
-          await firestore.collection('users').doc(uid).get();
+      DocumentSnapshot userDoc = await firestore.collection('users').doc(uid).get();
       // get id
       var allDocs = await firestore.collection('videos').get();
       int len = allDocs.docs.length;
@@ -104,7 +102,6 @@ Future<File> _compressVideo(String videoPath) async {
       // Save the video document to Firestore
       await firestore.collection('videos').add(video.toJson());
 
-          
       Get.toNamed('/HomeScreen');
     } catch (e) {
       Get.snackbar(

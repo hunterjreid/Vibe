@@ -29,8 +29,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   TextEditingController _shortCaptionController = TextEditingController();
   TextEditingController _audioNameController = TextEditingController();
 
-  UploadVideoController uploadVideoController =
-      Get.put(UploadVideoController());
+  UploadVideoController uploadVideoController = Get.put(UploadVideoController());
 
   VideoEditorController? _videoEditorController;
 
@@ -65,7 +64,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     await _videoEditorController!.initialize();
 
     // Perform video editing operations here
-
   }
 
   @override
@@ -150,16 +148,15 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Obx(() => LinearProgressIndicator(
-                      value: uploadVideoController.progress.value / 100)),
-                        ElevatedButton(
+                  Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
+                  ElevatedButton(
                     onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditScreen(videoFile: widget.videoFile),
-                  ),
-                );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditScreen(videoFile: widget.videoFile),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Open Video Editor',
@@ -169,7 +166,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       ),
                     ),
                   ),
-            ElevatedButton(
+                  ElevatedButton(
                     onPressed: () => uploadVideoController.uploadVideo(
                       _songController.text,
                       _captionController.text,
