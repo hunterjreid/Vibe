@@ -38,7 +38,7 @@ class FriendSearchPage extends StatelessWidget {
             children: [
               const Center(
                 child: Text(
-                  'Search for users!',
+                  'Search for person to share video too..',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,

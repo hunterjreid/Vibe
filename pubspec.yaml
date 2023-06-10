@@ -53,6 +53,8 @@ dependencies:
   arcore_flutter_plugin: ^0.1.0
   arkit_plugin: ^1.0.6
   google_ml_kit: ^0.15.0
+  microphone: ^0.1.0
+
 
 
 dependency_overrides:

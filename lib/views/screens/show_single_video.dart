@@ -16,17 +16,20 @@ class ShowSingleVideo extends StatefulWidget {
 }
 
 class _ShowSingleVideoState extends State<ShowSingleVideo> {
+  late PageController _pageController;
   late VideoPlayerController _videoPlayerController;
   bool _isVideoLoading = true;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: widget.videoIndex);
     _initializeVideoPlayer();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     _videoPlayerController.dispose();
     super.dispose();
   }
@@ -88,11 +91,9 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
 
   @override
   Widget build(BuildContext context) {
-    final data = widget.videoController.videoList[widget.videoIndex];
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(data.caption),
+        title: Text('Video Player'),
         actions: [
           IconButton(
             icon: Icon(Icons.favorite),
@@ -107,21 +108,29 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete), // Change the icon to delete
+            icon: Icon(Icons.delete),
             onPressed: () {
-              _showDeleteConfirmationDialog(); // Show delete confirmation dialog
+              _showDeleteConfirmationDialog();
             },
           ),
         ],
       ),
-      body: Center(
-        child: _isVideoLoading
-            ? CircularProgressIndicator() // Show a spinner while video is loading
-            : SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: VideoPlayer(_videoPlayerController),
-              ),
+      body: PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
+        itemCount: widget.videoController.videoList.length,
+        itemBuilder: (context, index) {
+          final data = widget.videoController.videoList[index];
+          return Center(
+            child: _isVideoLoading
+                ? CircularProgressIndicator()
+                : SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: VideoPlayer(_videoPlayerController),
+                  ),
+          );
+        },
       ),
     );
   }

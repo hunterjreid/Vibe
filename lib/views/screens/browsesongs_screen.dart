@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vibe/views/screens/record_sound_screen.dart';
 
 class BrowseSongsPage extends StatefulWidget {
   @override
@@ -59,6 +60,17 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
     });
   }
 
+  Future<void> goToUseSoundScreen() async {
+    if (isPlaying) {
+      await pauseSong();
+    }
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RecordSoundScreen(title: currentSong)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +91,30 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
                 playSong(songPath);
               }
             },
-            trailing: currentSong == songName && isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (currentSong == songName && isPlaying)
+                  IconButton(
+                    icon: Icon(Icons.pause),
+                    onPressed: () {
+                      pauseSong();
+                    },
+                  )
+                else
+                  IconButton(
+                    icon: Icon(Icons.play_arrow),
+                    onPressed: () {
+                      playSong(songPath);
+                    },
+                  ),
+                if (currentSong == songName && isPlaying)
+                  ElevatedButton(
+                    child: Text('Use this sound'),
+                    onPressed: goToUseSoundScreen,
+                  ),
+              ],
+            ),
           );
         },
       ),

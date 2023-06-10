@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
-import 'package:vibe/views/screens/home_screen.dart';
+import 'package:vibe/views/screens/appScreen.dart';
 import 'package:vibe/views/screens/video_screen.dart';
 
 Future main() async {
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),
-        GetPage(name: '/HomeScreen', page: () => const HomeScreen()),
+        GetPage(name: '/HomeScreen', page: () => const AppScreen()),
       ],
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: backgroundColor,

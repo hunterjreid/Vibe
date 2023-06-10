@@ -12,67 +12,69 @@ class SearchOldScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
+     ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+    return Theme(
+      data: themeData,
+      child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 44, 113, 179),
           title: TextFormField(
             decoration: const InputDecoration(
               filled: false,
               hintText: 'Search',
               hintStyle: TextStyle(
                 fontSize: 18,
-                color: Colors.white,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
               ),
             ),
             onFieldSubmitted: (value) => searchController.searchUser(value),
           ),
-          actions: [],
-          centerTitle: true, // added this line to center the title
+          centerTitle: true,
         ),
-        body: searchController.searchedUsers.isEmpty
-            ? Column(
-                children: [
-                  const Center(
-                    child: Text(
-                      'Search for users!',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : ListView.builder(
-                itemCount: searchController.searchedUsers.length,
-                itemBuilder: (context, index) {
-                  User user = searchController.searchedUsers[index];
-                  return InkWell(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(uid: user.uid),
-                      ),
-                    ),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          user.profilePhoto,
-                        ),
-                      ),
-                      title: Text(
-                        user.name,
-                        style: const TextStyle(
+        body: Obx(() {
+          return searchController.searchedUsers.isEmpty
+              ? Column(
+                  children: [
+                    const Center(
+                      child: Text(
+                        'Search for users!',
+                        style: TextStyle(
                           fontSize: 18,
-                          color: Colors.white,
+               fontFamily: 'MonaSansExtraBoldWideItalic',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-      );
-    });
+                  ],
+                )
+              : ListView.builder(
+                  itemCount: searchController.searchedUsers.length,
+                  itemBuilder: (context, index) {
+                    User user = searchController.searchedUsers[index];
+                    return InkWell(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(uid: user.uid),
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            user.profilePhoto,
+                          ),
+                        ),
+                        title: Text(
+                          user.name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+        }),
+      ),
+    );
   }
 }

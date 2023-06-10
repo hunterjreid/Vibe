@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class AppScreen extends StatefulWidget {
+  const AppScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<AppScreen> createState() => _AppScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AppScreenState extends State<AppScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIdx = 0;
   int feedNotificationCount = 2; // Notification count for Feed
@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     isDarkTheme = true;
     bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
-      backgroundColor: Color.fromRGBO(253, 252, 252, 1),
+      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
       selectedItemColor: Color.fromARGB(255, 0, 0, 0),
       unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
       selectedLabelStyle: TextStyle(
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (colorOption == 'Jet Black') {
         isDarkTheme = true;
         bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
-          backgroundColor: Color.fromRGBO(253, 252, 252, 1),
+          backgroundColor: Color.fromRGBO(255, 255, 255, 1),
           selectedItemColor: Color.fromARGB(255, 0, 0, 0),
           unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
           selectedLabelStyle: TextStyle(
@@ -98,88 +98,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
  final currentTheme = isDarkTheme ? darkTheme : lightTheme;
+ 
 
     return Theme(
       data: currentTheme,
       child: Scaffold(
-// appBar: AppBar(
-//   centerTitle: true, // this is all you need
-//   title: Row(
-//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//     children: [
-//       Container(
-//         alignment: Alignment.center,
-//         child: Image.asset(
-//           'assets/images/logo.png', // Replace with your logo image path
-//           width: 50,
-//           height: 50,
-//         ),
-//       ),
 
-//     ],
-//   ),
-//   leading:    InkWell(
-//         onTap: () {
-//           ShowDialog.showSetColorsDialog(context, _updateColorTheme);
-//         },
-//         child: Icon(
-//           Icons.settings,
-//           // Specify the desired size and color for the icon
-//           size: 24,
-//         ),
-//       ),
-// ),
-
-// AppBar(centerTitle: true, title: child: Image.asset(
-//     'assets/images/logo.png', // Replace with your logo image path
-//     width: 50,
-//     height: 50,
-//   ),
-// ),)
-
-//    appBar: AppBar(
-//       centerTitle: true, // this is all you need
-//   title: Center(
-
-//     child: Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//       Container(
-//   alignment: Alignment.center,
-//   child: Image.asset(
-//     'assets/images/logo.png', // Replace with your logo image path
-//     width: 50,
-//     height: 50,
-//   ),
-// ),
-//         InkWell(
-//           onTap: () {
-//             ShowDialog.showSetColorsDialog(context, _updateColorTheme);
-//           },
-//           child: Icon(
-//             Icons.settings,
-//             // Specify the desired size and color for the icon
-//             size: 24,
-//           ),
-//         ),
-//       ],
-//     ),
-//   ),
-
-//   leading:    InkWell(
-//         onTap: () {
-//           ShowDialog.showSetColorsDialog(context, _updateColorTheme);
-//         },
-//         child: Icon(
-//           Icons.settings,
-//           // Specify the desired size and color for the icon
-//           size: 24,
-//         ),
-//       ),
-
-// ),
-
-        appBar: AppBar(
+       appBar: pageIdx == 1 ? null : AppBar(
           centerTitle: true,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Radius.circular(10),
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
+          padding: EdgeInsets.fromLTRB(10, 2, 10, 5),
           child: ClipRRect(
             borderRadius: BorderRadius.all(
               Radius.circular(50),

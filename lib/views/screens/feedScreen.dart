@@ -3,18 +3,51 @@ import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/friendSearch_screen.dart';
+import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/user_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'comment_screen.dart';
+
+
 
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
+
+  buildProfile(String profilePhoto) {
+    return SizedBox(
+      width: 60,
+      height: 60,
+      child: Stack(children: [
+        Positioned(
+          left: 5,
+          child: Container(
+            width: 50,
+            height: 50,
+            padding: const EdgeInsets.all(1),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image(
+                image: NetworkImage(profilePhoto),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        )
+      ]),
+    );
+  }
 
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
@@ -34,7 +67,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void preloadVideos() async {
     if (videoController != null) {}
-    for (int i = 0; i < videoController.videoList.length; i++) {
+    for (int i = 0; i < 3; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
@@ -99,6 +132,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) {
                             final Video video = videoController.videoList[index];
+                            final data = videoController.videoList[index];
                             final VideoPlayerController videoPlayerController = videoControllers[index];
                             final ChewieController chewieController =
                                 chewieControllers[index]; // Get the ChewieController from the list
@@ -118,20 +152,72 @@ class _FeedScreenState extends State<FeedScreen> {
                                     controller: chewieController,
                                   ),
                                 ),
+                                  Positioned(
+                      top: 8,
+                      left: 8,
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.visibility,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              '0',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 55.0),
                                   child: Column(
+                                    
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
+                                      
                                       // Rest of your overlay content goes here
                                       Container(
                                         margin: EdgeInsets.only(top: 10),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
+
+                                            
+                                                        InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => UserScreen(uid: data.uid),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    buildProfile(data.profilePhoto),
+                                                  ],
+                                                ),
+                                              ),
+                                            const SizedBox(height: 5),
                                             InkWell(
-                                              onTap: () => videoController.likeVideo(video.id),
+                                              onTap: () => videoController.likeVideo(data.id),
+
+
+
+
                                               child: Icon(
                                                 Icons.favorite,
                                                 size: 45,

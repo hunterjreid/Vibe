@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/user.dart' as model;
 import 'package:vibe/views/screens/auth/login_screen.dart';
-import 'package:vibe/views/screens/home_screen.dart';
-import 'package:vibe/views/screens/welcome_back_screen.dart';
+import 'package:vibe/views/screens/appScreen.dart';
+
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -29,7 +29,7 @@ class AuthController extends GetxController {
     if (user == null) {
       Get.offAll(() => LoginScreen());
     } else {
-      Get.offAll(() => WelcomeBackScreen());
+      Get.offAll(() => AppScreen());
     }
   }
 

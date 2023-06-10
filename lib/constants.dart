@@ -4,8 +4,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/views/screens/add_video_screen.dart';
+import 'package:vibe/views/screens/createScreen.dart';
 import 'package:vibe/views/screens/feedScreen.dart';
-import 'package:vibe/views/screens/home_screen.dart';
+import 'package:vibe/views/screens/appScreen.dart';
+import 'package:vibe/views/screens/homeScreen.dart';
 import 'package:vibe/views/screens/newLayout_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/search_screen.dart';
@@ -13,8 +15,8 @@ import 'package:vibe/views/screens/video_screen.dart';
 
 List pages = [
   FeedScreen(),
-  SearchScreen(),
-  AddVideoScreen(),
+  HomeScreen(),
+  CreateScreen(),
   ProfileScreen(uid: authController.user.uid),
   NewLayoutScreen(),
 ];
@@ -38,7 +40,7 @@ ThemeData get lightTheme => ThemeData(
         onSecondary: Colors.black,
         background: Color.fromARGB(255, 199, 199, 199),
         onBackground: Colors.black,
-        surface: Colors.grey,
+        surface: Color.fromARGB(255, 0, 0, 0),
         onSurface: Colors.black,
         error: Colors.red,
         onError: Colors.black,
