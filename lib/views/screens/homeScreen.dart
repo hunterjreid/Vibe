@@ -55,7 +55,8 @@ class HomeScreen extends StatelessWidget {
         child: Obx(
           () => GridView.builder(
   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
+    crossAxisCount: 3,
+     crossAxisSpacing: 5,
   ),
   itemCount: _videoController.videoList.length,
   itemBuilder: (context, index) {

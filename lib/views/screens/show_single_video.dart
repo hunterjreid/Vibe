@@ -46,6 +46,8 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
       });
   }
 
+  
+
   void _showDeleteConfirmationDialog() {
     showDialog(
       context: context,
@@ -78,8 +80,6 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
 
     debugPrint(data.uid);
 
-    
-
     FirebaseFirestore.instance.collection('videos').doc(data.id).delete().then((_) {
       // Video deleted successfully
       // You can perform any additional tasks or show a success message
@@ -104,21 +104,20 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
               // Handle favorite button tap
             },
           ),
-         IconButton(
-  icon: Icon(Icons.comment),
-  onPressed: () {
-    // Navigate to comment view
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CommentScreen(
-          id: widget.videoController.videoList[widget.videoIndex].id,
-        ),
-      ),
-    );
-  },
-),
-
+          IconButton(
+            icon: Icon(Icons.comment),
+            onPressed: () {
+              // Navigate to comment view
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CommentScreen(
+                    id: widget.videoController.videoList[widget.videoIndex].id,
+                  ),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
@@ -136,13 +135,93 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
           return Center(
             child: _isVideoLoading
                 ? CircularProgressIndicator()
-                : SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: VideoPlayer(_videoPlayerController),
+                : Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: VideoPlayer(_videoPlayerController),
+                      ),
+                      VideoTextOverlay(
+                        texts: [
+                          data.username,
+                          '#Explore #Adventure',
+                          data.caption,
+                          'Discover the hidden treasures of nature',
+                          'Soundtrack: ' + data.songName,
+                        ],
+                        textStyles: [
+                          TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                          TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'MonaSans',
+                          ),
+                          TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'MonaSans',
+                          ),
+                          TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'MonaSans',
+                          ),
+                          TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontFamily: 'MonaSansExtraBoldWide',
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
           );
         },
+      ),
+    );
+  }
+}
+class VideoTextOverlay extends StatelessWidget {
+  final List<TextStyle> textStyles;
+  final List<String> texts;
+
+  const VideoTextOverlay({
+    Key? key,
+    required this.texts,
+    required this.textStyles,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double c_width = MediaQuery.of(context).size.width * 0.9;
+
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: c_width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(texts.length, (index) {
+            final textStyle = textStyles.length > index ? textStyles[index] : TextStyle();
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Text(
+                texts[index],
+                style: textStyle,
+              ),
+            );
+          }),
+        ),
       ),
     );
   }

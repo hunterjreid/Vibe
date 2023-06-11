@@ -443,11 +443,12 @@ class _UserScreenState extends State<UserScreen>
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.user['thumbnails'].length,
                               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
+                                crossAxisCount: 3,
                                 childAspectRatio: 1,
                                 crossAxisSpacing: 5,
                               ),
                               itemBuilder: (context, index) {
+              
                                 String thumbnail = controller.user['thumbnails'][index];
                                 return GestureDetector(
                                   onTap: () {
