@@ -2,12 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
 import 'package:vibe/views/widgets/text_input_field.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser != null) {
+        // Get user details from googleUser
+        // Perform authentication with your backend using the obtained credentials
+      }
+    } catch (error) {
+      print('Google login error: $error');
+    }
+  }
+
+  Future<void> _loginWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+      if (result.status == LoginStatus.success) {
+        final AccessToken accessToken = result.accessToken!;
+        // Get user details from accessToken
+        // Perform authentication with your backend using the obtained credentials
+      }
+    } catch (error) {
+      print('Facebook login error: $error');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +99,24 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
+               ElevatedButton.icon(
+                    onPressed: _loginWithGoogle,
+                    icon: Icon(Icons.login),
+                    label: Text('Login with Google'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red, // Use appropriate button color
+                    ),
+                  ),
+
+                  // Login with Facebook button
+                  ElevatedButton.icon(
+                    onPressed: _loginWithFacebook,
+                    icon: Icon(Icons.login),
+                    label: Text('Login with Facebook'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue, // Use appropriate button color
+                    ),
+                  ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 20),

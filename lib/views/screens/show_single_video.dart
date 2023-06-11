@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/controllers/video_controller.dart';
+import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
@@ -77,6 +78,8 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
 
     debugPrint(data.uid);
 
+    
+
     FirebaseFirestore.instance.collection('videos').doc(data.id).delete().then((_) {
       // Video deleted successfully
       // You can perform any additional tasks or show a success message
@@ -101,12 +104,21 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
               // Handle favorite button tap
             },
           ),
-          IconButton(
-            icon: Icon(Icons.share),
-            onPressed: () {
-              // Handle share button tap
-            },
-          ),
+         IconButton(
+  icon: Icon(Icons.comment),
+  onPressed: () {
+    // Navigate to comment view
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommentScreen(
+          id: widget.videoController.videoList[widget.videoIndex].id,
+        ),
+      ),
+    );
+  },
+),
+
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {

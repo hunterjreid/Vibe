@@ -477,13 +477,22 @@ class _UserScreenState extends State<UserScreen>
               ),
 
               // Second tab view
-              Center(
-                child: Text('Tab 2 View'),
-              ),
+       Center(
+  child: Text(
+    'User\'s Long Description',
+    // Replace 'User\'s Long Description' with the actual user's long description
+    style: TextStyle(fontSize: 16),
+  ),
+),
               // Third tab view
-              Center(
-                child: Text('Tab 3 View'),
-              ),
+            Center(
+  child: ElevatedButton(
+    onPressed: () {
+      // Handle turn on push notifications button tap
+    },
+    child: Text('Turn On Push Notifications'),
+  ),
+),
             ],
           ),
            );

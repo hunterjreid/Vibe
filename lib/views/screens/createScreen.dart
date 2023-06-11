@@ -10,6 +10,7 @@ import 'package:vibe/views/screens/confirm_screen.dart';
 import 'package:vibe/views/screens/facefilter_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/uploadAudio_screen.dart';
+import 'package:vibe/views/screens/your_dms_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class CreateScreen extends StatelessWidget {
@@ -116,12 +117,13 @@ class CreateScreen extends StatelessWidget {
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
                 children: [
-                  _buildButton(context, 'Trends!', TrendsScreen()),
+                                   _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
+       
                   _buildButton(context, 'Add Video', TrendsScreen()),
                   _buildButton(context, 'Face Filter', FaceFilterScreen()),
-                  _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
+            _buildButton(context, 'Trends!', TrendsScreen()),
                   _buildButton(context, 'Your DMs', DmScreen()),
-                  _buildButton(context, 'More...', MoreScreen()),
+                  _buildButton(context, 'Saved Videos', MoreScreen()),
                 ],
               ),
             ],
@@ -232,96 +234,50 @@ class TrendsScreen extends StatelessWidget {
 }
 
 
-class DmScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('DM Screen'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Direct Messages',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 10, // Placeholder for the number of conversations
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/profile_picture.jpg'), // Placeholder for user avatar
-                      radius: 24,
-                    ),
-                    title: Text(
-                      'User Name', // Placeholder for user name
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Last Message', // Placeholder for last message
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    trailing: Text(
-                      '12:34 PM', // Placeholder for last message timestamp
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
 class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Save the current date and time
+    DateTime currentTime = DateTime.now();
+
+    // Placeholder list of titles
+    List<String> titles = [
+      "Title 1",
+      "Title 2",
+      "Title 3",
+      "Title 4",
+      "Title 5",
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('More'),
+      
+            appBar: AppBar(
+        title: Text('Saved Videos screen'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 16),
-            Text(
-              'Additional Options',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+      body: Column(
+        children: [
+          // Display the list of titles
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: titles.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(titles[index]),
+                );
+              },
             ),
-            _buildButtonx(context, 'Option 1'),
-            _buildButtonx(context, 'Option 2'),
-            _buildButtonx(context, 'Option 3'),
-          ],
-        ),
+          ),
+          // Display the saved date and time
+          Text('Last updated: $currentTime'),
+        ],
       ),
     );
+  
   }
+
+
+
 
   Widget _buildButtonx(BuildContext context, String title) {
     return Padding(

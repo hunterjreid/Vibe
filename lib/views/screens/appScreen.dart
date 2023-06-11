@@ -130,12 +130,12 @@ class _AppScreenState extends State<AppScreen> {
         ),
 
         bottomNavigationBar: Container(
+
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+                      color: bottomNavigationBarTheme.selectedItemColor,
+          
           ),
-          padding: EdgeInsets.fromLTRB(10, 2, 10, 5),
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
           child: ClipRRect(
             borderRadius: BorderRadius.all(
               Radius.circular(50),

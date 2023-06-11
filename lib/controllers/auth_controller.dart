@@ -7,7 +7,8 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/models/user.dart' as model;
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/appScreen.dart';
-
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -51,7 +52,7 @@ class AuthController extends GetxController {
     return downloadUrl;
   }
 
-  // registering the user
+  // registering the user with email and password
   void registerUser(String username, String email, String password, File? image) async {
     try {
       if (image == null) {
@@ -62,7 +63,6 @@ class AuthController extends GetxController {
         return;
       }
       if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && image != null) {
-        // save out user to our ath and firebase firestore
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
           email: email,
           password: password,
@@ -73,8 +73,8 @@ class AuthController extends GetxController {
           email: email,
           uid: cred.user!.uid,
           profilePhoto: downloadUrl,
-          website: '', // Set the initial value for website
-          bio: '', // Set the initial value for bio
+          website: '',
+          bio: '',
         );
         await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
       } else {
@@ -83,6 +83,117 @@ class AuthController extends GetxController {
           'Please enter all the fields',
         );
       }
+    } catch (e) {
+      Get.snackbar(
+        'Error Creating Account',
+        e.toString(),
+      );
+    }
+  }
+
+  // registering the user with Google authentication
+  Future<void> registerUserWithGoogle(
+    String username,
+    String email,
+    String password,
+    File? image,
+  ) async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        Get.snackbar(
+          'Error Creating Account',
+          'Failed to sign in with Google',
+        );
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.additionalUserInfo?.isNewUser == true) {
+        User? user = userCredential.user;
+
+        if (user != null) {
+          String? downloadUrl = '';
+          if (image != null) {
+            downloadUrl = await _uploadToStorage(image);
+          }
+
+          model.User newUser = model.User(
+            name: username,
+            email: email,
+            uid: user.uid,
+            profilePhoto: downloadUrl ?? '',
+            website: '',
+            bio: '',
+          );
+
+          await firestore.collection('users').doc(user.uid).set(newUser.toJson());
+        }
+      }
+
+      Get.offAll(() => AppScreen());
+    } catch (e) {
+      Get.snackbar(
+        'Error Creating Account',
+        e.toString(),
+      );
+    }
+  }
+
+  // registering the user with Facebook authentication
+  Future<void> registerUserWithFacebook(
+    String username,
+    String email,
+    String password,
+    File? image,
+  ) async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status != LoginStatus.success) {
+        Get.snackbar(
+          'Error Creating Account',
+          'Failed to sign in with Facebook',
+        );
+        return;
+      }
+
+      final AccessToken accessToken = result.accessToken!;
+      final OAuthCredential credential = FacebookAuthProvider.credential(accessToken.token);
+
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.additionalUserInfo?.isNewUser == true) {
+        User? user = userCredential.user;
+
+        if (user != null) {
+          String? downloadUrl = '';
+          if (image != null) {
+            downloadUrl = await _uploadToStorage(image);
+          }
+
+          model.User newUser = model.User(
+            name: username,
+            email: email,
+            uid: user.uid,
+            profilePhoto: downloadUrl ?? '',
+            website: '',
+            bio: '',
+          );
+
+          await firestore.collection('users').doc(user.uid).set(newUser.toJson());
+        }
+      }
+
+      Get.offAll(() => AppScreen());
     } catch (e) {
       Get.snackbar(
         'Error Creating Account',
@@ -103,7 +214,7 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       Get.snackbar(
-        'Error Loggin gin',
+        'Error Logging in',
         e.toString(),
       );
     }

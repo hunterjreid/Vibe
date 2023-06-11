@@ -56,6 +56,7 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _isLoading = true;
   bool _isModalVisible = false;
   bool _refreshing = false; // Added refreshing state
+  
 
   @override
   void initState() {
@@ -65,9 +66,19 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   }
 
+void watchVideo(Video video) {
+  // Handle when a video is watched
+  videoController.videoList.remove(video);
+
+  if (videoController.videoList.length <= 5) {
+    // Preload more videos
+    preloadVideos();
+  }
+}
+
   void preloadVideos() async {
     if (videoController != null) {}
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 6; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
@@ -154,7 +165,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                 ),
                                   Positioned(
                       top: 8,
-                      left: 8,
+                      left: 25,
                       child: Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
@@ -181,7 +192,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       ),
                     ),
                                 Padding(
-                                  padding: EdgeInsets.only(bottom: 55.0),
+                                  padding: EdgeInsets.only(bottom: 60.0),
                                   child: Column(
                                     
                                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -190,7 +201,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                       
                                       // Rest of your overlay content goes here
                                       Container(
-                                        margin: EdgeInsets.only(top: 10),
+                                        margin: EdgeInsets.only(top:40),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -212,21 +223,31 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 ),
                                               ),
                                             const SizedBox(height: 5),
-                                            InkWell(
-                                              onTap: () => videoController.likeVideo(data.id),
+                                          InkWell(
+  onTap: () {
+    final video = videoController.videoList[index];
+    final videoId = video.id;
 
 
+      videoController.likeVideo(videoId);
+  
 
-
-                                              child: Icon(
-                                                Icons.favorite,
-                                                size: 45,
-                                                color: video.likes.contains(authController.user.uid)
-                                                    ? Color.fromARGB(255, 44, 113, 179)
-                                                    : Colors.white,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5),
+    setState(() {
+      // Update the like count and color immediately
+      video.likes.contains(authController.user.uid)
+          ? video.likes.remove(authController.user.uid)
+          : video.likes.add(authController.user.uid);
+    });
+  },
+  child: Icon(
+    Icons.favorite,
+    size: 45,
+    color: video.likes.contains(authController.user.uid)
+        ? Color.fromARGB(255, 44, 113, 179)
+        : Colors.white,
+  ),
+),
+      const SizedBox(height: 5),
                                             Text(
                                               videoController.videoList[index].likes.length.toString(),
                                               style: const TextStyle(
@@ -237,7 +258,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  _isModalVisible = true;
+                                                _isModalVisible = !_isModalVisible;
                                                 });
                                               },
                                               child: Column(
@@ -275,7 +296,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    "0",
+                                                     videoController.videoList[index].commentCount.toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,

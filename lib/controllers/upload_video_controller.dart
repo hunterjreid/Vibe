@@ -75,13 +75,17 @@ class UploadVideoController extends GetxController {
   }
 
   // upload video
+  
+  // upload video
   uploadVideo(String songName, String caption, String videoPath) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
-      DocumentSnapshot userDoc = await firestore.collection('users').doc(uid).get();
+      DocumentSnapshot userDoc =
+          await firestore.collection('users').doc(uid).get();
       // get id
       var allDocs = await firestore.collection('videos').get();
       int len = allDocs.docs.length;
+      print(len);
       String videoUrl = await _uploadVideoToStorage("Video $len", videoPath);
       String thumbnail = await _uploadImageToStorage("Video $len", videoPath);
 
@@ -99,9 +103,12 @@ class UploadVideoController extends GetxController {
         thumbnail: thumbnail,
         timestamp: Timestamp.now(),
       );
-      // Save the video document to Firestore
-      await firestore.collection('videos').add(video.toJson());
 
+      print(video.id);
+
+      await firestore.collection('videos').doc('Video $len').set(
+            video.toJson(),
+          );
       Get.toNamed('/HomeScreen');
     } catch (e) {
       Get.snackbar(

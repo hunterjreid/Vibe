@@ -54,59 +54,62 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Obx(
           () => GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+  ),
+  itemCount: _videoController.videoList.length,
+  itemBuilder: (context, index) {
+    final reversedIndex = _videoController.videoList.length - 1 - index;
+    final video = _videoController.videoList[reversedIndex];
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowSingleVideo(
+              videoIndex: reversedIndex,
             ),
-            itemCount: _videoController.videoList.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShowSingleVideo(
-                        videoIndex: index,
-                      ),
-                    ),
-                  );
-                },
-                child: Stack(
-                  children: [
-                    _videoController.buildVideoThumbnail(index),
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.visibility,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              '0',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
           ),
-        ),
+        );
+      },
+      child: Stack(
+        children: [
+          _videoController.buildVideoThumbnail(reversedIndex),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              padding: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.visibility,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    '0',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  },
+),
+   ),
       ),
     );
   }
