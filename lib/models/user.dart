@@ -5,8 +5,9 @@ class User {
   String profilePhoto;
   String email;
   String uid;
-  String website; // Added website field
-  String bio; // Added bio field
+  String website;
+  String bio;
+  String birthday; // Added birthday field
 
   User({
     required this.name,
@@ -15,6 +16,7 @@ class User {
     required this.profilePhoto,
     required this.website,
     required this.bio,
+    required this.birthday, // Added birthday parameter to the constructor
   });
 
   Map<String, dynamic> toJson() => {
@@ -24,6 +26,7 @@ class User {
         "uid": uid,
         "website": website,
         "bio": bio,
+        "birthday": birthday, // Added birthday field to the JSON representation
       };
 
   static User fromSnap(DocumentSnapshot snap) {
@@ -35,6 +38,7 @@ class User {
       name: snapshot['name'] ?? '',
       website: snapshot['website'] ?? '',
       bio: snapshot['bio'] ?? '',
+      birthday: snapshot['birthday'] ?? '', // Retrieve birthday from the snapshot
     );
   }
 }

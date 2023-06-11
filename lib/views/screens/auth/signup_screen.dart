@@ -11,8 +11,21 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _birthdayController = TextEditingController();
 
   final AuthController authController = AuthController.instance;
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      _birthdayController.text = picked.toString(); // Update the birthday controller text
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +44,7 @@ class SignupScreen extends StatelessWidget {
                   bottomRight: Radius.circular(500.0),
                 ),
               ),
-               ),
+            ),
           Expanded(
             child: Container(
               alignment: Alignment.center,
@@ -121,6 +134,21 @@ class SignupScreen extends StatelessWidget {
                         isObscure: true,
                       ),
                     ),
+                    const SizedBox(height: 15),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      child: InkWell(
+                        onTap: () => _selectDate(context), // Show date picker
+                        child: IgnorePointer(
+                          child: TextInputField(
+                            controller: _birthdayController,
+                            labelText: 'Birthday',
+                            icon: Icons.calendar_today,
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 30),
                     Container(
                       width: MediaQuery.of(context).size.width - 40,
@@ -137,6 +165,7 @@ class SignupScreen extends StatelessWidget {
                           _emailController.text,
                           _passwordController.text,
                           authController.profilePhoto,
+                          _birthdayController.text
                         ),
                         child: const Center(
                           child: Text(
@@ -149,49 +178,48 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                 Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () => authController.registerUserWithGoogle(
-                      _usernameController.text,
-                      _emailController.text,
-                      _passwordController.text,
-                      authController.profilePhoto,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () => authController.registerUserWithGoogle(
+                            _usernameController.text,
+                            _emailController.text,
+                            _passwordController.text,
+                            authController.profilePhoto,
+                          ),
+                          icon: Icon(Icons.login),
+                          label: Text('Sign up with Google'),
+                          style: ElevatedButton.styleFrom(
+                            // Button styles
+                          ),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () => authController.registerUserWithFacebook(
+                            _usernameController.text,
+                            _emailController.text,
+                            _passwordController.text,
+                            authController.profilePhoto,
+                          ),
+                          icon: Icon(Icons.login),
+                          label: Text('Sign up with Facebook'),
+                          style: ElevatedButton.styleFrom(
+                            // Button styles
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          ),
+                          child: Text(
+                            'Login',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                    icon: Icon(Icons.login),
-                    label: Text('Sign up with Google'),
-                    style: ElevatedButton.styleFrom(
-                      // Button styles
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () => authController.registerUserWithFacebook(
-                      _usernameController.text,
-                      _emailController.text,
-                      _passwordController.text,
-                      authController.profilePhoto,
-                    ),
-                    icon: Icon(Icons.login),
-                    label: Text('Sign up with Facebook'),
-                    style: ElevatedButton.styleFrom(
-                      // Button styles
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ),
-                    ),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-          
                     const SizedBox(height: 15),
                     if (MediaQuery.of(context).size.width < 768)
                       Row(

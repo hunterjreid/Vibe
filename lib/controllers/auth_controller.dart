@@ -53,7 +53,7 @@ class AuthController extends GetxController {
   }
 
   // registering the user with email and password
-  void registerUser(String username, String email, String password, File? image) async {
+  void registerUser(String username, String email, String password, File? image, String birthday) async {
     try {
       if (image == null) {
         Get.snackbar(
@@ -74,6 +74,7 @@ class AuthController extends GetxController {
           uid: cred.user!.uid,
           profilePhoto: downloadUrl,
           website: '',
+          birthday: birthday,
           bio: '',
         );
         await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
@@ -132,6 +133,7 @@ class AuthController extends GetxController {
             uid: user.uid,
             profilePhoto: downloadUrl ?? '',
             website: '',
+            birthday: '',
             bio: '',
           );
 
@@ -186,6 +188,7 @@ class AuthController extends GetxController {
             uid: user.uid,
             profilePhoto: downloadUrl ?? '',
             website: '',
+            birthday: '',
             bio: '',
           );
 
