@@ -97,16 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     final video = _videoController.videoList[reversedIndex];
 
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ShowSingleVideo(
-                              videoIndex: reversedIndex,
-                            ),
-                          ),
-                        );
-                      },
+           onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ShowSingleVideo(
+                                          videoIndex: index,
+                                        ),
+                                      ),
+                                    );
+                                  },
                       child: Stack(
                         children: [
                           _videoController.buildVideoThumbnail(reversedIndex),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 class ShowSingleVideo extends StatefulWidget {
   final int videoIndex;
   final VideoController videoController = Get.find();
+  bool _isModalVisible = false;
 
   ShowSingleVideo({Key? key, required this.videoIndex}) : super(key: key);
 
@@ -45,8 +47,6 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
         _videoPlayerController.play();
       });
   }
-
-  
 
   void _showDeleteConfirmationDialog() {
     showDialog(
@@ -92,8 +92,17 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
     });
   }
 
+  Widget buildProfile(String profilePhoto) {
+    return CircleAvatar(
+      radius: 28,
+      backgroundImage: NetworkImage(profilePhoto),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final videoController = widget.videoController;
+    bool _isModalVisible = false;
     return Scaffold(
       appBar: AppBar(
         title: Text('Video Player'),
@@ -112,7 +121,7 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => CommentScreen(
-                    id: widget.videoController.videoList[widget.videoIndex].id,
+                    id: videoController.videoList[widget.videoIndex].id,
                   ),
                 ),
               );
@@ -129,9 +138,12 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
       body: PageView.builder(
         controller: _pageController,
         scrollDirection: Axis.vertical,
-        itemCount: widget.videoController.videoList.length,
+        itemCount: videoController.videoList.length,
         itemBuilder: (context, index) {
-          final data = widget.videoController.videoList[index];
+          final data = videoController.videoList[index];
+          final video = videoController.videoList[index];
+          final videoId = video.id;
+          videoController.likeVideo(videoId);
           return Center(
             child: _isVideoLoading
                 ? CircularProgressIndicator()
@@ -146,10 +158,11 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
                       VideoTextOverlay(
                         texts: [
                           data.username,
-                          '#Explore #Adventure',
+                          data.caption2,
                           data.caption,
-                          'Discover the hidden treasures of nature',
+                          data.caption3,
                           'Soundtrack: ' + data.songName,
+                          'Posted on: ' + data.timestamp.toDate().toString(),
                         ],
                         textStyles: [
                           TextStyle(
@@ -182,6 +195,160 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
                           ),
                         ],
                       ),
+                      Positioned(
+                        top: 10,
+                        right: 15,
+                        child: buildProfile(data.profilePhoto),
+                      ),
+                      Positioned(
+                        top: 60,
+                        right: 10,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  // Update the like count and color immediately
+                                  video.likes.contains(authController.user.uid)
+                                      ? video.likes.remove(authController.user.uid)
+                                      : video.likes.add(authController.user.uid);
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.favorite,
+                                    size: 35,
+                                    color: video.likes.contains(authController.user.uid)
+                                        ? Color.fromARGB(255, 44, 113, 179)
+                                        : Colors.white,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    videoController.videoList[index].likes.length.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _isModalVisible = !_isModalVisible;
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.share,
+                                    size: 45,
+                                    color: _isModalVisible
+                                        ? Color.fromARGB(255, 157, 96, 255)
+                                        : Colors.white,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "0",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => CommentScreen(
+                                    id: videoController.videoList[index].id,
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.comment_rounded,
+                                    size: 45,
+                                    color: videoController.videoList[index].commentBy.contains(
+                                                authController.user.uid)
+                                            ? Colors.purple
+                                            : Colors.white,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    videoController.videoList[index].commentCount.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.audio_file,
+                                    size: 45,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "0",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Video saved"),
+                                      content: Text("Your video has been saved to your gallery."),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(context),
+                                          child: Text("OK"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.save,
+                                    size: 45,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    "Save",
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
           );
@@ -190,6 +357,7 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
     );
   }
 }
+
 class VideoTextOverlay extends StatelessWidget {
   final List<TextStyle> textStyles;
   final List<String> texts;
