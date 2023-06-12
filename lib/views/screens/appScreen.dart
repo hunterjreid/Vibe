@@ -104,7 +104,7 @@ class _AppScreenState extends State<AppScreen> {
       data: currentTheme,
       child: Scaffold(
 
-       appBar: pageIdx == 1 ? null : AppBar(
+       appBar: pageIdx == 1 || pageIdx == 2   ? null : AppBar(
           centerTitle: true,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +135,7 @@ class _AppScreenState extends State<AppScreen> {
                       color: bottomNavigationBarTheme.selectedItemColor,
           
           ),
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+          padding: EdgeInsets.fromLTRB(10, 3, 10, 7),
           child: ClipRRect(
             borderRadius: BorderRadius.all(
               Radius.circular(50),

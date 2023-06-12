@@ -5,6 +5,7 @@ class Video {
   String uid;
   String id;
   List<dynamic> likes;
+  List<dynamic> commentBy;
   int commentCount;
   int shareCount;
   int views;
@@ -25,6 +26,7 @@ class Video {
     required this.id,
     required this.likes,
     required this.commentCount,
+    required this.commentBy,
     required this.shareCount,
     required this.views,
     required this.songName,
@@ -48,6 +50,7 @@ class Video {
         "commentCount": commentCount,
         "shareCount": shareCount,
         "views": views,
+        "commentBy": commentBy,
         "songName": songName,
         "caption": caption,
         "caption2": caption2,
@@ -69,16 +72,17 @@ class Video {
       likes: snapshot['likes'],
       commentCount: snapshot['commentCount'],
       shareCount: snapshot['shareCount'],
-      views: snapshot['views'],
-      songName: snapshot['songName'],
-      caption: snapshot['caption'],
-      caption2: snapshot['caption2'],
-      caption3: snapshot['caption3'],
-      videoUrl: snapshot['videoUrl'],
-      profilePhoto: snapshot['profilePhoto'],
-      thumbnail: snapshot['thumbnail'],
-      musicUseCount: snapshot['musicUseCount'],
-      savedCount: snapshot['savedCount'],
+      commentBy: snapshot['commentBy'] ?? [],
+      views: snapshot['views'] ?? 0,
+      songName: snapshot['songName'] ?? '',
+      caption: snapshot['caption'] ?? '',
+      caption2: snapshot['caption2'] ?? '',
+      caption3: snapshot['caption3'] ?? '',
+      videoUrl: snapshot['videoUrl'] ?? '',
+      profilePhoto: snapshot['profilePhoto'] ?? '',
+      thumbnail: snapshot['thumbnail'] ?? '',
+      musicUseCount: snapshot['musicUseCount'] ?? 0,
+      savedCount: snapshot['savedCount'] ?? 0,
       timestamp: snapshot['timestamp'],
     );
   }

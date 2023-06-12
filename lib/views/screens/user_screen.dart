@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+import 'package:vibe/views/screens/createScreen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
@@ -87,15 +88,10 @@ class _UserScreenState extends State<UserScreen>
 
         return Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+    
             bottom: TabBar(
               controller: _tabController, // Set the TabController
-              labelColor:   Theme.of(context).colorScheme.surface,
+              labelColor:   Theme.of(context).colorScheme.onBackground,
       tabs: [
                   Tab(icon: Icon(Icons.verified_user)),
                   Tab(icon: Icon(Icons.explore)),
@@ -164,12 +160,25 @@ class _UserScreenState extends State<UserScreen>
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                             const SizedBox(height: 16.0),
+                        ElevatedButton(
+                          child: const Text('Create'),
+                          onPressed: () {
+                            // Handle navigation to create screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreateScreen(),
+                              ),
+                            );
+                          },
+                        ),
                             const SizedBox(
                               height: 15,
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              controller.user['bio'] ?? '',
+                              controller.user['bio'] ?? 'No bio set',
                               style: const TextStyle(
                                 fontSize: 16,
                 
@@ -187,7 +196,7 @@ class _UserScreenState extends State<UserScreen>
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  controller.user['website'] ?? '',
+                                  controller.user['website'] ?? 'No website set',
                                   style: TextStyle(
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,

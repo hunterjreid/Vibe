@@ -6,8 +6,8 @@ import 'package:vibe/controllers/settings_controller.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   final SettingsController controller = Get.put(SettingsController());
-
   final ProfileController profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,26 +19,39 @@ class UserSettingsScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 128,
-              height: 128,
+              width: double.infinity,
+              height: 200,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    Color.fromARGB(255, 175, 175, 175),
-                    Color.fromARGB(255, 255, 255, 255),
-                  ],
-                  stops: [0.0, 1.0],
-                  center: Alignment.center,
-                  radius: 1.0,
+                image: DecorationImage(
+                  image: AssetImage('assets/cover_photo.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: NetworkImage(
-                  profileController.user['profilePhoto'],
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: 128,
+                  height: 128,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        Color.fromARGB(255, 175, 175, 175),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                      stops: [0.0, 1.0],
+                      center: Alignment.center,
+                      radius: 1.0,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundImage: NetworkImage(
+                      profileController.user['profilePhoto'],
+                    ),
+                    backgroundColor: Colors.transparent,
+                  ),
                 ),
-                backgroundColor: Colors.transparent,
               ),
             ),
             ElevatedButton(
@@ -47,17 +60,16 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             TextField(
-              controller: controller.usernameController,
-              onChanged: (value) => controller.updateUsername(),
+
               decoration: InputDecoration(
-                labelText: 'Username',
+                labelText: 'Short Bio',
               ),
             ),
             TextField(
-              controller: controller.bioController,
-              onChanged: (value) => controller.updateBio(),
+
+              maxLines: 4, // Allow multiple lines for long bio
               decoration: InputDecoration(
-                labelText: 'Bio',
+                labelText: 'Long Bio',
               ),
             ),
             TextField(
@@ -80,18 +92,15 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () => authController.signOut(),
-              child: Text('LOG OUT OF YOUR ACCOUNT!',  style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                               fontFamily: 'MonaSansExtraBoldWideItalic',
-                                        )),
+              child: Text(
+                'LOG OUT OF YOUR ACCOUNT!',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                ),
+              ),
             ),
-
-
-
-
-
-            
           ],
         ),
       ),

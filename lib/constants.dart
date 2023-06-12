@@ -12,13 +12,15 @@ import 'package:vibe/views/screens/homeScreen.dart';
 import 'package:vibe/views/screens/newLayout_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/search_screen.dart';
+import 'package:vibe/views/screens/user_screen.dart';
 import 'package:vibe/views/screens/video_screen.dart';
 
 List pages = [
   FeedScreen(),
   HomeScreen(),
+    UserScreen(uid: authController.user.uid),
   CreateScreen(),
-  ProfileScreen(uid: authController.user.uid),
+
   NewLayoutScreen(),
 ];
 

@@ -100,6 +100,7 @@ uploadVideo(String songName, String caption, String caption2, String caption3, S
       musicUseCount: 0,
       savedCount: 0,
       views: 0,
+      commentBy: [],
       videoUrl: videoUrl,
       profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
       thumbnail: thumbnail,

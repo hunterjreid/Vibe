@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
@@ -18,107 +16,106 @@ import 'package:flutter/widgets.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'comment_screen.dart';
 
+
+
 class FeedScreen extends StatefulWidget {
-@override
-_FeedScreenState createState() => _FeedScreenState();
-
-  final VideoController videoController = Get.put(VideoController());
+  @override
+  _FeedScreenState createState() => _FeedScreenState();
 }
 
-buildProfile(String profilePhoto) {
-return SizedBox(
-width: 60,
-height: 60,
-child: Stack(children: [
-Positioned(
-left: 5,
-child: Container(
-width: 50,
-height: 50,
-padding: const EdgeInsets.all(1),
-decoration: BoxDecoration(
-color: Colors.white,
-borderRadius: BorderRadius.circular(25),
+  buildProfile(String profilePhoto) {
+    return SizedBox(
+      width: 60,
+      height: 60,
+      child: Stack(children: [
+        Positioned(
+          left: 5,
+          child: Container(
+            width: 50,
+            height: 50,
+            padding: const EdgeInsets.all(1),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+           child: Image.network(
+  profilePhoto,
+  fit: BoxFit.cover,
 ),
-child: ClipRRect(
-borderRadius: BorderRadius.circular(25),
-child: Image.network(
-profilePhoto,
-fit: BoxFit.cover,
-),
-),
-),
-)
-]),
-);
-}
+            ),
+          ),
+        )
+      ]),
+    );
+  }
 
 class _FeedScreenState extends State<FeedScreen> {
-final VideoController videoController = Get.put(VideoController());
-AuthController authController = Get.put(AuthController());
-List<VideoPlayerController> videoControllers = [];
-List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
-bool _isLoading = true;
-bool _isModalVisible = false;
-bool _refreshing = false; // Added refreshing state
-
-@override
-void initState() {
-super.initState();
-WidgetsBinding.instance.addPostFrameCallback((_) {
-
-preloadVideos();
-});
-}
-
-void preloadVideos() async {
-
-for (int i = 0; i < 10; i++) {
+  final VideoController videoController = Get.put(VideoController());
+  AuthController authController = Get.put(AuthController());
+  List<VideoPlayerController> videoControllers = [];
+  List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
+  bool _isLoading = true;
+  bool _isModalVisible = false;
+  bool _refreshing = false; // Added refreshing state
   
-final Video video = videoController.videoList[i];
-final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
-await videoPlayerController.initialize();
-  
-  setState(() {
-    _isLoading = false;
-  });
-
-
-
-  videoControllers.add(videoPlayerController);
-
-  chewieControllers.add(
-    ChewieController(
-      videoPlayerController: videoPlayerController,
-      showControlsOnInitialize: false,
-      autoPlay: true,
-      materialProgressColors: ChewieProgressColors(
-        backgroundColor: Color.fromARGB(255, 40, 5, 165),
-        bufferedColor: Color.fromARGB(255, 255, 255, 255),
-      ),
-      looping: true,
-      allowedScreenSleep: false,
-      overlay: null,
-    ),
-  );
-}
-
-}
-
-@override
-void dispose() {
-for (final controller in videoControllers) {
-controller.dispose();
-}
-for (final controller in chewieControllers) {
-controller.dispose();
-}
-super.dispose();
-}
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      preloadVideos();
+    });
+  }
 
 
 
+  void preloadVideos() async {
+    
+    if (videoController != null) {
+    for (int i = 0; i < 3; i++) {
+      final Video video = videoController.videoList[i];
+      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
+     
+
+      await videoPlayerController.initialize();
+      setState(() {
+        _isLoading = false;
+      });
+
+      print(videoPlayerController);
+
+      videoControllers.add(videoPlayerController);
+
+      chewieControllers.add(
+        ChewieController(
+          videoPlayerController: videoPlayerController,
+          showControlsOnInitialize: false,
+          autoPlay: true,
+          materialProgressColors: ChewieProgressColors(
+            backgroundColor: Color.fromARGB(255, 40, 5, 165),
+            bufferedColor: Color.fromARGB(255, 255, 255, 255),
+          ),
+          looping: true,
+          allowedScreenSleep: false,
+          overlay: null,
+        ),
+      );
+    }
+  }
+  }
+
+  @override
+  void dispose() {
+    for (final controller in videoControllers) {
+      controller.dispose();
+    }
+    for (final controller in chewieControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -264,14 +261,11 @@ super.dispose();
                                               },
                                               child: Column(
                                                 children: [
-                                                     Icon(
-    Icons.share,
-    size: 45,
-    color:                                                 _isModalVisible
-
-        ? Color.fromARGB(255, 157, 96, 255)
-        : Colors.white,
-  ),
+                                                  Icon(
+                                                    Icons.share,
+                                                    size: 45,
+                                                    color: Colors.white,
+                                                  ),
                                                   const SizedBox(height: 5),
                                                   Text(
                                                     "0",
@@ -284,34 +278,30 @@ super.dispose();
                                               ),
                                             ),
                                             InkWell(
-
- 
-                                      onTap: () => Navigator.of(context).push(
-  MaterialPageRoute(
-    builder: (context) => CommentScreen(
-      id: videoController.videoList[index].id,
-    ),
-  ),
-),
-child: Column(
-  children: [
-    Icon(
-      Icons.comment_rounded,
-      size: 45,
-      color: videoController.videoList[index].commentBy.contains(authController.user.uid)
-          ? Colors.purple
-          : Colors.white,
-    ),
-    const SizedBox(height: 5),
-    Text(
-      videoController.videoList[index].commentCount.toString(),
-      style: const TextStyle(
-        fontSize: 14,
-        color: Colors.white,
-      ),
-    ),
-  ],
-),
+                                              onTap: () => Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => CommentScreen(
+                                                    id: videoController.videoList[index].id,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.comment,
+                                                    size: 45,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                     videoController.videoList[index].commentCount.toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                             InkWell(
                                               onTap: () {},
@@ -414,44 +404,12 @@ child: Column(
                                       ),
                                     ],
                                   ),
-                                  
                                 ),
                               ],
                             );
                           },
                         ),
-                        
-
-                        
                       ),
-                       Visibility(
-            visible: _isModalVisible,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isModalVisible = false;
-                });
-              },
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Apply blur effect
-                child: Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-
-
-                      },
-                      child: Text('Modal Content'),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-     
-
-
                       if (_isModalVisible)
                         Container(
                           color: Theme.of(context).colorScheme.primary,
