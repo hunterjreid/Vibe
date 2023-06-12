@@ -165,7 +165,7 @@ class SignupScreen extends StatelessWidget {
                           _emailController.text,
                           _passwordController.text,
                           authController.profilePhoto,
-                          _birthdayController.text
+            
                         ),
                         child: const Center(
                           child: Text(
@@ -178,49 +178,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () => authController.registerUserWithGoogle(
-                            _usernameController.text,
-                            _emailController.text,
-                            _passwordController.text,
-                            authController.profilePhoto,
-                          ),
-                          icon: Icon(Icons.login),
-                          label: Text('Sign up with Google'),
-                          style: ElevatedButton.styleFrom(
-                            // Button styles
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () => authController.registerUserWithFacebook(
-                            _usernameController.text,
-                            _emailController.text,
-                            _passwordController.text,
-                            authController.profilePhoto,
-                          ),
-                          icon: Icon(Icons.login),
-                          label: Text('Sign up with Facebook'),
-                          style: ElevatedButton.styleFrom(
-                            // Button styles
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          ),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
+               
                     if (MediaQuery.of(context).size.width < 768)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

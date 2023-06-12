@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_compress/video_compress.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadVideoController extends GetxController {
   RxDouble progress = 0.0.obs;
+  String videoId = const Uuid().v4();
 
   Future<File> _compressVideo(String videoPath) async {
     Get.snackbar(
@@ -32,19 +34,18 @@ class UploadVideoController extends GetxController {
     }
   }
 
-  Future<String> _uploadVideoToStorage(String id, String videoPath) async {
-    Reference ref = firebaseStorage.ref().child('videos').child(id);
+  Future<String> _uploadVideoToStorage(String videoPath) async {
 
-    // get file size before compression
+
+    Reference ref = firebaseStorage.ref().child('videos').child(videoId);
+
     final originalFile = File(videoPath);
     final originalFileSize = await originalFile.length();
 
-    // compress video
     final compressedFile = await _compressVideo(videoPath);
 
     UploadTask uploadTask = ref.putFile(
       compressedFile,
-      // set metadata with original file size
       SettableMetadata(contentType: 'video/mp4', customMetadata: {
         'originalFileSize': originalFileSize.toString(),
       }),
@@ -61,38 +62,35 @@ class UploadVideoController extends GetxController {
     return downloadUrl;
   }
 
-  _getThumbnail(String videoPath) async {
+  Future<File> _getThumbnail(String videoPath) async {
     final thumbnail = await VideoCompress.getFileThumbnail(videoPath);
     return thumbnail;
   }
 
-  Future<String> _uploadImageToStorage(String id, String videoPath) async {
-    Reference ref = firebaseStorage.ref().child('thumbnails').child(id);
+  Future<String> _uploadImageToStorage(String videoPath) async {
+
+
+    Reference ref = firebaseStorage.ref().child('thumbnails').child(videoId);
     UploadTask uploadTask = ref.putFile(await _getThumbnail(videoPath));
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
   }
 
-  // upload video
-  
-  // upload video
   uploadVideo(String songName, String caption, String videoPath) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
-      DocumentSnapshot userDoc =
-          await firestore.collection('users').doc(uid).get();
-      // get id
-      var allDocs = await firestore.collection('videos').get();
-      int len = allDocs.docs.length;
-      print(len);
-      String videoUrl = await _uploadVideoToStorage("Video $len", videoPath);
-      String thumbnail = await _uploadImageToStorage("Video $len", videoPath);
+      DocumentSnapshot userDoc = await firestore.collection('users').doc(uid).get();
+
+      String videoUrl = await _uploadVideoToStorage(videoPath);
+      String thumbnail = await _uploadImageToStorage(videoPath);
+
+
 
       Video video = Video(
         username: (userDoc.data()! as Map<String, dynamic>)['name'],
         uid: uid,
-        id: "Video $len",
+        id: videoId,
         likes: [],
         commentCount: 0,
         shareCount: 0,
@@ -104,12 +102,9 @@ class UploadVideoController extends GetxController {
         timestamp: Timestamp.now(),
       );
 
-      print(video.id);
+      await firestore.collection('videos').doc(videoId).set(video.toJson());
 
-      await firestore.collection('videos').doc('Video $len').set(
-            video.toJson(),
-          );
-      Get.toNamed('/HomeScreen');
+      Get.back();
     } catch (e) {
       Get.snackbar(
         'Error Uploading Video',

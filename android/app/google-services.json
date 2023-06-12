@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "782902269864",
-    "project_id": "vibe-d9b2d",
-    "storage_bucket": "vibe-d9b2d.appspot.com"
+    "project_number": "569358034431",
+    "project_id": "vibe-3926d",
+    "storage_bucket": "vibe-3926d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:782902269864:android:004f3705c352c130f5ef9d",
+        "mobilesdk_app_id": "1:569358034431:android:cab77692d1e82aa86ab3ca",
         "android_client_info": {
           "package_name": "com.example.vibe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "782902269864-sdaj140g4feiem8dtuov972q243183h4.apps.googleusercontent.com",
+          "client_id": "569358034431-94l7f3lfnb4ga8smmaof93ajfe8s8602.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA4EtuthUKUsqbMJ25ZYATvg4VvOtIM548"
+          "current_key": "AIzaSyAHXH0UqjlPQ91CXnRxTlQ-_NJHKtjSI-8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "782902269864-sdaj140g4feiem8dtuov972q243183h4.apps.googleusercontent.com",
+              "client_id": "569358034431-94l7f3lfnb4ga8smmaof93ajfe8s8602.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "782902269864-nod047ogmlrel5vrohsdbi45m44ivn6t.apps.googleusercontent.com",
+              "client_id": "569358034431-e6ep331o3u74rd9rhjmq6ptqo3hjr3uv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.vibe"
