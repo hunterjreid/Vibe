@@ -6,6 +6,7 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/createScreen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/show_own_video_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
 import 'direct_message_screen.dart';
@@ -464,7 +465,7 @@ class _UserScreenState extends State<UserScreen>
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => ShowSingleVideo(
+                                        builder: (context) => ShowOwnVideo(
                                           videoIndex: index,
                                         ),
                                       ),

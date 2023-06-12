@@ -41,6 +41,21 @@ class VideoController extends GetxController {
     }));
   }
 
+  void addView(String id) async {
+  print(id);
+  DocumentSnapshot doc = await firestore.collection('videos').doc(id).get();
+  
+  if (doc.exists) { // Check if the document exists
+    int views = (doc.data() as Map<String, dynamic>)['views'] ?? 0;
+    await firestore.collection('videos').doc(id).update({
+      'views': views + 1,
+    });
+  } else {
+    // Handle the case when the document doesn't exist
+    print('Document does not exist');
+  }
+}
+
 void likeVideo(String id) async {
   print(id);
   DocumentSnapshot doc = await firestore.collection('videos').doc(id).get();

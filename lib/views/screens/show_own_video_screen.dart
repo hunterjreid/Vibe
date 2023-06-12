@@ -7,18 +7,18 @@ import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
 
-class ShowSingleVideo extends StatefulWidget {
+class ShowOwnVideo extends StatefulWidget {
   final int videoIndex;
   final VideoController videoController = Get.find();
   bool _isModalVisible = false;
 
-  ShowSingleVideo({Key? key, required this.videoIndex}) : super(key: key);
+  ShowOwnVideo({Key? key, required this.videoIndex}) : super(key: key);
 
   @override
-  _ShowSingleVideoState createState() => _ShowSingleVideoState();
+  _ShowOwnVideoState createState() => _ShowOwnVideoState();
 }
 
-class _ShowSingleVideoState extends State<ShowSingleVideo> {
+class _ShowOwnVideoState extends State<ShowOwnVideo> {
   late PageController _pageController;
   late VideoPlayerController _videoPlayerController;
   bool _isVideoLoading = true;
@@ -48,7 +48,49 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
       });
   }
 
+  void _showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete this video?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                _deleteVideo();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
+  void _deleteVideo() {
+    final data = widget.videoController.videoList[widget.videoIndex];
+
+    debugPrint(data.uid);
+
+    FirebaseFirestore.instance.collection('videos').doc(data.id).delete().then((_) {
+      // Video deleted successfully
+      // You can perform any additional tasks or show a success message
+      print('Video deleted successfully');
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }).catchError((error) {
+      // An error occurred while deleting the video
+      // Handle the error or show an error message
+      print('Error deleting video: $error');
+    });
+  }
 
   Widget buildProfile(String profilePhoto) {
     return CircleAvatar(
@@ -63,8 +105,35 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
     bool _isModalVisible = false;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video'),
-       
+        title: Text('Video Player with delete'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              // Handle favorite button tap
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.comment),
+            onPressed: () {
+              // Navigate to comment view
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CommentScreen(
+                    id: videoController.videoList[widget.videoIndex].id,
+                  ),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              _showDeleteConfirmationDialog();
+            },
+          ),
+        ],
       ),
       body: PageView.builder(
         controller: _pageController,
@@ -74,7 +143,7 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
           final data = videoController.videoList[index];
           final video = videoController.videoList[index];
           final videoId = video.id;
-          videoController.addView(videoId); 
+                    videoController.addView(videoId); 
           videoController.likeVideo(videoId);
           return Center(
             child: _isVideoLoading
@@ -95,7 +164,7 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
                           data.caption3,
                           'Soundtrack: ' + data.songName,
                           'Posted on: ' + data.timestamp.toDate().toString(),
-                                      'Views: ' + data.views.toString(),
+                          'Views: ' + data.views.toString(),
                         ],
                         textStyles: [
                           TextStyle(
@@ -287,20 +356,7 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
           );
         },
       ),
-    bottomNavigationBar: Container(
-      height: 50,
- 
-      child: Center(
-        child: Text(
-          'Show Similar Videos',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ),
-  );
+    );
   }
 }
 

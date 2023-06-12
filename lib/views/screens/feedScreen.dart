@@ -6,6 +6,7 @@ import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/friendSearch_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/use_this_sound_screen.dart';
 import 'package:vibe/views/screens/user_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -53,6 +54,8 @@ fit: BoxFit.cover,
 );
 }
 
+
+
 class _FeedScreenState extends State<FeedScreen> {
 final VideoController videoController = Get.put(VideoController());
 AuthController authController = Get.put(AuthController());
@@ -62,27 +65,56 @@ bool _isLoading = true;
 bool _isModalVisible = false;
 bool _refreshing = false; // Added refreshing state
 
+
 @override
 void initState() {
-super.initState();
-WidgetsBinding.instance.addPostFrameCallback((_) {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+  
 
-preloadVideos();
-});
+          waitForValidVideoRange();
+    
+  });
 }
+
+
+bool hasValidVideoRange() {
+
+  return videoController.videoList.isNotEmpty;
+}
+
+void waitForValidVideoRange() {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (hasValidVideoRange()) {
+     preloadVideos();
+    } else {
+      waitForValidVideoRange();
+    }
+  });
+}
+
+
+
+void navigateToUseThisSoundScreen(String title) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => RecordThisSoundScreen(title: title,)),
+  );
+}
+
 
 void preloadVideos() async {
 
-for (int i = 0; i < 10; i++) {
+for (int i = 0; i < 3; i++) {
   
 final Video video = videoController.videoList[i];
 final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
+
+
 await videoPlayerController.initialize();
   
-  setState(() {
-    _isLoading = false;
-  });
+videoController.addView(videoController.videoList[i].id); 
 
 
 
@@ -96,14 +128,33 @@ await videoPlayerController.initialize();
       materialProgressColors: ChewieProgressColors(
         backgroundColor: Color.fromARGB(255, 40, 5, 165),
         bufferedColor: Color.fromARGB(255, 255, 255, 255),
-      ),
+      ),additionalOptions: (context) {
+  return <OptionItem>[
+    OptionItem(
+      onTap: () => debugPrint('My option works!'),
+      iconData: Icons.report,
+      title: 'Report Video',
+    ),
+    OptionItem(
+      onTap: () =>
+          debugPrint('Another option working!'),
+      iconData: Icons.copy,
+      title: 'Copy Link to Video',
+    ),
+  ];
+},
       looping: true,
       allowedScreenSleep: false,
       overlay: null,
     ),
   );
-}
 
+
+  
+}
+  setState(() {
+    _isLoading = false;
+  });
 }
 
 @override
@@ -182,7 +233,7 @@ super.dispose();
                             ),
                             SizedBox(width: 4),
                             Text(
-                              '0',
+                             data.views.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
@@ -313,26 +364,28 @@ child: Column(
   ],
 ),
                                             ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Column(
-                                                children: [
-                                                  Icon(
-                                                    Icons.audio_file,
-                                                    size: 45,
-                                                    color: Colors.white,
-                                                  ),
-                                                  const SizedBox(height: 5),
-                                                  Text(
-                                                    "0",
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                 InkWell(
+  onTap: () =>  navigateToUseThisSoundScreen(videoController.videoList[index].songName.toString()),
+
+  child: Column(
+    children: [
+      Icon(
+        Icons.audio_file,
+        size: 45,
+        color: Colors.white,
+      ),
+      const SizedBox(height: 5),
+      Text(
+        "0",
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+        ),
+      )
+    ],
+  ),
+),
+
                                             InkWell(
                                               onTap: () {
                                                 showDialog(
@@ -553,10 +606,26 @@ child: Column(
             backgroundColor: Color.fromARGB(255, 121, 121, 121),
             bufferedColor: Color.fromARGB(255, 204, 204, 204),
           ),
+          additionalOptions: (context) {
+  return <OptionItem>[
+    OptionItem(
+      onTap: () => debugPrint('My option works!'),
+      iconData: Icons.chat,
+      title: 'My localized title',
+    ),
+    OptionItem(
+      onTap: () =>
+          debugPrint('Another option working!'),
+      iconData: Icons.chat,
+      title: 'Another localized title',
+    ),
+  ];
+},
           looping: true,
           allowedScreenSleep: false,
           overlay: null,
         ),
+        
       );
     }
   }

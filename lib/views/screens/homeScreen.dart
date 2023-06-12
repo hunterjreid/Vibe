@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                       child: Stack(
                         children: [
-                          _videoController.buildVideoThumbnail(reversedIndex),
+                          _videoController.buildVideoThumbnail(index),
                           Positioned(
                             bottom: 0.0,
                             child: Container(
