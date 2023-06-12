@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/video.dart';
+import 'package:vibe/views/screens/appScreen.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:uuid/uuid.dart';
 
@@ -36,7 +37,7 @@ class UploadVideoController extends GetxController {
 
   Future<String> _uploadVideoToStorage(String videoPath) async {
 
-
+  String videoId = const Uuid().v4();
     Reference ref = firebaseStorage.ref().child('videos').child(videoId);
 
     final originalFile = File(videoPath);
@@ -77,39 +78,42 @@ class UploadVideoController extends GetxController {
     return downloadUrl;
   }
 
-  uploadVideo(String songName, String caption, String videoPath) async {
-    try {
-      String uid = firebaseAuth.currentUser!.uid;
-      DocumentSnapshot userDoc = await firestore.collection('users').doc(uid).get();
+uploadVideo(String songName, String caption, String caption2, String caption3, String videoPath) async {
+  try {
+    String uid = firebaseAuth.currentUser!.uid;
+    DocumentSnapshot userDoc = await firestore.collection('users').doc(uid).get();
 
-      String videoUrl = await _uploadVideoToStorage(videoPath);
-      String thumbnail = await _uploadImageToStorage(videoPath);
+    String videoUrl = await _uploadVideoToStorage(videoPath);
+    String thumbnail = await _uploadImageToStorage(videoPath);
+  String videoId = const Uuid().v4();
+    Video video = Video(
+      username: (userDoc.data()! as Map<String, dynamic>)['name'],
+      uid: uid,
+      id: videoId,
+      likes: [],
+      commentCount: 0,
+      shareCount: 0,
+      songName: songName,
+      caption: caption,
+      caption2: caption2,
+      caption3: caption3,
+      musicUseCount: 0,
+      savedCount: 0,
+      views: 0,
+      videoUrl: videoUrl,
+      profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
+      thumbnail: thumbnail,
+      timestamp: Timestamp.now(),
+    );
 
+    await firestore.collection('videos').doc(videoId).set(video.toJson());
 
-
-      Video video = Video(
-        username: (userDoc.data()! as Map<String, dynamic>)['name'],
-        uid: uid,
-        id: videoId,
-        likes: [],
-        commentCount: 0,
-        shareCount: 0,
-        songName: songName,
-        caption: caption,
-        videoUrl: videoUrl,
-        profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
-        thumbnail: thumbnail,
-        timestamp: Timestamp.now(),
-      );
-
-      await firestore.collection('videos').doc(videoId).set(video.toJson());
-
-      Get.back();
-    } catch (e) {
-      Get.snackbar(
-        'Error Uploading Video',
-        e.toString(),
-      );
-    }
+    Get.offAll(() => AppScreen());
+  } catch (e) {
+    Get.snackbar(
+      'Error Uploading Video',
+      e.toString(),
+    );
   }
+}
 }

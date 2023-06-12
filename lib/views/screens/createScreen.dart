@@ -1,17 +1,23 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+import 'package:vibe/views/screens/browsesongs_screen.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
-import 'package:vibe/views/screens/facefilter_screen.dart';
+
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/uploadAudio_screen.dart';
 import 'package:vibe/views/screens/your_dms_screen.dart';
 import 'package:video_player/video_player.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateScreen extends StatelessWidget {
   final ProfileController profileController = Get.put(ProfileController());
@@ -43,6 +49,7 @@ class CreateScreen extends StatelessWidget {
       );
     }
   }
+
 
   showOptionsDialog(BuildContext context) {
     return showDialog(
@@ -117,10 +124,14 @@ class CreateScreen extends StatelessWidget {
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
                 children: [
+//                   ElevatedButton(
+//   onPressed: writeToFirestore,
+//   child: Text('Write to Firestore'),
+// ),
                                    _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
        
                   _buildButton(context, 'Add Video', TrendsScreen()),
-                  _buildButton(context, 'Face Filter', FaceFilterScreen()),
+                  _buildButton(context, 'Music', BrowseSongsPage()),
             _buildButton(context, 'Trends!', TrendsScreen()),
                   _buildButton(context, 'Your DMs', DmScreen()),
                   _buildButton(context, 'Saved Videos', MoreScreen()),
@@ -154,6 +165,28 @@ class CreateScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> writeToFirestore() async {
+  try {
+    // Initialize Firebase app
+    await Firebase.initializeApp();
+
+    // Create a new document in the 'messages' collection
+    await FirebaseFirestore.instance
+        .collection("collection")
+        .doc("doc_id")
+        .collection('messages')
+        .doc("msg_id")
+        .set({
+      'text': 'hello',
+      'timestamp': DateTime.now(),
+    });
+
+    print('Text written to Firestore successfully');
+  } catch (e) {
+    print('Error writing text to Firestore: $e');
   }
 }
 

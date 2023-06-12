@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
-import 'package:vibe/views/screens/facefilter_screen.dart';
+
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/uploadAudio_screen.dart';
 
@@ -194,30 +194,7 @@ class AddVideoScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 20), // Add spacing between the two widgets
-                  InkWell(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const FaceFilterScreen(),
-                      ),
-                    ),
-                    child: Container(
-                      width: 190,
-                      height: 50,
-                      decoration: BoxDecoration(color: Color.fromARGB(255, 39, 114, 176)),
-                      child: const Center(
-                        child: Text(
-                          'Face Filters',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MonaSans',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
               ),
               const SizedBox(height: 20),
               InkWell(

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/video.dart';
+import 'dart:core';
 
 class VideoController extends GetxController {
   final Rx<List<Video>> _videoList = Rx<List<Video>>([]);
@@ -28,11 +29,15 @@ class VideoController extends GetxController {
         .map((QuerySnapshot query) {
       List<Video> retVal = [];
       for (var element in query.docs) {
+        print("added");
         retVal.add(
+          
           Video.fromSnap(element),
         );
       }
+      print(retVal);
       return retVal;
+      
     }));
   }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/controllers/upload_video_controller.dart';
+import 'package:vibe/views/screens/browsesongs_screen.dart';
 import 'package:vibe/views/screens/edit_screen.dart';
 import 'package:vibe/views/widgets/text_input_field.dart';
 import 'package:video_player/video_player.dart';
@@ -23,13 +24,13 @@ class ConfirmScreen extends StatefulWidget {
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
   late VideoPlayerController controller;
-  TextEditingController _songController = TextEditingController();
-  TextEditingController _captionController = TextEditingController();
-  TextEditingController _longCaptionController = TextEditingController();
-  TextEditingController _shortCaptionController = TextEditingController();
-  TextEditingController _audioNameController = TextEditingController();
+  final TextEditingController _songController = TextEditingController();
+  final TextEditingController _captionController = TextEditingController();
+  final TextEditingController _longCaptionController = TextEditingController();
+  final TextEditingController _shortCaptionController = TextEditingController();
+  final TextEditingController _audioNameController = TextEditingController();
 
-  UploadVideoController uploadVideoController = Get.put(UploadVideoController());
+  final UploadVideoController uploadVideoController = Get.put(UploadVideoController());
 
   VideoEditorController? _videoEditorController;
 
@@ -72,34 +73,77 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 30,
+            SizedBox(height: 30),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Confirm Video',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                           Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditScreen(videoFile: widget.videoFile),
+                        ),
+                      );
+                        },
+                        icon: Icon(Icons.video_library),
+                        tooltip: 'Open Video Editor',
+                      ),
+                      IconButton(
+                        onPressed: () {
+                         Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BrowseSongsPage(),
+                        ),
+                      );
+                        },
+                        icon: Icon(Icons.music_note),
+                        tooltip: 'Change Music',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: VideoPlayer(controller),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
+            Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    width: MediaQuery.of(context).size.width - 20,
+                    child: TextInputField(
+                      controller: _songController,
+                      labelText: 'Song',
+                      icon: Icons.music_note,
+             
+                    ),
+                  ),
+    SizedBox(
+
+  height: MediaQuery.of(context).size.width/1.2,
+  child: AspectRatio(
+    aspectRatio: 9 / 16,
+    child: VideoPlayer(controller),
+  ),
+),
+ 
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextInputField(
-                      controller: _songController,
-                      labelText: 'Song Name',
-                      icon: Icons.music_note,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  
+             
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width - 20,
@@ -107,11 +151,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       controller: _captionController,
                       labelText: 'Caption',
                       icon: Icons.closed_caption,
+                      
+                 
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+    
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width - 20,
@@ -119,57 +163,29 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       controller: _longCaptionController,
                       labelText: 'Long Caption',
                       icon: Icons.closed_caption,
+                 
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+          
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 20,
+                    width: MediaQuery.of(context).size.width - 30,
                     child: TextInputField(
                       controller: _shortCaptionController,
                       labelText: 'Short Caption',
                       icon: Icons.closed_caption,
-                    ),
+                 ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextInputField(
-                      controller: _audioNameController,
-                      labelText: 'Audio Name',
-                      icon: Icons.audiotrack,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                
+             
                   Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditScreen(videoFile: widget.videoFile),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'Open Video Editor',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+          
                   ElevatedButton(
                     onPressed: () => uploadVideoController.uploadVideo(
                       _songController.text,
                       _captionController.text,
+                      _longCaptionController.text,
+                      _shortCaptionController.text,
                       widget.videoPath,
                     ),
                     child: const Text(

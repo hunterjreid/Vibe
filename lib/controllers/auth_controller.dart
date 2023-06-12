@@ -7,13 +7,12 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/models/user.dart' as model;
 import 'package:vibe/views/screens/appScreen.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
-import 'package:vibe/views/screens/homeScreen.dart';
 
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
-  late Rx<File?> _pickedImage;
+  late Rx<File?> _pickedImage = Rx<File?>(null);
 
   File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
@@ -61,6 +60,13 @@ class AuthController extends GetxController {
   void registerUser(
       String username, String email, String password, File? image) async {
     try {
+      if (image == null) {
+        Get.snackbar(
+          'Error Creating Account',
+          'Please select a profile picture',
+        );
+        return;
+      }
       if (username.isNotEmpty &&
           email.isNotEmpty &&
           password.isNotEmpty &&
@@ -76,9 +82,6 @@ class AuthController extends GetxController {
           email: email,
           uid: cred.user!.uid,
           profilePhoto: downloadUrl,
-          website: '',
-          bio: '',
-          birthday: '',
         );
         await firestore
             .collection('users')

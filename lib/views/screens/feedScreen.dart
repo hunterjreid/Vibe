@@ -10,8 +10,10 @@ import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:video_player/video_player.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:vibe/controllers/auth_controller.dart';
 import 'comment_screen.dart';
 
 
@@ -38,10 +40,10 @@ class FeedScreen extends StatefulWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: Image(
-                image: NetworkImage(profilePhoto),
-                fit: BoxFit.cover,
-              ),
+           child: Image.network(
+  profilePhoto,
+  fit: BoxFit.cover,
+),
             ),
           ),
         )
@@ -51,6 +53,7 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
+  AuthController authController = Get.put(AuthController());
   List<VideoPlayerController> videoControllers = [];
   List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
   bool _isLoading = true;
@@ -66,19 +69,11 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   }
 
-void watchVideo(Video video) {
-  // Handle when a video is watched
-  videoController.videoList.remove(video);
 
-  if (videoController.videoList.length <= 5) {
-    // Preload more videos
-    preloadVideos();
-  }
-}
 
   void preloadVideos() async {
     if (videoController != null) {}
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 3; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
@@ -106,6 +101,7 @@ void watchVideo(Video video) {
         ),
       );
     }
+  
   }
 
   @override
@@ -368,9 +364,9 @@ void watchVideo(Video video) {
                                       VideoTextOverlay(
                                         texts: [
                                           videoController.videoList[index].username,
-                                          '#Explore #Adventure',
+                                          videoController.videoList[index].caption2,
                                           videoController.videoList[index].caption,
-                                          'Discover the hidden treasures of nature',
+                                          videoController.videoList[index].caption3,
                                           'Soundtrack: ' + videoController.videoList[index].songName,
                                         ],
                                         textStyles: [
