@@ -59,6 +59,7 @@ dependencies:
   introduction_screen: ^3.1.8
   share: ^2.0.4
   palette_generator: ^0.3.3+2
+  flutter_colorpicker: ^1.0.3
 
 
 dependency_overrides:

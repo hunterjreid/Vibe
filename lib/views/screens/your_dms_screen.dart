@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vibe/constants.dart';
+import 'package:vibe/controllers/get_dm_controller.dart';
+import 'package:vibe/models/dm.dart';
 
-class DmScreen extends StatelessWidget {
+
+class YourDMsScreen extends StatefulWidget {
+  @override
+  _YourDMsScreenState createState() => _YourDMsScreenState();
+}
+
+class _YourDMsScreenState extends State<YourDMsScreen> {
+  final GetDMController dmController = Get.put(GetDMController());
+
+  @override
+  void initState() {
+    super.initState();
+    dmController.fetchDMs(authController.user.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,36 +39,25 @@ class DmScreen extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Expanded(
-              child: ListView.builder(
-                itemCount: 10, // Placeholder for the number of conversations
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/profile_picture.jpg'), // Placeholder for user avatar
-                      radius: 24,
-                    ),
-                    title: Text(
-                      'User Name', // Placeholder for user name
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Last Message', // Placeholder for last message
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    trailing: Text(
-                      '12:34 PM', // Placeholder for last message timestamp
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  );
+              child: GetBuilder<GetDMController>(
+                builder: (controller) {
+                  if (controller.dms.isEmpty) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: controller.dms.length,
+                      itemBuilder: (context, index) {
+                        final dm = controller.dms[index];
+                        return ListTile(
+                          title: Text(dm.participants.first),
+                          subtitle: Text(dm.messages[0].toString()),
+                          trailing: Text(dm.messages[1].toString()),
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ),

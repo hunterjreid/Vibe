@@ -59,6 +59,14 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     _tabController = TabController(length: 3, vsync: this);
   }
 
+
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+
+  profileController.updateUserId(widget.uid);
+}
+
    void _tabControllerListener() {
     setState(() {}); // Update the state when the tab changes
   }
@@ -67,6 +75,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   @override
   void dispose() {
     _tabController.dispose();
+     profileController.updateUserId(widget.uid);
     super.dispose();
   }
 
@@ -117,11 +126,19 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
             insets: EdgeInsets.symmetric(horizontal: 16.0),
           ),
                 ),
-                actions: [
-                  Icon(Icons.edit_document),
-                ],
+      actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserSettingsScreen()),
+                );
+              },
+              icon: Icon(Icons.edit_document),
+            ),
+          ],
                 title: Text(
-                  controller.user['name'],
+                  "Your Profile",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -169,59 +186,8 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                       ),
                                     ),
                                   ],
-                                ),
-                                Text(
-                                  profileController.user['name'],
-                                  style: TextStyle(
-                                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    fontSize: 42.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 16.0),
-                                ElevatedButton(
-                                  child: const Text('Create'),
-                                  onPressed: () {
-                                    // Handle navigation to create screen
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => CreateScreen(),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  controller.user['bio'] ?? 'No bio set',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.link,
-                                      color: Colors.blue,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      controller.user['website'] ?? 'No website set',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
+                                ),       const SizedBox(height: 6.0),
+                                   Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Column(
@@ -238,6 +204,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                             style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
+                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
                                             ),
                                           ),
                                         ),
@@ -246,6 +213,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                           'Following',
                                           style: TextStyle(
                                             fontSize: 14,
+                                                fontFamily: 'MonaSansExtraBoldWideItalic',
                                           ),
                                         ),
                                       ],
@@ -341,9 +309,57 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 15,
+                                 Text(
+                                  profileController.user['name'] ?? 'No bio set',
+                                  style: TextStyle(
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                const SizedBox(height: 6.0),
+                                  Icon(
+      Icons.edit,
+      color: Colors.blue,
+    ),
+                                Text(
+                                  profileController.user['username'] ?? 'No bio set',
+                                  
+                                  style: TextStyle(
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  
+                                ),
+                                const SizedBox(height: 6.0),
+                                Text(
+                                  controller.user['bio'] ?? 'No bio set',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.link,
+                                      color: Colors.blue,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      controller.user['website'] ?? 'No website set',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 3),
+                       
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -354,111 +370,13 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                             .colorScheme
                                             .background, // Choose your desired background color
                                       ),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          controller.followUser();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                          elevation: MaterialStateProperty.all<double>(0),
-                                        ),
-                                        child: Text(
-                                          controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white, // Choose your desired text color
-                                          ),
-                                        ),
-                                      ),
+                                   
                                     ),
-                                    SizedBox(width: 8),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background, // Choose your desired background color
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => DirectMessageScreen(
-                                                recipientUID: widget.uid,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                          elevation: MaterialStateProperty.all<double>(0),
-                                        ),
-                                        child: Text(
-                                          'Send Direct Message',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white, // Choose your desired text color
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                          
                                   ],
                                 ),
-                                if (widget.uid != authController.user.uid)
-                                  Container(
-                                    width: 160,
-                                    height: 87,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(),
-                                    ),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              controller.followUser();
-                                            },
-                                            child: Text(
-                                              controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          if (widget.uid != authController.user.uid)
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => DirectMessageScreen(recipientUID: widget.uid),
-                                                  ),
-                                                );
-                                              },
-                                              child: Text(
-                                                'OPEN DIRECT MESSAGE',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
+                  
+                    
                                 GridView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
@@ -497,13 +415,36 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   ),
 
                   // Second tab view
-                  Center(
-                    child: Text(
-                      'User\'s Long Description',
-                      // Replace 'User\'s Long Description' with the actual user's long description
-                      style: TextStyle(fontSize: 16),
+                 
+
+Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'User\'s Long Description',
+                // Replace 'User\'s Long Description' with the actual user's long description
+                style: TextStyle(fontSize: 16),
+              ),
+              ElevatedButton(
+                child: const Text('Create'),
+                onPressed: () {
+                  // Handle navigation to create screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateScreen(),
                     ),
-                  ),
+                  );
+                },
+           ),
+            ],
+        ),
+    ),
+
+
+
+                 
                   // Third tab view
                   Center(
                     child: ElevatedButton(

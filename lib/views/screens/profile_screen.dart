@@ -329,7 +329,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) => DirectMessageScreen(recipientUID: widget.uid),
+                                                    builder: (context) => DirectMessageScreen(recipientUID: widget.uid, senderUID: authController.user.uid,),
                                                   ),
                                                 );
                                               },

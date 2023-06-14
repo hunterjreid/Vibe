@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
@@ -59,7 +60,7 @@ class FriendSearchPage extends StatelessWidget {
                   shareVideoDMController.sendMessage(user.uid, videoId);
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DirectMessageScreen(recipientUID: user.uid),
+                      builder: (context) => DirectMessageScreen(recipientUID: user.uid, senderUID: authController.user.uid,),
                     ),
                   );
                 },

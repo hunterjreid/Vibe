@@ -132,7 +132,7 @@ class CreateScreen extends StatelessWidget {
                   _buildButton(context, 'Add Video', TrendsScreen()),
                   _buildButton(context, 'Music', BrowseSongsPage()),
                   _buildButton(context, 'Trends!', TrendsScreen()),
-                  _buildButton(context, 'Your DMs', DmScreen()),
+                  _buildButton(context, 'Your DMs', YourDMsScreen()),
                   _buildButton(context, 'Saved Videos', MoreScreen()),
                 ],
               ),

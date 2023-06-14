@@ -11,6 +11,8 @@ class SettingsController extends GetxController {
   TextEditingController websiteController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
+  RxBool isAnonymous = false.obs; // Added RxBool for isAnonymous
+
   @override
   void onInit() {
     super.onInit();
@@ -20,6 +22,8 @@ class SettingsController extends GetxController {
   void fetchUserData() async {
     DocumentSnapshot userSnapshot =
         await FirebaseFirestore.instance.collection('users').doc(authController.user.uid).get();
+
+       
 
     Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
     if (userData != null) {
