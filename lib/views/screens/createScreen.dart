@@ -50,7 +50,6 @@ class CreateScreen extends StatelessWidget {
     }
   }
 
-
   showOptionsDialog(BuildContext context) {
     return showDialog(
       context: context,
@@ -128,11 +127,11 @@ class CreateScreen extends StatelessWidget {
 //   onPressed: writeToFirestore,
 //   child: Text('Write to Firestore'),
 // ),
-                                   _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
-       
+                  _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
+
                   _buildButton(context, 'Add Video', TrendsScreen()),
                   _buildButton(context, 'Music', BrowseSongsPage()),
-            _buildButton(context, 'Trends!', TrendsScreen()),
+                  _buildButton(context, 'Trends!', TrendsScreen()),
                   _buildButton(context, 'Your DMs', DmScreen()),
                   _buildButton(context, 'Saved Videos', MoreScreen()),
                 ],
@@ -144,8 +143,7 @@ class CreateScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(
-      BuildContext context, String title, Widget screenWidget) {
+  Widget _buildButton(BuildContext context, String title, Widget screenWidget) {
     return ElevatedButton(
       onPressed: () {
         if (title == 'Add Video') {
@@ -174,12 +172,7 @@ Future<void> writeToFirestore() async {
     await Firebase.initializeApp();
 
     // Create a new document in the 'messages' collection
-    await FirebaseFirestore.instance
-        .collection("collection")
-        .doc("doc_id")
-        .collection('messages')
-        .doc("msg_id")
-        .set({
+    await FirebaseFirestore.instance.collection("collection").doc("doc_id").collection('messages').doc("msg_id").set({
       'text': 'hello',
       'timestamp': DateTime.now(),
     });
@@ -189,7 +182,6 @@ Future<void> writeToFirestore() async {
     print('Error writing text to Firestore: $e');
   }
 }
-
 
 class TrendsScreen extends StatelessWidget {
   @override
@@ -266,7 +258,6 @@ class TrendsScreen extends StatelessWidget {
   }
 }
 
-
 class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -283,8 +274,7 @@ class MoreScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text('Saved Videos screen'),
       ),
       body: Column(
@@ -306,19 +296,13 @@ class MoreScreen extends StatelessWidget {
         ],
       ),
     );
-  
   }
-
-
-
 
   Widget _buildButtonx(BuildContext context, String title) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
-        onPressed: () {
-         
-        },
+        onPressed: () {},
         child: Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(

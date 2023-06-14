@@ -194,7 +194,7 @@ class AddVideoScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 20), // Add spacing between the two widgets
-                  ],
+                ],
               ),
               const SizedBox(height: 20),
               InkWell(

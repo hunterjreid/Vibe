@@ -23,10 +23,9 @@ class ProfileScreen extends StatefulWidget {
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
-  
 }
 
- ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
 
 Color generateRandomColor() {
   Random random = Random();
@@ -39,14 +38,12 @@ Color generateRandomColor() {
   return Color.fromARGB(alpha, red, green, blue);
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
-    with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   final ProfileController profileController = Get.put(ProfileController());
   late TabController _tabController;
 
-   Color randomColor1 =  Colors.blue;
+  Color randomColor1 = Colors.blue;
   Color randomColor2 = Color.fromARGB(255, 243, 33, 233);
-
 
   @override
   void initState() {
@@ -63,403 +60,393 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
- ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
- print(isDarkTheme);
+    ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+    print(isDarkTheme);
 
     if (isDarkTheme == null) {
       // Fallback theme in case of null value
       themeData = ThemeData.light();
     }
 
-  return MaterialApp(
-      theme: themeData , // Apply dark theme
+    return MaterialApp(
+        theme: themeData, // Apply dark theme
         debugShowCheckedModeBanner: false,
-      home: GetBuilder<ProfileController>(
-      init: ProfileController(),
-      builder: (controller) {
-        if (controller.user.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+        home: GetBuilder<ProfileController>(
+          init: ProfileController(),
+          builder: (controller) {
+            if (controller.user.isEmpty) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-
-
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            bottom: TabBar(
-              controller: _tabController, // Set the TabController
-              labelColor:   Theme.of(context).colorScheme.surface,
-              tabs: [
-                Tab(text: 'Tab 1'),
-                Tab(text: 'Tab 2'),
-                Tab(text: 'Tab 3'),
-              ],
-            ),
-            actions: [
-              if (widget.uid == authController.user.uid)
-                IconButton(
-                  icon: Icon(Icons.settings),
+            return Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserSettingsScreen(),
-                      ),
-                    );
+                    Navigator.pop(context);
                   },
                 ),
-              Icon(Icons.more_horiz),
-            ],
-            title: Text(
-              controller.user['name'] + " (" + widget.uid + ")",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+                bottom: TabBar(
+                  controller: _tabController, // Set the TabController
+                  labelColor: Theme.of(context).colorScheme.surface,
+                  tabs: [
+                    Tab(text: 'Tab 1'),
+                    Tab(text: 'Tab 2'),
+                    Tab(text: 'Tab 3'),
+                  ],
+                ),
+                actions: [
+                  if (widget.uid == authController.user.uid)
+                    IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserSettingsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  Icon(Icons.more_horiz),
+                ],
+                title: Text(
+                  controller.user['name'] + " (" + widget.uid + ")",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
-          body: TabBarView(
-            controller: _tabController, // Set the TabController
-            children: [
-              // First tab view
-              SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        child: Column(
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
+              body: TabBarView(
+                controller: _tabController, // Set the TabController
+                children: [
+                  // First tab view
+                  SafeArea(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            child: Column(
                               children: [
-                                Container(
-                                  width: 500,
-                                  height: 140,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        randomColor1,
-                                        randomColor2,
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomRight,
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      width: 500,
+                                      height: 140,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            randomColor1,
+                                            randomColor2,
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                ClipOval(
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl: controller.user['profilePhoto'],
-                                    height: 90,
-                                    width: 90,
-                                    placeholder: (context, url) => const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => const Icon(
-                                      Icons.error,
+                                    ClipOval(
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: controller.user['profilePhoto'],
+                                        height: 90,
+                                        width: 90,
+                                        placeholder: (context, url) => const CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) => const Icon(
+                                          Icons.error,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            Text(
-                              profileController.user['name'],
-                              style: TextStyle(
-                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                                fontSize: 42.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              controller.user['bio'] ?? '',
-                              style: const TextStyle(
-                                fontSize: 16,
-                
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.link,
-                                  color: Colors.blue,
-                                ),
-                                const SizedBox(width: 4),
                                 Text(
-                                  controller.user['website'] ?? '',
+                                  profileController.user['name'],
                                   style: TextStyle(
-                                    color: Colors.blue,
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 42.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _showFollowingPopup(
-                                          context,
-                                          controller.user['followingList'],
-                                        );
-                                      },
-                                      child: Text(
-                                        controller.user['following'],
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    const Text(
-                                      'Following',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  width: 1,
+                                const SizedBox(
                                   height: 15,
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 15,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  controller.user['bio'] ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _showFollowerPopup(
-                                          context,
-                                          controller.user['followersList'],
-                                        );
-                                      },
-                                      child: Text(
-                                        controller.user['followers'],
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                               fontFamily: 'MonaSansExtraBoldWideItalic',
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    const Text(
-                                      'Followers',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                             fontFamily: 'MonaSansExtraBoldWideItalic',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  width: 1,
-                                  height: 15,
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      controller.user['likes'],
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                             fontFamily: 'MonaSansExtraBoldWideItalic',
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    const Text(
-                                      'Likes',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                             fontFamily: 'MonaSansExtraBoldWideItalic',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                                    if (widget.uid != authController.user.uid)
-                            Container(
-                              width: 160,
-                              height: 87,
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                              ),
-                              child: Center(
-                                child: Column(
+                                const SizedBox(height: 12),
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                            
-                                    InkWell(
-                                      onTap: () {
-                               
-                                          controller.followUser();
-                                      
-                                      },
-                                      child: Text(
-                              
-                                            controller.user['isFollowing']
-                                                ? 'Unfollow'
-                                                : 'Follow',
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                               fontFamily: 'MonaSansExtraBoldWideItalic',
-                                        ),
+                                    const Icon(
+                                      Icons.link,
+                                      color: Colors.blue,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      controller.user['website'] ?? '',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    if (widget.uid != authController.user.uid)
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => DirectMessageScreen(recipientUID: widget.uid),
-                                            ),
-                                          );
-                                        },
-                                        child: Text(
-                                          'OPEN DIRECT MESSAGE',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
                                   ],
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: controller.user['thumbnails'].length,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 1,
-                                crossAxisSpacing: 5,
-                              ),
-                              itemBuilder: (context, index) {
-                                String thumbnail = controller.user['thumbnails'][index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ShowOwnVideo(
-                                          videoIndex: index,
+                                const SizedBox(height: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            _showFollowingPopup(
+                                              context,
+                                              controller.user['followingList'],
+                                            );
+                                          },
+                                          child: Text(
+                                            controller.user['following'],
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
+                                        const SizedBox(height: 5),
+                                        const Text(
+                                          'Following',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      width: 1,
+                                      height: 15,
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            _showFollowerPopup(
+                                              context,
+                                              controller.user['followersList'],
+                                            );
+                                          },
+                                          child: Text(
+                                            controller.user['followers'],
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        const Text(
+                                          'Followers',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      width: 1,
+                                      height: 15,
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          controller.user['likes'],
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        const Text(
+                                          'Likes',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                if (widget.uid != authController.user.uid)
+                                  Container(
+                                    width: 160,
+                                    height: 87,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              controller.followUser();
+                                            },
+                                            child: Text(
+                                              controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          if (widget.uid != authController.user.uid)
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => DirectMessageScreen(recipientUID: widget.uid),
+                                                  ),
+                                                );
+                                              },
+                                              child: Text(
+                                                'OPEN DIRECT MESSAGE',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: controller.user['thumbnails'].length,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 5,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    String thumbnail = controller.user['thumbnails'][index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ShowOwnVideo(
+                                              videoIndex: index,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: CachedNetworkImage(
+                                        imageUrl: thumbnail,
+                                        fit: BoxFit.cover,
                                       ),
                                     );
                                   },
-                                  child: CachedNetworkImage(
-                                    imageUrl: thumbnail,
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'This user has uploaded ${controller.user['thumbnails'].length} videos',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.popUntil(context, (route) => route.isFirst);
-                        },
-                        child: Text(
-                          'Go Back Home',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      )
+                          Text(
+                            'This user has uploaded ${controller.user['thumbnails'].length} videos',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.popUntil(context, (route) => route.isFirst);
+                            },
+                            child: Text(
+                              'Go Back Home',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Second tab view
+                  Center(
+                    child: Text('Tab 2 View'),
+                  ),
+                  // Third tab view
+                  Center(
+                    child: Text('Tab 3 View'),
+                  ),
+                ],
+              ),
+              bottomNavigationBar: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Direct Messages',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.search),
+                        label: 'Analytics',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.add_circle_outline),
+                        label: 'Upload',
+                      ),
                     ],
                   ),
                 ),
               ),
-
-              // Second tab view
-              Center(
-                child: Text('Tab 2 View'),
-              ),
-              // Third tab view
-              Center(
-                child: Text('Tab 3 View'),
-              ),
-            ],
-          ),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(
-                Radius.circular(50),
-              ),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Direct Messages',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: 'Analytics',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.add_circle_outline),
-                    label: 'Upload',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-      )
-    );
+            );
+          },
+        ));
   }
 
   void _showFollowingPopup(BuildContext context, List<String> followingList) {

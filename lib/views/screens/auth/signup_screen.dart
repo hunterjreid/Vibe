@@ -165,7 +165,6 @@ class SignupScreen extends StatelessWidget {
                           _emailController.text,
                           _passwordController.text,
                           authController.profilePhoto,
-            
                         ),
                         child: const Center(
                           child: Text(
@@ -178,7 +177,6 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-               
                     if (MediaQuery.of(context).size.width < 768)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

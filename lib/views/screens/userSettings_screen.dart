@@ -60,13 +60,11 @@ class UserSettingsScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             TextField(
-
               decoration: InputDecoration(
                 labelText: 'Short Bio',
               ),
             ),
             TextField(
-
               maxLines: 4, // Allow multiple lines for long bio
               decoration: InputDecoration(
                 labelText: 'Long Bio',

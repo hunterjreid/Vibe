@@ -16,40 +16,38 @@ import 'package:flutter/widgets.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'comment_screen.dart';
 
-
-
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
 
-  buildProfile(String profilePhoto) {
-    return SizedBox(
-      width: 60,
-      height: 60,
-      child: Stack(children: [
-        Positioned(
-          left: 5,
-          child: Container(
-            width: 50,
-            height: 50,
-            padding: const EdgeInsets.all(1),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-           child: Image.network(
-  profilePhoto,
-  fit: BoxFit.cover,
-),
+buildProfile(String profilePhoto) {
+  return SizedBox(
+    width: 60,
+    height: 60,
+    child: Stack(children: [
+      Positioned(
+        left: 5,
+        child: Container(
+          width: 50,
+          height: 50,
+          padding: const EdgeInsets.all(1),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Image.network(
+              profilePhoto,
+              fit: BoxFit.cover,
             ),
           ),
-        )
-      ]),
-    );
-  }
+        ),
+      )
+    ]),
+  );
+}
 
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
@@ -59,7 +57,6 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _isLoading = true;
   bool _isModalVisible = false;
   bool _refreshing = false; // Added refreshing state
-  
 
   @override
   void initState() {
@@ -69,41 +66,37 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   }
 
-
-
   void preloadVideos() async {
-    
     if (videoController != null) {
-    for (int i = 0; i < 3; i++) {
-      final Video video = videoController.videoList[i];
-      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
-     
+      for (int i = 0; i < 3; i++) {
+        final Video video = videoController.videoList[i];
+        final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
-      await videoPlayerController.initialize();
-      setState(() {
-        _isLoading = false;
-      });
+        await videoPlayerController.initialize();
+        setState(() {
+          _isLoading = false;
+        });
 
-      print(videoPlayerController);
+        print(videoPlayerController);
 
-      videoControllers.add(videoPlayerController);
+        videoControllers.add(videoPlayerController);
 
-      chewieControllers.add(
-        ChewieController(
-          videoPlayerController: videoPlayerController,
-          showControlsOnInitialize: false,
-          autoPlay: true,
-          materialProgressColors: ChewieProgressColors(
-            backgroundColor: Color.fromARGB(255, 40, 5, 165),
-            bufferedColor: Color.fromARGB(255, 255, 255, 255),
+        chewieControllers.add(
+          ChewieController(
+            videoPlayerController: videoPlayerController,
+            showControlsOnInitialize: false,
+            autoPlay: true,
+            materialProgressColors: ChewieProgressColors(
+              backgroundColor: Color.fromARGB(255, 40, 5, 165),
+              bufferedColor: Color.fromARGB(255, 255, 255, 255),
+            ),
+            looping: true,
+            allowedScreenSleep: false,
+            overlay: null,
           ),
-          looping: true,
-          allowedScreenSleep: false,
-          overlay: null,
-        ),
-      );
+        );
+      }
     }
-  }
   }
 
   @override
@@ -161,91 +154,85 @@ class _FeedScreenState extends State<FeedScreen> {
                                     controller: chewieController,
                                   ),
                                 ),
-                                  Positioned(
-                      top: 8,
-                      left: 25,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.visibility,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              '0',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                                Positioned(
+                                  top: 8,
+                                  left: 25,
+                                  child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black54,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.visibility,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          '0',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 60.0),
                                   child: Column(
-                                    
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      
                                       // Rest of your overlay content goes here
                                       Container(
-                                        margin: EdgeInsets.only(top:40),
+                                        margin: EdgeInsets.only(top: 40),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-
-                                            
-                                                        InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => UserScreen(uid: data.uid),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Column(
-                                                  children: [
-                                                    buildProfile(data.profilePhoto),
-                                                  ],
-                                                ),
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => UserScreen(uid: data.uid),
+                                                  ),
+                                                );
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  buildProfile(data.profilePhoto),
+                                                ],
                                               ),
+                                            ),
                                             const SizedBox(height: 5),
-                                          InkWell(
-  onTap: () {
-    final video = videoController.videoList[index];
-    final videoId = video.id;
+                                            InkWell(
+                                              onTap: () {
+                                                final video = videoController.videoList[index];
+                                                final videoId = video.id;
 
+                                                videoController.likeVideo(videoId);
 
-      videoController.likeVideo(videoId);
-  
-
-    setState(() {
-      // Update the like count and color immediately
-      video.likes.contains(authController.user.uid)
-          ? video.likes.remove(authController.user.uid)
-          : video.likes.add(authController.user.uid);
-    });
-  },
-  child: Icon(
-    Icons.favorite,
-    size: 45,
-    color: video.likes.contains(authController.user.uid)
-        ? Color.fromARGB(255, 44, 113, 179)
-        : Colors.white,
-  ),
-),
-      const SizedBox(height: 5),
+                                                setState(() {
+                                                  // Update the like count and color immediately
+                                                  video.likes.contains(authController.user.uid)
+                                                      ? video.likes.remove(authController.user.uid)
+                                                      : video.likes.add(authController.user.uid);
+                                                });
+                                              },
+                                              child: Icon(
+                                                Icons.favorite,
+                                                size: 45,
+                                                color: video.likes.contains(authController.user.uid)
+                                                    ? Color.fromARGB(255, 44, 113, 179)
+                                                    : Colors.white,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
                                             Text(
                                               videoController.videoList[index].likes.length.toString(),
                                               style: const TextStyle(
@@ -256,7 +243,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                _isModalVisible = !_isModalVisible;
+                                                  _isModalVisible = !_isModalVisible;
                                                 });
                                               },
                                               child: Column(
@@ -294,7 +281,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                     videoController.videoList[index].commentCount.toString(),
+                                                    videoController.videoList[index].commentCount.toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,

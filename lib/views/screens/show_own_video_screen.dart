@@ -143,7 +143,7 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
           final data = videoController.videoList[index];
           final video = videoController.videoList[index];
           final videoId = video.id;
-                    videoController.addView(videoId); 
+          videoController.addView(videoId);
           videoController.likeVideo(videoId);
           return Center(
             child: _isVideoLoading
@@ -248,9 +248,7 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
                                   Icon(
                                     Icons.share,
                                     size: 45,
-                                    color: _isModalVisible
-                                        ? Color.fromARGB(255, 157, 96, 255)
-                                        : Colors.white,
+                                    color: _isModalVisible ? Color.fromARGB(255, 157, 96, 255) : Colors.white,
                                   ),
                                   const SizedBox(height: 5),
                                   Text(
@@ -276,10 +274,9 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
                                   Icon(
                                     Icons.comment_rounded,
                                     size: 45,
-                                    color: videoController.videoList[index].commentBy.contains(
-                                                authController.user.uid)
-                                            ? Colors.purple
-                                            : Colors.white,
+                                    color: videoController.videoList[index].commentBy.contains(authController.user.uid)
+                                        ? Colors.purple
+                                        : Colors.white,
                                   ),
                                   const SizedBox(height: 5),
                                   Text(

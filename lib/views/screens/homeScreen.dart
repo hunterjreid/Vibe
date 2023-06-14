@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -5,6 +6,7 @@ import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,44 +47,51 @@ class _HomeScreenState extends State<HomeScreen> {
     _searchController.searchUser(query);
   }
 
+  Future<PaletteGenerator> generatePalette(String imageUrl) async {
+    final PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    return paletteGenerator;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  automaticallyImplyLeading: false,
-  titleSpacing: 0,
-  title: Row(
-    children: [
-      IconButton(
-        icon: Icon(Icons.search),
-        onPressed: () {
-          // Perform search action
-        },
-      ),
-      Expanded(
-        child: TextFormField(
-          controller: _searchQueryController,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Search',
-            hintStyle: TextStyle(
-              fontSize: 18,
-              fontFamily: 'MonadsSans',
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        title: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Perform search action
+              },
             ),
-          ),
+            Expanded(
+              child: TextFormField(
+                controller: _searchQueryController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'MonadsSans',
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {
+              // Handle notifications
+            },
+          ),
+        ],
       ),
-    ],
-  ),
-  actions: [
-    IconButton(
-      icon: Icon(Icons.notifications),
-      onPressed: () {
-        // Handle notifications
-      },
-    ),
-  ],
-), body: !_isSearching || _searchQueryController.text.isEmpty
+      body: !_isSearching || _searchQueryController.text.isEmpty
           ? Center(
               child: Obx(
                 () => GridView.builder(
@@ -94,51 +103,81 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final reversedIndex =
                         _videoController.videoList.length - 1 - index;
-                    final video = _videoController.videoList[reversedIndex];
+                    final video = _videoController.videoList[index];
 
-                    return GestureDetector(
-           onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ShowSingleVideo(
-                                          videoIndex: index,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                      child: Stack(
-                        children: [
-                          _videoController.buildVideoThumbnail(index),
-                          Positioned(
-                            bottom: 0.0,
-                            child: Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.black54,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.visibility,
-                                    color: Colors.white,
-                                    size: 16,
+                    return FutureBuilder<PaletteGenerator>(
+                      future: generatePalette(video.thumbnail),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final color = snapshot.data!.dominantColor!.color;
+                          final averageColor = Color.fromRGBO(
+                            color.red,
+                            color.green,
+                            color.blue,
+                            0.1,
+                          );
+
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ShowSingleVideo(
+                                    videoIndex: index,
                                   ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    '0',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
+                                ),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: averageColor,
+                                  ),
+                                  child: Image.network(
+                                    _videoController.videoList[index]
+                                        .thumbnail,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black54,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.visibility,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          video.views.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
+                          );
+                        } else {
+                          return Container(); // Placeholder widget while loading palette
+                        }
+                      },
                     );
                   },
                 ),

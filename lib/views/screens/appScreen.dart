@@ -16,7 +16,6 @@ class _AppScreenState extends State<AppScreen> {
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
 
-
   String selectedColorOption = 'Jet Black';
 
   BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
@@ -97,43 +96,40 @@ class _AppScreenState extends State<AppScreen> {
 
   @override
   Widget build(BuildContext context) {
- final currentTheme = isDarkTheme ? darkTheme : lightTheme;
- 
+    final currentTheme = isDarkTheme ? darkTheme : lightTheme;
 
     return Theme(
       data: currentTheme,
       child: Scaffold(
-
-       appBar: pageIdx == 1 || pageIdx == 2   ? null : AppBar(
-          centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/logo.png', // Replace with your logo image path
-                width: 50,
-                height: 50,
+        appBar: pageIdx == 1 || pageIdx == 2
+            ? null
+            : AppBar(
+                centerTitle: true,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/logo.png', // Replace with your logo image path
+                      width: 50,
+                      height: 50,
+                    ),
+                  ],
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      ShowDialog.showSetColorsDialog(context, _updateColorTheme);
+                    },
+                    icon: Icon(
+                      Icons.settings,
+                      size: 24,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                ShowDialog.showSetColorsDialog(context, _updateColorTheme);
-              },
-              icon: Icon(
-                Icons.settings,
-                size: 24,
-              ),
-            ),
-          ],
-        ),
-
         bottomNavigationBar: Container(
-
           decoration: BoxDecoration(
-                      color: bottomNavigationBarTheme.selectedItemColor,
-          
+            color: bottomNavigationBarTheme.selectedItemColor,
           ),
           padding: EdgeInsets.fromLTRB(10, 3, 10, 7),
           child: ClipRRect(
@@ -227,7 +223,6 @@ class _AppScreenState extends State<AppScreen> {
           ),
         ),
         body: pages[pageIdx],
-
         drawer: MenuWidget(),
       ),
     );

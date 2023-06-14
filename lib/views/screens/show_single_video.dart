@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -19,20 +18,17 @@ class ShowSingleVideo extends StatefulWidget {
 }
 
 class _ShowSingleVideoState extends State<ShowSingleVideo> {
-  late PageController _pageController;
   late VideoPlayerController _videoPlayerController;
   bool _isVideoLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: widget.videoIndex);
     _initializeVideoPlayer();
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     _videoPlayerController.dispose();
     super.dispose();
   }
@@ -48,8 +44,6 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
       });
   }
 
-
-
   Widget buildProfile(String profilePhoto) {
     return CircleAvatar(
       radius: 28,
@@ -61,246 +55,231 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
   Widget build(BuildContext context) {
     final videoController = widget.videoController;
     bool _isModalVisible = false;
+    final data = videoController.videoList[widget.videoIndex];
+    final video = videoController.videoList[widget.videoIndex];
+    final videoId = video.id;
+    videoController.addView(videoId);
+    videoController.likeVideo(videoId);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Video'),
-       
       ),
-      body: PageView.builder(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        itemCount: videoController.videoList.length,
-        itemBuilder: (context, index) {
-          final data = videoController.videoList[index];
-          final video = videoController.videoList[index];
-          final videoId = video.id;
-          videoController.addView(videoId); 
-          videoController.likeVideo(videoId);
-          return Center(
-            child: _isVideoLoading
-                ? CircularProgressIndicator()
-                : Stack(
-                    alignment: Alignment.bottomCenter,
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: VideoPlayer(_videoPlayerController),
+          ),
+          VideoTextOverlay(
+            texts: [
+              video.username,
+              video.caption2,
+              video.caption,
+              video.caption3,
+              'Soundtrack: ' + video.songName,
+              'Posted on: ' + video.timestamp.toDate().toString(),
+              'Views: ' + video.views.toString(),
+            ],
+            textStyles: [
+              TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+              ),
+              TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'MonaSans',
+              ),
+              TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'MonaSans',
+              ),
+              TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'MonaSans',
+              ),
+              TextStyle(
+                fontSize: 12,
+                color: Colors.white,
+                fontFamily: 'MonaSansExtraBoldWide',
+              ),
+            ],
+          ),
+          Positioned(
+            top: 10,
+            right: 15,
+            child: buildProfile(data.profilePhoto),
+          ),
+          Positioned(
+            top: 60,
+            right: 10,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      // Update the like count and color immediately
+                      video.likes.contains(authController.user.uid)
+                          ? video.likes.remove(authController.user.uid)
+                          : video.likes.add(authController.user.uid);
+                    });
+                  },
+                  child: Column(
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: VideoPlayer(_videoPlayerController),
+                      Icon(
+                        Icons.favorite,
+                        size: 35,
+                        color: video.likes.contains(authController.user.uid)
+                            ? Color.fromARGB(255, 44, 113, 179)
+                            : Colors.white,
                       ),
-                      VideoTextOverlay(
-                        texts: [
-                          data.username,
-                          data.caption2,
-                          data.caption,
-                          data.caption3,
-                          'Soundtrack: ' + data.songName,
-                          'Posted on: ' + data.timestamp.toDate().toString(),
-                                      'Views: ' + data.views.toString(),
-                        ],
-                        textStyles: [
-                          TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                          TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MonaSans',
-                          ),
-                          TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MonaSans',
-                          ),
-                          TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MonaSans',
-                          ),
-                          TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontFamily: 'MonaSansExtraBoldWide',
-                          ),
-                        ],
-                      ),
-                      Positioned(
-                        top: 10,
-                        right: 15,
-                        child: buildProfile(data.profilePhoto),
-                      ),
-                      Positioned(
-                        top: 60,
-                        right: 10,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  // Update the like count and color immediately
-                                  video.likes.contains(authController.user.uid)
-                                      ? video.likes.remove(authController.user.uid)
-                                      : video.likes.add(authController.user.uid);
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.favorite,
-                                    size: 35,
-                                    color: video.likes.contains(authController.user.uid)
-                                        ? Color.fromARGB(255, 44, 113, 179)
-                                        : Colors.white,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    videoController.videoList[index].likes.length.toString(),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _isModalVisible = !_isModalVisible;
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.share,
-                                    size: 45,
-                                    color: _isModalVisible
-                                        ? Color.fromARGB(255, 157, 96, 255)
-                                        : Colors.white,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    "0",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => CommentScreen(
-                                    id: videoController.videoList[index].id,
-                                  ),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.comment_rounded,
-                                    size: 45,
-                                    color: videoController.videoList[index].commentBy.contains(
-                                                authController.user.uid)
-                                            ? Colors.purple
-                                            : Colors.white,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    videoController.videoList[index].commentCount.toString(),
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.audio_file,
-                                    size: 45,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    "0",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text("Video saved"),
-                                      content: Text("Your video has been saved to your gallery."),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(context),
-                                          child: Text("OK"),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.save,
-                                    size: 45,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    "Save",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                      const SizedBox(height: 5),
+                      Text(
+                        video.likes.length.toString(),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-          );
-        },
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _isModalVisible = !_isModalVisible;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.share,
+                        size: 45,
+                        color: _isModalVisible ? Color.fromARGB(255, 157, 96, 255) : Colors.white,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        video.commentCount.toString(),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CommentScreen(
+                        id: videoController.videoList[widget.videoIndex].id,
+                      ),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.comment_rounded,
+                        size: 45,
+                        color: videoController.videoList[widget.videoIndex].commentBy.contains(authController.user.uid)
+                            ? Colors.purple
+                            : Colors.white,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        videoController.videoList[widget.videoIndex].commentCount.toString(),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.audio_file,
+                        size: 45,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        "0",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Video saved"),
+                          content: Text("Your video has been saved to your gallery."),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("OK"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.save,
+                        size: 45,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        "Save",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    bottomNavigationBar: Container(
-      height: 50,
- 
-      child: Center(
-        child: Text(
-          'Show Similar Videos',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+      bottomNavigationBar: Container(
+        height: 50,
+        child: Center(
+          child: Text(
+            'Show Similar Videos',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
   }
 }
 

@@ -86,29 +86,28 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  
                   Row(
                     children: [
                       IconButton(
                         onPressed: () {
-                           Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditScreen(videoFile: widget.videoFile),
-                        ),
-                      );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditScreen(videoFile: widget.videoFile),
+                            ),
+                          );
                         },
                         icon: Icon(Icons.video_library),
                         tooltip: 'Open Video Editor',
                       ),
                       IconButton(
                         onPressed: () {
-                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BrowseSongsPage(),
-                        ),
-                      );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BrowseSongsPage(),
+                            ),
+                          );
                         },
                         icon: Icon(Icons.music_note),
                         tooltip: 'Change Music',
@@ -119,31 +118,26 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               ),
             ),
             Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextInputField(
-                      controller: _songController,
-                      labelText: 'Song',
-                      icon: Icons.music_note,
-             
-                    ),
-                  ),
-    SizedBox(
-
-  height: MediaQuery.of(context).size.width/1.2,
-  child: AspectRatio(
-    aspectRatio: 9 / 16,
-    child: VideoPlayer(controller),
-  ),
-),
- 
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              width: MediaQuery.of(context).size.width - 20,
+              child: TextInputField(
+                controller: _songController,
+                labelText: 'Song',
+                icon: Icons.music_note,
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width / 1.2,
+              child: AspectRatio(
+                aspectRatio: 9 / 16,
+                child: VideoPlayer(controller),
+              ),
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  
-             
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width - 20,
@@ -151,11 +145,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       controller: _captionController,
                       labelText: 'Caption',
                       icon: Icons.closed_caption,
-                      
-                 
                     ),
                   ),
-    
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width - 20,
@@ -163,10 +154,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       controller: _longCaptionController,
                       labelText: 'Long Caption',
                       icon: Icons.closed_caption,
-                 
                     ),
                   ),
-          
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: MediaQuery.of(context).size.width - 30,
@@ -174,12 +163,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       controller: _shortCaptionController,
                       labelText: 'Short Caption',
                       icon: Icons.closed_caption,
-                 ),
+                    ),
                   ),
-                
-             
                   Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
-          
                   ElevatedButton(
                     onPressed: () => uploadVideoController.uploadVideo(
                       _songController.text,

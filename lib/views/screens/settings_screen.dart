@@ -4,21 +4,21 @@ import 'package:vibe/constants.dart';
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
- ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
- print(isDarkTheme);
+    ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+    print(isDarkTheme);
 
     if (isDarkTheme == null) {
       // Fallback theme in case of null value
       themeData = ThemeData.light();
     }
 
-  BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
+    BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
     return MaterialApp(
-      theme: themeData , // Apply dark theme
-        debugShowCheckedModeBanner: false,
+      theme: themeData, // Apply dark theme
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-            leading: IconButton(
+          leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context); // Navigate back to previous screen
@@ -45,8 +45,8 @@ class SettingsPage extends StatelessWidget {
             ListTile(
               title: Text('Privacy Policy'),
               onTap: () {
-                showPopupDialog(
-                    context, 'Privacy Policy', 'At Vibe, we prioritize your privacy and want you to feel secure while using our services. We want to assure you that we do not store any of your personal information.\n\nWe believe that your data should be yours alone, and we respect your right to control and protect it. ');
+                showPopupDialog(context, 'Privacy Policy',
+                    'At Vibe, we prioritize your privacy and want you to feel secure while using our services. We want to assure you that we do not store any of your personal information.\n\nWe believe that your data should be yours alone, and we respect your right to control and protect it. ');
               },
             ),
             ListTile(

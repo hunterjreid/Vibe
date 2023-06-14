@@ -64,7 +64,7 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
     if (isPlaying) {
       await pauseSong();
     }
-    
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => RecordSoundScreen(title: currentSong)),

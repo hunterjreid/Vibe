@@ -8,7 +8,6 @@ import 'package:vibe/models/user.dart' as model;
 import 'package:vibe/views/screens/appScreen.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
 
-
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
@@ -34,21 +33,16 @@ class AuthController extends GetxController {
   }
 
   void pickImage() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      Get.snackbar('Profile Picture',
-          'You have successfully selected your profile picture!');
+      Get.snackbar('Profile Picture', 'You have successfully selected your profile picture!');
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
   }
 
   // upload to firebase storage
   Future<String> _uploadToStorage(File image) async {
-    Reference ref = firebaseStorage
-        .ref()
-        .child('profilePics')
-        .child(firebaseAuth.currentUser!.uid);
+    Reference ref = firebaseStorage.ref().child('profilePics').child(firebaseAuth.currentUser!.uid);
 
     UploadTask uploadTask = ref.putFile(image);
     TaskSnapshot snap = await uploadTask;
@@ -57,8 +51,7 @@ class AuthController extends GetxController {
   }
 
   // registering the user
-  void registerUser(
-      String username, String email, String password, File? image) async {
+  void registerUser(String username, String email, String password, File? image) async {
     try {
       if (image == null) {
         Get.snackbar(
@@ -67,10 +60,7 @@ class AuthController extends GetxController {
         );
         return;
       }
-      if (username.isNotEmpty &&
-          email.isNotEmpty &&
-          password.isNotEmpty &&
-          image != null) {
+      if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && image != null) {
         // save out user to our ath and firebase firestore
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
           email: email,
@@ -83,10 +73,7 @@ class AuthController extends GetxController {
           uid: cred.user!.uid,
           profilePhoto: downloadUrl,
         );
-        await firestore
-            .collection('users')
-            .doc(cred.user!.uid)
-            .set(user.toJson());
+        await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
       } else {
         Get.snackbar(
           'Error Creating Account',
@@ -104,8 +91,7 @@ class AuthController extends GetxController {
   void loginUser(String email, String password) async {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(
-            email: email, password: password);
+        await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       } else {
         Get.snackbar(
           'Error Logging in',

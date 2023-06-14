@@ -37,8 +37,6 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
     super.dispose();
   }
 
-
-
   Future<void> _stopRecording() async {
     if (_controller.value.isRecordingVideo) {
       try {
@@ -82,7 +80,7 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
                 onPressed: () {
                   if (_isRecording) {
                     _stopRecording();
-                  } 
+                  }
                 },
               ),
               ElevatedButton(

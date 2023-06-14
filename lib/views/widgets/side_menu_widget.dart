@@ -96,7 +96,6 @@ class MenuWidget extends StatelessWidget {
     required List<Color> gradientColors,
     required VoidCallback onTap,
   }) {
-
     return ListTile(
       title: Text(
         title,

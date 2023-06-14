@@ -18,15 +18,12 @@ import 'package:vibe/views/screens/video_screen.dart';
 List pages = [
   FeedScreen(),
   HomeScreen(),
-    UserScreen(uid: authController.user.uid),
+  UserScreen(uid: authController.user.uid),
   CreateScreen(),
-
   NewLayoutScreen(),
 ];
 
-
 bool isDarkTheme = true;
-
 
 // COLORS
 const Color backgroundColor = Colors.black;
@@ -48,7 +45,6 @@ ThemeData get lightTheme => ThemeData(
         error: Colors.red,
         onError: Colors.black,
       ),
-
     );
 
 ThemeData get darkTheme => ThemeData(
@@ -65,18 +61,12 @@ ThemeData get darkTheme => ThemeData(
         error: Colors.red,
         onError: Colors.black,
       ),
-
     );
-
-
-
 
 // FIREBASE
 var firebaseAuth = FirebaseAuth.instance;
 var firebaseStorage = FirebaseStorage.instance;
 var firestore = FirebaseFirestore.instance;
-
-
 
 // CONTROLLER
 var authController = AuthController.instance;

@@ -36,7 +36,6 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,24 +98,24 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-               ElevatedButton.icon(
-                    onPressed: _loginWithGoogle,
-                    icon: Icon(Icons.login),
-                    label: Text('Login with Google'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red, // Use appropriate button color
-                    ),
-                  ),
+              ElevatedButton.icon(
+                onPressed: _loginWithGoogle,
+                icon: Icon(Icons.login),
+                label: Text('Login with Google'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red, // Use appropriate button color
+                ),
+              ),
 
-                  // Login with Facebook button
-                  ElevatedButton.icon(
-                    onPressed: _loginWithFacebook,
-                    icon: Icon(Icons.login),
-                    label: Text('Login with Facebook'),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, // Use appropriate button color
-                    ),
-                  ),
+              // Login with Facebook button
+              ElevatedButton.icon(
+                onPressed: _loginWithFacebook,
+                icon: Icon(Icons.login),
+                label: Text('Login with Facebook'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue, // Use appropriate button color
+                ),
+              ),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 20),

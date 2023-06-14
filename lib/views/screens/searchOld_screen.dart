@@ -12,7 +12,7 @@ class SearchOldScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+    ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
     return Theme(
       data: themeData,
       child: Scaffold(
@@ -23,7 +23,7 @@ class SearchOldScreen extends StatelessWidget {
               hintText: 'Search',
               hintStyle: TextStyle(
                 fontSize: 18,
-        fontFamily: 'MonaSansExtraBoldWideItalic',
+                fontFamily: 'MonaSansExtraBoldWideItalic',
               ),
             ),
             onFieldSubmitted: (value) => searchController.searchUser(value),
@@ -39,7 +39,7 @@ class SearchOldScreen extends StatelessWidget {
                         'Search for users!',
                         style: TextStyle(
                           fontSize: 18,
-               fontFamily: 'MonaSansExtraBoldWideItalic',
+                          fontFamily: 'MonaSansExtraBoldWideItalic',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -66,7 +66,7 @@ class SearchOldScreen extends StatelessWidget {
                           user.name,
                           style: const TextStyle(
                             fontSize: 18,
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
                           ),
                         ),
                       ),

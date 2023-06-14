@@ -20,156 +20,136 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'comment_screen.dart';
 
 class FeedScreen extends StatefulWidget {
-@override
-_FeedScreenState createState() => _FeedScreenState();
+  @override
+  _FeedScreenState createState() => _FeedScreenState();
 
   final VideoController videoController = Get.put(VideoController());
 }
 
 buildProfile(String profilePhoto) {
-return SizedBox(
-width: 60,
-height: 60,
-child: Stack(children: [
-Positioned(
-left: 5,
-child: Container(
-width: 50,
-height: 50,
-padding: const EdgeInsets.all(1),
-decoration: BoxDecoration(
-color: Colors.white,
-borderRadius: BorderRadius.circular(25),
-),
-child: ClipRRect(
-borderRadius: BorderRadius.circular(25),
-child: Image.network(
-profilePhoto,
-fit: BoxFit.cover,
-),
-),
-),
-)
-]),
-);
+  return SizedBox(
+    width: 60,
+    height: 60,
+    child: Stack(children: [
+      Positioned(
+        left: 5,
+        child: Container(
+          width: 50,
+          height: 50,
+          padding: const EdgeInsets.all(1),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Image.network(
+              profilePhoto,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      )
+    ]),
+  );
 }
-
-
 
 class _FeedScreenState extends State<FeedScreen> {
-final VideoController videoController = Get.put(VideoController());
-AuthController authController = Get.put(AuthController());
-List<VideoPlayerController> videoControllers = [];
-List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
-bool _isLoading = true;
-bool _isModalVisible = false;
-bool _refreshing = false; // Added refreshing state
+  final VideoController videoController = Get.put(VideoController());
+  AuthController authController = Get.put(AuthController());
+  List<VideoPlayerController> videoControllers = [];
+  List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
+  bool _isLoading = true;
+  bool _isModalVisible = false;
+  bool _refreshing = false; // Added refreshing state
 
-
-@override
-void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-  
-
-          waitForValidVideoRange();
-    
-  });
-}
-
-
-bool hasValidVideoRange() {
-
-  return videoController.videoList.isNotEmpty;
-}
-
-void waitForValidVideoRange() {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (hasValidVideoRange()) {
-     preloadVideos();
-    } else {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       waitForValidVideoRange();
+    });
+  }
+
+  bool hasValidVideoRange() {
+    return videoController.videoList.isNotEmpty;
+  }
+
+  void waitForValidVideoRange() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (hasValidVideoRange()) {
+        preloadVideos();
+      } else {
+        waitForValidVideoRange();
+      }
+    });
+  }
+
+  void navigateToUseThisSoundScreen(String title) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => RecordThisSoundScreen(
+                title: title,
+              )),
+    );
+  }
+
+  void preloadVideos() async {
+    for (int i = 0; i < 3; i++) {
+      final Video video = videoController.videoList[i];
+      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
+
+      await videoPlayerController.initialize();
+
+      videoController.addView(videoController.videoList[i].id);
+
+      videoControllers.add(videoPlayerController);
+
+      chewieControllers.add(
+        ChewieController(
+          videoPlayerController: videoPlayerController,
+          showControlsOnInitialize: false,
+          autoPlay: true,
+          materialProgressColors: ChewieProgressColors(
+            backgroundColor: Color.fromARGB(255, 40, 5, 165),
+            bufferedColor: Color.fromARGB(255, 255, 255, 255),
+          ),
+          additionalOptions: (context) {
+            return <OptionItem>[
+              OptionItem(
+                onTap: () => debugPrint('My option works!'),
+                iconData: Icons.report,
+                title: 'Report Video',
+              ),
+              OptionItem(
+                onTap: () => debugPrint('Another option working!'),
+                iconData: Icons.copy,
+                title: 'Copy Link to Video',
+              ),
+            ];
+          },
+          looping: true,
+          allowedScreenSleep: false,
+          overlay: null,
+        ),
+      );
     }
-  });
-}
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
-
-
-void navigateToUseThisSoundScreen(String title) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => RecordThisSoundScreen(title: title,)),
-  );
-}
-
-
-void preloadVideos() async {
-
-for (int i = 0; i < 3; i++) {
-  
-final Video video = videoController.videoList[i];
-final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
-
-
-
-await videoPlayerController.initialize();
-  
-videoController.addView(videoController.videoList[i].id); 
-
-
-
-  videoControllers.add(videoPlayerController);
-
-  chewieControllers.add(
-    ChewieController(
-      videoPlayerController: videoPlayerController,
-      showControlsOnInitialize: false,
-      autoPlay: true,
-      materialProgressColors: ChewieProgressColors(
-        backgroundColor: Color.fromARGB(255, 40, 5, 165),
-        bufferedColor: Color.fromARGB(255, 255, 255, 255),
-      ),additionalOptions: (context) {
-  return <OptionItem>[
-    OptionItem(
-      onTap: () => debugPrint('My option works!'),
-      iconData: Icons.report,
-      title: 'Report Video',
-    ),
-    OptionItem(
-      onTap: () =>
-          debugPrint('Another option working!'),
-      iconData: Icons.copy,
-      title: 'Copy Link to Video',
-    ),
-  ];
-},
-      looping: true,
-      allowedScreenSleep: false,
-      overlay: null,
-    ),
-  );
-
-
-  
-}
-  setState(() {
-    _isLoading = false;
-  });
-}
-
-@override
-void dispose() {
-for (final controller in videoControllers) {
-controller.dispose();
-}
-for (final controller in chewieControllers) {
-controller.dispose();
-}
-super.dispose();
-}
-
-
-
+  @override
+  void dispose() {
+    for (final controller in videoControllers) {
+      controller.dispose();
+    }
+    for (final controller in chewieControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,91 +195,85 @@ super.dispose();
                                     controller: chewieController,
                                   ),
                                 ),
-                                  Positioned(
-                      top: 8,
-                      left: 25,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.visibility,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                             data.views.toString(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                                Positioned(
+                                  top: 8,
+                                  left: 25,
+                                  child: Container(
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black54,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.visibility,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          data.views.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 60.0),
                                   child: Column(
-                                    
                                     crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      
                                       // Rest of your overlay content goes here
                                       Container(
-                                        margin: EdgeInsets.only(top:40),
+                                        margin: EdgeInsets.only(top: 40),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-
-                                            
-                                                        InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => UserScreen(uid: data.uid),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Column(
-                                                  children: [
-                                                    buildProfile(data.profilePhoto),
-                                                  ],
-                                                ),
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => UserScreen(uid: data.uid),
+                                                  ),
+                                                );
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  buildProfile(data.profilePhoto),
+                                                ],
                                               ),
+                                            ),
                                             const SizedBox(height: 5),
-                                          InkWell(
-  onTap: () {
-    final video = videoController.videoList[index];
-    final videoId = video.id;
+                                            InkWell(
+                                              onTap: () {
+                                                final video = videoController.videoList[index];
+                                                final videoId = video.id;
 
+                                                videoController.likeVideo(videoId);
 
-      videoController.likeVideo(videoId);
-  
-
-    setState(() {
-      // Update the like count and color immediately
-      video.likes.contains(authController.user.uid)
-          ? video.likes.remove(authController.user.uid)
-          : video.likes.add(authController.user.uid);
-    });
-  },
-  child: Icon(
-    Icons.favorite,
-    size: 45,
-    color: video.likes.contains(authController.user.uid)
-        ? Color.fromARGB(255, 44, 113, 179)
-        : Colors.white,
-  ),
-),
-      const SizedBox(height: 5),
+                                                setState(() {
+                                                  // Update the like count and color immediately
+                                                  video.likes.contains(authController.user.uid)
+                                                      ? video.likes.remove(authController.user.uid)
+                                                      : video.likes.add(authController.user.uid);
+                                                });
+                                              },
+                                              child: Icon(
+                                                Icons.favorite,
+                                                size: 45,
+                                                color: video.likes.contains(authController.user.uid)
+                                                    ? Color.fromARGB(255, 44, 113, 179)
+                                                    : Colors.white,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
                                             Text(
                                               videoController.videoList[index].likes.length.toString(),
                                               style: const TextStyle(
@@ -310,19 +284,18 @@ super.dispose();
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                _isModalVisible = !_isModalVisible;
+                                                  _isModalVisible = !_isModalVisible;
                                                 });
                                               },
                                               child: Column(
                                                 children: [
-                                                     Icon(
-    Icons.share,
-    size: 45,
-    color:                                                 _isModalVisible
-
-        ? Color.fromARGB(255, 157, 96, 255)
-        : Colors.white,
-  ),
+                                                  Icon(
+                                                    Icons.share,
+                                                    size: 45,
+                                                    color: _isModalVisible
+                                                        ? Color.fromARGB(255, 157, 96, 255)
+                                                        : Colors.white,
+                                                  ),
                                                   const SizedBox(height: 5),
                                                   Text(
                                                     "0",
@@ -335,57 +308,55 @@ super.dispose();
                                               ),
                                             ),
                                             InkWell(
-
- 
-                                      onTap: () => Navigator.of(context).push(
-  MaterialPageRoute(
-    builder: (context) => CommentScreen(
-      id: videoController.videoList[index].id,
-    ),
-  ),
-),
-child: Column(
-  children: [
-    Icon(
-      Icons.comment_rounded,
-      size: 45,
-      color: videoController.videoList[index].commentBy.contains(authController.user.uid)
-          ? Colors.purple
-          : Colors.white,
-    ),
-    const SizedBox(height: 5),
-    Text(
-      videoController.videoList[index].commentCount.toString(),
-      style: const TextStyle(
-        fontSize: 14,
-        color: Colors.white,
-      ),
-    ),
-  ],
-),
+                                              onTap: () => Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => CommentScreen(
+                                                    id: videoController.videoList[index].id,
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.comment_rounded,
+                                                    size: 45,
+                                                    color: videoController.videoList[index].commentBy
+                                                            .contains(authController.user.uid)
+                                                        ? Colors.purple
+                                                        : Colors.white,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    videoController.videoList[index].commentCount.toString(),
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                 InkWell(
-  onTap: () =>  navigateToUseThisSoundScreen(videoController.videoList[index].songName.toString()),
-
-  child: Column(
-    children: [
-      Icon(
-        Icons.audio_file,
-        size: 45,
-        color: Colors.white,
-      ),
-      const SizedBox(height: 5),
-      Text(
-        "0",
-        style: const TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-        ),
-      )
-    ],
-  ),
-),
-
+                                            InkWell(
+                                              onTap: () => navigateToUseThisSoundScreen(
+                                                  videoController.videoList[index].songName.toString()),
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.audio_file,
+                                                    size: 45,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    "0",
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                             InkWell(
                                               onTap: () {
                                                 showDialog(
@@ -467,44 +438,34 @@ child: Column(
                                       ),
                                     ],
                                   ),
-                                  
                                 ),
                               ],
                             );
                           },
                         ),
-                        
-
-                        
                       ),
-                       Visibility(
-            visible: _isModalVisible,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isModalVisible = false;
-                });
-              },
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Apply blur effect
-                child: Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-
-
-                      },
-                      child: Text('Modal Content'),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-     
-
-
+                      Visibility(
+                        visible: _isModalVisible,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isModalVisible = false;
+                            });
+                          },
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Apply blur effect
+                            child: Container(
+                              color: Colors.black.withOpacity(0.5),
+                              child: Center(
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text('Modal Content'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       if (_isModalVisible)
                         Container(
                           color: Theme.of(context).colorScheme.primary,
@@ -607,25 +568,23 @@ child: Column(
             bufferedColor: Color.fromARGB(255, 204, 204, 204),
           ),
           additionalOptions: (context) {
-  return <OptionItem>[
-    OptionItem(
-      onTap: () => debugPrint('My option works!'),
-      iconData: Icons.chat,
-      title: 'My localized title',
-    ),
-    OptionItem(
-      onTap: () =>
-          debugPrint('Another option working!'),
-      iconData: Icons.chat,
-      title: 'Another localized title',
-    ),
-  ];
-},
+            return <OptionItem>[
+              OptionItem(
+                onTap: () => debugPrint('My option works!'),
+                iconData: Icons.chat,
+                title: 'My localized title',
+              ),
+              OptionItem(
+                onTap: () => debugPrint('Another option working!'),
+                iconData: Icons.chat,
+                title: 'Another localized title',
+              ),
+            ];
+          },
           looping: true,
           allowedScreenSleep: false,
           overlay: null,
         ),
-        
       );
     }
   }
