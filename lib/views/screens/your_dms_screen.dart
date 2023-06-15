@@ -4,7 +4,6 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/get_dm_controller.dart';
 import 'package:vibe/models/dm.dart';
 
-
 class YourDMsScreen extends StatefulWidget {
   @override
   _YourDMsScreenState createState() => _YourDMsScreenState();
@@ -17,6 +16,12 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
   void initState() {
     super.initState();
     dmController.fetchDMs(authController.user.uid);
+  }
+
+  @override
+  void dispose() {
+    dmController.dispose(); // Dispose of the GetDMController
+    super.dispose();
   }
 
   @override
@@ -39,11 +44,12 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
             ),
             SizedBox(height: 16),
             Expanded(
-              child: GetBuilder<GetDMController>(
+              child: GetX<GetDMController>(
+                init: dmController,
                 builder: (controller) {
                   if (controller.dms.isEmpty) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Text("No DMs Found"),
                     );
                   } else {
                     return ListView.builder(
@@ -51,9 +57,9 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
                       itemBuilder: (context, index) {
                         final dm = controller.dms[index];
                         return ListTile(
-                          title: Text(dm.participants.first),
-                          subtitle: Text(dm.messages[0].toString()),
-                          trailing: Text(dm.messages[1].toString()),
+                          title: Text(dm.participants.join(', ')),
+                          subtitle: Text(dm.messages.isNotEmpty ? dm.messages.first.text : ''),
+                          trailing: Text(dm.messages.isNotEmpty ? dm.messages.last.sent.toString() : ''),
                         );
                       },
                     );
