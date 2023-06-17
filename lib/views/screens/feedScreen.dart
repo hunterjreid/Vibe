@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/screens/friendSearch_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/use_this_sound_screen.dart';
@@ -17,7 +18,7 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vibe/controllers/auth_controller.dart';
-import 'comment_screen.dart';
+
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -240,7 +241,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) => UserScreen(uid: data.uid),
+                                                    builder: (context) => ProfileScreen(uid: data.uid),
                                                   ),
                                                 );
                                               },
@@ -307,14 +308,18 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 ],
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () => Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) => CommentScreen(
-                                                    id: videoController.videoList[index].id,
-                                                  ),
-                                                ),
-                                              ),
+                                          InkWell(
+  onTap: () {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CommentScreen(
+          id: videoController.videoList[index].id,
+        );
+      },
+    );
+  },
+ 
                                               child: Column(
                                                 children: [
                                                   Icon(
@@ -444,28 +449,38 @@ class _FeedScreenState extends State<FeedScreen> {
                           },
                         ),
                       ),
-                      Visibility(
-                        visible: _isModalVisible,
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isModalVisible = false;
-                            });
-                          },
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Apply blur effect
-                            child: Container(
-                              color: Colors.black.withOpacity(0.5),
-                              child: Center(
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text('Modal Content'),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+
+
+
+
+
+
+
+
+
+GestureDetector(
+  onTap: () {
+    setState(() {
+      _isModalVisible = false;
+    });
+  },
+  child: Visibility(
+    visible: _isModalVisible,
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: _isModalVisible ? 5 : 0, sigmaY: _isModalVisible ? 5 : 0),
+      child: Container(
+        color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Text('Share the Vibes!'),
+          ),
+        ),
+      ),
+    ),
+  ),
+),
+
                       if (_isModalVisible)
                         Container(
                           color: Theme.of(context).colorScheme.primary,
@@ -514,6 +529,17 @@ class _FeedScreenState extends State<FeedScreen> {
                             ),
                           ),
                         ),
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
                     ],
                   ),
                 ),

@@ -12,7 +12,7 @@ class CommentScreen extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController _commentController = TextEditingController();
-  CommentController commentController = Get.put(CommentController());
+  final CommentController commentController = Get.put(CommentController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,73 +38,75 @@ class CommentScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: size.height - 100, // Adjust the height as needed
-              child: ListView.builder(
-                itemCount: commentController.comments.length,
-                itemBuilder: (context, index) {
-                  final comment = commentController.comments[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      backgroundImage: NetworkImage(comment.profilePhoto),
-                    ),
-                    title: Row(
-                      children: [
-                        Text(
-                          "${comment.username}  ",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'MonaSans',
+              height: size.height - 100,
+              child: Obx(() => ListView.builder(
+                    itemCount: commentController.comments.length,
+                    itemBuilder: (context, index) {
+                      final comment = commentController.comments[index];
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.black,
+                          backgroundImage: NetworkImage(comment.profilePhoto),
+                        ),
+                        title: Row(
+                          children: [
+                            Text(
+                              "${comment.username}  ",
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'MonaSans',
+                              ),
+                            ),
+                            Text(
+                              comment.comment,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              tago.format(
+                                comment.datePublished.toDate(),
+                              ),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              '${comment.likes.length} comment likes',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: InkWell(
+                          onTap: () => commentController.likeComment(comment.id),
+                          child: Icon(
+                            Icons.favorite,
+                            size: 25,
+                            color: comment.likes.contains(authController.user.uid)
+                                ? Colors.pinkAccent
+                                : Colors.white,
                           ),
                         ),
-                        Text(
-                          comment.comment,
-                          style: const TextStyle(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Row(
-                      children: [
-                        Text(
-                          tago.format(
-                            comment.datePublished.toDate(),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          '${comment.likes.length} comment likes',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: InkWell(
-                      onTap: () => commentController.likeComment(comment.id),
-                      child: Icon(
-                        Icons.favorite,
-                        size: 25,
-                        color: comment.likes.contains(authController.user.uid) ? Colors.pinkAccent : Colors.white,
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  )),
             ),
           ),
           ListTile(

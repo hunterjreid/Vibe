@@ -36,11 +36,12 @@ class Message {
     required this.sent,
   });
 
-  factory Message.fromMap(Map<String, dynamic> map) {
-    return Message(
-      senderUID: map['senderUID'] as String,
-      text: map['text'] as String,
-      sent: (map['sent'] as Timestamp).toDate(),
-    );
-  }
+ factory Message.fromMap(Map<String, dynamic> map) {
+  return Message(
+    senderUID: map['senderUID'] as String,
+    text: map['text'] as String,
+    sent: map['sent'] as DateTime, 
+  );
+}
+
 }

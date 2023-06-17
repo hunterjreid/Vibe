@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/get_dm_controller.dart';
 import 'package:vibe/models/dm.dart';
+import 'direct_message_screen.dart'; // Import the DirectMessageScreen
 
 class YourDMsScreen extends StatefulWidget {
   @override
@@ -13,15 +14,18 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
   final GetDMController dmController = Get.put(GetDMController());
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     dmController.fetchDMs(authController.user.uid);
   }
 
-  @override
-  void dispose() {
-    dmController.dispose(); // Dispose of the GetDMController
-    super.dispose();
+
+
+  void navigateToConversation(String senderUID, String recipientUID) {
+    Get.to(DirectMessageScreen(
+      senderUID: senderUID,
+      recipientUID: recipientUID,
+    ));
   }
 
   @override
@@ -47,6 +51,7 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
               child: GetX<GetDMController>(
                 init: dmController,
                 builder: (controller) {
+
                   if (controller.dms.isEmpty) {
                     return Center(
                       child: Text("No DMs Found"),
@@ -56,10 +61,13 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
                       itemCount: controller.dms.length,
                       itemBuilder: (context, index) {
                         final dm = controller.dms[index];
-                        return ListTile(
-                          title: Text(dm.participants.join(', ')),
-                          subtitle: Text(dm.messages.isNotEmpty ? dm.messages.first.text : ''),
-                          trailing: Text(dm.messages.isNotEmpty ? dm.messages.last.sent.toString() : ''),
+                        return GestureDetector(
+                          onTap: () => navigateToConversation(dm.participants[0], dm.participants[1]),
+                          child: ListTile(
+                            title: Text(dm.participants.join(', ')),
+                            subtitle: Text(dm.messages.isNotEmpty ? "2"+dm.messages.last.text : ''),
+                            trailing: Text(dm.messages.isNotEmpty ? "3"+dm.messages.last.sent.toString() : ''),
+                          ),
                         );
                       },
                     );

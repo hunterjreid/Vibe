@@ -119,7 +119,7 @@ class CreateScreen extends StatelessWidget {
               GridView.count(
                 shrinkWrap: true,
                 crossAxisCount: 2,
-                childAspectRatio: 1.0,
+                childAspectRatio: 1.2,
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
                 children: [
@@ -127,13 +127,13 @@ class CreateScreen extends StatelessWidget {
 //   onPressed: writeToFirestore,
 //   child: Text('Write to Firestore'),
 // ),
-                  _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
+                  // _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
 
                   _buildButton(context, 'Add Video', TrendsScreen()),
                   _buildButton(context, 'Music', BrowseSongsPage()),
                   _buildButton(context, 'Trends!', TrendsScreen()),
-                  _buildButton(context, 'Your DMs', YourDMsScreen()),
-                  _buildButton(context, 'Saved Videos', MoreScreen()),
+                  // _buildButton(context, 'Your DMs', YourDMsScreen()),
+                   _buildButton(context, 'Unpublished Videos', MoreScreen()),
                 ],
               ),
             ],

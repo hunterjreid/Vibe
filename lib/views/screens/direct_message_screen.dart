@@ -17,7 +17,7 @@ class DirectMessageScreen extends StatefulWidget {
 }
 
 class _DirectMessageScreenState extends State<DirectMessageScreen> {
-  final GetDMController dmController = Get.find<GetDMController>();
+  final GetDMController dmController = Get.put(GetDMController());
 
   @override
   void initState() {
@@ -25,11 +25,7 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
     dmController.fetchDMs(widget.senderUID);
   }
 
-  @override
-  void dispose() {
-    dmController.dispose(); // Dispose of the GetDMController
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,47 +36,50 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
       body: Column(
         children: [
           Expanded(
-            child: Obx(() {
-              if (dmController.dms.isEmpty) {
-                return Container(); // Empty container when no DMs are available
-              } else {
-                final dm = dmController.dms.firstWhere(
-                  (dm) =>
-                      (dm.participants.contains(widget.senderUID) &&
-                          dm.participants.contains(widget.recipientUID)) ||
-                      (dm.participants.contains(widget.recipientUID) &&
-                          dm.participants.contains(widget.senderUID)),
-                  orElse: () => DM(participants: [], messages: []),
-                );
+            child: GetX<GetDMController>(
+              init: dmController,
+              builder: (controller) {
+                if (controller.dms.isEmpty) {
+                  return Container(); // Empty container when no DMs are available
+                } else {
+                  final dm = controller.dms.firstWhere(
+                    (dm) =>
+                        (dm.participants.contains(widget.senderUID) &&
+                            dm.participants.contains(widget.recipientUID)) ||
+                        (dm.participants.contains(widget.recipientUID) &&
+                            dm.participants.contains(widget.senderUID)),
+                    orElse: () => DM(participants: [], messages: []),
+                  );
 
-                return ListView.builder(
-                  padding: EdgeInsets.all(8.0),
-                  itemCount: dm.messages.length,
-                  itemBuilder: (context, index) {
-                    final message = dm.messages[index];
-                    final isCurrentUser = message.senderUID == widget.senderUID;
+                  return ListView.builder(
+                    padding: EdgeInsets.all(8.0),
+                    itemCount: dm.messages.length,
+                    itemBuilder: (context, index) {
+                      final message = dm.messages[index];
+                      final isCurrentUser = message.senderUID == widget.senderUID;
 
-                    return Align(
-                      alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          color: isCurrentUser ? Colors.blue : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Text(
-                          message.text,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.white,
+                      return Align(
+                        alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: isCurrentUser ? Colors.blue : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                            message.text,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }
-            }),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
           Divider(), // Optional divider to separate chat area and chat bar
           Container(

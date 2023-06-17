@@ -44,7 +44,7 @@ Future<void> sendMessage(String senderUID, String recipientUID, String text) asy
     final newMessage = {
       'senderUID': senderUID,
       'text': text,
-      'sent': FieldValue.serverTimestamp(),
+      'sent': DateTime.now(),
     };
 
     await dmRef.add(newMessage);
@@ -69,6 +69,7 @@ Future<void> sendMessage(String senderUID, String recipientUID, String text) asy
       final newDM = DM(
         participants: [senderUID, recipientUID],
         messages: [Message.fromMap(newMessage)],
+        
       );
       updatedDMs.add(newDM);
     }

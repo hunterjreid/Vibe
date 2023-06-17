@@ -9,6 +9,7 @@ import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/show_own_video_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
+import 'package:vibe/views/screens/your_dms_screen.dart';
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -55,7 +56,6 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    profileController.updateUserId(widget.uid);
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -64,7 +64,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
 void didChangeDependencies() {
   super.didChangeDependencies();
 
-  profileController.updateUserId(widget.uid);
+
 }
 
    void _tabControllerListener() {
@@ -90,7 +90,16 @@ void didChangeDependencies() {
     // Interpolate between the leftmost and rightmost colors
     return Color.lerp(tabColors[0], tabColors[1], factor)!;
   }
+    DateTime currentTime = DateTime.now();
 
+    // Placeholder list of titles
+    List<String> titles = [
+      "Video you saved Title 1",
+      "Video you saved Title 2",
+      "Video you saved Title 3",
+      "Video you saved Title 4",
+      "Video you saved Title 5",
+    ];
     if (isDarkTheme == null) {
       // Fallback theme in case of null value
       themeData = ThemeData.light();
@@ -114,9 +123,9 @@ void didChangeDependencies() {
                   controller: _tabController, // Set the TabController
                   labelColor: Theme.of(context).colorScheme.onBackground,
                   tabs: [
-                    Tab(icon: Icon(Icons.verified_user)),
-                    Tab(icon: Icon(Icons.explore)),
-                    Tab(icon: Icon(Icons.notifications)),
+                    Tab(icon: Icon(Icons.person_2_outlined)),
+                    Tab(icon: Icon(Icons.music_note)),
+                    Tab(icon: Icon(Icons.save_outlined)),
                   ],
                       indicator: UnderlineTabIndicator(
             borderSide: BorderSide(
@@ -136,7 +145,17 @@ void didChangeDependencies() {
               },
               icon: Icon(Icons.edit_document),
             ),
-          ],
+             IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => YourDMsScreen()),
+                );
+              },
+              icon: Icon(Icons.inbox_outlined),
+            ),
+         ],
+         
                 title: Text(
                   "Your Profile",
                   style: const TextStyle(
@@ -417,43 +436,43 @@ void didChangeDependencies() {
                   // Second tab view
                  
 
-Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'User\'s Long Description',
-                // Replace 'User\'s Long Description' with the actual user's long description
-                style: TextStyle(fontSize: 16),
-              ),
-              ElevatedButton(
-                child: const Text('Create'),
-                onPressed: () {
-                  // Handle navigation to create screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateScreen(),
-                    ),
-                  );
-                },
-           ),
-            ],
-        ),
-    ),
+      CreateScreen(),
 
 
+    // Save the current date and time
 
                  
                   // Third tab view
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Handle turn on push notifications button tap
-                      },
-                      child: Text('Turn On Push Notifications'),
-                    ),
-                  ),
+    Column(
+        children: [
+             Text('YOUR SAVED VIDEOS!'),
+          // Display the list of titles
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: titles.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(titles[index]),
+                );
+              },
+            ),
+          ),
+          // Display the saved date and time
+          Text('Last updated: $currentTime'),
+        ],
+      ),
+ 
+
+
+
+
+
+
+
+
+
+                  
                 ],
               ),
             );

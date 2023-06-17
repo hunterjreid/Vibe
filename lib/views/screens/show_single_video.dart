@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/comment_screen.dart';
+import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/user_screen.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
@@ -114,11 +116,19 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
               ),
             ],
           ),
-          Positioned(
-            top: 10,
-            right: 15,
-            child: buildProfile(data.profilePhoto),
-          ),
+      Positioned(
+  top: 10,
+  right: 15,
+  child: GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ProfileScreen(uid: data.uid)),
+      );
+    },
+    child: buildProfile(data.profilePhoto),
+  ),
+),
           Positioned(
             top: 60,
             right: 10,
