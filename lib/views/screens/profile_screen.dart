@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   void initState() {
     super.initState();
     profileController.updateUserId(widget.uid);
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -92,14 +92,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   controller: _tabController, // Set the TabController
                   labelColor: Theme.of(context).colorScheme.surface,
                   tabs: [
-                    Tab(text: 'Tab 1'),
-                    Tab(text: 'Tab 2'),
-                    Tab(text: 'Tab 3'),
+                    Tab(icon: Icon(Icons.person_2_outlined)),
+                    Tab(icon: Icon(Icons.more)),
+  
                   ],
                 ),
                 actions: [
                 
-                  Icon(Icons.more_horiz),
+                  Icon(Icons.report),
                 ],
                 title: Text(
                   controller.user['name'] + " (" + widget.uid + ")",
@@ -151,45 +151,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  profileController.user['name'],
-                                  style: TextStyle(
-                                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    fontSize: 42.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  controller.user['bio'] ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.link,
-                                      color: Colors.blue,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      controller.user['website'] ?? '',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
+                                const SizedBox(height: 6.0),
+                                   Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Column(
@@ -206,6 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
+                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
                                             ),
                                           ),
                                         ),
@@ -214,6 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           'Following',
                                           style: TextStyle(
                                             fontSize: 14,
+                                                fontFamily: 'MonaSansExtraBoldWideItalic',
                                           ),
                                         ),
                                       ],
@@ -263,6 +228,33 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     Column(
                                       children: [
                                         Text(
+                                          controller.user['thumbnails'].length.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        const Text(
+                                          'Videos',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      width: 1,
+                                      height: 15,
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
                                           controller.user['likes'],
                                           style: const TextStyle(
                                             fontSize: 20,
@@ -282,9 +274,41 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 15,
+                    Text(
+  profileController.user['name'] ?? 'No bio set',
+  style: TextStyle(
+    fontFamily: 'MonaSansExtraBoldWideItalic',
+    fontSize: 22.0,
+    fontWeight: FontWeight.bold,
+  ),
+),
+                                const SizedBox(height: 6.0),
+                                Text(
+                                  controller.user['bio'] ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.link,
+                                      color: Colors.blue,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      controller.user['website'] ?? '',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              
                                 if (widget.uid != authController.user.uid)
                                   Container(
                                     width: 160,
@@ -342,7 +366,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: controller.user['thumbnails'].length,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
+                                    crossAxisCount: 3,
                                     childAspectRatio: 1,
                                     crossAxisSpacing: 5,
                                   ),
@@ -369,25 +393,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               ],
                             ),
                           ),
-                          Text(
-                            'This user has uploaded ${controller.user['thumbnails'].length} videos',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.popUntil(context, (route) => route.isFirst);
-                            },
-                            child: Text(
-                              'Go Back Home',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
+                       
                         ],
                       ),
                     ),
@@ -398,42 +404,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     child: Text('Tab 2 View'),
                   ),
                   // Third tab view
-                  Center(
-                    child: Text('Tab 3 View'),
-                  ),
+                 
                 ],
               ),
-              bottomNavigationBar: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                  child: BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Direct Messages',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.search),
-                        label: 'Analytics',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.add_circle_outline),
-                        label: 'Upload',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
+          );
           },
         ));
   }

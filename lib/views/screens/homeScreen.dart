@@ -55,51 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return paletteGenerator;
   }
 
-  void showBanner(Color color, String text) {
-    _overlayEntry?.remove(); // Remove any existing banners
-
-    _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          color: color,
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _overlayEntry?.remove();
-                    _overlayEntry = null;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    Overlay.of(context)?.insert(_overlayEntry!);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -263,6 +218,45 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
+          // Overlay
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.red, // Replace with desired color
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Welcome to Vibe',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                          fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _overlayEntry?.remove();
+                        _overlayEntry = null;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

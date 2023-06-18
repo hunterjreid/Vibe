@@ -6,6 +6,8 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/createScreen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:vibe/views/screens/show_own_video_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/userSettings_screen.dart';
@@ -364,20 +366,17 @@ void didChangeDependencies() {
                                   ],
                                 ),
                     Text(
-  profileController.user['name'] ?? 'No bio set',
+  profileController.user['name'] ?? 'No name set',
   style: TextStyle(
     fontFamily: 'MonaSansExtraBoldWideItalic',
     fontSize: 22.0,
     fontWeight: FontWeight.bold,
   ),
 ),
-                                const SizedBox(height: 6.0),
-                                  Icon(
-      Icons.edit,
-      color: Colors.blue,
-    ),
+                          
+                              
                                 Text(
-                                  profileController.user['username'] ?? 'No bio set',
+                               controller.user['bio'] ?? 'No bio set',
                                   
                                   style: TextStyle(
                                     fontFamily: 'MonaSansExtraBoldWideItalic',
@@ -386,30 +385,34 @@ void didChangeDependencies() {
                                   ),
                                   
                                 ),
-                                const SizedBox(height: 6.0),
-                                Text(
-                                  controller.user['bio'] ?? 'No bio set',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                              
                                 const SizedBox(height: 12),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(
-                                      Icons.link,
-                                      color: Colors.blue,
-                                    ),
+                                  
                                     const SizedBox(width: 4),
-                                    Text(
-                                      controller.user['website'] ?? 'No website set',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    GestureDetector(
+
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Icon(
+        Icons.link,
+        color: Colors.blue,
+      ),
+      const SizedBox(width: 4),
+      Text(
+        controller.user['website'] ?? 'No website set',
+        style: TextStyle(
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  ),
+),
+
                                   ],
                                 ),
                                 const SizedBox(height: 3),
@@ -422,15 +425,27 @@ void didChangeDependencies() {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .background, // Choose your desired background color
+                                            .background, 
                                       ),
                                    
                                     ),
                           
                                   ],
                                 ),
-                  
-                    
+                
+                     
+        if (controller.user['thumbnails'].isEmpty)
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: Text(
+                'You have no posts! Get started by clicking the music icon in the top middle of your screen! or swipe left',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+       
+           
                                 GridView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),

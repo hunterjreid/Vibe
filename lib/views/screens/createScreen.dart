@@ -210,7 +210,9 @@ class TrendsScreen extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                   color: Theme.of(context)
+                                            .colorScheme
+                                            .surface, // Choose your desired background color
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -219,7 +221,9 @@ class TrendsScreen extends StatelessWidget {
                         AspectRatio(
                           aspectRatio: 16 / 9,
                           child: Container(
-                            color: Colors.grey[400], // Placeholder for video thumbnail
+              color: Theme.of(context)
+                                            .colorScheme
+                                            .background, // Choose your desired background color
                           ),
                         ),
                         Padding(
@@ -228,7 +232,7 @@ class TrendsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Video Title', // Placeholder for video title
+                                'Trend Name #vibes', // Placeholder for video title
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -236,10 +240,10 @@ class TrendsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                'Channel Name', // Placeholder for channel name
+                                'This is what to do it and what makes it trendy!', // Placeholder for channel name
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey,
+                          
                                 ),
                               ),
                             ],

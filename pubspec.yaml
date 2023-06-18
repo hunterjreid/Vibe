@@ -60,6 +60,7 @@ dependencies:
   share: ^2.0.4
   palette_generator: ^0.3.3+2
   flutter_colorpicker: ^1.0.3
+  url_launcher: ^6.1.11
 
 
 dependency_overrides:
