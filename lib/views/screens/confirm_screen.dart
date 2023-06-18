@@ -50,12 +50,14 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   void dispose() {
     controller.dispose();
-    _videoEditorController?.dispose(); // Dispose the VideoEditorController
+    _videoEditorController?.dispose(); // Dispose the VideoEditorController as good habbit
     super.dispose();
   }
 
   void openVideoEditor() async {
-    print("clicked");
+    
+    //  video editing   
+ 
     _videoEditorController = VideoEditorController.file(
       File(widget.videoPath),
       minDuration: const Duration(seconds: 1),
@@ -64,7 +66,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
     await _videoEditorController!.initialize();
 
-    // Perform video editing operations here
   }
 
   @override

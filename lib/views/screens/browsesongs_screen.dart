@@ -13,7 +13,7 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
     'sounds/[FREE] 808 Mafia x Future Type Beat 2023 _Villains_ (320 kbps) (1).mp3',
     'sounds/[FREE] Future Type Beat 2021 _Big Tools_ [Prod.Onokey] (320 kbps).mp3',
     'sounds/[FREE] Future Type Beat 2022 -  A Brick.mp3',
-    // Add more songs here...
+    // song list
   ];
 
   AudioPlayer audioPlayer = AudioPlayer();

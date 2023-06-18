@@ -19,11 +19,9 @@ import 'dart:math';
 import 'dart:ui';
 
 class UserScreen extends StatefulWidget {
-  final String uid;
 
   const UserScreen({
     Key? key,
-    required this.uid,
   }) : super(key: key);
 
   @override
@@ -59,7 +57,10 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    profileController.getProfileData();
   }
+
+
 
 // Update the colors when returning from the UserSettingsScreen
 void _navigateToUserSettingsScreen() async {
@@ -115,7 +116,7 @@ void didChangeDependencies() {
   @override
   void dispose() {
     _tabController.dispose();
-     profileController.updateUserId(widget.uid);
+  
     super.dispose();
   }
 
@@ -145,17 +146,16 @@ void didChangeDependencies() {
       themeData = ThemeData.light();
     }
 
-    return MaterialApp(
-        theme: themeData, // Apply dark theme
-        debugShowCheckedModeBanner: false,
-        home: GetBuilder<ProfileController>(
-          init: ProfileController(),
-          builder: (controller) {
-            if (controller.user.isEmpty) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+
+  return MaterialApp(
+      theme: themeData, // Apply dark theme
+      debugShowCheckedModeBanner: false,
+      home: GetBuilder<ProfileController>(
+        init: ProfileController(),
+        builder: (controller) {
+      
+       
+    
 
             return Scaffold(
               appBar: AppBar(
@@ -375,8 +375,8 @@ void didChangeDependencies() {
 ),
                           
                               
-                                Text(
-                               controller.user['bio'] ?? 'No bio set',
+                           Text(controller.user['bio'] != null ? controller.user['bio'] : 'No bio set',
+
                                   
                                   style: TextStyle(
                                     fontFamily: 'MonaSansExtraBoldWideItalic',
@@ -403,7 +403,7 @@ void didChangeDependencies() {
       ),
       const SizedBox(width: 4),
       Text(
-        controller.user['website'] ?? 'No website set',
+       controller.user['website'] != null ? controller.user['website'] :  'No website set',
         style: TextStyle(
           color: Colors.blue,
           fontWeight: FontWeight.bold,
@@ -492,15 +492,16 @@ void didChangeDependencies() {
     // Save the current date and time
 
 // Third tab view
+// Third tab view
 Column(
   children: [
     Text('YOUR SAVED VIDEOS!'),
     Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-          .collection('videos')
-          .where('saves', arrayContains: authController.user.uid)
-          .snapshots(),
+            .collection('videos')
+            .where('saves', arrayContains: profileController.user['uid'])
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -534,8 +535,6 @@ Column(
     Text('Last updated: $currentTime'),
   ],
 ),
-
-
 
 
 

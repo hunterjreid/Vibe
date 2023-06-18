@@ -235,7 +235,6 @@ class _AppScreenState extends State<AppScreen> {
     );
   }
 }
-
 class ShowDialog {
   static void showSetColorsDialog(BuildContext context, Function(String) updateColorTheme) {
     showDialog(
@@ -246,25 +245,60 @@ class ShowDialog {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              RadioListTile(
-                title: Text('System Detect'),
-                value: 'System Detect',
-                groupValue: 'System Detect',
-                onChanged: (value) => updateColorTheme(value as String),
+              ElevatedButton(
+                onPressed: () => updateColorTheme('System Detect'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.grey), // Adjust the colors as desired
+                  minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)), // Increase the button's height
+                ),
+                child: Text('System Detect', style: TextStyle(fontSize: 16)),
               ),
-              RadioListTile(
-                title: Text('Marble White'),
-                value: 'Marble White',
-                groupValue: 'System Detect',
-                onChanged: (value) => updateColorTheme(value as String),
-              ),
-              RadioListTile(
-                title: Text('Jet Black'),
-                value: 'Jet Black',
-                groupValue: 'System Detect',
-                onChanged: (value) => updateColorTheme(value as String),
-              ),
-            ],
+              SizedBox(height: 8),
+             Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    ElevatedButton(
+      onPressed: () => updateColorTheme('Marble White'),
+      style: ButtonStyle(
+       backgroundColor: MaterialStateProperty.all<Color>(
+          Color.fromARGB(57, 0, 0, 0),
+        ),
+           foregroundColor: MaterialStateProperty.all<Color>(
+          Color.fromARGB(255, 255, 255, 255), 
+        ),
+        textStyle: MaterialStateProperty.all<TextStyle>(
+          TextStyle(
+             fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+       
+      ),
+      child: Text('Marble Theme'),
+    ),
+    ElevatedButton(
+      onPressed: () => updateColorTheme('Jet Black'),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(
+          Color.fromARGB(47, 255, 255, 255),
+        ),
+           foregroundColor: MaterialStateProperty.all<Color>(
+          Color.fromARGB(255, 15, 15, 15), 
+        ),
+        textStyle: MaterialStateProperty.all<TextStyle>(
+          TextStyle(
+             fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+      ),
+      child: Text('Jet Theme'),
+    ),
+  ],
+),
+ ],
           ),
           actions: [
             TextButton(

@@ -86,13 +86,13 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
               ElevatedButton(
                 child: Text('Retake'),
                 onPressed: () {
-                  // Handle retake logic
+
                 },
               ),
               ElevatedButton(
                 child: Text('Upload'),
                 onPressed: () {
-                  // Handle upload logic
+              
                 },
               ),
             ],

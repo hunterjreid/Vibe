@@ -8,20 +8,20 @@ class SettingsPage extends StatelessWidget {
     print(isDarkTheme);
 
     if (isDarkTheme == null) {
-      // Fallback theme in case of null value
+      // this is a Fallback theme in case of null value
       themeData = ThemeData.light();
     }
 
     BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
     return MaterialApp(
-      theme: themeData, // Apply dark theme
+      theme: themeData, 
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context); // Navigate back to previous screen
+              Navigator.pop(context); 
             },
           ),
           title: Text('Settings'),
@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
           children: [
             SwitchListTile(
               title: Text('Incognito Mode'),
-              value: false, // Replace with your own logic to get/set the incognito mode value
+              value: false, 
               onChanged: (value) {
                 // TODO: Implement logic to toggle incognito mode
               },

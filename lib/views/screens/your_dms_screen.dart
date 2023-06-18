@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/get_dm_controller.dart';
 import 'package:vibe/models/dm.dart';
-import 'direct_message_screen.dart'; // Import the DirectMessageScreen
+import 'package:vibe/views/screens/search_user_screen.dart';
+import 'direct_message_screen.dart'; 
 
 class YourDMsScreen extends StatefulWidget {
   @override
@@ -17,9 +18,15 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     dmController.fetchDMs(authController.user.uid);
+    print(authController.user.uid);
   }
 
-
+ void navigateToSearchUser() {
+    // Add the logic to navigate to the search user screen
+    // when the plus icon is tapped
+    // For example:
+    Get.to(SearchUserScreen());
+  }
 
   void navigateToConversation(String senderUID, String recipientUID) {
     Get.to(DirectMessageScreen(
@@ -33,6 +40,15 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('DM Screen'),
+        actions: [
+    GestureDetector(
+      onTap: navigateToSearchUser,
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Icon(Icons.add),
+      ),
+    ),
+  ],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -46,6 +62,7 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            
             SizedBox(height: 16),
             Expanded(
               child: GetX<GetDMController>(

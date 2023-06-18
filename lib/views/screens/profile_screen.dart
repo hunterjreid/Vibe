@@ -100,9 +100,23 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 actions: [
                 
                   Icon(Icons.report),
+                   IconButton(
+                  icon: Icon(Icons.message),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DirectMessageScreen(
+                          recipientUID: widget.uid,
+                          senderUID: authController.user.uid,
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 ],
                 title: Text(
-                  controller.user['name'] + " (" + widget.uid + ")",
+                  controller.user['name'],
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -310,55 +324,45 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 ),
                               
                                 if (widget.uid != authController.user.uid)
-                                  Container(
-                                    width: 160,
-                                    height: 87,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(),
-                                    ),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              controller.followUser();
-                                            },
-                                            child: Text(
-                                              controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          if (widget.uid != authController.user.uid)
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => DirectMessageScreen(recipientUID: widget.uid, senderUID: authController.user.uid,),
-                                                  ),
-                                                );
-                                              },
-                                              child: Text(
-                                                'OPEN DIRECT MESSAGE',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                const SizedBox(
+                             Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            controller.followUser();
+          },
+          child: Container(
+            width: 120,
+            height: 40,
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: controller.user['isFollowing']
+                    ? [Colors.red, Colors.pink]
+                    : [Color.fromARGB(255, 41, 104, 43), Color.fromARGB(255, 74, 110, 33)],
+               
+              ),
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Center(
+              child: Text(
+                controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  
+),
+         const SizedBox(
                                   height: 25,
                                 ),
                                 GridView.builder(
@@ -377,7 +381,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => ShowOwnVideo(
+                                            builder: (context) => ShowSingleVideo(
                                               videoIndex: index,
                                             ),
                                           ),

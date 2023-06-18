@@ -21,17 +21,20 @@ class GetDMController extends GetxController {
 void fetchDMs(String userId) {
   firestore
       .collectionGroup('dms')
-      .where('title', isGreaterThanOrEqualTo: userId)
-      .where('title', isLessThan: userId + 'z')
+      .where('title', arrayContains: userId)
       .snapshots()
       .listen((QuerySnapshot query) {
     final List<DM> dmList = query.docs
         .map((doc) => DM.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
 
+        
+
     _dms.value = dmList;
   });
 }
+
+
 
   
 Future<void> sendMessage(String senderUID, String recipientUID, String text) async {

@@ -8,7 +8,6 @@ import 'package:vibe/views/screens/appScreen.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
 
-import 'package:vibe/views/screens/video_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

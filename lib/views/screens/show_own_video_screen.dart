@@ -105,28 +105,29 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
     bool _isModalVisible = false;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video Player with delete'),
+        title: Text('Your Video'),
         actions: [
           IconButton(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.analytics_outlined),
+           onPressed: () {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('View-to-Like Ratio'),
+        content: Text('V/L Ratio: ${(widget.videoController.videoList[widget.videoIndex].likes.length/widget.videoController.videoList[widget.videoIndex].views)}%'),
+        actions: [
+          TextButton(
             onPressed: () {
-              // Handle favorite button tap
+              Navigator.pop(context);
             },
+            child: Text('Close'),
           ),
-          IconButton(
-            icon: Icon(Icons.comment),
-            onPressed: () {
-              // Navigate to comment view
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CommentScreen(
-                    id: videoController.videoList[widget.videoIndex].id,
-                  ),
-                ),
-              );
-            },
+        ],
+      ),
+    );
+  },
           ),
+        
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
@@ -200,6 +201,8 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
                       Positioned(
                         top: 10,
                         right: 15,
+                        width: 37.5,
+                        height: 37.5,
                         child: buildProfile(data.profilePhoto),
                       ),
                       Positioned(

@@ -72,8 +72,7 @@ class _AudioUploadScreenState extends State<AudioUploadScreen> {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                // Handle the extraction of audio from video and MP3 file upload
-                // based on the selected options (_selectedFile, _useProfilePicture, _soundTitle).
+
               },
               child: Text('Extract and Upload from video'),
             ),

@@ -52,6 +52,9 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
       backgroundImage: NetworkImage(profilePhoto),
     );
   }
+    void navigateToHomeScreen() {
+    Navigator.pop(context); // Navigate back to the previous screen (home screen)
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +120,10 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
             ],
           ),
       Positioned(
-  top: 10,
-  right: 15,
+     top: 10,
+                        right: 15,
+                        width: 37.5,
+                        height: 37.5,
   child: GestureDetector(
     onTap: () {
       Navigator.push(
@@ -277,18 +282,21 @@ class _ShowSingleVideoState extends State<ShowSingleVideo> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
+       bottomNavigationBar: Container(
         height: 50,
         child: Center(
-          child: Text(
-            'Show Similar Videos',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+          child: TextButton(
+            onPressed: navigateToHomeScreen, // Call the navigateToHomeScreen function
+            child: Text(
+              'Show Similar Videos',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
+       ),
     );
   }
 }

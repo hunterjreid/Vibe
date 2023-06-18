@@ -199,7 +199,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) => UserScreen(uid: data.uid),
+                                                    builder: (context) => ProfileScreen(uid: data.uid),
                                                   ),
                                                 );
                                               },
