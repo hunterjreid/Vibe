@@ -1,40 +1,55 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/settings_controller.dart';
-
 class UserSettingsScreen extends StatefulWidget {
   final Color startColor;
   final Color endColor;
-   final Function(Color startColor, Color endColor) onSaveChanges;
+  final Function(Color startColor, Color endColor) onSaveChanges;
 
   UserSettingsScreen({
     required this.startColor,
     required this.endColor,
-     required this.onSaveChanges,
+    required this.onSaveChanges,
   });
 
   @override
   _UserSettingsScreenState createState() => _UserSettingsScreenState();
 }
 
-
-
 class _UserSettingsScreenState extends State<UserSettingsScreen> {
-  Color startColor = Colors.white;
-  Color endColor = Colors.grey;
+  late SettingsController controller;
+  late ProfileController profileController;
+  late TextEditingController usernameController;
+  late TextEditingController bioController;
+  late TextEditingController websiteController;
+  late TextEditingController emailController;
+  File? _pickedImage;
 
   @override
   void initState() {
     super.initState();
-    startColor = widget.startColor;
-    endColor = widget.endColor;
+    controller = Get.put(SettingsController());
+    profileController = Get.put(ProfileController());
+    usernameController = TextEditingController();
+    bioController = TextEditingController();
+    websiteController = TextEditingController();
+    emailController = TextEditingController();
+
+    usernameController.text = controller.usernameController.text;
+    bioController.text = controller.bioController.text;
+    websiteController.text = controller.websiteController.text;
+    emailController.text = controller.emailController.text;
   }
 
   void showColorPicker(bool isStartColor) {
-    Color currentColor = isStartColor ? startColor : endColor;
+    Color currentColor =
+        isStartColor ? controller.startColor.value : controller.endColor.value;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -46,9 +61,9 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               onColorChanged: (color) {
                 setState(() {
                   if (isStartColor) {
-                    startColor = color;
+                    controller.startColor.value = color;
                   } else {
-                    endColor = color;
+                    controller.endColor.value = color;
                   }
                 });
               },
@@ -60,10 +75,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             TextButton(
               child: Text('OK'),
               onPressed: () {
-                Navigator.of(context).pop({
-                  'startColor': startColor,
-                  'endColor': endColor,
-                });
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -74,9 +86,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final SettingsController controller = Get.put(SettingsController());
-    final ProfileController profileController = Get.put(ProfileController());
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit'),
@@ -97,8 +106,8 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        startColor,
-                        endColor,
+                        controller.startColor.value,
+                        controller.endColor.value,
                       ],
                       stops: [0.0, 1.0],
                       center: Alignment.center,
@@ -107,54 +116,65 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                   ),
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundImage: NetworkImage(
-                      profileController.user['profilePhoto'],
-                    ),
+                 backgroundImage: _pickedImage != null
+  ? Image.file(_pickedImage!).image
+  : NetworkImage(profileController.user['profilePhoto'] ?? ''),
+
                     backgroundColor: Colors.transparent,
                   ),
                 ),
               ),
             ),
             ElevatedButton(
-              onPressed: () => controller.updateSettings(),
-              child: Text('UPDATE PROFILE PICTURE'),
+              onPressed: controller.pickImage,
+              child: Text('SELECT PROFILE PICTURE'),
             ),
-            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: controller.uploadProfilePicture,
+              child: Text('UPLOAD PROFILE PICTURE'),
+            ),
             TextField(
+              controller: usernameController,
               decoration: InputDecoration(
-                labelText: 'Short Bio',
+                labelText: 'Username',
               ),
+              onChanged: (value) {
+                controller.usernameController.text = value;
+              },
             ),
             TextField(
-              maxLines: 4, // Allow multiple lines for long bio
+              controller: bioController,
               decoration: InputDecoration(
-                labelText: 'Long Bio',
+                labelText: 'Bio',
               ),
+              onChanged: (value) {
+                controller.bioController.text = value;
+              },
             ),
             TextField(
-              controller: controller.websiteController,
-              onChanged: (value) => controller.updateWebsite(),
+              controller: websiteController,
               decoration: InputDecoration(
                 labelText: 'Website',
               ),
+              onChanged: (value) {
+                controller.websiteController.text = value;
+              },
             ),
             TextField(
-              controller: controller.emailController,
-              onChanged: (value) => controller.updateEmail(),
+              controller: emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
+              onChanged: (value) {
+                controller.emailController.text = value;
+              },
             ),
-       
             ElevatedButton(
-  onPressed: () {
-    controller.updateSettings();
-    widget.onSaveChanges(startColor, endColor);
-  },
-  child: Text('Save Color and Changes'),
-),
-           
-            SizedBox(height: 16.0),
+              onPressed: () {
+                controller.updateProfile();
+              },
+              child: Text('UPDATE PROFILE'),
+            ),
             Obx(() {
               return SwitchListTile(
                 title: Text('Anonymous Account'),
@@ -164,7 +184,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 },
               );
             }),
-            SizedBox(height: 16.0),
             Row(
               children: [
                 Expanded(
@@ -173,7 +192,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                     child: Text('Start Color'),
                   ),
                 ),
-                SizedBox(width: 16.0),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () => showColorPicker(false),
@@ -181,12 +199,21 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                   ),
                 ),
               ],
-            ), ElevatedButton(
-              onPressed: () => authController.signOut(),
-              
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller.updateProfile();
+                widget.onSaveChanges(
+                  controller.startColor.value,
+                  controller.endColor.value,
+                );
+              },
+              child: Text('Save Color and Changes'),
+            ),
+            ElevatedButton(
+              onPressed: () => controller.authController.signOut(),
               child: Text(
                 'LOG OUT ',
-                
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,

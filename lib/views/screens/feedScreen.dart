@@ -97,7 +97,7 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void preloadVideos() async {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
@@ -364,23 +364,25 @@ class _FeedScreenState extends State<FeedScreen> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: Text("Video saved"),
-                                                      content: Text(
-                                                          "Your video has been saved to your saved to your gallery."),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () => Navigator.pop(context),
-                                                          child: Text("OK"),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                              },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Video saved"),
+          content: Text("Your video has been saved to your gallery."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+
+ 
+    videoController.saveVideo(videoController.videoList[index].id);
+  },
                                               child: Column(
                                                 children: [
                                                   Icon(
@@ -390,7 +392,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                    "0",
+                                                     videoController.videoList[index].savedCount.toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,

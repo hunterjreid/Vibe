@@ -13,6 +13,22 @@ class ProfileController extends GetxController {
     getUserData();
   }
 
+  
+  void updateProfileColors(String startColor, String endColor) async {
+    await FirebaseFirestore.instance.collection('users').doc(_uid.value).update({
+      'startColor': startColor,
+      'endColor': endColor,
+    });
+    
+
+    _user.update((userData) {
+      userData?.update('startColor', (_) => startColor, ifAbsent: () => startColor);
+      userData?.update('endColor', (_) => endColor, ifAbsent: () => endColor);
+    });
+
+    update();
+  }
+
   getUserData() async {
     List<String> thumbnails = [];
     var myVideos = await firestore.collection('videos').where('uid', isEqualTo: _uid.value).get();
@@ -45,6 +61,21 @@ class ProfileController extends GetxController {
     List<String> followersList = followerDoc.docs.map((doc) => doc.id).toList();
     List<String> followingList = followingDoc.docs.map((doc) => doc.id).toList();
 
+      void updateProfileColors(String startColor, String endColor) async {
+    await FirebaseFirestore.instance.collection('users').doc(_uid.value).update({
+      'startColor': startColor,
+      'endColor': endColor,
+    });
+
+    _user.update((userData) {
+      userData?.update('startColor', (_) => startColor, ifAbsent: () => startColor);
+      userData?.update('endColor', (_) => endColor, ifAbsent: () => endColor);
+ 
+    });
+
+    update();
+  }
+
     firestore
         .collection('users')
         .doc(_uid.value)
@@ -72,6 +103,18 @@ class ProfileController extends GetxController {
       'followersList': followersList,
       'followingList': followingList,
     };
+    update();
+  }
+
+  void updateProfilePhoto(String downloadUrl) async {
+    await firestore.collection('users').doc(_uid.value).update({
+      'profilePhoto': downloadUrl,
+    });
+
+   _user.update((userData) {
+      userData?.update('profilePhoto', (_) => downloadUrl, ifAbsent: () => downloadUrl);
+    
+    });
     update();
   }
 

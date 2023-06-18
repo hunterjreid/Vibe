@@ -74,12 +74,25 @@ void _navigateToUserSettingsScreen() async {
 }
 
 
-void _updateColors(Color startColor, Color endColor) {
+void _updateColors(Color startColor, Color endColor) async {
   setState(() {
     randomColor1 = startColor;
     randomColor2 = endColor;
   });
+
+  try {
+    await FirebaseFirestore.instance
+        .collection('random_colors')
+        .doc('colors')
+        .set({
+      'randomColor1': startColor.value,
+      'randomColor2': endColor.value,
+    });
+  } catch (e) {
+    print('Error updating random colors: $e');
+  }
 }
+
 
 
 // Navigate to the UserSettingsScreen and handle the returned colors
@@ -350,14 +363,14 @@ void didChangeDependencies() {
                                     ),
                                   ],
                                 ),
-                                 Text(
-                                  profileController.user['name'] ?? 'No bio set',
-                                  style: TextStyle(
-                                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    fontSize: 22.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                    Text(
+  profileController.user['name'] ?? 'No bio set',
+  style: TextStyle(
+    fontFamily: 'MonaSansExtraBoldWideItalic',
+    fontSize: 22.0,
+    fontWeight: FontWeight.bold,
+  ),
+),
                                 const SizedBox(height: 6.0),
                                   Icon(
       Icons.edit,
@@ -463,28 +476,49 @@ void didChangeDependencies() {
 
     // Save the current date and time
 
-                 
-                  // Third tab view
-    Column(
-        children: [
-             Text('YOUR SAVED VIDEOS!'),
-          // Display the list of titles
-          Expanded(
-            child: ListView.builder(
+// Third tab view
+Column(
+  children: [
+    Text('YOUR SAVED VIDEOS!'),
+    Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+          .collection('videos')
+          .where('saves', arrayContains: authController.user.uid)
+          .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(
+              child: Text('No videos found.'),
+            );
+          } else {
+            // Extract the list of video titles from the snapshot
+            List<String> videoTitles = snapshot.data!.docs
+                .map((doc) => doc['title'] as String)
+                .toList();
+
+            return ListView.builder(
               shrinkWrap: true,
-              itemCount: titles.length,
+              itemCount: videoTitles.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(titles[index]),
+                  title: Text(videoTitles[index]),
                 );
               },
-            ),
-          ),
-          // Display the saved date and time
-          Text('Last updated: $currentTime'),
-        ],
+            );
+          }
+        },
       ),
- 
+    ),
+    Text('Last updated: $currentTime'),
+  ],
+),
 
 
 

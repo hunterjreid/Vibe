@@ -28,6 +28,7 @@ class _AppScreenState extends State<AppScreen> {
 
   @override
   void initState() {
+
     super.initState();
     isDarkTheme = true;
     bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(

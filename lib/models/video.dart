@@ -86,4 +86,6 @@ class Video {
       timestamp: snapshot['timestamp'],
     );
   }
+
+  static fromSnapshot(QueryDocumentSnapshot<Object?> doc) {}
 }

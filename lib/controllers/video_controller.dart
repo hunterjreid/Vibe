@@ -49,6 +49,8 @@ class VideoController extends GetxController {
     }
   }
 
+  
+
   void likeVideo(String id) async {
     print(id);
     DocumentSnapshot doc = await firestore.collection('videos').doc(id).get();
@@ -72,21 +74,31 @@ class VideoController extends GetxController {
     }
   }
 
-  Future<void> saveVideo(String id) async {
-    print(id);
-    DocumentSnapshot doc = await firestore.collection('videos').doc(id).get();
-    var uid = authController.user?.uid; // Add null check here
+ Future<void> saveVideo(String id) async {
+  var uid = authController.user?.uid; // Add null check here
+
+  if (uid != null) {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('videos')
+        .doc(id)
+        .get();
 
     if (doc.exists) {
       // Check if the document exists
       var saves = (doc.data() as Map<String, dynamic>)['saves'];
-      if (saves != null && uid != null && saves.contains(uid)) {
-        await firestore.collection('videos').doc(id).update({
+      if (saves != null && saves.contains(uid)) {
+        await FirebaseFirestore.instance
+            .collection('videos')
+            .doc(id)
+            .update({
           'saves': FieldValue.arrayRemove([uid]),
         });
         print('Video un-saved');
       } else {
-        await firestore.collection('videos').doc(id).update({
+        await FirebaseFirestore.instance
+            .collection('videos')
+            .doc(id)
+            .update({
           'saves': FieldValue.arrayUnion([uid]),
         });
         print('Video saved');
@@ -96,6 +108,7 @@ class VideoController extends GetxController {
       print('Document does not exist');
     }
   }
+}
 
   Widget buildVideoThumbnail(int index) {
     return Image.network(
