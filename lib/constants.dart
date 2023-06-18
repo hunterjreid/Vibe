@@ -19,8 +19,7 @@ List pages = [
   FeedScreen(),
   HomeScreen(),
   UserScreen(uid: authController.user.uid),
-  CreateScreen(),
-  NewLayoutScreen(),
+
 ];
 
 bool isDarkTheme = true;

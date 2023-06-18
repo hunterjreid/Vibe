@@ -13,7 +13,7 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
 
-  final AuthController authController = AuthController.instance;
+
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

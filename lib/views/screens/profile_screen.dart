@@ -98,18 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   ],
                 ),
                 actions: [
-                  if (widget.uid == authController.user.uid)
-                    IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserSettingsScreen(),
-                          ),
-                        );
-                      },
-                    ),
+                
                   Icon(Icons.more_horiz),
                 ],
                 title: Text(

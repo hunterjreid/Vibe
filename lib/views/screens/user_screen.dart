@@ -59,6 +59,31 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     _tabController = TabController(length: 3, vsync: this);
   }
 
+// Update the colors when returning from the UserSettingsScreen
+void _navigateToUserSettingsScreen() async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => UserSettingsScreen(
+        startColor: randomColor1,
+        endColor: randomColor2,
+        onSaveChanges: _updateColors,
+      ),
+    ),
+  );
+}
+
+
+void _updateColors(Color startColor, Color endColor) {
+  setState(() {
+    randomColor1 = startColor;
+    randomColor2 = endColor;
+  });
+}
+
+
+// Navigate to the UserSettingsScreen and handle the returned colors
+
 
 @override
 void didChangeDependencies() {
@@ -137,14 +162,11 @@ void didChangeDependencies() {
                 ),
       actions: [
             IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserSettingsScreen()),
-                );
-              },
-              icon: Icon(Icons.edit_document),
-            ),
+  onPressed: () {
+    _navigateToUserSettingsScreen();
+  },
+  icon: Icon(Icons.edit_document),
+),
              IconButton(
               onPressed: () {
                 Navigator.push(

@@ -19,11 +19,9 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-_user.bindStream(firebaseAuth.authStateChanges());
-ever(_user, (User? user) {
-  print("User state changed: $user");
-  _setInitialScreen(user);
-});
+    _user = Rx<User?>(firebaseAuth.currentUser);
+    _user.bindStream(firebaseAuth.authStateChanges());
+    ever(_user, _setInitialScreen);
   }
 
   _setInitialScreen(User? user) {
@@ -109,6 +107,6 @@ ever(_user, (User? user) {
   }
 
   void signOut() async {
-  await firebaseAuth.signOut();
-}
+    await firebaseAuth.signOut();
+  }
 }

@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:vibe/views/screens/auth/login_screen.dart';
+
+
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
 

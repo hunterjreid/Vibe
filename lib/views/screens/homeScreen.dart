@@ -18,10 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final SearchController _searchController = Get.put(SearchController());
   TextEditingController _searchQueryController = TextEditingController();
   bool _isSearching = false;
+  OverlayEntry? _overlayEntry;
 
   @override
   void dispose() {
     _searchQueryController.dispose();
+    _overlayEntry?.remove();
     super.dispose();
   }
 
@@ -51,6 +53,52 @@ class _HomeScreenState extends State<HomeScreen> {
     final PaletteGenerator paletteGenerator =
         await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
     return paletteGenerator;
+  }
+
+  void showBanner(Color color, String text) {
+    _overlayEntry?.remove(); // Remove any existing banners
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        child: Container(
+          color: color,
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _overlayEntry?.remove();
+                    _overlayEntry = null;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context)?.insert(_overlayEntry!);
   }
 
   @override
@@ -91,143 +139,132 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: !_isSearching || _searchQueryController.text.isEmpty
-          ? Center(
-              child: Obx(
-                () => GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 5,
-                  ),
-                  itemCount: _videoController.videoList.length,
-                  itemBuilder: (context, index) {
-                    final reversedIndex =
-                        _videoController.videoList.length - 1 - index;
-                    final video = _videoController.videoList[index];
+      body: Stack(
+        children: [
+          !_isSearching || _searchQueryController.text.isEmpty
+              ? Obx(
+                  () => GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 5,
+                    ),
+                    itemCount: _videoController.videoList.length,
+                    itemBuilder: (context, index) {
+                      final reversedIndex =
+                          _videoController.videoList.length - 1 - index;
+                      final video = _videoController.videoList[index];
 
-                    return FutureBuilder<PaletteGenerator>(
-                      future: generatePalette(video.thumbnail),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final color = snapshot.data!.dominantColor!.color;
-                          final averageColor = Color.fromRGBO(
-                            color.red,
-                            color.green,
-                            color.blue,
-                            0.1,
-                          );
+                      return FutureBuilder<PaletteGenerator>(
+                        future: generatePalette(video.thumbnail),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final color =
+                                snapshot.data!.dominantColor!.color;
+                            final averageColor = Color.fromRGBO(
+                              color.red,
+                              color.green,
+                              color.blue,
+                              0.1,
+                            );
 
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowSingleVideo(
-                                    videoIndex: index,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowSingleVideo(
+                                      videoIndex: index,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            child: Stack(
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: averageColor,
-                                  ),
-                                  child: Image.network(
-                                    _videoController.videoList[index]
-                                        .thumbnail,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8),
-                                    padding: EdgeInsets.all(4),
+                                );
+                              },
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color: Colors.black54,
                                       borderRadius: BorderRadius.circular(8),
+                                      color: averageColor,
                                     ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.visibility,
-                                          color: Colors.white,
-                                          size: 16,
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          video.views.toString(),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
+                                    child: Image.network(
+                                      _videoController.videoList[index]
+                                          .thumbnail,
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Container(); // Placeholder widget while loading palette
-                        }
-                      },
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      padding: EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black54,
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.visibility,
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            video.views.toString(),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return Container();
+                            // Placeholder widget while loading palette
+                          }
+                        },
+                      );
+                    },
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: _searchController.searchedUsers.length,
+                  itemBuilder: (context, index) {
+                    User user = _searchController.searchedUsers[index];
+                    return InkWell(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProfileScreen(uid: user.uid),
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            user.profilePhoto,
+                          ),
+                        ),
+                        title: Text(
+                          user.name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                      ),
                     );
                   },
                 ),
-              ),
-            )
-          : Obx(
-              () => _searchController.searchedUsers.isEmpty
-                  ? Column(
-                      children: [
-                        const Center(
-                          child: Text(
-                            'Search for users!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'MonaSansExtraBoldWideItalic',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : ListView.builder(
-                      itemCount: _searchController.searchedUsers.length,
-                      itemBuilder: (context, index) {
-                        User user = _searchController.searchedUsers[index];
-                        return InkWell(
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ProfileScreen(uid: user.uid),
-                            ),
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                user.profilePhoto,
-                              ),
-                            ),
-                            title: Text(
-                              user.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
+        ],
+      ),
     );
   }
 }
