@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
+import 'package:vibe/views/screens/notification_screen.dart';
+import 'package:vibe/views/screens/searchOld_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -67,7 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                // Perform search action
+              Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchOldScreen(),
+                        ),
+                      );
               },
             ),
             Expanded(
@@ -89,7 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.notifications),
             onPressed: () {
-              // Handle notifications
+             Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => NotificationScreen(),
+                        ),
+                      );
+              
             },
           ),
         ],

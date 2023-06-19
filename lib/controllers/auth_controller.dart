@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/user.dart' as model;
 import 'package:vibe/views/screens/appScreen.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
+import 'package:vibe/views/screens/web_app_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -24,13 +26,20 @@ class AuthController extends GetxController {
     ever(_user, _setInitialScreen);
   }
 
-  _setInitialScreen(User? user) {
+_setInitialScreen(User? user) {
+  if (kIsWeb) {
+    Get.offAll(() => WebAppScreen());
+  } else {
     if (user == null) {
       Get.offAll(() => LoginScreen());
     } else {
       Get.offAll(() => const AppScreen());
     }
   }
+}
+
+
+
 
   void pickImage() async {
     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -74,6 +83,10 @@ class AuthController extends GetxController {
           profilePhoto: downloadUrl,
         );
         await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+
+          // Send notification for successful registration
+        _sendNotification('Registration Successful', 'Your account has been created successfully.');
+
       } else {
         Get.snackbar(
           'Error Creating Account',
@@ -92,6 +105,9 @@ class AuthController extends GetxController {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+
+           // Send notification for successful login
+        _sendNotification('Login Successful', 'Welcome back!');
       } else {
         Get.snackbar(
           'Error Logging in',
@@ -109,4 +125,36 @@ class AuthController extends GetxController {
   void signOut() async {
     await firebaseAuth.signOut();
   }
+
+
+// Send a notification to the user
+  void _sendNotification(String title, String message) async {
+    try {
+      // Add notification to the user's UID collection
+      await firestore
+          .collection('users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection('notifications')
+          .add({
+        'title': title,
+        'message': message,
+        'timestamp': DateTime.now(),
+      });
+
+      // Create a notification collection and add the notification
+      await firestore.collection('notifications').add({
+        'uid': firebaseAuth.currentUser!.uid,
+        'title': title,
+        'message': message,
+        'timestamp': DateTime.now(),
+      });
+
+      // Replace this with your preferred notification implementation
+      // This is just a placeholder for demonstration purposes
+      print('Notification: $title - $message');
+    } catch (e) {
+      print('Error sending notification: $e');
+    }
+  }
+
 }

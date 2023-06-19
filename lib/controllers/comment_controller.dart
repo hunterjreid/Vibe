@@ -46,8 +46,8 @@ class CommentController extends GetxController {
         );
 
         await firestore.collection('videos').doc(_postId).collection('comments').doc('Comment $len').set(
-              comment.toJson(),
-            );
+          comment.toJson(),
+        );
 
         // Update commentBy array with user's ID
         await firestore.collection('videos').doc(_postId).collection('comments').doc('Comment $len').update({
@@ -58,6 +58,17 @@ class CommentController extends GetxController {
         await firestore.collection('videos').doc(_postId).update({
           'commentCount': (doc.data()! as dynamic)['commentCount'] + 1,
         });
+
+        // Create a notification for the comment
+        String videoOwnerId = (doc.data()! as dynamic)['uid'];
+        String currentUserId = authController.user.uid;
+        if (videoOwnerId != currentUserId) {
+          String notificationId = await _createNotification(videoOwnerId, 'Comment', 'You have a new comment on your video.');
+          // Update the video owner's notifications field with the new notification ID
+          await firestore.collection('users').doc(videoOwnerId).update({
+            'notifications': FieldValue.arrayUnion([notificationId]),
+          });
+        }
       }
     } catch (e) {
       Get.snackbar(
@@ -80,5 +91,16 @@ class CommentController extends GetxController {
         'likes': FieldValue.arrayUnion([uid]),
       });
     }
+  }
+
+  Future<String> _createNotification(String userId, String title, String message) async {
+    var notification = {
+      'title': title,
+      'message': message,
+      'timestamp': FieldValue.serverTimestamp(),
+    };
+
+    var notificationRef = await firestore.collection('notifications').add(notification);
+    return notificationRef.id;
   }
 }

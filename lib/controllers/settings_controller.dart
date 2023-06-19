@@ -53,6 +53,9 @@ class SettingsController extends GetxController {
         'Profile Picture',
         'You have successfully selected your profile picture!',
       );
+
+      // Create a notification for the profile picture change
+      _createNotification('Profile Picture', 'You have changed your profile picture.');
     }
   }
 
@@ -63,6 +66,9 @@ class SettingsController extends GetxController {
       Get.find<ProfileController>().updateProfilePhoto(downloadUrl);
 
       Get.snackbar('Upload Success', 'Profile picture uploaded successfully!');
+
+      // Create a notification for the profile picture upload
+      _createNotification('Profile Picture Upload', 'Your profile picture has been uploaded successfully.');
     } else {
       Get.snackbar('Upload Error', 'Please select a profile picture first.');
     }
@@ -77,6 +83,7 @@ class SettingsController extends GetxController {
     UploadTask uploadTask = ref.putFile(image);
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
+
     return downloadUrl;
   }
 
@@ -111,8 +118,29 @@ class SettingsController extends GetxController {
       'isAnonymous': updatedIsAnonymous,
     }).then((_) {
       print('Profile updated successfully');
+
+      // Create a notification for the profile update
+      _createNotification('Profile Update', 'Your profile information has been updated.');
     }).catchError((error) {
       print('Failed to update profile: $error');
     });
+  }
+
+  void _createNotification(String title, String message) {
+    var uid = authController.user?.uid;
+
+    if (uid != null) {
+      var notification = {
+        'title': title,
+        'message': message,
+        'timestamp': FieldValue.serverTimestamp(),
+      };
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('notifications')
+          .add(notification);
+    }
   }
 }
