@@ -4,12 +4,13 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+
 import 'package:vibe/views/screens/show_own_video_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
-import 'package:vibe/views/screens/userSettings_screen.dart';
+
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:vibe/views/screens/user_screen.dart';
 import 'dart:math';
 import 'dart:ui';
 
@@ -146,13 +147,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   },
                 ),
                 ],
+                
                 title: Text(
                   controller.user['name'],
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                
               ),
+              
               body: TabBarView(
                 controller: _tabController, // Set the TabController
                 children: [
@@ -161,6 +165,20 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                           if (widget.uid == authController.user.uid)
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const UserScreen()
+
+                              ),
+                            );
+                          },
+                          child: Text('You are viewing your own profile'),
+                        ),
+
                           SizedBox(
                             child: Column(
                               children: [
@@ -241,11 +259,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           onTap: () {
                                             _showFollowerPopup(
                                               context,
-                                              controller.user['followersList'],
+                                              profileController.user['followersList'],
                                             );
                                           },
                                           child: Text(
-                                            controller.user['followers'],
+                                            profileController.user['followers'],
                                             style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
@@ -436,7 +454,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   // Second tab view
                   Center(
-                    child: Text('Tab 2 View'),
+                    child: Text( profileController.user['longBio']),
                   ),
                   // Third tab view
                  

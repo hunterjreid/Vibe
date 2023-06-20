@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,28 +7,16 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/auth_controller.dart';
-
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/browsesongs_screen.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
-
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:vibe/views/screens/uploadAudio_screen.dart';
 import 'package:vibe/views/screens/your_dms_screen.dart';
 import 'package:video_player/video_player.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class CreateScreen extends StatelessWidget {
-
   final ProfileController profileController = Get.put(ProfileController());
-  
-
-  
-
-
-  
 
   pickVideoFromCamera(BuildContext context) async {
     final video = await ImagePicker().pickVideo(source: ImageSource.camera);
@@ -37,7 +24,7 @@ class CreateScreen extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ConfirmScreen(
-            videoFile: File(video.path),
+            videoFile: File(video!.path),
             videoPath: video.path,
           ),
         ),
@@ -51,7 +38,7 @@ class CreateScreen extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ConfirmScreen(
-            videoFile: File(video.path),
+            videoFile: File(video!.path),
             videoPath: video.path,
           ),
         ),
@@ -114,6 +101,39 @@ class CreateScreen extends StatelessWidget {
     );
   }
 
+  showChangeBioDialog(BuildContext context) {
+    String bio = profileController.user['longBio'];
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Change Long Bio'),
+        content: TextFormField(
+          initialValue: bio,
+          onChanged: (value) {
+            bio = value;
+          },
+          decoration: InputDecoration(
+            labelText: 'Enter your new long bio',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              profileController.updateProfileBio(bio);
+              Navigator.of(context).pop();
+            },
+            child: Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,17 +152,30 @@ class CreateScreen extends StatelessWidget {
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
                 children: [
-//                   ElevatedButton(
-//   onPressed: writeToFirestore,
-//   child: Text('Write to Firestore'),
-// ),
-                  // _buildButton(context, 'Your Profile', ProfileScreen(uid: authController.user.uid)),
-
-                  _buildButton(context, 'Add Video', TrendsScreen()),
-                  _buildButton(context, 'Music', BrowseSongsPage()),
-                  _buildButton(context, 'Trends!', TrendsScreen()),
-                  // _buildButton(context, 'Your DMs', YourDMsScreen()),
-                   _buildButton(context, 'Unpublished Videos', MoreScreen()),
+                  _buildButton(context, 'Add Video', () {
+                    showOptionsDialog(context);
+                  }),
+                  _buildButton(context, 'Music', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BrowseSongsPage()),
+                    );
+                  }),
+                  _buildButton(context, 'Trends!', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TrendsScreen()),
+                    );
+                  }),
+                  _buildButton(context, 'Change long bio', () {
+                    showChangeBioDialog(context);
+                  }),
+                  _buildButton(context, 'Unpublished Videos', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MoreScreen()),
+                    );
+                  }),
                 ],
               ),
             ],
@@ -152,18 +185,9 @@ class CreateScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(BuildContext context, String title, Widget screenWidget) {
+  Widget _buildButton(BuildContext context, String title, VoidCallback onTap) {
     return ElevatedButton(
-      onPressed: () {
-        if (title == 'Add Video') {
-          showOptionsDialog(context);
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => screenWidget),
-          );
-        }
-      },
+      onPressed: onTap,
       child: Text(
         title,
         style: TextStyle(
@@ -175,22 +199,7 @@ class CreateScreen extends StatelessWidget {
   }
 }
 
-Future<void> writeToFirestore() async {
-  try {
-    // Initialize Firebase app
-    await Firebase.initializeApp();
 
-    // Create a new document in the 'messages' collection
-    await FirebaseFirestore.instance.collection("collection").doc("doc_id").collection('messages').doc("msg_id").set({
-      'text': 'hello',
-      'timestamp': DateTime.now(),
-    });
-
-    print('Text written to Firestore successfully');
-  } catch (e) {
-    print('Error writing text to Firestore: $e');
-  }
-}
 
 class TrendsScreen extends StatelessWidget {
   @override
@@ -219,9 +228,7 @@ class TrendsScreen extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                   color: Theme.of(context)
-                                            .colorScheme
-                                            .surface, // Choose your desired background color
+                      color: Theme.of(context).colorScheme.surface, // Choose your desired background color
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -230,9 +237,7 @@ class TrendsScreen extends StatelessWidget {
                         AspectRatio(
                           aspectRatio: 16 / 9,
                           child: Container(
-              color: Theme.of(context)
-                                            .colorScheme
-                                            .background, // Choose your desired background color
+                            color: Theme.of(context).colorScheme.background, // Choose your desired background color
                           ),
                         ),
                         Padding(
@@ -252,7 +257,6 @@ class TrendsScreen extends StatelessWidget {
                                 'This is what to do it and what makes it trendy!', // Placeholder for channel name
                                 style: TextStyle(
                                   fontSize: 14,
-                          
                                 ),
                               ),
                             ],
@@ -286,49 +290,33 @@ class MoreScreen extends StatelessWidget {
       "Title 5",
     ];
 
-return Scaffold(
-  appBar: AppBar(
-    title: Text('Saved Videos Screen'),
-  ),
-  body: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-            SizedBox(height: 46),
-      Text(
-        'Here, your draft videos will appear',
-        style: TextStyle(fontSize: 20),
-        textAlign: TextAlign.center,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Saved Videos Screen'),
       ),
-    //   SizedBox(height: 16),
-    //   Expanded(
-    //     child: ListView.builder(s
-    //       shrinkWrap: true,
-    //       itemCount: titles.length,
-    //       itemBuilder: (context, index) {
-    //         return ListTile(
-    //           title: Text(titles[index]),
-    //         );
-    //       },
-    //     ),
-    //   ),
-    //   Text('Last updated: $currentTime'),
-     ],
-  ),
-);
-  }
-
-  Widget _buildButtonx(BuildContext context, String title) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: ElevatedButton(
-        onPressed: () {},
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 16),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 46),
+          Text(
+            'Here, your draft videos will appear',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
           ),
-        ),
+          //   SizedBox(height: 16),
+          //   Expanded(
+          //     child: ListView.builder(s
+          //       shrinkWrap: true,
+          //       itemCount: titles.length,
+          //       itemBuilder: (context, index) {
+          //         return ListTile(
+          //           title: Text(titles[index]),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          //   Text('Last updated: $currentTime'),
+        ],
       ),
     );
   }

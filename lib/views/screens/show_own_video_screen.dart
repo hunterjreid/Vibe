@@ -240,30 +240,7 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
                                 ],
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _isModalVisible = !_isModalVisible;
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.share,
-                                    size: 45,
-                                    color: _isModalVisible ? Color.fromARGB(255, 157, 96, 255) : Colors.white,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    "0",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                       
                             InkWell(
                               onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(

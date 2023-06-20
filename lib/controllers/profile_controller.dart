@@ -14,6 +14,7 @@ class ProfileController extends GetxController {
     getUserData();
   }
 
+
   getUserData() async {
     if (_uid.value.isEmpty) {
       return;
@@ -38,7 +39,7 @@ class ProfileController extends GetxController {
     String website = userData['website'] ?? '';
 
 
-
+    String longBio = userData['longBio'] ?? ' This user hasn\'t set up there long bio yet';
     int likes = 0;
     int followers = 0;
     int following = 0;
@@ -95,10 +96,13 @@ class ProfileController extends GetxController {
       'thumbnails': thumbnails,
       'followersList': followersList,
       'followingList': followingList,
+        'longBio': longBio, 
     };
 
     update();
   }
+
+
 
     getProfileData() async {
     if (authController.user.uid.isEmpty) {
@@ -123,7 +127,7 @@ class ProfileController extends GetxController {
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
-
+   String longBio = userData['longBio'] ?? '';
 Color startColor = userData['startColor'] != null
     ? Color(int.parse(userData['startColor']))
     : Colors.red;
@@ -193,7 +197,8 @@ Color endColor = userData['endColor'] != null
       'followersList': followersList,
       'followingList': followingList,
       'startColor': startColor,
-      'endColor':endColor
+      'endColor':endColor,
+        'longBio': longBio, // Add this line to include the long bio
 
     };
 
@@ -201,6 +206,22 @@ Color endColor = userData['endColor'] != null
   }
 
 
+void updateProfileBio(String bio) async {
+  if (_uid.value.isEmpty) {
+    return;
+  }
+  
+
+  await FirebaseFirestore.instance.collection('users').doc(_uid.value).update({
+    'longBio': bio,
+  });
+
+  _user.update((userData) {
+    userData?.update('longBio', (_) => bio, ifAbsent: () => bio);
+  });
+
+  update();
+}
 
   void updateProfileColors(String startColor, String endColor) async {
     if (_uid.value.isEmpty) {

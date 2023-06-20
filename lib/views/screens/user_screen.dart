@@ -179,8 +179,8 @@ void didChangeDependencies() {
                   labelColor: Theme.of(context).colorScheme.onBackground,
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
-                    Tab(icon: Icon(Icons.music_note)),
-                    Tab(icon: Icon(Icons.save_outlined)),
+                    Tab(icon: Icon(Icons.music_note_outlined)),
+                    Tab(icon: Icon(Icons.recommend_outlined)),
                   ],
                       indicator: UnderlineTabIndicator(
             borderSide: BorderSide(
@@ -195,7 +195,7 @@ void didChangeDependencies() {
   onPressed: () {
     _navigateToUserSettingsScreen();
   },
-  icon: Icon(Icons.edit_document),
+  icon: Icon(Icons.edit_road_outlined),
 ),
              IconButton(
               onPressed: () {
@@ -256,6 +256,15 @@ void didChangeDependencies() {
                                     ),
                                   ],
                                 ),       const SizedBox(height: 6.0),
+
+                                                Text(
+  profileController.user['name'] ?? 'No name set',
+  style: TextStyle(
+    fontFamily: 'MonaSansExtraBoldWideItalic',
+    fontSize: 22.0,
+    fontWeight: FontWeight.bold,
+  ),
+),
                                    Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -332,7 +341,7 @@ void didChangeDependencies() {
                                     Column(
                                       children: [
                                         Text(
-                                          controller.user['thumbnails'].length.toString(),
+                                          profileController.user['thumbnails'].length.toString(),
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -359,7 +368,7 @@ void didChangeDependencies() {
                                     Column(
                                       children: [
                                         Text(
-                                          controller.user['likes'],
+                                          profileController.user['likes'],
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -378,22 +387,15 @@ void didChangeDependencies() {
                                     ),
                                   ],
                                 ),
-                    Text(
-  profileController.user['name'] ?? 'No name set',
-  style: TextStyle(
-    fontFamily: 'MonaSansExtraBoldWideItalic',
-    fontSize: 22.0,
-    fontWeight: FontWeight.bold,
-  ),
-),
+    
                           
                               
-                           Text(controller.user['bio'] != null ? controller.user['bio'] : 'No bio set',
+                           Text(profileController.user['bio'] != null ? profileController.user['bio'] : 'No bio set',
 
                                   
                                   style: TextStyle(
                                     fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    fontSize: 22.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   
@@ -506,7 +508,14 @@ void didChangeDependencies() {
 
 Column(
   children: [
-    Text('YOUR SAVED VIDEOS!'),
+    Text('Your Personalized Recommended Videos!',  style: TextStyle(
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),),
+
+          
+             
     Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance

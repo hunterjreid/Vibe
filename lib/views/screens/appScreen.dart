@@ -250,64 +250,136 @@ class ShowDialog {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Select Color Theme'),
+          title: Text(
+            'Settings',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElevatedButton(
-                onPressed: () => updateColorTheme('System Detect'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.grey), // Adjust the colors as desired
-                  minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)), // Increase the button's height
-                ),
-                child: Text('System Detect', style: TextStyle(fontSize: 16)),
+              Text(
+                'By defualt it will Automatically detect system theme',
+                style: TextStyle(fontSize: 14),
+              ),
+              // SizedBox(height: 8),
+              // ElevatedButton(
+              //   onPressed: () => updateColorTheme('System Detect'),
+              //   style: ButtonStyle(
+              //     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+              //     minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
+              //   ),
+              //   child: Text('Detect Theme', style: TextStyle(fontSize: 16)),
+              // ),
+              // SizedBox(height: 16),
+              Text(
+                'Select Color Theme',
+                style: TextStyle(fontSize: 14),
               ),
               SizedBox(height: 8),
-             Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    ElevatedButton(
-      onPressed: () => updateColorTheme('Marble White'),
-      style: ButtonStyle(
-       backgroundColor: MaterialStateProperty.all<Color>(
-          Color.fromARGB(57, 0, 0, 0),
-        ),
-           foregroundColor: MaterialStateProperty.all<Color>(
-          Color.fromARGB(255, 255, 255, 255), 
-        ),
-        textStyle: MaterialStateProperty.all<TextStyle>(
-          TextStyle(
-             fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'MonaSansExtraBoldWideItalic',
+              ElevatedButton(
+                onPressed: () => updateColorTheme('Marble White'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
+                  foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 255, 255, 255)),
+                  textStyle: MaterialStateProperty.all<TextStyle>(
+                    TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                    ),
+                  ),
+                ),
+                child: Text('Marble Theme'),
+              ),
+              ElevatedButton(
+                onPressed: () => updateColorTheme('Jet Black'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 255, 255, 255)),
+                  foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 15, 15, 15)),
+                  textStyle: MaterialStateProperty.all<TextStyle>(
+                    TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                    ),
+                  ),
+                ),
+                child: Text('Jet Theme'),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'You can also Alter the Search Algorithm',
+                style: TextStyle(fontSize: 14),
+              ),
+              SizedBox(height: 8),
+               ElevatedButton(
+                onPressed: () {
+                  // Handle educational class selection
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 42, 186, 230)),
+                  minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
+                ),
+                child: Text('Educational Only', style: TextStyle(fontSize: 16)),
+              ),
+               SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle mixed class selection
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
+                  minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
+                ),
+                child: Text('Mixed', style: TextStyle(fontSize: 16)),
+              ),
+               SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  
+                  Navigator.pop(context);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                  minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
+                ),
+                child: Text('Entertainment Only', style: TextStyle(fontSize: 16)),
+              ),
+            ],
           ),
-        ),
-       
-      ),
-      child: Text('Marble Theme'),
-    ),
-    ElevatedButton(
-      onPressed: () => updateColorTheme('Jet Black'),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-          Color.fromARGB(47, 255, 255, 255),
-        ),
-           foregroundColor: MaterialStateProperty.all<Color>(
-          Color.fromARGB(255, 15, 15, 15), 
-        ),
-        textStyle: MaterialStateProperty.all<TextStyle>(
-          TextStyle(
-             fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'MonaSansExtraBoldWideItalic',
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static void showClassDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Choose one:',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-      ),
-      child: Text('Jet Theme'),
-    ),
-  ],
-),
- ],
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+             
+            ],
           ),
           actions: [
             TextButton(
