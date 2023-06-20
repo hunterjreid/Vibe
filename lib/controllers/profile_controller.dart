@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 
@@ -35,6 +36,9 @@ class ProfileController extends GetxController {
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
+
+
+
     int likes = 0;
     int followers = 0;
     int following = 0;
@@ -100,6 +104,7 @@ class ProfileController extends GetxController {
     if (authController.user.uid.isEmpty) {
       return;
     }
+    
 
     List<String> thumbnails = [];
     var myVideos = await FirebaseFirestore.instance
@@ -118,11 +123,24 @@ class ProfileController extends GetxController {
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
+
+Color startColor = userData['startColor'] != null
+    ? Color(int.parse(userData['startColor']))
+    : Colors.red;
+
+Color endColor = userData['endColor'] != null
+    ? Color(int.parse(userData['endColor']))
+    : Colors.red;
+
     int likes = 0;
     int followers = 0;
     int following = 0;
 
     bool isFollowing = false;
+
+    print('Start Color: $startColor');
+
+    print('Start Color: $endColor');
 
     for (var item in myVideos.docs) {
       likes += (item.data()['likes'] as List).length;
@@ -174,6 +192,9 @@ class ProfileController extends GetxController {
       'thumbnails': thumbnails,
       'followersList': followersList,
       'followingList': followingList,
+      'startColor': startColor,
+      'endColor':endColor
+
     };
 
     update();

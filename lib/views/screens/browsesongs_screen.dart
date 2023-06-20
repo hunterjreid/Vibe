@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vibe/views/screens/confirm_screen.dart';
 import 'package:vibe/views/screens/record_sound_screen.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
 
 class BrowseSongsPage extends StatefulWidget {
   @override
@@ -60,15 +64,55 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
     });
   }
 
-  Future<void> goToUseSoundScreen() async {
+  Future<void> goToUseSoundScreen(String songPath) async {
     if (isPlaying) {
       await pauseSong();
     }
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RecordSoundScreen(title: currentSong)),
+      MaterialPageRoute(
+        builder: (context) => RecordSoundScreen(
+          title: currentSong,
+          songPath: songPath,
+        ),
+      ),
     );
+  }
+
+  Future<void> pickVideoFromCamera(BuildContext context) async {
+    final cameras = await availableCameras();
+    final camera = cameras.first;
+
+    final video = await ImagePicker().pickVideo(
+      source: ImageSource.camera,
+      preferredCameraDevice: CameraDevice.front, // or CameraDevice.rear for back camera
+    );
+
+    if (video != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ConfirmScreen(
+            videoFile: File(video.path),
+            videoPath: video.path,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> pickVideoFromGallery(BuildContext context) async {
+    final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
+    if (video != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ConfirmScreen(
+            videoFile: File(video.path),
+            videoPath: video.path,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -111,11 +155,19 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
                 if (currentSong == songName && isPlaying)
                   ElevatedButton(
                     child: Text('Use this sound'),
-                    onPressed: goToUseSoundScreen,
+                    onPressed: () {
+                      goToUseSoundScreen(songPath);
+                    },
                   ),
               ],
             ),
           );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.video_call),
+        onPressed: () {
+          pickVideoFromCamera(context);
         },
       ),
     );

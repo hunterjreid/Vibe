@@ -15,7 +15,7 @@ import 'package:vibe/views/screens/userSettings_screen.dart';
 import 'package:vibe/views/screens/your_dms_screen.dart';
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'dart:math';
 import 'dart:math';
 import 'dart:ui';
 
@@ -51,15 +51,35 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     Colors.blue.withOpacity(0.5), // Middle color
   ];
 
-  Color randomColor1 = Colors.blue;
-  Color randomColor2 = Color.fromARGB(255, 243, 33, 233);
+  Color startColor = Color.fromARGB(0, 0, 0, 0);
+  Color endColor = Color.fromARGB(47, 121, 113, 120);
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    profileController.getProfileData();
+@override
+void initState() {
+  super.initState();
+  _tabController = TabController(length: 3, vsync: this);
+}
+
+
+void _fetchUserProfile() async {
+  await profileController.getProfileData();
+
+  print(profileController.user['startColor']);
+
+  // Check if startColor and endColor are null, then set them to red
+  if (profileController.user['startColor'] == null) {
+    profileController.user['startColor'] = Colors.red;
   }
+  if (profileController.user['endColor'] == null) {
+    profileController.user['endColor'] = Colors.red;
+  }
+
+  // Set the colors using the _updateColors method
+  _updateColors(
+    profileController.user['startColor'],
+    profileController.user['endColor'],
+  );
+}
 
 
 
@@ -69,8 +89,8 @@ void _navigateToUserSettingsScreen() async {
     context,
     MaterialPageRoute(
       builder: (context) => UserSettingsScreen(
-        startColor: randomColor1,
-        endColor: randomColor2,
+        startColor: startColor,
+        endColor: endColor,
         onSaveChanges: _updateColors,
       ),
     ),
@@ -78,23 +98,15 @@ void _navigateToUserSettingsScreen() async {
 }
 
 
-void _updateColors(Color startColor, Color endColor) async {
+
+
+void _updateColors(Color startColor1, Color endColor1) async {
   setState(() {
-    randomColor1 = startColor;
-    randomColor2 = endColor;
+    startColor = startColor1;
+    endColor = endColor1;
   });
 
-  try {
-    await FirebaseFirestore.instance
-        .collection('random_colors')
-        .doc('colors')
-        .set({
-      'randomColor1': startColor.value,
-      'randomColor2': endColor.value,
-    });
-  } catch (e) {
-    print('Error updating random colors: $e');
-  }
+  
 }
 
 
@@ -105,6 +117,7 @@ void _updateColors(Color startColor, Color endColor) async {
 @override
 void didChangeDependencies() {
   super.didChangeDependencies();
+    _fetchUserProfile(); // Fetch user profile data
 
 
 }
@@ -154,9 +167,10 @@ void didChangeDependencies() {
       home: GetBuilder<ProfileController>(
         init: ProfileController(),
         builder: (controller) {
+
+          // print(controller.user['startColor']);
       
-       
-    
+        // 
 
             return Scaffold(
               appBar: AppBar(
@@ -202,6 +216,7 @@ void didChangeDependencies() {
                 ),
               ),
               body: TabBarView(
+                
                 controller: _tabController, // Set the TabController
                 children: [
                   // First tab view
@@ -222,8 +237,8 @@ void didChangeDependencies() {
                                         shape: BoxShape.rectangle,
                                         gradient: LinearGradient(
                                           colors: [
-                                            randomColor1,
-                                            randomColor2,
+                                            startColor,
+                                            endColor,
                                           ],
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomRight,
@@ -231,16 +246,13 @@ void didChangeDependencies() {
                                       ),
                                     ),
                                     ClipOval(
-                                      child: CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl: controller.user['profilePhoto'],
-                                        height: 90,
-                                        width: 90,
-                                        placeholder: (context, url) => const CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) => const Icon(
-                                          Icons.error,
-                                        ),
-                                      ),
+                                   child: CircleAvatar(
+                    radius: 60,
+                 backgroundImage: 
+  NetworkImage(profileController.user['profilePhoto'] ?? ''),
+
+                    backgroundColor: Colors.transparent,
+                  ),
                                     ),
                                   ],
                                 ),       const SizedBox(height: 6.0),
@@ -404,7 +416,7 @@ void didChangeDependencies() {
       ),
       const SizedBox(width: 4),
       Text(
-       controller.user['website'] != null ? controller.user['website'] :  'No website set',
+       profileController.user['website'] != null ? profileController.user['website'] :  'No website set',
         style: TextStyle(
           color: Colors.blue,
           fontWeight: FontWeight.bold,
@@ -450,14 +462,14 @@ void didChangeDependencies() {
                                 GridView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: controller.user['thumbnails'].length,
+                                  itemCount: profileController.user['thumbnails'].length,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     childAspectRatio: 1,
                                     crossAxisSpacing: 5,
                                   ),
                                   itemBuilder: (context, index) {
-                                    String thumbnail = controller.user['thumbnails'][index];
+                                    String thumbnail = profileController.user['thumbnails'][index];
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.push(

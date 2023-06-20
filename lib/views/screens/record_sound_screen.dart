@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class RecordSoundScreen extends StatefulWidget {
   final String title;
+  final String songPath;
 
-  RecordSoundScreen({required this.title});
+  RecordSoundScreen({required this.title, required this.songPath});
 
   @override
   _RecordSoundScreenState createState() => _RecordSoundScreenState();
@@ -14,6 +17,7 @@ class _RecordSoundScreenState extends State<RecordSoundScreen> {
   late CameraController _controller;
   late List<CameraDescription> _cameras;
   bool _isRecording = false;
+  late String _outputFilePath;
 
   @override
   void initState() {
@@ -37,18 +41,6 @@ class _RecordSoundScreenState extends State<RecordSoundScreen> {
     super.dispose();
   }
 
-  Future<void> _stopRecording() async {
-    if (_controller.value.isRecordingVideo) {
-      try {
-        await _controller.stopVideoRecording();
-        setState(() {
-          _isRecording = false;
-        });
-      } catch (e) {
-        print('Error stopping recording: $e');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,22 +70,16 @@ class _RecordSoundScreenState extends State<RecordSoundScreen> {
               ElevatedButton(
                 child: _isRecording ? Text('Stop Recording') : Text('Record'),
                 onPressed: () {
-                  if (_isRecording) {
-                    _stopRecording();
-                  }
+                
                 },
               ),
               ElevatedButton(
                 child: Text('Retake'),
-                onPressed: () {
-              
-                },
+                onPressed: () {},
               ),
               ElevatedButton(
                 child: Text('Upload'),
-                onPressed: () {
-              
-                },
+                onPressed: () {},
               ),
             ],
           ),
