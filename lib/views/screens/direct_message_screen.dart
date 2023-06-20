@@ -1,31 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:vibe/controllers/get_dm_controller.dart';
-import 'package:vibe/models/dm.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DirectMessageScreen extends StatefulWidget {
-  final String senderUID; // UID of the sender user
   final String recipientUID; // UID of the recipient user
+  final String senderUID; // UID of the recipient user
 
-  DirectMessageScreen({
-    required this.senderUID,
-    required this.recipientUID,
-  });
+  DirectMessageScreen({required this.recipientUID,required this.senderUID});
 
   @override
   _DirectMessageScreenState createState() => _DirectMessageScreenState();
 }
 
 class _DirectMessageScreenState extends State<DirectMessageScreen> {
-  final GetDMController dmController = Get.put(GetDMController());
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference dmCollection(String uid) {
+    if (auth.currentUser != null) {
+      final idPair = [widget.recipientUID, widget.senderUID].toList()..sort();
+      final collectionID = idPair.join('_');
+      return firestore.collection('dms').doc(collectionID).collection('messages');
+    }
+    throw FirebaseAuthException(message: 'User not authenticated', code: '');
+  }
+
+  List<String> messages = []; // List to store the messages
+  TextEditingController _textEditingController = TextEditingController(); // Controller for the input field
 
   @override
   void initState() {
     super.initState();
-    dmController.fetchDMs(widget.senderUID);
+    fetchMessages();
   }
 
+  Future<List<String>> fetchMessages() async {
+    QuerySnapshot snapshot = await dmCollection(widget.recipientUID).orderBy('sent', descending: true).get();
 
+    List<String> fetchedMessages = [];
+    snapshot.docs.forEach((doc) {
+      fetchedMessages.add((doc.data() as Map<String, dynamic>)['text'] as String);
+    });
+
+    return fetchedMessages;
+  }
+
+  Future<void> sendMessage(String message) async {
+    if (auth.currentUser != null) {
+      await dmCollection(widget.recipientUID).add({
+        'from': auth.currentUser!.uid,
+        'text': message,
+        'sent': FieldValue.serverTimestamp(),
+      });
+
+      _textEditingController.clear(); // Clear the input field after sending
+      fetchMessages();
+    }
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose(); // Dispose the controller when the screen is disposed
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,38 +72,31 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
       body: Column(
         children: [
           Expanded(
-            child: GetX<GetDMController>(
-              init: dmController,
-              builder: (controller) {
-                if (controller.dms.isEmpty) {
-                  return Container(); // Empty container when no DMs are available
+            child: FutureBuilder<List<String>>(
+              future: fetchMessages(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
-                  final dm = controller.dms.firstWhere(
-                    (dm) =>
-                        (dm.participants.contains(widget.senderUID) &&
-                            dm.participants.contains(widget.recipientUID)) ||
-                        (dm.participants.contains(widget.recipientUID) &&
-                            dm.participants.contains(widget.senderUID)),
-                    orElse: () => DM(participants: [], messages: []),
-                  );
+                  final messages = snapshot.data ?? [];
 
                   return ListView.builder(
                     padding: EdgeInsets.all(8.0),
-                    itemCount: dm.messages.length,
+                    itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      final message = dm.messages[index];
-                      final isCurrentUser = message.senderUID == widget.senderUID;
-
+                      // Display the messages in the list
                       return Align(
-                        alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
+                        alignment: messages[index].startsWith('You: ') ? Alignment.topRight : Alignment.topLeft,
                         child: Container(
                           padding: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            color: isCurrentUser ? Colors.blue : Colors.grey[300],
+                            color: messages[index].startsWith('You: ') ? Colors.blue : Colors.grey[300],
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Text(
-                            message.text,
+                            messages[index],
                             style: TextStyle(
                               fontSize: 16.0,
                               color: Colors.white,
@@ -88,19 +117,19 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: dmController.textEditingController,
+                    controller: _textEditingController,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
                     ),
                     onSubmitted: (value) {
-                      dmController.sendMessage(widget.senderUID, widget.recipientUID, value);
+                      sendMessage('You: $value');
                     },
                   ),
                 ),
                 IconButton(
                   onPressed: () {
-                    String message = dmController.textEditingController.text;
-                    dmController.sendMessage(widget.senderUID, widget.recipientUID, message);
+                    String message = 'You: ${_textEditingController.text}';
+                    sendMessage(message);
                   },
                   icon: Icon(Icons.send),
                 ),

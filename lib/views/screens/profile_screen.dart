@@ -98,8 +98,39 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   ],
                 ),
                 actions: [
+
+                  IconButton(
+  icon: Icon(Icons.report),
+  onPressed: () {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Report Profile'),
+          content: Text('Are you sure you want to report this profile?'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: Text('Report'),
+              onPressed: () {
+                      Navigator.of(context).pop();
+                // ...
+                // Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  },
+),
                 
-                  Icon(Icons.report),
+              
                    IconButton(
                   icon: Icon(Icons.message),
                   onPressed: () {

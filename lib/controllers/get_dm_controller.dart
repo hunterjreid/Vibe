@@ -18,68 +18,117 @@ class GetDMController extends GetxController {
     fetchDMs(auth.currentUser!.uid);
   }
 
-void fetchDMs(String userId) {
-  firestore
-      .collectionGroup('dms')
-      .where('title', arrayContains: userId)
-      .snapshots()
-      .listen((QuerySnapshot query) {
-    final List<DM> dmList = query.docs
-        .map((doc) => DM.fromMap(doc.data() as Map<String, dynamic>))
-        .toList();
+  Future<void> fetchDMs(String userId) async {
+    final QuerySnapshot querySnapshot = await firestore
+        .collectionGroup('messages')
+        .where('title', isGreaterThanOrEqualTo: userId)
+        .where('title', isLessThan: userId + 'z')
+        .get();
 
-        
+    final List<DM> dmList = [];
 
-    _dms.value = dmList;
-  });
-}
+    for (final docSnapshot in querySnapshot.docs) {
+      final messageData = docSnapshot.data() as Map<String, dynamic>;
+      final senderUID = messageData['senderUID'] as String;
+      final text = messageData['text'] as String;
+      final sent = messageData['sent'] as Timestamp;
 
+      final dmRef = docSnapshot.reference.parent?.parent;
+      if (dmRef != null) {
+        final participantsSnapshot = await dmRef.get();
 
+        if (participantsSnapshot.exists) {
+          final participantsData = participantsSnapshot.data() as Map<String, dynamic>;
+          final participants = participantsData['participants'] as List<dynamic>;
 
-  
-Future<void> sendMessage(String senderUID, String recipientUID, String text) async {
-  if (auth.currentUser != null) {
-    final idPair = [senderUID, recipientUID].toList()..sort();
-    final collectionID = idPair.join('_');
+          final dm = DM(
+            participants: participants.cast<String>(),
+            messages: [Message(senderUID: senderUID, text: text, sent: sent.toDate())],
+          );
 
-    final dmRef = firestore.collection('dms').doc(collectionID).collection('messages');
-
-    final newMessage = {
-      'senderUID': senderUID,
-      'text': text,
-      'sent': DateTime.now(),
-    };
-
-    await dmRef.add(newMessage);
-
-    textEditingController.clear();
-
-    // Update the local DM list with the new message
-    final updatedDMs = List<DM>.from(_dms.value);
-    final existingDMIndex = updatedDMs.indexWhere((dm) =>
-        (dm.participants.contains(senderUID) && dm.participants.contains(recipientUID)) ||
-        (dm.participants.contains(recipientUID) && dm.participants.contains(senderUID)));
-
-    if (existingDMIndex != -1) {
-      final existingDM = updatedDMs[existingDMIndex];
-      final updatedMessages = List<Message>.from(existingDM.messages);
-      final newDM = DM(
-        participants: existingDM.participants,
-        messages: [...updatedMessages, Message.fromMap(newMessage)],
-      );
-      updatedDMs[existingDMIndex] = newDM;
-    } else {
-      final newDM = DM(
-        participants: [senderUID, recipientUID],
-        messages: [Message.fromMap(newMessage)],
-        
-      );
-      updatedDMs.add(newDM);
+          dmList.add(dm);
+        }
+      }
     }
 
-    _dms.value = updatedDMs;
+    _dms.value = dmList;
   }
-}
+
+  Future<void> fetchAllDMs() async {
+    final QuerySnapshot querySnapshot = await firestore.collection('dms').get();
+
+    final List<DM> dmList = [];
+
+    for (final docSnapshot in querySnapshot.docs) {
+      final participantsSnapshot = await docSnapshot.reference.collection('messages').get();
+
+      if (participantsSnapshot.docs.isNotEmpty) {
+        final participantsData = docSnapshot.data() as Map<String, dynamic>;
+        final participants = participantsData['participants'] as List<dynamic>;
+
+        final messages = participantsSnapshot.docs.map((messageSnapshot) {
+          final messageData = messageSnapshot.data() as Map<String, dynamic>;
+          final senderUID = messageData['senderUID'] as String;
+          final text = messageData['text'] as String;
+          final sent = messageData['sent'] as Timestamp;
+
+          return Message(senderUID: senderUID, text: text, sent: sent.toDate());
+        }).toList();
+
+        final dm = DM(
+          participants: participants.cast<String>(),
+          messages: messages,
+        );
+
+        dmList.add(dm);
+      }
+    }
+
+    _dms.value = dmList;
+  }
+
+  Future<void> sendMessage(String senderUID, String recipientUID, String text) async {
+    if (auth.currentUser != null) {
+      final idPair = [senderUID, recipientUID].toList()..sort();
+      final collectionID = idPair.join('_');
+
+      final dmRef = firestore.collection('dms').doc(collectionID).collection('messages');
+
+      final newMessage = {
+        'senderUID': senderUID,
+        'text': text,
+        'sent': DateTime.now(),
+      };
+
+      await dmRef.add(newMessage);
+
+      textEditingController.clear();
+
+      // Update the local DM list with the new message
+      final updatedDMs = List<DM>.from(_dms.value);
+      final existingDMIndex = updatedDMs.indexWhere((dm) =>
+          (dm.participants.contains(senderUID) && dm.participants.contains(recipientUID)) ||
+          (dm.participants.contains(recipientUID) && dm.participants.contains(senderUID)));
+
+      if (existingDMIndex != -1) {
+        final existingDM = updatedDMs[existingDMIndex];
+        final updatedMessages = List<Message>.from(existingDM.messages);
+        final newDM = DM(
+          participants: existingDM.participants,
+          messages: [...updatedMessages, Message.fromMap(newMessage)],
+        );
+        updatedDMs[existingDMIndex] = newDM;
+      } else {
+        final newDM = DM(
+          participants: [senderUID, recipientUID],
+          messages: [Message.fromMap(newMessage)],
+        );
+        updatedDMs.add(newDM);
+      }
+
+      _dms.value = updatedDMs;
+    }
+  }
 
   @override
   void dispose() {

@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     _searchQueryController.addListener(_onSearchQueryChanged);
   }
 
@@ -57,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return paletteGenerator;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,11 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-              Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SearchOldScreen(),
-                        ),
-                      );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SearchOldScreen(),
+                  ),
+                );
               },
             ),
             Expanded(
@@ -95,12 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.notifications),
             onPressed: () {
-             Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => NotificationScreen(),
-                        ),
-                      );
-              
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => NotificationScreen(),
+                ),
+              );
             },
           ),
         ],
@@ -161,8 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 8),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 8),
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         color: Colors.black54,
@@ -208,8 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return InkWell(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) =>
-                              ProfileScreen(uid: user.uid),
+                          builder: (context) => ProfileScreen(uid: user.uid),
                         ),
                       ),
                       child: ListTile(
@@ -229,45 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
-          // Overlay
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colors.red, // Replace with desired color
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      'Welcome to Vibe',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                          fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _overlayEntry?.remove();
-                        _overlayEntry = null;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+
         ],
       ),
     );

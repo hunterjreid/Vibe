@@ -15,13 +15,13 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
   final GetDMController dmController = Get.put(GetDMController());
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    dmController.fetchDMs(authController.user.uid);
-    print(authController.user.uid);
+  void initState() {
+    super.initState();
+    // Fetch DMs when the screen first loads
+    dmController.fetchAllDMs();
   }
 
- void navigateToSearchUser() {
+  void navigateToSearchUser() {
     // Add the logic to navigate to the search user screen
     // when the plus icon is tapped
     // For example:
@@ -29,7 +29,7 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
   }
 
   void navigateToConversation(String senderUID, String recipientUID) {
-    Get.to(DirectMessageScreen(
+    Get.to(() => DirectMessageScreen(
       senderUID: senderUID,
       recipientUID: recipientUID,
     ));
@@ -41,14 +41,14 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
       appBar: AppBar(
         title: Text('DM Screen'),
         actions: [
-    GestureDetector(
-      onTap: navigateToSearchUser,
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Icon(Icons.add),
-      ),
-    ),
-  ],
+          GestureDetector(
+            onTap: navigateToSearchUser,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.add),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -62,13 +62,10 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            
             SizedBox(height: 16),
             Expanded(
               child: GetX<GetDMController>(
-                init: dmController,
                 builder: (controller) {
-
                   if (controller.dms.isEmpty) {
                     return Center(
                       child: Text("No DMs Found"),
@@ -82,8 +79,8 @@ class _YourDMsScreenState extends State<YourDMsScreen> {
                           onTap: () => navigateToConversation(dm.participants[0], dm.participants[1]),
                           child: ListTile(
                             title: Text(dm.participants.join(', ')),
-                            subtitle: Text(dm.messages.isNotEmpty ? "2"+dm.messages.last.text : ''),
-                            trailing: Text(dm.messages.isNotEmpty ? "3"+dm.messages.last.sent.toString() : ''),
+                            subtitle: dm.messages.isNotEmpty ? Text(dm.messages.last.text) : null,
+                            trailing: dm.messages.isNotEmpty ? Text(dm.messages.last.sent.toString()) : null,
                           ),
                         );
                       },

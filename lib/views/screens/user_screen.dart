@@ -7,6 +7,7 @@ import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/createScreen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vibe/views/screens/show_more_video.dart';
 
 import 'package:vibe/views/screens/show_own_video_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
@@ -491,8 +492,6 @@ void didChangeDependencies() {
 
     // Save the current date and time
 
-// Third tab view
-// Third tab view
 Column(
   children: [
     Text('YOUR SAVED VIDEOS!'),
@@ -516,29 +515,44 @@ Column(
           } else {
             // Extract the list of video titles from the snapshot
             List<String> videoTitles = snapshot.data!.docs
-                .map((doc) => doc['title'] as String)
+                .map((doc) => doc['id'] as String)
                 .toList();
 
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: videoTitles.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(videoTitles[index]),
-                );
-              },
-            );
+return ListView.builder(
+  shrinkWrap: true,
+  itemCount: videoTitles.length,
+  itemBuilder: (context, index) {
+    final videoId = videoTitles[index];
+    final videoData = snapshot.data!.docs.firstWhere(
+      (doc) => doc['id'] == videoId,
+    );
+
+    final thumbnailUrl = videoData['thumbnail'] as String;
+    final caption = videoData['caption'] as String;
+
+    return ListTile(
+      leading: Image.network(thumbnailUrl),
+      title: Text(caption.isNotEmpty ? caption : 'This video has no caption'),
+      onTap: () {
+        // Open single video with the videoId
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowMoreVideo(videoId: videoId, ),
+          ),
+        );
+      },
+    );
+  },
+);
+
           }
         },
       ),
     ),
     Text('Last updated: $currentTime'),
   ],
-),
-
-
-
-
+)
 
 
 

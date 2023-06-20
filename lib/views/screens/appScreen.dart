@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vibe/constants.dart';
+import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class _AppScreenState extends State<AppScreen> {
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
 
+final ProfileController profileController = Get.put(ProfileController());
+
   String selectedColorOption = 'Jet Black';
 
   BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
@@ -30,6 +33,12 @@ class _AppScreenState extends State<AppScreen> {
   void initState() {
 
     super.initState();
+
+        print(authController.user.uid);
+   profileController.updateUserId(authController.user.uid);
+    profileController.getUserData();
+
+
     isDarkTheme = true;
     bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
       backgroundColor: Color.fromRGBO(255, 255, 255, 1),

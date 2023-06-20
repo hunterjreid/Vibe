@@ -97,14 +97,16 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void preloadVideos() async {
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 5; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
       await videoPlayerController.initialize();
 
       videoController.addView(videoController.videoList[i].id);
-
+  setState(() {
+      _isLoading = false;
+    });
       videoControllers.add(videoPlayerController);
 
       chewieControllers.add(
@@ -136,9 +138,7 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
       );
     }
-    setState(() {
-      _isLoading = false;
-    });
+  
   }
 
   @override

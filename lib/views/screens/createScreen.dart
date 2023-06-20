@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/controllers/auth_controller.dart';
+
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/browsesongs_screen.dart';
 import 'package:vibe/views/screens/confirm_screen.dart';
@@ -20,7 +22,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateScreen extends StatelessWidget {
+
   final ProfileController profileController = Get.put(ProfileController());
+  
+
+  
+
+
+  
 
   pickVideoFromCamera(BuildContext context) async {
     final video = await ImagePicker().pickVideo(source: ImageSource.camera);
@@ -277,29 +286,35 @@ class MoreScreen extends StatelessWidget {
       "Title 5",
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Saved Videos screen'),
+return Scaffold(
+  appBar: AppBar(
+    title: Text('Saved Videos Screen'),
+  ),
+  body: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+            SizedBox(height: 46),
+      Text(
+        'Here, your draft videos will appear',
+        style: TextStyle(fontSize: 20),
+        textAlign: TextAlign.center,
       ),
-      body: Column(
-        children: [
-          // Display the list of titles
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: titles.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(titles[index]),
-                );
-              },
-            ),
-          ),
-          // Display the saved date and time
-          Text('Last updated: $currentTime'),
-        ],
-      ),
-    );
+    //   SizedBox(height: 16),
+    //   Expanded(
+    //     child: ListView.builder(s
+    //       shrinkWrap: true,
+    //       itemCount: titles.length,
+    //       itemBuilder: (context, index) {
+    //         return ListTile(
+    //           title: Text(titles[index]),
+    //         );
+    //       },
+    //     ),
+    //   ),
+    //   Text('Last updated: $currentTime'),
+     ],
+  ),
+);
   }
 
   Widget _buildButtonx(BuildContext context, String title) {
