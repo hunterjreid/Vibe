@@ -203,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ClipOval(
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
-                                        imageUrl: controller.user['profilePhoto'],
+                                        imageUrl: profileController.user['profilePhoto'],
                                         height: 90,
                                         width: 90,
                                         placeholder: (context, url) => const CircularProgressIndicator(),

@@ -54,6 +54,8 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   Color startColor = Color.fromARGB(0, 0, 0, 0);
   Color endColor = Color.fromARGB(47, 121, 113, 120);
 
+
+
     Future<void> _refreshData() async {
     // Add your refresh logic here, such as fetching new data
     await profileController.getProfileData();
@@ -69,6 +71,9 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
 @override
 void initState() {
   super.initState();
+         profileController.updateUserId(authController.user.uid);
+    _fetchUserProfile(); // Fetch user profile data
+
   _tabController = TabController(length: 3, vsync: this);
 }
 
@@ -261,7 +266,7 @@ void didChangeDependencies() {
                                    child: CircleAvatar(
                     radius: 60,
                  backgroundImage: 
-  NetworkImage(profileController.user['profilePhoto'] ?? ''),
+  NetworkImage(controller.user['profilePhoto'] ?? ''),
 
                     backgroundColor: Colors.transparent,
                   ),
@@ -270,7 +275,7 @@ void didChangeDependencies() {
                                 ),       const SizedBox(height: 6.0),
 
                                                 Text(
-  profileController.user['name'] ?? 'No name set',
+  controller.user['name'] ?? 'No name set',
   style: TextStyle(
     fontFamily: 'MonaSansExtraBoldWideItalic',
     fontSize: 22.0,
@@ -380,7 +385,7 @@ void didChangeDependencies() {
                                     Column(
                                       children: [
                                         Text(
-                                          profileController.user['likes'],
+                                          controller.user['likes'],
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -402,7 +407,7 @@ void didChangeDependencies() {
     
                           
                               
-                           Text(profileController.user['bio'] != null ? profileController.user['bio'] : 'No bio set',
+                           Text(controller.user['bio'] != null ? controller.user['bio'] : 'No bio set',
 
                                   
                                   style: TextStyle(
@@ -430,7 +435,7 @@ void didChangeDependencies() {
       ),
       const SizedBox(width: 4),
       Text(
-       profileController.user['website'] != null ? profileController.user['website'] :  'No website set',
+       controller.user['website'] != null ? controller.user['website'] :  'No website set',
         style: TextStyle(
           color: Colors.blue,
           fontWeight: FontWeight.bold,
@@ -473,35 +478,41 @@ void didChangeDependencies() {
           ),
        
            
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: controller.user['thumbnails'].length,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 1,
-                                    crossAxisSpacing: 5,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    String thumbnail = controller.user['thumbnails'][index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ShowOwnVideo(
-                                              videoIndex: index,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: CachedNetworkImage(
-                                        imageUrl: thumbnail,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                )
+                           GridView.builder(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  itemCount: controller.user['thumbnails'].length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 3,
+    childAspectRatio: 1,
+    crossAxisSpacing: 5,
+  ),
+  itemBuilder: (context, index) {
+    String thumbnail = controller.user['thumbnails'][index];
+    // Reverse the order of thumbnails by accessing them from the end of the list
+    // String reversedThumbnail = controller.user['thumbnails'][controller.user['thumbnails'].length - 1 - index];
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowOwnVideo(
+              videoIndex: index,
+            ),
+          ),
+        );
+      },
+      child: CachedNetworkImage(
+        imageUrl: thumbnail, // Use the reversed thumbnail
+        fit: BoxFit.cover,
+      ),
+    );
+  },
+)
+
+
+
+
                               ],
                             ),
                           ),

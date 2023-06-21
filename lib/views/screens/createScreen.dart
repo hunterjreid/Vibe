@@ -134,6 +134,29 @@ class CreateScreen extends StatelessWidget {
     );
   }
 
+
+ Widget _buildButton(BuildContext context, String title, String imagePath, VoidCallback onTap) {
+    return Column(
+      children: [
+        Image.asset(
+          imagePath,
+          width: 94,
+          height: 94,
+        ),
+        ElevatedButton(
+          onPressed: onTap,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,30 +175,51 @@ class CreateScreen extends StatelessWidget {
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
                 children: [
-                  _buildButton(context, 'Add Video', () {
-                    showOptionsDialog(context);
-                  }),
-                  _buildButton(context, 'Music', () {
-                    Navigator.push(
+                  _buildButton(
+                    context,
+                    'Add Video',
+                    'assets/images/createIcons/1.png',
+                    () {
+                      showOptionsDialog(context);
+                    },
+                  ),
+                    _buildButton(
+                    context,
+                    'Music',
+                    'assets/images/createIcons/2.png',
+                    () {
+                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => BrowseSongsPage()),
                     );
-                  }),
-                  _buildButton(context, 'Trends!', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TrendsScreen()),
-                    );
-                  }),
-                  _buildButton(context, 'Change long bio', () {
-                    showChangeBioDialog(context);
-                  }),
-                  _buildButton(context, 'Unpublished Videos', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MoreScreen()),
-                    );
-                  }),
+                    },
+                  ),
+                    _buildButton(
+                    context,
+                    'Trends',
+                    'assets/images/createIcons/3.png',
+                    () {
+                      showOptionsDialog(context);
+                    },
+                  ),
+                    _buildButton(
+                    context,
+                    'Change Long Bio',
+                    'assets/images/createIcons/4.png',
+                    () {
+                      showOptionsDialog(context);
+                    },
+                  ),
+                    _buildButton(
+                    context,
+                    'Add Video',
+                    'assets/images/createIcons/5.png',
+                    () {
+                      showOptionsDialog(context);
+                    },
+                  ),
+                  
+                  // Add more buttons with local images here
                 ],
               ),
             ],
@@ -184,21 +228,7 @@ class CreateScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildButton(BuildContext context, String title, VoidCallback onTap) {
-    return ElevatedButton(
-      onPressed: onTap,
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16.0,
-          fontFamily: 'MonaSansExtraBoldWideItalic',
-        ),
-      ),
-    );
-  }
 }
-
 
 
 class TrendsScreen extends StatelessWidget {

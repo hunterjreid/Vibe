@@ -115,6 +115,11 @@ flutter:
     - assets/images/menu.jpg
     - assets/profile_picture.jpg
     - assets/wop.wav
+    - assets/images/createIcons/1.png
+    - assets/images/createIcons/2.png
+    - assets/images/createIcons/3.png
+    - assets/images/createIcons/4.png
+    - assets/images/createIcons/5.png
     
 
   # To add assets to your application, add an assets section, like this:
