@@ -76,6 +76,15 @@ class UploadVideoController extends GetxController {
   }
 
   uploadVideo(String songName, String caption, String caption2, String caption3, String videoPath) async {
+
+ if (songName.isEmpty) {
+    Get.snackbar(
+      'Error',
+      'Please provide a song name',
+    );
+    return;
+  }
+
     try {
       String uid = firebaseAuth.currentUser!.uid;
       DocumentSnapshot userDoc = await firestore.collection('users').doc(uid).get();

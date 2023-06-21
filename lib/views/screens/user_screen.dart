@@ -54,6 +54,18 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   Color startColor = Color.fromARGB(0, 0, 0, 0);
   Color endColor = Color.fromARGB(47, 121, 113, 120);
 
+    Future<void> _refreshData() async {
+    // Add your refresh logic here, such as fetching new data
+    await profileController.getProfileData();
+    // ...
+
+    // Update the colors using the _updateColors method
+    _updateColors(
+      profileController.user['startColor'],
+      profileController.user['endColor'],
+    );
+  }
+
 @override
 void initState() {
   super.initState();
@@ -464,14 +476,14 @@ void didChangeDependencies() {
                                 GridView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: profileController.user['thumbnails'].length,
+                                  itemCount: controller.user['thumbnails'].length,
                                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     childAspectRatio: 1,
                                     crossAxisSpacing: 5,
                                   ),
                                   itemBuilder: (context, index) {
-                                    String thumbnail = profileController.user['thumbnails'][index];
+                                    String thumbnail = controller.user['thumbnails'][index];
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.push(
@@ -580,6 +592,7 @@ return ListView.builder(
                   
                 ],
               ),
+          
             );
 
             

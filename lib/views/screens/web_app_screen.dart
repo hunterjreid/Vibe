@@ -26,7 +26,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
   List<VideoPlayerController> videoControllers = [];
   List<ChewieController> chewieControllers = [];
   bool _isLoading = true;
-  bool _isModalVisible = false;
+  bool _isModalVisible = true; // Set _isModalVisible to true by default
   bool _refreshing = false;
 
   @override
@@ -63,7 +63,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
   }
 
   void preloadVideos() async {
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 20; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController =
           VideoPlayerController.network(video.videoUrl);
@@ -119,7 +119,6 @@ class _WebAppScreenState extends State<WebAppScreen> {
     super.dispose();
   }
 
- 
   Future<void> _onRefresh() async {
     setState(() {
       _refreshing = true;
@@ -134,69 +133,162 @@ class _WebAppScreenState extends State<WebAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('WebApp Screen'),
+        title: Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: Image.asset(
+                'assets/images/logo.png', // Replace with the actual path to your logo
+                height: 50,
+                width: 50,
+              ),
+            ),
+            Text('Vibe', style: const TextStyle(
+                            fontSize: 38,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),),
+          ],
+        ),
       ),
-      body: VisibilityDetector(
-        key: Key('videosVisibilityKey'),
-        onVisibilityChanged: (visibilityInfo) {
-          if (visibilityInfo.visibleFraction == 1.0) {
-            videoController.addView(videoController.videoList[0].id);
-          }
-        },
-        child: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : RefreshIndicator(
-                onRefresh: _onRefresh,
-                child: ListView.builder(
-                  itemCount: videoController.videoList.length,
-                  itemBuilder: (context, index) {
-                    final Video video = videoController.videoList[index];
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Chewie(
-                        controller: chewieControllers[index],
-                      ),
+      body: Row(
+        
+        children: [
+          AnimatedContainer(
+            color: Color.fromARGB(255, 83, 83, 83),
+            duration: const Duration(milliseconds: 200),
+            width: _isModalVisible ? 250 : 0,
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.search),
+                  title: Text('What is this App?'),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('What is this App?'),
+                          content: Text('This app is a social media platform.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),
-              ),
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('How can I access the full Version'),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Accessing the Full Version'),
+                          content: Text('To access the full version, you need to upgrade your account.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Visit Support'),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Visit Support'),
+                          content: Text('Please visit our support page for assistance.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: VisibilityDetector(
+              key: Key('videosVisibilityKey'),
+              onVisibilityChanged: (visibilityInfo) {
+                if (visibilityInfo.visibleFraction == 1.0) {
+                  videoController.addView(videoController.videoList[0].id);
+                }
+              },
+              child: _isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: _onRefresh,
+                      child: ListView.builder(
+  itemCount: videoController.videoList.length,
+  itemBuilder: (context, index) {
+    final Video video = videoController.videoList[index];
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Chewie(
+            controller: chewieControllers[index],
+          ),
+           SizedBox(height: 8.0),
+          Text(
+            'Video Views: ${video.views}',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8.0),
+          Text(
+            'Likes: ${video.likes.length}',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Comments: ${video.commentCount}',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8.0),
+          Text(
+            'Caption: ${video.caption}',
+            style: TextStyle(fontSize: 16),
+          ),
+          Text(
+            'Posted by: ${video.username}',
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _isModalVisible = !_isModalVisible;
-          });
-        },
-        child: Icon(Icons.menu),
+    );
+  },
+),      ),
+            ),
+          ),
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      bottomNavigationBar: _isModalVisible
-          ? Container(
-              height: 250,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.search),
-                    title: Text('Search Friends'),
-                  
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text('My Profile'),
-                   
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.exit_to_app),
-                    title: Text('Logout'),
-                  
-                  ),
-                ],
-              ),
-            )
-          : null,
     );
   }
 }
