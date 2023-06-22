@@ -41,9 +41,8 @@ class AboutUsScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-              'Nulla suscipit lectus sit amet faucibus varius. '
-              'Suspendisse eu arcu in erat malesuada consectetur.',
+              'created by Hunter Reid Special mentions to Arthur, Mohammad, Rouwa'
+,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,

@@ -186,7 +186,7 @@ class CreateScreen extends StatelessWidget {
                     _buildButton(
                     context,
                     'Music',
-                    'assets/images/createIcons/2.png',
+                    'assets/images/createIcons/4.png',
                     () {
                    Navigator.push(
                       context,
@@ -197,25 +197,31 @@ class CreateScreen extends StatelessWidget {
                     _buildButton(
                     context,
                     'Trends',
-                    'assets/images/createIcons/3.png',
+                    'assets/images/createIcons/2.png',
                     () {
-                      showOptionsDialog(context);
+                       Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TrendsScreen()),
+                    );
                     },
                   ),
                     _buildButton(
                     context,
                     'Change Long Bio',
-                    'assets/images/createIcons/4.png',
+                    'assets/images/createIcons/3.png',
                     () {
-                      showOptionsDialog(context);
+                         showChangeBioDialog(context);
                     },
                   ),
                     _buildButton(
                     context,
-                    'Add Video',
+                    'Unpublished',
                     'assets/images/createIcons/5.png',
                     () {
-                      showOptionsDialog(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MoreScreen()),
+                    );
                     },
                   ),
                   
@@ -322,7 +328,7 @@ class MoreScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Saved Videos Screen'),
+        title: Text('Draft Videos'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

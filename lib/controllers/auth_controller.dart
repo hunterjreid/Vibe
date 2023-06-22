@@ -69,7 +69,7 @@ void registerUser(String username, String email, String password, File? image) a
         password: password,
       );
       
-      String downloadUrl = ''; 
+      String downloadUrl = 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'; 
       if (image != null) {
 
         downloadUrl = await _uploadToStorage(image);

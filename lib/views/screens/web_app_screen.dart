@@ -9,11 +9,10 @@ import 'package:vibe/views/screens/use_this_sound_screen.dart';
 import 'package:vibe/views/screens/user_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
+import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../../controllers/auth_controller.dart';
 
 class WebAppScreen extends StatefulWidget {
   @override
@@ -49,6 +48,27 @@ class _WebAppScreenState extends State<WebAppScreen> {
         waitForValidVideoRange();
       }
     });
+  }
+
+    void openProfilePopup(String username) {
+      print(username);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Profile'),
+          content: ProfileScreen(uid: username),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void navigateToUseThisSoundScreen(String title) {
@@ -99,7 +119,61 @@ class _WebAppScreenState extends State<WebAppScreen> {
           },
           looping: true,
           allowedScreenSleep: false,
-          overlay: null,
+          overlay: Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              color: Colors.black54,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                 
+                  Text(
+                    'Video Views: ${video.views}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 4.0),
+                  Text(
+                    'Likes: ${video.likes.length}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'Comments: ${video.commentCount}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 4.0),
+                  Text(
+                    'Caption: ${video.caption}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'Posted by: ${video.username}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       );
     }
@@ -131,6 +205,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
 
   @override
   Widget build(BuildContext context) {
+ 
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -143,15 +218,17 @@ class _WebAppScreenState extends State<WebAppScreen> {
                 width: 50,
               ),
             ),
-            Text('Vibe', style: const TextStyle(
-                            fontSize: 38,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),),
+            Text(
+              'Vibe',
+              style: const TextStyle(
+                fontSize: 38,
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+              ),
+            ),
           ],
         ),
       ),
       body: Row(
-        
         children: [
           AnimatedContainer(
             color: Color.fromARGB(255, 83, 83, 83),
@@ -191,7 +268,8 @@ class _WebAppScreenState extends State<WebAppScreen> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Accessing the Full Version'),
-                          content: Text('To access the full version, you need to upgrade your account.'),
+                          content:
+                              Text('To access the full version, you need to upgrade your account.'),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -205,6 +283,31 @@ class _WebAppScreenState extends State<WebAppScreen> {
                     );
                   },
                 ),
+                        ListTile(
+                  leading: Icon(Icons.menu),
+                  title: Text('Open Big Menu'),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Accessing the Full Version'),
+                          content:
+                              Text('To access the full version, you need to upgrade your account.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+             
                 ListTile(
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Visit Support'),
@@ -244,51 +347,131 @@ class _WebAppScreenState extends State<WebAppScreen> {
                       child: CircularProgressIndicator(),
                     )
                   : RefreshIndicator(
+                    
                       onRefresh: _onRefresh,
                       child: ListView.builder(
-  itemCount: videoController.videoList.length,
-  itemBuilder: (context, index) {
-    final Video video = videoController.videoList[index];
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Chewie(
-            controller: chewieControllers[index],
-          ),
-           SizedBox(height: 8.0),
-          Text(
-            'Video Views: ${video.views}',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'Likes: ${video.likes.length}',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Comments: ${video.commentCount}',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'Caption: ${video.caption}',
-            style: TextStyle(fontSize: 16),
-          ),
-          Text(
-            'Posted by: ${video.username}',
-            style: TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  },
-),      ),
+                    
+     
+                        itemCount: videoController.videoList.length,
+                        itemBuilder: (context, index) {
+                          final Video video = videoController.videoList[index];
+                                  final data = videoController.videoList[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.75, // Set height to 75% of the available height
+                                  child: Chewie(
+                                    controller: chewieControllers[index],
+                                  ),
+                                ),
+               ElevatedButton(
+      onPressed: () {
+        openProfilePopup(data.uid);
+      },
+      child: Text('View Profile'),
+    ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
             ),
           ),
         ],
       ),
+      bottomNavigationBar: Container(
+        height: 60,
+        color: Colors.grey,
+        child: Center(
+          child: Text(
+            'This is a demo version, you can access the full app on the app store.',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+  drawer: Drawer(
+      width: MediaQuery.of(context).size.width * 0.35,
+  child: Container(
+  
+    color: Color.fromARGB(255, 95, 95, 95),
+    child: ListView(
+      children: [
+        ListTile(
+          leading: Icon(Icons.favorite),
+          title: Text('Donate'),
+          onTap: () {
+            // Handle donate action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.code),
+          title: Text('GitHub Sponsor'),
+          onTap: () {
+            // Handle GitHub sponsor action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.info),
+          title: Text('Learn More'),
+          onTap: () {
+            // Handle learn more action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.person_add),
+          title: Text('Sign Up for Wait List'),
+          onTap: () {
+            // Handle sign up for wait list action
+          },
+        ),
+           ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('Settings'),
+          onTap: () {
+            // Handle settings action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.info),
+          title: Text('About'),
+          onTap: () {
+            // Handle "About" action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.help),
+          title: Text('Help'),
+          onTap: () {
+            // Handle "Help" action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.favorite),
+          title: Text('Support Us'),
+          onTap: () {
+            // Handle "Support Us" action
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.person_add),
+          title: Text('Join Waitlist'),
+          onTap: () {
+            // Handle "Join Waitlist" action
+          },
+        ),
+      ],
+    ),
+  ),
+),
     );
   }
 }

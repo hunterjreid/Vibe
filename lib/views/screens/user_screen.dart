@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/createScreen.dart';
@@ -406,7 +407,7 @@ void didChangeDependencies() {
                                 ),
     
                           
-                              
+                                 if (controller.user['bio'] == null)
                            Text(controller.user['bio'] != null ? controller.user['bio'] : 'No bio set',
 
                                   
@@ -417,18 +418,19 @@ void didChangeDependencies() {
                                   ),
                                   
                                 ),
-                              
+                                   if (controller.user['bio'] == null)
                                 const SizedBox(height: 12),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                  
+                                       if (controller.user['bio'] == null)
                                     const SizedBox(width: 4),
                                     GestureDetector(
 
   child: Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
+      if (controller.user['website'] == null)
       const Icon(
         Icons.link,
         color: Colors.blue,
@@ -489,24 +491,102 @@ void didChangeDependencies() {
   ),
   itemBuilder: (context, index) {
     String thumbnail = controller.user['thumbnails'][index];
+
+
+
+
+
+
+
+
+
     // Reverse the order of thumbnails by accessing them from the end of the list
     // String reversedThumbnail = controller.user['thumbnails'][controller.user['thumbnails'].length - 1 - index];
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShowOwnVideo(
-              videoIndex: index,
+     return FutureBuilder<PaletteGenerator>(
+      future: generatePalette(thumbnail),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final color = snapshot.data!.dominantColor!.color;
+          final averageColor = Color.fromRGBO(
+            color.red,
+            color.green,
+            color.blue,
+            0.1,
+          );
+
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShowSingleVideo(
+                    videoIndex: index,
+                  ),
+                ),
+              );
+            },
+            child: Stack(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: averageColor,
+                  ),
+                  child: Image.network(
+                   controller.user['thumbnails'][index],
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.visibility,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        SizedBox(width: 4),
+                        // Text(
+                        //   video.views.toString(),
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 14,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        );
+          );
+        } else {
+          return Container();
+          // Placeholder widget while loading palette
+        }
       },
-      child: CachedNetworkImage(
-        imageUrl: thumbnail, // Use the reversed thumbnail
-        fit: BoxFit.cover,
-      ),
     );
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   },
 )
 
@@ -531,7 +611,7 @@ void didChangeDependencies() {
 
 Column(
   children: [
-    Text('Your Personalized Recommended Videos!',  style: TextStyle(
+    Text('Recommended Insperational Videos!',  style: TextStyle(
                                     fontFamily: 'MonaSansExtraBoldWideItalic',
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
@@ -622,7 +702,11 @@ return ListView.builder(
 
         
   }
-
+  Future<PaletteGenerator> generatePalette(String imageUrl) async {
+    final PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    return paletteGenerator;
+  }
   void _showFollowingPopup(BuildContext context, List<String> followingList) {
     showDialog(
       context: context,

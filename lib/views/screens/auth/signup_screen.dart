@@ -18,12 +18,12 @@ class SignupScreen extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime(2000),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
     if (picked != null) {
-      _birthdayController.text = picked.toString(); // Update the birthday controller text
+      _birthdayController.text = picked.day.toString() + " / " + picked.month.toString() + " / " +  picked.year.toString() ; // Update the birthday controller text
     }
   }
 
@@ -52,57 +52,61 @@ class SignupScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Vibe',
-                      style: TextStyle(
-                        fontSize: 35,
-                        color: buttonColor,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 25),
-                    Stack(
-                      children: [
-                        Container(
-                          width: 128,
-                          height: 128,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: RadialGradient(
-                              colors: [
-                                Color.fromARGB(255, 175, 175, 175),
-                                Color.fromARGB(255, 255, 255, 255),
-                              ],
-                              stops: [0.0, 1.0],
-                              center: Alignment.center,
-                              radius: 1.0,
-                            ),
-                          ),
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundImage: NetworkImage(
-                              'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
-                            ),
-                            backgroundColor: Colors.transparent,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -10,
-                          left: 80,
-                          child: IconButton(
-                            onPressed: () => authController.pickImage(),
-                            icon: const Icon(Icons.add_a_photo),
-                          ),
-                        ),
-                      ],
-                    ),
+                        Image.asset(
+              'assets/images/logo.png',
+              width: 70,
+              height: 70,
+            ),
+            const SizedBox(
+              height: 45,
+            ),
+            const Text(
+              'Create Account',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w700,
+        
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+              ),
+            ),
+            const SizedBox(
+              height: 45,
+            ),
+                    // Stack(
+                    //   children: [
+                    //     Container(
+                    //       width: 128,
+                    //       height: 128,
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         gradient: RadialGradient(
+                    //           colors: [
+                    //             Color.fromARGB(255, 175, 175, 175),
+                    //             Color.fromARGB(255, 255, 255, 255),
+                    //           ],
+                    //           stops: [0.0, 1.0],
+                    //           center: Alignment.center,
+                    //           radius: 1.0,
+                    //         ),
+                    //       ),
+                    //       child: CircleAvatar(
+                    //         radius: 60,
+                    //         backgroundImage: NetworkImage(
+                    //           'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
+                    //         ),
+                    //         backgroundColor: Colors.transparent,
+                    //       ),
+                    //     ),
+                    //     Positioned(
+                    //       bottom: -10,
+                    //       left: 80,
+                    //       child: IconButton(
+                    //         onPressed: () => authController.pickImage(),
+                    //         icon: const Icon(Icons.add_a_photo),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(height: 15),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -178,28 +182,38 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     if (MediaQuery.of(context).size.width < 768)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Already have an account? ',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => LoginScreen(),
-                              ),
-                            ),
-                            child: Text(
-                              'Login',
-                              style: TextStyle(fontSize: 20, color: buttonColor),
-                            ),
-                          ),
-                        ],
-                      ),
+                      const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Already have an account? ',
+                  style: TextStyle(
+                    fontSize: 16,
+      
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                  ),
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                  ),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color: buttonColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+                  
                   ],
                 ),
               ),

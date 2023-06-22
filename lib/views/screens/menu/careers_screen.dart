@@ -31,8 +31,8 @@ class CareersScreen extends StatelessWidget {
         children: [
           Card(
             child: ListTile(
-              title: Text('Job Position 1'),
-              subtitle: Text('Job description for Position 1'),
+              title: Text('Software Engineer'),
+              subtitle: Text('The Product Manager will be responsible for defining and executing product strategies, conducting market research, collaborating with cross-functional teams, and driving product innovation.'),
               trailing: ElevatedButton(
                 onPressed: () {
                   _showApplyDialog(context);
@@ -43,8 +43,20 @@ class CareersScreen extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              title: Text('Job Position 2'),
-              subtitle: Text('Job description for Position 2'),
+              title: Text('Product Manager'),
+              subtitle: Text('The Software Engineer will design, develop, and implement software solutions, collaborate with a team of engineers, and ensure the scalability and performance of applications.'),
+              trailing: ElevatedButton(
+                onPressed: () {
+                  _showApplyDialog(context);
+                },
+                child: Text('Apply'),
+              ),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('Data Analyst'),
+              subtitle: Text('The Data Analyst will collect, analyze, and interpret large datasets to uncover insights, develop data models, and collaborate with stakeholders to support data-driven decision-making.'),
               trailing: ElevatedButton(
                 onPressed: () {
                   _showApplyDialog(context);
