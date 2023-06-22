@@ -4,10 +4,11 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+import 'package:vibe/controllers/video_controller.dart';
 
 import 'package:vibe/views/screens/show_own_video_screen.dart';
 import 'package:vibe/views/screens/show_single_video.dart';
-
+import 'package:palette_generator/palette_generator.dart';
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vibe/views/screens/user_screen.dart';
@@ -416,36 +417,102 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
          const SizedBox(
                                   height: 25,
                                 ),
-                                GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: controller.user['thumbnails'].length,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 1,
-                                    crossAxisSpacing: 5,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    String thumbnail = controller.user['thumbnails'][index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ShowSingleVideo(
-                                              videoIndex: index,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: CachedNetworkImage(
-                                        imageUrl: thumbnail,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                )
-                              ],
+
+
+
+      GridView.builder(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  itemCount: controller.user['thumbnails'].length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 3,
+    childAspectRatio: 1,
+    crossAxisSpacing: 5,
+  ),
+  itemBuilder: (context, index) {
+    String thumbnail = controller.user['thumbnails'][index];
+
+   
+
+
+    return FutureBuilder<PaletteGenerator>(
+      future: generatePalette(thumbnail),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final color = snapshot.data!.dominantColor!.color;
+          final averageColor = Color.fromRGBO(
+            color.red,
+            color.green,
+            color.blue,
+            0.1,
+          );
+
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShowSingleVideo(
+                    videoIndex: index,
+                  ),
+                ),
+              );
+            },
+            child: Stack(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: averageColor,
+                  ),
+                  child: Image.network(
+                   controller.user['thumbnails'][index],
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.visibility,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        SizedBox(width: 4),
+                        // Text(
+                        //   video.views.toString(),
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 14,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Container();
+          // Placeholder widget while loading palette
+        }
+      },
+    );
+  },
+),
+                            
+      ],
                             ),
                           ),
                        
@@ -502,7 +569,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       },
     );
   }
-
+  Future<PaletteGenerator> generatePalette(String imageUrl) async {
+    final PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    return paletteGenerator;
+  }
   void _showFollowerPopup(BuildContext context, List<String> followersList) {
     showDialog(
       context: context,

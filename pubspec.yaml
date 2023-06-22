@@ -62,6 +62,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   url_launcher: ^6.1.11
   iconsax: ^0.0.8
+  flutter_profile_picture: ^2.0.0
 
 
 

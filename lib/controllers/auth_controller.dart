@@ -60,46 +60,45 @@ _setInitialScreen(User? user) {
   }
 
   // registering the user
-  void registerUser(String username, String email, String password, File? image) async {
-    try {
-      if (image == null) {
-        Get.snackbar(
-          'Error Creating Account',
-          'Please select a profile picture',
-        );
-        return;
-      }
-      if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && image != null) {
-        // save out user to our ath and firebase firestore
-        UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        String downloadUrl = await _uploadToStorage(image);
-        model.User user = model.User(
-          name: username,
-          email: email,
-          uid: cred.user!.uid,
-          profilePhoto: downloadUrl,
-        );
-        await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+void registerUser(String username, String email, String password, File? image) async {
+  try {
+    if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+      // Save our user to our auth and Firebase Firestore
+      UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      
+      String downloadUrl = ''; 
+      if (image != null) {
 
-          // Send notification for successful registration
-        _sendNotification('Registration Successful', 'Your account has been created successfully.');
-
-      } else {
-        Get.snackbar(
-          'Error Creating Account',
-          'Please enter all the fields',
-        );
+        downloadUrl = await _uploadToStorage(image);
       }
-    } catch (e) {
+      
+      model.User user = model.User(
+        name: username,
+        email: email,
+        uid: cred.user!.uid,
+        profilePhoto: downloadUrl,
+      );
+      await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+
+      // Send notification for successful registration
+      _sendNotification('Registration Successful', 'Your account has been created successfully.');
+    } else {
       Get.snackbar(
         'Error Creating Account',
-        e.toString(),
+        'Please enter all the fields',
       );
     }
+  } catch (e) {
+    Get.snackbar(
+      'Error Creating Account',
+      e.toString(),
+    );
   }
+}
+
 
   void loginUser(String email, String password) async {
     try {

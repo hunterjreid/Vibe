@@ -20,20 +20,32 @@ class TextInputField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        prefixIcon: Icon(icon),
+        counterStyle: const TextStyle(
+          fontSize: 16,
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+        
+        ),
+        prefixIcon: Icon(
+          icon,
+ 
+        ),
         labelStyle: const TextStyle(
-          fontSize: 20,
+          fontSize: 16,
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+  
         ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(
-              color: borderColor,
-            )),
+          borderRadius: BorderRadius.circular(5),
+          borderSide: const BorderSide(
+            color: borderColor,
+          ),
+        ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: const BorderSide(
-              color: borderColor,
-            )),
+          borderRadius: BorderRadius.circular(5),
+          borderSide: const BorderSide(
+            color: borderColor,
+          ),
+        ),
       ),
       obscureText: isObscure,
     );
