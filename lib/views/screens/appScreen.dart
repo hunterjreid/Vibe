@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
@@ -169,7 +170,7 @@ final ProfileController profileController = Get.put(ProfileController());
                   icon: Stack(
                     children: [
                       Icon(
-                        Icons.animation_rounded,
+                         Iconsax.video_square,
                         size: 38, // Adjust the icon size here
                       ),
                       if (feedNotificationCount > 0)
@@ -200,7 +201,7 @@ final ProfileController profileController = Get.put(ProfileController());
                   icon: Stack(
                     children: [
                       Icon(
-                        Icons.home,
+                        Iconsax.home_2,
                         size: 38, // Adjust the icon size here
                       ),
                       if (homeNotificationCount > 0)
@@ -229,7 +230,7 @@ final ProfileController profileController = Get.put(ProfileController());
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.create,
+                    Iconsax.colors_square,
                     size: 38, // Adjust the icon size here
                   ),
                   label: 'Create',

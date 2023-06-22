@@ -14,6 +14,8 @@ import 'package:vibe/views/screens/user_screen.dart';
 import 'dart:math';
 import 'dart:ui';
 
+
+
 class ProfileScreen extends StatefulWidget {
   final String uid;
 

@@ -20,6 +20,8 @@ import 'package:flutter/widgets.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 
 
+import 'package:iconsax/iconsax.dart';
+
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
@@ -267,11 +269,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 });
                                               },
                                               child: Icon(
-                                                Icons.favorite,
+                                                Iconsax.heart_circle,
                                                 size: 45,
                                                 color: video.likes.contains(authController.user.uid)
-                                                    ? Color.fromARGB(255, 44, 113, 179)
-                                                    : Colors.white,
+                                                    ? Color.fromARGB(255, 146, 17, 140)
+                                                    : Color.fromARGB(255, 255, 255, 255),
                                               ),
                                             ),
                                             const SizedBox(height: 5),
@@ -291,7 +293,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                               child: Column(
                                                 children: [
                                                   Icon(
-                                                    Icons.share,
+                                                     Iconsax.share,
                                                     size: 45,
                                                     color: _isModalVisible
                                                         ? Color.fromARGB(255, 157, 96, 255)
@@ -323,11 +325,11 @@ class _FeedScreenState extends State<FeedScreen> {
                                               child: Column(
                                                 children: [
                                                   Icon(
-                                                    Icons.comment_rounded,
+                                                     Iconsax.note_text,
                                                     size: 45,
                                                     color: videoController.videoList[index].commentBy
                                                             .contains(authController.user.uid)
-                                                        ? Colors.purple
+                                                        ? Color.fromARGB(255, 17, 255, 255)
                                                         : Colors.white,
                                                   ),
                                                   const SizedBox(height: 5),
