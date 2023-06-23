@@ -8,8 +8,8 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/settings_controller.dart';
 class UserSettingsScreen extends StatefulWidget {
-  final Color startColor;
-  final Color endColor;
+  Color startColor;
+  Color endColor;
   final Function(Color startColor, Color endColor) onSaveChanges;
 
   UserSettingsScreen({
@@ -47,42 +47,46 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     emailController.text = controller.emailController.text;
   }
 
-  void showColorPicker(bool isStartColor) {
-    Color currentColor =
-        isStartColor ? controller.startColor.value : controller.endColor.value;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Select a color'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: currentColor,
-              onColorChanged: (color) {
+void showColorPicker(bool isStartColor) {
+  Color currentColor = isStartColor ? widget.startColor : widget.endColor;
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Select a color'),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: currentColor,
+            onColorChanged: (color) {
+              if (isStartColor) {
                 setState(() {
-                  if (isStartColor) {
+                  widget.startColor = color;
                     controller.startColor.value = color;
-                  } else {
-                    controller.endColor.value = color;
-                  }
                 });
-              },
-              showLabel: true,
-              pickerAreaHeightPercent: 0.8,
-            ),
+              } else {
+                setState(() {
+                  widget.endColor = color;
+                    controller.endColor.value = color;
+                });
+              }
+              // widget.onSaveChanges(widget.startColor, widget.endColor); // Save the updated colors
+            },
+            showLabel: true,
+            pickerAreaHeightPercent: 0.8,
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +129,42 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: controller.pickImage,
-              child: Text('SELECT PROFILE PICTURE'),
-            ),
-            ElevatedButton(
-              onPressed: controller.uploadProfilePicture,
-              child: Text('UPLOAD PROFILE PICTURE'),
-            ),
+ElevatedButton(
+  onPressed: controller.pickImage,
+  style: ElevatedButton.styleFrom(
+    primary: Color.fromARGB(255, 153, 153, 153), // Set the background color of the button
+    onPrimary: Color.fromARGB(255, 26, 26, 26), // Set the text color of the button
+    textStyle: TextStyle(
+    fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+    ),
+  ),
+  child: Text('Change'),
+),
+   Row(
+  children: [
+    ElevatedButton(
+      onPressed: () => showColorPicker(true),
+      style: ElevatedButton.styleFrom(
+        primary: widget.startColor,
+      ),
+      child: Text('Start Color'),
+    ),
+    ElevatedButton(
+      onPressed: () => showColorPicker(false),
+      style: ElevatedButton.styleFrom(
+        primary: widget.endColor,
+      ),
+      child: Text('End Color'),
+    ),
+  ],
+),
+
+            // ElevatedButton(
+            //   onPressed: controller.uploadProfilePicture,
+            //   child: Text('UPLOAD PROFILE PICTURE'),
+            // ),
             TextField(
               controller: usernameController,
               decoration: InputDecoration(
@@ -184,24 +216,9 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 },
               );
             }),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => showColorPicker(true),
-                    child: Text('Start Color'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => showColorPicker(false),
-                    child: Text('End Color'),
-                  ),
-                ),
-              ],
-            ),
+ 
             ElevatedButton(
-              onPressed: () {
+    onPressed: () {
                 controller.updateProfile();
                 widget.onSaveChanges(
                   controller.startColor.value,

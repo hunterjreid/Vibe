@@ -237,12 +237,76 @@ class CreateScreen extends StatelessWidget {
 }
 
 
+ 
+class VideoData {
+  final String imagePath;
+  final String title;
+  final String description;
+
+  VideoData({required this.imagePath, required this.title, required this.description});
+}
+
 class TrendsScreen extends StatelessWidget {
+  final List<VideoData> videos = [
+    VideoData(
+      imagePath: 'assets/images/trends/trend(1).jpg',
+      title: 'Trend Name #vibes 1',
+      description: 'This is what to do it and what makes it trendy! 1',
+    ),
+    VideoData(
+        imagePath: 'assets/images/trends/trend(2).jpg',
+      title: 'Trend Name #vibes 2',
+      description: 'This is what to do it and what makes it trendy! 2',
+    ),
+        VideoData(
+      imagePath: 'assets/images/trends/trend(3).jpg',
+      title: 'Trend Name #vibes 3',
+      description: 'This is what to do it and what makes it trendy! 1',
+    ),
+    VideoData(
+        imagePath: 'assets/images/trends/trend(4).jpg',
+      title: 'Trend Name #vibes 4',
+      description: 'This is what to do it and what makes it trendy! 2',
+    ),
+        VideoData(
+      imagePath: 'assets/images/trends/trend(5).jpg',
+      title: 'Trend Name #vibes 5',
+      description: 'This is what to do it and what makes it trendy! 1',
+    ),
+    VideoData(
+        imagePath: 'assets/images/trends/trend(6).jpg',
+      title: 'Trend Name #vibes 6',
+      description: 'This is what to do it and what makes it trendy! 2',
+    ),
+        VideoData(
+      imagePath: 'assets/images/trends/trend(7).jpg',
+      title: 'Trend Name #vibes 7',
+      description: 'This is what to do it and what makes it trendy! 1',
+    ),
+    VideoData(
+        imagePath: 'assets/images/trends/trend(8).jpg',
+      title: 'Trend Name #vibes 8',
+      description: 'This is what to do it and what makes it trendy! 2',
+    ),
+        VideoData(
+      imagePath: 'assets/images/trends/trend(9).jpg',
+      title: 'Trend Name #vibes 9',
+      description: 'This is what to do it and what makes it trendy! 1',
+    ),
+    VideoData(
+        imagePath: 'assets/images/trends/trend(10).jpg',
+      title: 'Trend Name #vibes 10',
+      description: 'This is what to do it and what makes it trendy! 2',
+    ),
+
+    // Add more video data as needed
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trends Screen'),
+        title: Text('Vibe Trends'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -250,7 +314,7 @@ class TrendsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Trending Videos',
+              'Trending Challenges',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -259,12 +323,13 @@ class TrendsScreen extends StatelessWidget {
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: 10, // Placeholder for the number of trending videos
+                itemCount: videos.length,
                 itemBuilder: (context, index) {
+                  final video = videos[index];
                   return Container(
                     margin: EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface, // Choose your desired background color
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -272,8 +337,9 @@ class TrendsScreen extends StatelessWidget {
                       children: [
                         AspectRatio(
                           aspectRatio: 16 / 9,
-                          child: Container(
-                            color: Theme.of(context).colorScheme.background, // Choose your desired background color
+                          child: Image.asset(
+                            video.imagePath,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         Padding(
@@ -282,7 +348,7 @@ class TrendsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Trend Name #vibes', // Placeholder for video title
+                                video.title,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -290,7 +356,7 @@ class TrendsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                'This is what to do it and what makes it trendy!', // Placeholder for channel name
+                                video.description,
                                 style: TextStyle(
                                   fontSize: 14,
                                 ),
@@ -310,6 +376,11 @@ class TrendsScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+   
+
 
 class MoreScreen extends StatelessWidget {
   @override

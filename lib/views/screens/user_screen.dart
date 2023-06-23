@@ -20,6 +20,8 @@ import 'dart:math';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:iconsax/iconsax.dart';
+
 class UserScreen extends StatefulWidget {
 
   const UserScreen({
@@ -53,7 +55,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   ];
 
   Color startColor = Color.fromARGB(0, 0, 0, 0);
-  Color endColor = Color.fromARGB(47, 121, 113, 120);
+  Color endColor = Color.fromARGB(0, 121, 113, 120);
 
 
 
@@ -213,7 +215,7 @@ void didChangeDependencies() {
   onPressed: () {
     _navigateToUserSettingsScreen();
   },
-  icon: Icon(Icons.edit_road_outlined),
+  icon: Icon(Iconsax.more_2),
 ),
              IconButton(
               onPressed: () {

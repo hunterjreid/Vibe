@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../views/screens/appScreen.dart';
+
 class SettingsController extends GetxController {
   final AuthController authController = Get.find<AuthController>();
   final TextEditingController usernameController = TextEditingController();
@@ -56,6 +58,14 @@ class SettingsController extends GetxController {
 
       // Create a notification for the profile picture change
       _createNotification('Profile Picture', 'You have changed your profile picture.');
+
+
+
+
+uploadProfilePicture();
+
+ Get.offAll(() => const AppScreen());
+
     }
   }
 
@@ -100,11 +110,12 @@ class SettingsController extends GetxController {
 
     // Convert the colors to hex strings
     String startColorHex =
-        '#${startColorValue.value.toRadixString(16).padLeft(8, '0')}';
+        '#${startColorValue.value.toRadixString(10).padLeft(8, '0')}';
     String endColorHex =
-        '#${endColorValue.value.toRadixString(16).padLeft(8, '0')}';
+        '#${endColorValue.value.toRadixString(10).padLeft(8, '0')}';
 
     // Update the colors in the profileController
+    print(startColorHex + endColorHex);
     Get.find<ProfileController>().updateProfileColors(startColorHex, endColorHex);
 
     FirebaseFirestore.instance

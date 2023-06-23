@@ -27,6 +27,7 @@ class AuthController extends GetxController {
   }
 
 _setInitialScreen(User? user) {
+
   if (kIsWeb) {
     Get.offAll(() => WebAppScreen());
   } else {

@@ -25,6 +25,11 @@ import 'package:iconsax/iconsax.dart';
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
+    void refreshVideos() {
+    // Implementation of refreshing videos goes here
+    // This method will be called when you want to reload the screen
+  }
+
 
   final VideoController videoController = Get.put(VideoController());
 }
@@ -77,6 +82,7 @@ class _FeedScreenState extends State<FeedScreen> {
   bool hasValidVideoRange() {
     return videoController.videoList.isNotEmpty;
   }
+
 
   void waitForValidVideoRange() {
     WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
+import 'package:vibe/views/screens/feedScreen.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -329,9 +330,12 @@ class ShowDialog {
               ),
                SizedBox(height: 8),
               ElevatedButton(
-                onPressed: () {
-                  // Handle mixed class selection
-                  Navigator.pop(context);
+  onPressed: () {
+    FeedScreen? feedScreen = context.findAncestorWidgetOfExactType<FeedScreen>();
+    if (feedScreen != null) {
+   feedScreen.refreshVideos();
+    }
+    Navigator.pop(context);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
