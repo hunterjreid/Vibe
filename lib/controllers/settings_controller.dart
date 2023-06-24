@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../views/screens/appScreen.dart';
 
+// Controller class for managing user settings and profile information
 class SettingsController extends GetxController {
   final AuthController authController = Get.find<AuthController>();
   final TextEditingController usernameController = TextEditingController();
@@ -30,6 +31,7 @@ class SettingsController extends GetxController {
     fetchUserData();
   }
 
+  // Fetches the user's profile data from Firestore and populates the controllers
   void fetchUserData() async {
     DocumentSnapshot<Map<String, dynamic>> userSnapshot =
         await FirebaseFirestore.instance
@@ -46,6 +48,7 @@ class SettingsController extends GetxController {
     }
   }
 
+  // Allows the user to pick an image from the gallery
   void pickImage() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -59,19 +62,19 @@ class SettingsController extends GetxController {
       // Create a notification for the profile picture change
       _createNotification('Profile Picture', 'You have changed your profile picture.');
 
+      // Upload the selected image as the profile picture
+      uploadProfilePicture();
 
-
-
-uploadProfilePicture();
-
- Get.offAll(() => const AppScreen());
-
+      // Navigate to the AppScreen after the profile picture upload is complete
+      Get.offAll(() => const AppScreen());
     }
   }
 
+  // Uploads the selected profile picture to Firebase Storage
   void uploadProfilePicture() async {
     if (_pickedImage != null) {
       String downloadUrl = await _uploadToStorage(_pickedImage!);
+
       // Update the profile photo URL in the profileController
       Get.find<ProfileController>().updateProfilePhoto(downloadUrl);
 
@@ -84,6 +87,7 @@ uploadProfilePicture();
     }
   }
 
+  // Uploads the image file to Firebase Storage and returns the download URL
   Future<String> _uploadToStorage(File image) async {
     Reference ref = FirebaseStorage.instance
         .ref()
@@ -97,6 +101,7 @@ uploadProfilePicture();
     return downloadUrl;
   }
 
+  // Updates the user's profile information in Firestore
   void updateProfile() {
     String updatedUsername = usernameController.text;
     String updatedBio = bioController.text;
@@ -137,6 +142,7 @@ uploadProfilePicture();
     });
   }
 
+  // Creates a notification for the user and adds it to Firestore
   void _createNotification(String title, String message) {
     var uid = authController.user?.uid;
 

@@ -471,36 +471,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     fit: BoxFit.contain,
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 8),
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.visibility,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                        SizedBox(width: 4),
-                        // Text(
-                        //   video.views.toString(),
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: 14,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                  ],
             ),
           );
         } else {

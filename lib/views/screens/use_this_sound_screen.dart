@@ -14,6 +14,7 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
   late CameraController _controller;
   late List<CameraDescription> _cameras;
   bool _isRecording = false;
+  bool _isCameraInitialized = false;
 
   @override
   void initState() {
@@ -28,7 +29,9 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
     if (!mounted) {
       return;
     }
-    setState(() {});
+    setState(() {
+      _isCameraInitialized = true;
+    });
   }
 
   @override
@@ -50,21 +53,82 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
     }
   }
 
+  Widget _buildRecordButton() {
+    if (!_isCameraInitialized) {
+      // Show a spinner/loader while the camera is being initialized
+      return CircularProgressIndicator();
+    }
+
+    return GestureDetector(
+      onTap: () {
+        if (_isRecording) {
+          _stopRecording();
+        } else {
+          _startRecording();
+        }
+      },
+      child: Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.red,
+        ),
+        child: Icon(
+          _isRecording ? Icons.stop : Icons.fiber_manual_record,
+          color: Colors.white,
+          size: 40,
+        ),
+      ),
+    );
+  }
+
+  void _startRecording() async {
+    // Implement recording logic here
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!_controller.value.isInitialized) {
-      return Container();
+      // Show a spinner/loader while the camera is being initialized
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Use Sound',
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+            ),
+          ),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Use Sound'),
+        title: Text(
+          'Use Sound',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             'You are using song: ${widget.title}',
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+            ),
           ),
           Expanded(
             child: AspectRatio(
@@ -73,28 +137,9 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                child: _isRecording ? Text('Stop Recording') : Text('Record'),
-                onPressed: () {
-                  if (_isRecording) {
-                    _stopRecording();
-                  }
-                },
-              ),
-              ElevatedButton(
-                child: Text('Retake'),
-                onPressed: () {
-
-                },
-              ),
-              ElevatedButton(
-                child: Text('Upload'),
-                onPressed: () {
-              
-                },
-              ),
+              _buildRecordButton(),
             ],
           ),
         ],
