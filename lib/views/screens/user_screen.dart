@@ -77,6 +77,14 @@ void initState() {
          profileController.updateUserId(authController.user.uid);
     _fetchUserProfile(); // Fetch user profile data
 
+
+
+    
+    
+
+ 
+     
+
   _tabController = TabController(length: 3, vsync: this);
 }
 
@@ -88,10 +96,10 @@ void _fetchUserProfile() async {
 
   // Check if startColor and endColor are null, then set them to red
   if (profileController.user['startColor'] == null) {
-    profileController.user['startColor'] = Colors.red;
+    profileController.user['startColor'] = Color.fromARGB(0, 244, 67, 54);
   }
   if (profileController.user['endColor'] == null) {
-    profileController.user['endColor'] = Colors.red;
+    profileController.user['endColor'] = Color.fromARGB(0, 244, 67, 54);
   }
 
   // Set the colors using the _updateColors method
@@ -409,7 +417,7 @@ void didChangeDependencies() {
                                 ),
     
                           
-                                 if (controller.user['bio'] == null)
+                            
                            Text(controller.user['bio'] != null ? controller.user['bio'] : 'No bio set',
 
                                   
@@ -420,19 +428,27 @@ void didChangeDependencies() {
                                   ),
                                   
                                 ),
-                                   if (controller.user['bio'] == null)
-                                const SizedBox(height: 12),
+                                               Text(controller.user['username'] != null ? controller.user['username'] : 'No bio set',
+
+                                  
+                                  style: TextStyle(
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                       if (controller.user['bio'] == null)
+                              
                                     const SizedBox(width: 4),
                                     GestureDetector(
 
   child: Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      if (controller.user['website'] == null)
+
       const Icon(
         Icons.link,
         color: Colors.blue,
@@ -581,17 +597,19 @@ void didChangeDependencies() {
 
 
     // Save the current date and time
-
 Column(
   children: [
-    Text('Recommended Insperational Videos!',  style: TextStyle(
-                                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),),
-
-          
-             
+    Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: Text(
+        'Trending Videos',
+        style: TextStyle(
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
     Expanded(
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -615,42 +633,47 @@ Column(
                 .map((doc) => doc['id'] as String)
                 .toList();
 
-return ListView.builder(
-  shrinkWrap: true,
-  itemCount: videoTitles.length,
-  itemBuilder: (context, index) {
-    final videoId = videoTitles[index];
-    final videoData = snapshot.data!.docs.firstWhere(
-      (doc) => doc['id'] == videoId,
-    );
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: videoTitles.length,
+              itemBuilder: (context, index) {
+                final videoId = videoTitles[index];
+                final videoData = snapshot.data!.docs.firstWhere(
+                  (doc) => doc['id'] == videoId,
+                );
 
-    final thumbnailUrl = videoData['thumbnail'] as String;
-    final caption = videoData['caption'] as String;
+                final thumbnailUrl = videoData['thumbnail'] as String;
+                final caption = videoData['caption'] as String;
 
-    return ListTile(
-      leading: Image.network(thumbnailUrl),
-      title: Text(caption.isNotEmpty ? caption : 'This video has no caption'),
-      onTap: () {
-        // Open single video with the videoId
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShowMoreVideo(videoId: videoId, ),
-          ),
-        );
-      },
-    );
-  },
-);
-
+                return ListTile(
+                  leading: Image.network(thumbnailUrl),
+                  title: Text(
+                    caption.isNotEmpty ? caption : 'This video has no caption',
+                  ),
+                  onTap: () {
+                    // Open single video with the videoId
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowMoreVideo(
+                          videoId: videoId,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
           }
         },
       ),
     ),
-    Text('Last updated: $currentTime'),
+    Padding(
+      padding: EdgeInsets.only(bottom: 16.0),
+      child: Text('Last updated: $currentTime'),
+    ),
   ],
 )
-
 
 
                   

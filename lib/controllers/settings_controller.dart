@@ -119,6 +119,12 @@ class SettingsController extends GetxController {
     String endColorHex =
         '#${endColorValue.value.toRadixString(10).padLeft(8, '0')}';
 
+
+       startColorHex = startColorHex.replaceAll(RegExp(r'[^0-9]'), '');
+
+  endColorHex = endColorHex.replaceAll(RegExp(r'[^0-9]'), '');
+
+
     // Update the colors in the profileController
     print(startColorHex + endColorHex);
     Get.find<ProfileController>().updateProfileColors(startColorHex, endColorHex);

@@ -149,6 +149,19 @@ class _FeedScreenState extends State<FeedScreen> {
   
   }
 
+  
+ ScrollController _scrollController = ScrollController();
+
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      // Reached the end of the current video list, load more videos
+      preloadVideos();
+    }
+  }
+
+
+
   @override
   void dispose() {
     for (final controller in videoControllers) {

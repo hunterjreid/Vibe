@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
+import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/comment_screen.dart';
 import 'package:vibe/views/screens/friendSearch_screen.dart';
 import 'package:vibe/views/screens/profile_screen.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/cupertino.dart';
 class WebAppScreen extends StatefulWidget {
   @override
   _WebAppScreenState createState() => _WebAppScreenState();
+
 }
 
 class _WebAppScreenState extends State<WebAppScreen> {
@@ -50,27 +52,68 @@ class _WebAppScreenState extends State<WebAppScreen> {
     });
   }
 
-    void openProfilePopup(String username) {
-      print(username);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Profile'),
-          content: ProfileScreen(uid: username),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
+
+void openProfilePopup(BuildContext context, String username) async {
+  Get.put(ProfileController());
+  final profileController = Get.find<ProfileController>();
+
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Profile'),
+        content: GetBuilder<ProfileController>(
+          init: profileController,
+          builder: (controller) {
+            if (controller.user == null) {
+              profileController.updateUserId(username);
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            final profilePhoto = controller.user['profilePhoto'] ?? '';
+            final name = controller.user['bio']?? ' bio';
+           
+           
+
+            return Column(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: NetworkImage(profilePhoto),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  name ?? ' Bio goes here ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  username,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
+}
+  
   void navigateToUseThisSoundScreen(String title) {
     Navigator.push(
       context,
@@ -370,7 +413,8 @@ class _WebAppScreenState extends State<WebAppScreen> {
                                 ),
                ElevatedButton(
       onPressed: () {
-        openProfilePopup(data.uid);
+        print(data.uid);
+        openProfilePopup(context, data.uid);
       },
       child: Text('View Profile'),
     ),
