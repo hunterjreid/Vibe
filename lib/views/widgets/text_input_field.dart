@@ -23,16 +23,13 @@ class TextInputField extends StatelessWidget {
         counterStyle: const TextStyle(
           fontSize: 16,
           fontFamily: 'MonaSansExtraBoldWideItalic',
-        
         ),
         prefixIcon: Icon(
           icon,
- 
         ),
         labelStyle: const TextStyle(
           fontSize: 16,
           fontFamily: 'MonaSansExtraBoldWideItalic',
-  
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

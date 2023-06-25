@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/controllers/upload_video_controller.dart';
-import 'package:vibe/views/screens/browsesongs_screen.dart';
-import 'package:vibe/views/screens/edit_screen.dart';
+import 'package:vibe/views/screens/misc/browse_songs_screen.dart';
+import 'package:vibe/views/screens/video/edit_screen.dart';
 import 'package:vibe/views/widgets/text_input_field.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_editor/video_editor.dart';
@@ -55,9 +55,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   }
 
   void openVideoEditor() async {
-    
-    //  video editing   
- 
+    //  video editing
+
     _videoEditorController = VideoEditorController.file(
       File(widget.videoPath),
       minDuration: const Duration(seconds: 1),
@@ -65,7 +64,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     );
 
     await _videoEditorController!.initialize();
-
   }
 
   @override

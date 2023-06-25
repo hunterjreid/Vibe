@@ -14,14 +14,14 @@ class SettingsPage extends StatelessWidget {
 
     BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
     return MaterialApp(
-      theme: themeData, 
+      theme: themeData,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context); 
+              Navigator.pop(context);
             },
           ),
           title: Text('Settings'),
@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
           children: [
             SwitchListTile(
               title: Text('Incognito Mode'),
-              value: false, 
+              value: false,
               onChanged: (value) {
                 // TODO: Implement logic to toggle incognito mode
               },

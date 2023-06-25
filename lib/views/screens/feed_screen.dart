@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
-import 'package:vibe/views/screens/comment_screen.dart';
-import 'package:vibe/views/screens/friendSearch_screen.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
-import 'package:vibe/views/screens/use_this_sound_screen.dart';
-import 'package:vibe/views/screens/user_screen.dart';
+import 'package:vibe/views/screens/video/comment_screen.dart';
+import 'package:vibe/views/screens/misc/friendSearch_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
+import 'package:vibe/views/screens/misc/use_this_sound_screen.dart';
+import 'package:vibe/views/screens/profile/user_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/models/video.dart';
@@ -19,17 +19,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 
-
 import 'package:iconsax/iconsax.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
-    void refreshVideos() {
-    // Implementation of refreshing videos goes here
-    // This method will be called when you want to reload the screen
-  }
+  void refreshVideos() {
 
+  }
 
   final VideoController videoController = Get.put(VideoController());
 }
@@ -66,10 +63,10 @@ class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
   AuthController authController = Get.put(AuthController());
   List<VideoPlayerController> videoControllers = [];
-  List<ChewieController> chewieControllers = []; // Added list of ChewieControllers
+  List<ChewieController> chewieControllers = [];
   bool _isLoading = true;
   bool _isModalVisible = false;
-  bool _refreshing = false; // Added refreshing state
+  bool _refreshing = false; 
 
   @override
   void initState() {
@@ -82,7 +79,6 @@ class _FeedScreenState extends State<FeedScreen> {
   bool hasValidVideoRange() {
     return videoController.videoList.isNotEmpty;
   }
-
 
   void waitForValidVideoRange() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -112,9 +108,9 @@ class _FeedScreenState extends State<FeedScreen> {
       await videoPlayerController.initialize();
 
       videoController.addView(videoController.videoList[i].id);
-  setState(() {
-      _isLoading = false;
-    });
+      setState(() {
+        _isLoading = false;
+      });
       videoControllers.add(videoPlayerController);
 
       chewieControllers.add(
@@ -146,21 +142,16 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
       );
     }
-  
   }
 
-  
- ScrollController _scrollController = ScrollController();
-
+  ScrollController _scrollController = ScrollController();
 
   void _scrollListener() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-      // Reached the end of the current video list, load more videos
+
       preloadVideos();
     }
   }
-
-
 
   @override
   void dispose() {
@@ -179,13 +170,13 @@ class _FeedScreenState extends State<FeedScreen> {
         body: _isLoading
             ? Center(
                 child: Container(
-                  width: 100, // Set the desired width
-                  height: 100, // Set the desired height
+                  width: 100, 
+                  height: 100, 
                   child: CupertinoActivityIndicator(),
                 ),
               )
             : RefreshIndicator(
-                onRefresh: _refreshVideos, // Add the onRefresh callback
+                onRefresh: _refreshVideos, 
                 child: Container(
                   color: Theme.of(context).colorScheme.surface,
                   child: Column(
@@ -200,7 +191,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             final data = videoController.videoList[index];
                             final VideoPlayerController videoPlayerController = videoControllers[index];
                             final ChewieController chewieController =
-                                chewieControllers[index]; // Get the ChewieController from the list
+                                chewieControllers[index]; 
 
                             return Stack(
                               children: [
@@ -251,7 +242,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      // Rest of your overlay content goes here
+                              
                                       Container(
                                         margin: EdgeInsets.only(top: 40),
                                         child: Column(
@@ -281,7 +272,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 videoController.likeVideo(videoId);
 
                                                 setState(() {
-                                                  // Update the like count and color immediately
+                                              
                                                   video.likes.contains(authController.user.uid)
                                                       ? video.likes.remove(authController.user.uid)
                                                       : video.likes.add(authController.user.uid);
@@ -312,7 +303,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                               child: Column(
                                                 children: [
                                                   Icon(
-                                                     Iconsax.share,
+                                                    Iconsax.share,
                                                     size: 45,
                                                     color: _isModalVisible
                                                         ? Color.fromARGB(255, 157, 96, 255)
@@ -329,22 +320,21 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 ],
                                               ),
                                             ),
-                                          InkWell(
-  onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CommentScreen(
-          id: videoController.videoList[index].id,
-        );
-      },
-    );
-  },
- 
+                                            InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return CommentScreen(
+                                                      id: videoController.videoList[index].id,
+                                                    );
+                                                  },
+                                                );
+                                              },
                                               child: Column(
                                                 children: [
                                                   Icon(
-                                                     Iconsax.note_text,
+                                                    Iconsax.note_text,
                                                     size: 45,
                                                     color: videoController.videoList[index].commentBy
                                                             .contains(authController.user.uid)
@@ -385,25 +375,24 @@ class _FeedScreenState extends State<FeedScreen> {
                                             ),
                                             InkWell(
                                               onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Video saved"),
-          content: Text("Your video has been saved to your gallery."),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text("Video saved"),
+                                                      content: Text("Your video has been saved to your gallery."),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () => Navigator.pop(context),
+                                                          child: Text("OK"),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
 
- 
-    videoController.saveVideo(videoController.videoList[index].id);
-  },
+                                                videoController.saveVideo(videoController.videoList[index].id);
+                                              },
                                               child: Column(
                                                 children: [
                                                   Icon(
@@ -413,7 +402,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   ),
                                                   const SizedBox(height: 5),
                                                   Text(
-                                                     videoController.videoList[index].savedCount.toString(),
+                                                    videoController.videoList[index].savedCount.toString(),
                                                     style: const TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.white,
@@ -472,38 +461,28 @@ class _FeedScreenState extends State<FeedScreen> {
                           },
                         ),
                       ),
-
-
-
-
-
-
-
-
-
-GestureDetector(
-  onTap: () {
-    setState(() {
-      _isModalVisible = false;
-    });
-  },
-  child: Visibility(
-    visible: _isModalVisible,
-    child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: _isModalVisible ? 5 : 0, sigmaY: _isModalVisible ? 5 : 0),
-      child: Container(
-        color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {},
-            child: Text('Share the Vibes!'),
-          ),
-        ),
-      ),
-    ),
-  ),
-),
-
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isModalVisible = false;
+                          });
+                        },
+                        child: Visibility(
+                          visible: _isModalVisible,
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: _isModalVisible ? 5 : 0, sigmaY: _isModalVisible ? 5 : 0),
+                            child: Container(
+                              color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
+                              child: Center(
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text('Share the Vibes!'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       if (_isModalVisible)
                         Container(
                           color: Theme.of(context).colorScheme.primary,
@@ -552,17 +531,6 @@ GestureDetector(
                             ),
                           ),
                         ),
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-                   
                     ],
                   ),
                 ),
@@ -570,7 +538,7 @@ GestureDetector(
   }
 
   void _loadVideos() async {
-    // Your video loading logic here...
+
     setState(() {
       _isLoading = false;
     });

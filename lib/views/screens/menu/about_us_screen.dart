@@ -41,8 +41,7 @@ class AboutUsScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'created by Hunter Reid Special mentions to Arthur, Mohammad, Rouwa'
-,
+              'created by Hunter Reid Special mentions to Arthur, Mohammad, Rouwa',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/settings_controller.dart';
+
 class UserSettingsScreen extends StatefulWidget {
   Color startColor;
   Color endColor;
@@ -47,46 +48,46 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     emailController.text = controller.emailController.text;
   }
 
-void showColorPicker(bool isStartColor) {
-  Color currentColor = isStartColor ? widget.startColor : widget.endColor;
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Select a color'),
-        content: SingleChildScrollView(
-          child: ColorPicker(
-            pickerColor: currentColor,
-            onColorChanged: (color) {
-              if (isStartColor) {
-                setState(() {
-                  widget.startColor = color;
+  void showColorPicker(bool isStartColor) {
+    Color currentColor = isStartColor ? widget.startColor : widget.endColor;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select a color'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: currentColor,
+              onColorChanged: (color) {
+                if (isStartColor) {
+                  setState(() {
+                    widget.startColor = color;
                     controller.startColor.value = color;
-                });
-              } else {
-                setState(() {
-                  widget.endColor = color;
+                  });
+                } else {
+                  setState(() {
+                    widget.endColor = color;
                     controller.endColor.value = color;
-                });
-              }
-              // widget.onSaveChanges(widget.startColor, widget.endColor); // Save the updated colors
-            },
-            showLabel: true,
-            pickerAreaHeightPercent: 0.8,
+                  });
+                }
+                // widget.onSaveChanges(widget.startColor, widget.endColor); // Save the updated colors
+              },
+              showLabel: true,
+              pickerAreaHeightPercent: 0.8,
+            ),
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,46 +121,45 @@ void showColorPicker(bool isStartColor) {
                   ),
                   child: CircleAvatar(
                     radius: 60,
-                 backgroundImage: _pickedImage != null
-  ? Image.file(_pickedImage!).image
-  : NetworkImage(profileController.user['profilePhoto'] ?? ''),
-
+                    backgroundImage: _pickedImage != null
+                        ? Image.file(_pickedImage!).image
+                        : NetworkImage(profileController.user['profilePhoto'] ?? ''),
                     backgroundColor: Colors.transparent,
                   ),
                 ),
               ),
             ),
-ElevatedButton(
-  onPressed: controller.pickImage,
-  style: ElevatedButton.styleFrom(
-    primary: Color.fromARGB(255, 153, 153, 153), // Set the background color of the button
-    onPrimary: Color.fromARGB(255, 26, 26, 26), // Set the text color of the button
-    textStyle: TextStyle(
-    fontSize: 12,
+            ElevatedButton(
+              onPressed: controller.pickImage,
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 153, 153, 153), // Set the background color of the button
+                onPrimary: Color.fromARGB(255, 26, 26, 26), // Set the text color of the button
+                textStyle: TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'MonaSansExtraBoldWideItalic',
-    ),
-  ),
-  child: Text('Change'),
-),
-   Row(
-  children: [
-    ElevatedButton(
-      onPressed: () => showColorPicker(true),
-      style: ElevatedButton.styleFrom(
-        primary: widget.startColor,
-      ),
-      child: Text('Start Color'),
-    ),
-    ElevatedButton(
-      onPressed: () => showColorPicker(false),
-      style: ElevatedButton.styleFrom(
-        primary: widget.endColor,
-      ),
-      child: Text('End Color'),
-    ),
-  ],
-),
+                ),
+              ),
+              child: Text('Change'),
+            ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () => showColorPicker(true),
+                  style: ElevatedButton.styleFrom(
+                    primary: widget.startColor,
+                  ),
+                  child: Text('Start Color'),
+                ),
+                ElevatedButton(
+                  onPressed: () => showColorPicker(false),
+                  style: ElevatedButton.styleFrom(
+                    primary: widget.endColor,
+                  ),
+                  child: Text('End Color'),
+                ),
+              ],
+            ),
 
             // ElevatedButton(
             //   onPressed: controller.uploadProfilePicture,
@@ -216,9 +216,9 @@ ElevatedButton(
                 },
               );
             }),
- 
+
             ElevatedButton(
-    onPressed: () {
+              onPressed: () {
                 controller.updateProfile();
                 widget.onSaveChanges(
                   controller.startColor.value,

@@ -11,12 +11,10 @@ class DM {
 
   factory DM.fromMap(Map<String, dynamic> map) {
     final List<dynamic> participantList = map['participants'];
-    final List<String> participants =
-        participantList.map((e) => e.toString()).toList();
+    final List<String> participants = participantList.map((e) => e.toString()).toList();
 
     final List<dynamic> messageList = map['messages'];
-    final List<Message> messages =
-        messageList.map((e) => Message.fromMap(e)).toList();
+    final List<Message> messages = messageList.map((e) => Message.fromMap(e)).toList();
 
     return DM(
       participants: participants,
@@ -36,12 +34,11 @@ class Message {
     required this.sent,
   });
 
- factory Message.fromMap(Map<String, dynamic> map) {
-  return Message(
-    senderUID: map['senderUID'] as String,
-    text: map['text'] as String,
-    sent: map['sent'] as DateTime, 
-  );
-}
-
+  factory Message.fromMap(Map<String, dynamic> map) {
+    return Message(
+      senderUID: map['senderUID'] as String,
+      text: map['text'] as String,
+      sent: map['sent'] as DateTime,
+    );
+  }
 }

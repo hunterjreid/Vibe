@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
-import 'package:vibe/views/screens/comment_screen.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
-import 'package:vibe/views/screens/user_screen.dart';
+import 'package:vibe/views/screens/video/comment_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
+import 'package:vibe/views/screens/profile/user_screen.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
@@ -79,9 +79,7 @@ class _ShowMoreVideoState extends State<ShowMoreVideo> {
           SizedBox(
             width: double.infinity,
             height: double.infinity,
-            child: _isVideoLoading
-                ? Center(child: CircularProgressIndicator())
-                : VideoPlayer(_videoPlayerController),
+            child: _isVideoLoading ? Center(child: CircularProgressIndicator()) : VideoPlayer(_videoPlayerController),
           ),
           VideoTextOverlay(
             texts: [
@@ -238,10 +236,7 @@ Future<String> getVideoUrlFromDatabase(String videoId) async {
   // Implement your logic to retrieve the video URL from the database
   // Here's an example using Cloud Firestore
 
-  final document = await firebase.FirebaseFirestore.instance
-      .collection('videos')
-      .doc(videoId)
-      .get();
+  final document = await firebase.FirebaseFirestore.instance.collection('videos').doc(videoId).get();
 
   final data = document.data() as Map<String, dynamic>?;
   if (data != null && data.containsKey('videoUrl')) {

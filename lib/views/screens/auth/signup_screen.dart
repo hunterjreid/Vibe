@@ -13,8 +13,6 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
 
-
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -23,7 +21,11 @@ class SignupScreen extends StatelessWidget {
       lastDate: DateTime.now(),
     );
     if (picked != null) {
-      _birthdayController.text = picked.day.toString() + " / " + picked.month.toString() + " / " +  picked.year.toString() ; // Update the birthday controller text
+      _birthdayController.text = picked.day.toString() +
+          " / " +
+          picked.month.toString() +
+          " / " +
+          picked.year.toString(); // Update the birthday controller text
     }
   }
 
@@ -52,26 +54,25 @@ class SignupScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                        Image.asset(
-              'assets/images/logo.png',
-              width: 70,
-              height: 70,
-            ),
-            const SizedBox(
-              height: 45,
-            ),
-            const Text(
-              'Create Account',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w700,
-        
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-              ),
-            ),
-            const SizedBox(
-              height: 45,
-            ),
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 70,
+                      height: 70,
+                    ),
+                    const SizedBox(
+                      height: 45,
+                    ),
+                    const Text(
+                      'Create Account',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 45,
+                    ),
                     // Stack(
                     //   children: [
                     //     Container(
@@ -183,37 +184,35 @@ class SignupScreen extends StatelessWidget {
                     ),
                     if (MediaQuery.of(context).size.width < 768)
                       const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Already have an account? ',
-                  style: TextStyle(
-                    fontSize: 16,
-      
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                  ),
-                ),
-                InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
+                        height: 15,
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Already have an account? ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          ),
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                              color: buttonColor,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color: buttonColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-                  
                   ],
                 ),
               ),

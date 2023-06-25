@@ -16,11 +16,8 @@ class VideoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _videoList.bindStream(firestore
-        .collection('videos')
-        .orderBy('timestamp', descending: true)
-        .snapshots()
-        .map((QuerySnapshot query) {
+    _videoList.bindStream(
+        firestore.collection('videos').orderBy('timestamp', descending: true).snapshots().map((QuerySnapshot query) {
       List<Video> retVal = [];
       for (var element in query.docs) {
         print("added");
@@ -44,8 +41,7 @@ class VideoController extends GetxController {
       });
 
       // Create a notification for the view action
-      _createNotification('Video View', 'You viewed video with ID:'+ doc.id+'.');
-
+      _createNotification('Video View', 'You viewed video with ID:' + doc.id + '.');
     } else {
       print('Document does not exist');
     }
@@ -65,7 +61,6 @@ class VideoController extends GetxController {
 
         // Create a notification for the unlike action
         _createNotification('Video Like', 'You unliked a video.');
-
       } else {
         await firestore.collection('videos').doc(id).update({
           'likes': FieldValue.arrayUnion([uid]),
@@ -83,29 +78,19 @@ class VideoController extends GetxController {
     var uid = authController.user?.uid;
 
     if (uid != null) {
-      DocumentSnapshot doc = await FirebaseFirestore.instance
-          .collection('videos')
-          .doc(id)
-          .get();
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('videos').doc(id).get();
 
       if (doc.exists) {
         var saves = (doc.data() as Map<String, dynamic>)['saves'];
         if (saves != null && saves.contains(uid)) {
-          await FirebaseFirestore.instance
-              .collection('videos')
-              .doc(id)
-              .update({
+          await FirebaseFirestore.instance.collection('videos').doc(id).update({
             'saves': FieldValue.arrayRemove([uid]),
           });
 
           // Create a notification for the unsave action
           _createNotification('Video Save', 'You unsaved a video.');
-
         } else {
-          await FirebaseFirestore.instance
-              .collection('videos')
-              .doc(id)
-              .update({
+          await FirebaseFirestore.instance.collection('videos').doc(id).update({
             'saves': FieldValue.arrayUnion([uid]),
           });
 

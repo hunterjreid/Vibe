@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibe/views/screens/menu/about_us_screen.dart';
 import 'package:vibe/views/screens/menu/careers_screen.dart';
 import 'package:vibe/views/screens/menu/help_screen.dart';
-import 'package:vibe/views/screens/settings_screen.dart';
+import 'package:vibe/views/screens/misc/settings_screen.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({Key? key}) : super(key: key);

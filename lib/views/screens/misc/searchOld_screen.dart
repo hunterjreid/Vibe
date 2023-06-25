@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:get/get.dart';
 import 'package:vibe/models/user.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/constants.dart';
 
 class SearchOldScreen extends StatelessWidget {

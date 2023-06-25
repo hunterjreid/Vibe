@@ -9,7 +9,8 @@ class ShareVideoDMController extends GetxController {
   // This method retrieves the collection reference for direct messages (DMs) between the current user and another user.
   // It takes the UID (user ID) of the other user as a parameter.
   Future<CollectionReference> getDMCollection(String uid) async {
-    if (_auth.currentUser != null) { // Check if the user is authenticated
+    if (_auth.currentUser != null) {
+      // Check if the user is authenticated
       final idPair = [_auth.currentUser!.uid, uid].toList()..sort();
       final collectionID = idPair.join('_'); // Generate a unique collection ID for the DMs
       return _firestore.collection('dms').doc(collectionID).collection('messages');

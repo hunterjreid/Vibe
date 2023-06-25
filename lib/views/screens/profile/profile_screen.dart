@@ -6,16 +6,16 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/video_controller.dart';
 
-import 'package:vibe/views/screens/show_own_video_screen.dart';
-import 'package:vibe/views/screens/show_single_video.dart';
+import 'package:vibe/views/screens/profile/show_own_video_screen.dart';
+
 import 'package:palette_generator/palette_generator.dart';
+import 'package:vibe/views/screens/show_single_video.dart';
+
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vibe/views/screens/user_screen.dart';
+import 'package:vibe/views/screens/profile/user_screen.dart';
 import 'dart:math';
 import 'dart:ui';
-
-
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -98,68 +98,61 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
                     Tab(icon: Icon(Icons.more)),
-  
                   ],
                 ),
                 actions: [
-
                   IconButton(
-  icon: Icon(Icons.report),
-  onPressed: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Report Profile'),
-          content: Text('Are you sure you want to report this profile?'),
-          actions: <Widget>[
-            ElevatedButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text('Report'),
-              onPressed: () {
-                      Navigator.of(context).pop();
-                // ...
-                // Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  },
-),
-                
-              
-                   IconButton(
-                  icon: Icon(Icons.message),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DirectMessageScreen(
-                          recipientUID: widget.uid,
-                          senderUID: authController.user.uid,
+                    icon: Icon(Icons.report),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Report Profile'),
+                            content: Text('Are you sure you want to report this profile?'),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ElevatedButton(
+                                child: Text('Report'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  // ...
+                                  // Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.message),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DirectMessageScreen(
+                            recipientUID: widget.uid,
+                            senderUID: authController.user.uid,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
                 ],
-                
                 title: Text(
                   controller.user['name'],
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                
               ),
-              
               body: TabBarView(
                 controller: _tabController, // Set the TabController
                 children: [
@@ -168,20 +161,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                           if (widget.uid == authController.user.uid)
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const UserScreen()
-
-                              ),
-                            );
-                          },
-                          child: Text('You are viewing your own profile'),
-                        ),
-
+                          if (widget.uid == authController.user.uid)
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const UserScreen()),
+                                );
+                              },
+                              child: Text('You are viewing your own profile'),
+                            ),
                           SizedBox(
                             child: Column(
                               children: [
@@ -218,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   ],
                                 ),
                                 const SizedBox(height: 6.0),
-                                   Row(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Column(
@@ -235,7 +224,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                             style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                              fontFamily: 'MonaSansExtraBoldWideItalic',
                                             ),
                                           ),
                                         ),
@@ -244,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           'Following',
                                           style: TextStyle(
                                             fontSize: 14,
-                                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
                                           ),
                                         ),
                                       ],
@@ -340,14 +329,14 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
-                    Text(
-  profileController.user['name'] ?? 'No bio set',
-  style: TextStyle(
-    fontFamily: 'MonaSansExtraBoldWideItalic',
-    fontSize: 22.0,
-    fontWeight: FontWeight.bold,
-  ),
-),
+                                Text(
+                                  profileController.user['name'] ?? 'No bio set',
+                                  style: TextStyle(
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 const SizedBox(height: 6.0),
                                 Text(
                                   controller.user['bio'] ?? '',
@@ -374,119 +363,111 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
-                              
                                 if (widget.uid != authController.user.uid)
-                             Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        InkWell(
-          onTap: () {
-            controller.followUser();
-          },
-          child: Container(
-            width: 120,
-            height: 40,
-              decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: controller.user['isFollowing']
-                    ? [Colors.red, Colors.pink]
-                    : [Color.fromARGB(255, 41, 104, 43), Color.fromARGB(255, 74, 110, 33)],
-               
-              ),
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Center(
-              child: Text(
-                controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  
-),
-         const SizedBox(
+                                  Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            controller.followUser();
+                                          },
+                                          child: Container(
+                                            width: 120,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: controller.user['isFollowing']
+                                                    ? [Colors.red, Colors.pink]
+                                                    : [
+                                                        Color.fromARGB(255, 41, 104, 43),
+                                                        Color.fromARGB(255, 74, 110, 33)
+                                                      ],
+                                              ),
+                                              border: Border.all(),
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                controller.user['isFollowing'] ? 'Unfollow' : 'Follow',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                const SizedBox(
                                   height: 25,
                                 ),
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: controller.user['thumbnails'].length,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 5,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    String thumbnail = controller.user['thumbnails'][index];
 
+                                    return FutureBuilder<PaletteGenerator>(
+                                      future: generatePalette(thumbnail),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          final color = snapshot.data!.dominantColor!.color;
+                                          final averageColor = Color.fromRGBO(
+                                            color.red,
+                                            color.green,
+                                            color.blue,
+                                            0.1,
+                                          );
 
-
-      GridView.builder(
-  shrinkWrap: true,
-  physics: const NeverScrollableScrollPhysics(),
-  itemCount: controller.user['thumbnails'].length,
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 3,
-    childAspectRatio: 1,
-    crossAxisSpacing: 5,
-  ),
-  itemBuilder: (context, index) {
-    String thumbnail = controller.user['thumbnails'][index];
-
-   
-
-
-    return FutureBuilder<PaletteGenerator>(
-      future: generatePalette(thumbnail),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final color = snapshot.data!.dominantColor!.color;
-          final averageColor = Color.fromRGBO(
-            color.red,
-            color.green,
-            color.blue,
-            0.1,
-          );
-
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShowSingleVideo(
-                    videoIndex: index,
-                  ),
-                ),
-              );
-            },
-            child: Stack(
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: averageColor,
-                  ),
-                  child: Image.network(
-                   controller.user['thumbnails'][index],
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                  ],
-            ),
-          );
-        } else {
-          return Container();
-          // Placeholder widget while loading palette
-        }
-      },
-    );
-  },
-),
-                            
-      ],
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => ShowSingleVideo(
+                                                    videoIndex: index,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(8),
+                                                    color: averageColor,
+                                                  ),
+                                                  child: Image.network(
+                                                    controller.user['thumbnails'][index],
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                          // Placeholder widget while loading palette
+                                        }
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                       
                         ],
                       ),
                     ),
@@ -494,13 +475,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   // Second tab view
                   Center(
-                    child: Text( profileController.user['longBio']),
+                    child: Text(profileController.user['longBio']),
                   ),
                   // Third tab view
-                 
                 ],
               ),
-          );
+            );
           },
         ));
   }
@@ -540,11 +520,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       },
     );
   }
+
   Future<PaletteGenerator> generatePalette(String imageUrl) async {
-    final PaletteGenerator paletteGenerator =
-        await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
     return paletteGenerator;
   }
+
   void _showFollowerPopup(BuildContext context, List<String> followersList) {
     showDialog(
       context: context,

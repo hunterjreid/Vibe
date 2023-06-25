@@ -8,11 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/controllers/profile_controller.dart';
-import 'package:vibe/views/screens/browsesongs_screen.dart';
-import 'package:vibe/views/screens/confirm_screen.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/misc/browse_songs_screen.dart';
+import 'package:vibe/views/screens/video/confirm_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/views/screens/uploadAudio_screen.dart';
-import 'package:vibe/views/screens/your_dms_screen.dart';
+import 'package:vibe/views/screens/profile/your_dms_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class CreateScreen extends StatelessWidget {
@@ -134,8 +134,7 @@ class CreateScreen extends StatelessWidget {
     );
   }
 
-
- Widget _buildButton(BuildContext context, String title, String imagePath, VoidCallback onTap) {
+  Widget _buildButton(BuildContext context, String title, String imagePath, VoidCallback onTap) {
     return Column(
       children: [
         Image.asset(
@@ -183,48 +182,48 @@ class CreateScreen extends StatelessWidget {
                       showOptionsDialog(context);
                     },
                   ),
-                    _buildButton(
+                  _buildButton(
                     context,
                     'Music',
                     'assets/images/createIcons/4.png',
                     () {
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BrowseSongsPage()),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BrowseSongsPage()),
+                      );
                     },
                   ),
-                    _buildButton(
+                  _buildButton(
                     context,
                     'Trends',
                     'assets/images/createIcons/2.png',
                     () {
-                       Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TrendsScreen()),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TrendsScreen()),
+                      );
                     },
                   ),
-                    _buildButton(
+                  _buildButton(
                     context,
                     'Change Long Bio',
                     'assets/images/createIcons/3.png',
                     () {
-                         showChangeBioDialog(context);
+                      showChangeBioDialog(context);
                     },
                   ),
-                    _buildButton(
+                  _buildButton(
                     context,
                     'Unpublished',
                     'assets/images/createIcons/5.png',
                     () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MoreScreen()),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MoreScreen()),
+                      );
                     },
                   ),
-                  
+
                   // Add more buttons with local images here
                 ],
               ),
@@ -236,8 +235,6 @@ class CreateScreen extends StatelessWidget {
   }
 }
 
-
- 
 class VideoData {
   final String imagePath;
   final String title;
@@ -254,47 +251,47 @@ class TrendsScreen extends StatelessWidget {
       description: 'This is what to do it and what makes it trendy! 1',
     ),
     VideoData(
-        imagePath: 'assets/images/trends/trend(2).jpg',
+      imagePath: 'assets/images/trends/trend(2).jpg',
       title: 'Trend Name #vibes 2',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
-        VideoData(
+    VideoData(
       imagePath: 'assets/images/trends/trend(3).jpg',
       title: 'Trend Name #vibes 3',
       description: 'This is what to do it and what makes it trendy! 1',
     ),
     VideoData(
-        imagePath: 'assets/images/trends/trend(4).jpg',
+      imagePath: 'assets/images/trends/trend(4).jpg',
       title: 'Trend Name #vibes 4',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
-        VideoData(
+    VideoData(
       imagePath: 'assets/images/trends/trend(5).jpg',
       title: 'Trend Name #vibes 5',
       description: 'This is what to do it and what makes it trendy! 1',
     ),
     VideoData(
-        imagePath: 'assets/images/trends/trend(6).jpg',
+      imagePath: 'assets/images/trends/trend(6).jpg',
       title: 'Trend Name #vibes 6',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
-        VideoData(
+    VideoData(
       imagePath: 'assets/images/trends/trend(7).jpg',
       title: 'Trend Name #vibes 7',
       description: 'This is what to do it and what makes it trendy! 1',
     ),
     VideoData(
-        imagePath: 'assets/images/trends/trend(8).jpg',
+      imagePath: 'assets/images/trends/trend(8).jpg',
       title: 'Trend Name #vibes 8',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
-        VideoData(
+    VideoData(
       imagePath: 'assets/images/trends/trend(9).jpg',
       title: 'Trend Name #vibes 9',
       description: 'This is what to do it and what makes it trendy! 1',
     ),
     VideoData(
-        imagePath: 'assets/images/trends/trend(10).jpg',
+      imagePath: 'assets/images/trends/trend(10).jpg',
       title: 'Trend Name #vibes 10',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
@@ -376,11 +373,6 @@ class TrendsScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-   
-
 
 class MoreScreen extends StatelessWidget {
   @override

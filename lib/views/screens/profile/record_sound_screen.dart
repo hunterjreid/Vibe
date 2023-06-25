@@ -19,7 +19,7 @@ class _RecordSoundScreenState extends State<RecordSoundScreen> {
   bool _isRecording = false;
   late String _outputFilePath;
 
-  @override 
+  @override
   void initState() {
     super.initState();
     _initializeCamera();
@@ -40,7 +40,6 @@ class _RecordSoundScreenState extends State<RecordSoundScreen> {
     _controller.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +68,7 @@ class _RecordSoundScreenState extends State<RecordSoundScreen> {
             children: [
               ElevatedButton(
                 child: _isRecording ? Text('Stop Recording') : Text('Record'),
-                onPressed: () {
-                
-                },
+                onPressed: () {},
               ),
               ElevatedButton(
                 child: Text('Retake'),

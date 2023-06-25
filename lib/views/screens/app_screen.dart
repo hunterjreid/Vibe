@@ -3,14 +3,13 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
-import 'package:vibe/views/screens/feedScreen.dart';
+import 'package:vibe/views/screens/feed_screen.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
-
 
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
@@ -25,7 +24,7 @@ class _AppScreenState extends State<AppScreen> {
   int feedNotificationCount = 2; // Notification count for Feed
   int homeNotificationCount = 4; // Notification count for Home
 
-final ProfileController profileController = Get.put(ProfileController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   String selectedColorOption = 'Jet Black';
 
@@ -33,13 +32,11 @@ final ProfileController profileController = Get.put(ProfileController());
 
   @override
   void initState() {
-
     super.initState();
 
-        print(authController.user.uid);
-   profileController.updateUserId(authController.user.uid);
+    print(authController.user.uid);
+    profileController.updateUserId(authController.user.uid);
     profileController.getUserData();
-
 
     isDarkTheme = true;
     bottomNavigationBarTheme = darkTheme.bottomNavigationBarTheme.copyWith(
@@ -171,7 +168,7 @@ final ProfileController profileController = Get.put(ProfileController());
                   icon: Stack(
                     children: [
                       Icon(
-                         Iconsax.video_square,
+                        Iconsax.video_square,
                         size: 38, // Adjust the icon size here
                       ),
                       if (feedNotificationCount > 0)
@@ -246,6 +243,7 @@ final ProfileController profileController = Get.put(ProfileController());
     );
   }
 }
+
 class ShowDialog {
   static void showSetColorsDialog(BuildContext context, Function(String) updateColorTheme) {
     showDialog(
@@ -317,7 +315,7 @@ class ShowDialog {
                 style: TextStyle(fontSize: 14),
               ),
               SizedBox(height: 8),
-               ElevatedButton(
+              ElevatedButton(
                 onPressed: () {
                   // Handle educational class selection
                   Navigator.pop(context);
@@ -328,14 +326,14 @@ class ShowDialog {
                 ),
                 child: Text('Educational Only', style: TextStyle(fontSize: 16)),
               ),
-               SizedBox(height: 8),
+              SizedBox(height: 8),
               ElevatedButton(
-  onPressed: () {
-    FeedScreen? feedScreen = context.findAncestorWidgetOfExactType<FeedScreen>();
-    if (feedScreen != null) {
-   feedScreen.refreshVideos();
-    }
-    Navigator.pop(context);
+                onPressed: () {
+                  FeedScreen? feedScreen = context.findAncestorWidgetOfExactType<FeedScreen>();
+                  if (feedScreen != null) {
+                    feedScreen.refreshVideos();
+                  }
+                  Navigator.pop(context);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
@@ -343,10 +341,9 @@ class ShowDialog {
                 ),
                 child: Text('Mixed', style: TextStyle(fontSize: 16)),
               ),
-               SizedBox(height: 8),
+              SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-                  
                   Navigator.pop(context);
                 },
                 style: ButtonStyle(
@@ -382,9 +379,7 @@ class ShowDialog {
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-             
-            ],
+            children: [],
           ),
           actions: [
             TextButton(

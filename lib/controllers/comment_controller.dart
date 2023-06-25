@@ -46,8 +46,8 @@ class CommentController extends GetxController {
         );
 
         await firestore.collection('videos').doc(_postId).collection('comments').doc('Comment $len').set(
-          comment.toJson(),
-        );
+              comment.toJson(),
+            );
 
         // Update commentBy array with user's ID
         await firestore.collection('videos').doc(_postId).collection('comments').doc('Comment $len').update({
@@ -63,7 +63,8 @@ class CommentController extends GetxController {
         String videoOwnerId = (doc.data()! as dynamic)['uid'];
         String currentUserId = authController.user.uid;
         if (videoOwnerId != currentUserId) {
-          String notificationId = await _createNotification(videoOwnerId, 'Comment', 'You have a new comment on your video.');
+          String notificationId =
+              await _createNotification(videoOwnerId, 'Comment', 'You have a new comment on your video.');
           // Update the video owner's notifications field with the new notification ID
           await firestore.collection('users').doc(videoOwnerId).update({
             'notifications': FieldValue.arrayUnion([notificationId]),

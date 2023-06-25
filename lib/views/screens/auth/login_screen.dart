@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
@@ -54,7 +52,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +69,6 @@ class LoginScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w700,
-        
                 fontFamily: 'MonaSansExtraBoldWideItalic',
               ),
             ),
@@ -84,7 +80,6 @@ class LoginScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: TextInputField(
                 controller: _emailController,
-                
                 labelText: 'Email',
                 icon: Icons.email,
               ),
@@ -98,7 +93,6 @@ class LoginScreen extends StatelessWidget {
               child: TextInputField(
                 controller: _passwordController,
                 labelText: 'Password',
-
                 icon: Icons.lock,
                 isObscure: true,
               ),
@@ -144,7 +138,6 @@ class LoginScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
-                      
                       fontFamily: 'MonaSansExtraBoldWideItalic',
                     ),
                   ),
@@ -161,7 +154,6 @@ class LoginScreen extends StatelessWidget {
                   'Don\'t have an account yet? ',
                   style: TextStyle(
                     fontSize: 16,
-      
                     fontFamily: 'MonaSansExtraBoldWideItalic',
                   ),
                 ),
@@ -188,10 +180,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-

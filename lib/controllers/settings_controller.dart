@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../views/screens/appScreen.dart';
+import '../views/screens/app_screen.dart';
 
 // Controller class for managing user settings and profile information
 class SettingsController extends GetxController {
@@ -34,10 +34,7 @@ class SettingsController extends GetxController {
   // Fetches the user's profile data from Firestore and populates the controllers
   void fetchUserData() async {
     DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(authController.user!.uid)
-            .get();
+        await FirebaseFirestore.instance.collection('users').doc(authController.user!.uid).get();
 
     Map<String, dynamic>? userData = userSnapshot.data();
     if (userData != null) {
@@ -50,8 +47,7 @@ class SettingsController extends GetxController {
 
   // Allows the user to pick an image from the gallery
   void pickImage() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       _pickedImage = File(pickedImage.path);
       Get.snackbar(
@@ -89,10 +85,7 @@ class SettingsController extends GetxController {
 
   // Uploads the image file to Firebase Storage and returns the download URL
   Future<String> _uploadToStorage(File image) async {
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child('profilePics')
-        .child(FirebaseAuth.instance.currentUser!.uid);
+    Reference ref = FirebaseStorage.instance.ref().child('profilePics').child(FirebaseAuth.instance.currentUser!.uid);
 
     UploadTask uploadTask = ref.putFile(image);
     TaskSnapshot snap = await uploadTask;
@@ -114,25 +107,18 @@ class SettingsController extends GetxController {
     Color endColorValue = endColor.value;
 
     // Convert the colors to hex strings
-    String startColorHex =
-        '#${startColorValue.value.toRadixString(10).padLeft(8, '0')}';
-    String endColorHex =
-        '#${endColorValue.value.toRadixString(10).padLeft(8, '0')}';
+    String startColorHex = '#${startColorValue.value.toRadixString(10).padLeft(8, '0')}';
+    String endColorHex = '#${endColorValue.value.toRadixString(10).padLeft(8, '0')}';
 
+    startColorHex = startColorHex.replaceAll(RegExp(r'[^0-9]'), '');
 
-       startColorHex = startColorHex.replaceAll(RegExp(r'[^0-9]'), '');
-
-  endColorHex = endColorHex.replaceAll(RegExp(r'[^0-9]'), '');
-
+    endColorHex = endColorHex.replaceAll(RegExp(r'[^0-9]'), '');
 
     // Update the colors in the profileController
     print(startColorHex + endColorHex);
     Get.find<ProfileController>().updateProfileColors(startColorHex, endColorHex);
 
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(authController.user!.uid)
-        .update({
+    FirebaseFirestore.instance.collection('users').doc(authController.user!.uid).update({
       'username': updatedUsername,
       'bio': updatedBio,
       'website': updatedWebsite,
@@ -159,11 +145,7 @@ class SettingsController extends GetxController {
         'timestamp': FieldValue.serverTimestamp(),
       };
 
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('notifications')
-          .add(notification);
+      FirebaseFirestore.instance.collection('users').doc(uid).collection('notifications').add(notification);
     }
   }
 }

@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
-import 'package:vibe/views/screens/comment_screen.dart';
-import 'package:vibe/views/screens/friendSearch_screen.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
-import 'package:vibe/views/screens/use_this_sound_screen.dart';
-import 'package:vibe/views/screens/user_screen.dart';
+import 'package:vibe/views/screens/video/comment_screen.dart';
+import 'package:vibe/views/screens/misc/friendSearch_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
+import 'package:vibe/views/screens/misc/use_this_sound_screen.dart';
+import 'package:vibe/views/screens/profile/user_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/controllers/auth_controller.dart';
@@ -18,7 +18,6 @@ import 'package:flutter/cupertino.dart';
 class WebAppScreen extends StatefulWidget {
   @override
   _WebAppScreenState createState() => _WebAppScreenState();
-
 }
 
 class _WebAppScreenState extends State<WebAppScreen> {
@@ -27,7 +26,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
   List<VideoPlayerController> videoControllers = [];
   List<ChewieController> chewieControllers = [];
   bool _isLoading = true;
-  bool _isModalVisible = true; // Set _isModalVisible to true by default
+  bool _isModalVisible = true; 
   bool _refreshing = false;
 
   @override
@@ -52,68 +51,64 @@ class _WebAppScreenState extends State<WebAppScreen> {
     });
   }
 
+  void openProfilePopup(BuildContext context, String username) async {
+    Get.put(ProfileController());
+    final profileController = Get.find<ProfileController>();
 
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Profile'),
+          content: GetBuilder<ProfileController>(
+            init: profileController,
+            builder: (controller) {
+              if (controller.user == null) {
+                profileController.updateUserId(username);
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-void openProfilePopup(BuildContext context, String username) async {
-  Get.put(ProfileController());
-  final profileController = Get.find<ProfileController>();
+              final profilePhoto = controller.user['profilePhoto'] ?? '';
+              final name = controller.user['bio'] ?? ' bio';
 
-  await showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Profile'),
-        content: GetBuilder<ProfileController>(
-          init: profileController,
-          builder: (controller) {
-            if (controller.user == null) {
-              profileController.updateUserId(username);
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Column(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: NetworkImage(profilePhoto),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    name ?? ' Bio goes here ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    username,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               );
-            }
-
-            final profilePhoto = controller.user['profilePhoto'] ?? '';
-            final name = controller.user['bio']?? ' bio';
-           
-           
-
-            return Column(
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage(profilePhoto),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  name ?? ' Bio goes here ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  username,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
             },
-            child: Text('Close'),
           ),
-        ],
-      );
-    },
-  );
-}
-  
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void navigateToUseThisSoundScreen(String title) {
     Navigator.push(
       context,
@@ -128,8 +123,7 @@ void openProfilePopup(BuildContext context, String username) async {
   void preloadVideos() async {
     for (int i = 0; i < 20; i++) {
       final Video video = videoController.videoList[i];
-      final VideoPlayerController videoPlayerController =
-          VideoPlayerController.network(video.videoUrl);
+      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
       await videoPlayerController.initialize();
 
@@ -172,7 +166,6 @@ void openProfilePopup(BuildContext context, String username) async {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 
                   Text(
                     'Video Views: ${video.views}',
                     style: TextStyle(
@@ -248,7 +241,6 @@ void openProfilePopup(BuildContext context, String username) async {
 
   @override
   Widget build(BuildContext context) {
- 
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -256,7 +248,7 @@ void openProfilePopup(BuildContext context, String username) async {
             Padding(
               padding: EdgeInsets.only(right: 8.0),
               child: Image.asset(
-                'assets/images/logo.png', // Replace with the actual path to your logo
+                'assets/images/logo.png', 
                 height: 50,
                 width: 50,
               ),
@@ -311,8 +303,7 @@ void openProfilePopup(BuildContext context, String username) async {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Accessing the Full Version'),
-                          content:
-                              Text('To access the full version, you need to upgrade your account.'),
+                          content: Text('To access the full version, you need to upgrade your account.'),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -326,7 +317,7 @@ void openProfilePopup(BuildContext context, String username) async {
                     );
                   },
                 ),
-                        ListTile(
+                ListTile(
                   leading: Icon(Icons.menu),
                   title: Text('Open Big Menu'),
                   onTap: () {
@@ -335,8 +326,7 @@ void openProfilePopup(BuildContext context, String username) async {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Accessing the Full Version'),
-                          content:
-                              Text('To access the full version, you need to upgrade your account.'),
+                          content: Text('To access the full version, you need to upgrade your account.'),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -350,7 +340,6 @@ void openProfilePopup(BuildContext context, String username) async {
                     );
                   },
                 ),
-             
                 ListTile(
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Visit Support'),
@@ -390,15 +379,12 @@ void openProfilePopup(BuildContext context, String username) async {
                       child: CircularProgressIndicator(),
                     )
                   : RefreshIndicator(
-                    
                       onRefresh: _onRefresh,
                       child: ListView.builder(
-                    
-     
                         itemCount: videoController.videoList.length,
                         itemBuilder: (context, index) {
                           final Video video = videoController.videoList[index];
-                                  final data = videoController.videoList[index];
+                          final data = videoController.videoList[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -411,13 +397,13 @@ void openProfilePopup(BuildContext context, String username) async {
                                     controller: chewieControllers[index],
                                   ),
                                 ),
-               ElevatedButton(
-      onPressed: () {
-        print(data.uid);
-        openProfilePopup(context, data.uid);
-      },
-      child: Text('View Profile'),
-    ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    print(data.uid);
+                                    openProfilePopup(context, data.uid);
+                                  },
+                                  child: Text('View Profile'),
+                                ),
                               ],
                             ),
                           );
@@ -442,80 +428,79 @@ void openProfilePopup(BuildContext context, String username) async {
           ),
         ),
       ),
-  drawer: Drawer(
-      width: MediaQuery.of(context).size.width * 0.35,
-  child: Container(
-  
-    color: Color.fromARGB(255, 95, 95, 95),
-    child: ListView(
-      children: [
-        ListTile(
-          leading: Icon(Icons.favorite),
-          title: Text('Donate'),
-          onTap: () {
-            // Handle donate action
-          },
+      drawer: Drawer(
+        width: MediaQuery.of(context).size.width * 0.35,
+        child: Container(
+          color: Color.fromARGB(255, 95, 95, 95),
+          child: ListView(
+            children: [
+              ListTile(
+                leading: Icon(Icons.favorite),
+                title: Text('Donate'),
+                onTap: () {
+                  // Handle donate action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.code),
+                title: Text('GitHub Sponsor'),
+                onTap: () {
+                  // Handle GitHub sponsor action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info),
+                title: Text('Learn More'),
+                onTap: () {
+                  // Handle learn more action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add),
+                title: Text('Sign Up for Wait List'),
+                onTap: () {
+                  // Handle sign up for wait list action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () {
+                  // Handle settings action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info),
+                title: Text('About'),
+                onTap: () {
+                  // Handle "About" action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.help),
+                title: Text('Help'),
+                onTap: () {
+                  // Handle "Help" action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.favorite),
+                title: Text('Support Us'),
+                onTap: () {
+                  // Handle "Support Us" action
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add),
+                title: Text('Join Waitlist'),
+                onTap: () {
+                  // Handle "Join Waitlist" action
+                },
+              ),
+            ],
+          ),
         ),
-        ListTile(
-          leading: Icon(Icons.code),
-          title: Text('GitHub Sponsor'),
-          onTap: () {
-            // Handle GitHub sponsor action
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.info),
-          title: Text('Learn More'),
-          onTap: () {
-            // Handle learn more action
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.person_add),
-          title: Text('Sign Up for Wait List'),
-          onTap: () {
-            // Handle sign up for wait list action
-          },
-        ),
-           ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Settings'),
-          onTap: () {
-            // Handle settings action
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.info),
-          title: Text('About'),
-          onTap: () {
-            // Handle "About" action
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.help),
-          title: Text('Help'),
-          onTap: () {
-            // Handle "Help" action
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.favorite),
-          title: Text('Support Us'),
-          onTap: () {
-            // Handle "Support Us" action
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.person_add),
-          title: Text('Join Waitlist'),
-          onTap: () {
-            // Handle "Join Waitlist" action
-          },
-        ),
-      ],
-    ),
-  ),
-),
+      ),
     );
   }
 }

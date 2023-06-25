@@ -4,15 +4,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:vibe/controllers/auth_controller.dart';
-import 'package:vibe/views/screens/createScreen.dart';
-import 'package:vibe/views/screens/feedScreen.dart';
-import 'package:vibe/views/screens/appScreen.dart';
-import 'package:vibe/views/screens/homeScreen.dart';
+import 'package:vibe/views/screens/create_screen.dart';
+import 'package:vibe/views/screens/feed_screen.dart';
+import 'package:vibe/views/screens/app_screen.dart';
+import 'package:vibe/views/screens/home_screen.dart';
 
-import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
 
-import 'package:vibe/views/screens/user_screen.dart';
-
+import 'package:vibe/views/screens/profile/user_screen.dart';
 
 List pages = [
   FeedScreen(),

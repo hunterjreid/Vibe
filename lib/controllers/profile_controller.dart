@@ -14,30 +14,24 @@ class ProfileController extends GetxController {
     getUserData();
   }
 
-
   getUserData() async {
     if (_uid.value.isEmpty) {
       return;
     }
 
     List<String> thumbnails = [];
-    var myVideos = await FirebaseFirestore.instance
-        .collection('videos')
-        .where('uid', isEqualTo: _uid.value)
-        .get();
+    var myVideos = await FirebaseFirestore.instance.collection('videos').where('uid', isEqualTo: _uid.value).get();
 
     for (int i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
     }
 
-    DocumentSnapshot userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(_uid.value).get();
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(_uid.value).get();
     final userData = userDoc.data()! as dynamic;
     String name = userData['name'];
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
-
 
     String longBio = userData['longBio'] ?? ' This user hasn\'t set up there long bio yet';
     int likes = 0;
@@ -50,26 +44,16 @@ class ProfileController extends GetxController {
       likes += (item.data()['likes'] as List).length;
     }
 
-    var followerDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_uid.value)
-        .collection('followers')
-        .get();
+    var followerDoc =
+        await FirebaseFirestore.instance.collection('users').doc(_uid.value).collection('followers').get();
 
-    var followingDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_uid.value)
-        .collection('following')
-        .get();
+    var followingDoc =
+        await FirebaseFirestore.instance.collection('users').doc(_uid.value).collection('following').get();
     followers = followerDoc.docs.length;
     following = followingDoc.docs.length;
 
-    List<String> followersList =
-        followerDoc.docs.map((doc) => doc.id).toList();
-    List<String> followingList =
-        followingDoc.docs.map((doc) => doc.id).toList();
-
-
+    List<String> followersList = followerDoc.docs.map((doc) => doc.id).toList();
+    List<String> followingList = followingDoc.docs.map((doc) => doc.id).toList();
 
     var followerSnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -96,45 +80,35 @@ class ProfileController extends GetxController {
       'thumbnails': thumbnails,
       'followersList': followersList,
       'followingList': followingList,
-        'longBio': longBio, 
+      'longBio': longBio,
     };
 
     update();
   }
 
-
-
-    getProfileData() async {
+  getProfileData() async {
     if (authController.user.uid.isEmpty) {
       return;
     }
-    
 
     List<String> thumbnails = [];
-    var myVideos = await FirebaseFirestore.instance
-        .collection('videos')
-        .where('uid', isEqualTo: authController.user.uid)
-        .get();
+    var myVideos =
+        await FirebaseFirestore.instance.collection('videos').where('uid', isEqualTo: authController.user.uid).get();
 
     for (int i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
     }
 
-    DocumentSnapshot userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(authController.user.uid).get();
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(authController.user.uid).get();
     final userData = userDoc.data()! as dynamic;
     String name = userData['name'];
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
-   String longBio = userData['longBio'] ?? '';
-Color startColor = userData['startColor'] != null
-    ? Color(int.parse(userData['startColor']))
-    : Colors.red;
+    String longBio = userData['longBio'] ?? '';
+    Color startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Colors.red;
 
-Color endColor = userData['endColor'] != null
-    ? Color(int.parse(userData['endColor']))
-    : Colors.red;
+    Color endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Colors.red;
 
     int likes = 0;
     int followers = 0;
@@ -150,26 +124,16 @@ Color endColor = userData['endColor'] != null
       likes += (item.data()['likes'] as List).length;
     }
 
-    var followerDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_uid.value)
-        .collection('followers')
-        .get();
+    var followerDoc =
+        await FirebaseFirestore.instance.collection('users').doc(_uid.value).collection('followers').get();
 
-    var followingDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_uid.value)
-        .collection('following')
-        .get();
+    var followingDoc =
+        await FirebaseFirestore.instance.collection('users').doc(_uid.value).collection('following').get();
     followers = followerDoc.docs.length;
     following = followingDoc.docs.length;
 
-    List<String> followersList =
-        followerDoc.docs.map((doc) => doc.id).toList();
-    List<String> followingList =
-        followingDoc.docs.map((doc) => doc.id).toList();
-
-
+    List<String> followersList = followerDoc.docs.map((doc) => doc.id).toList();
+    List<String> followingList = followingDoc.docs.map((doc) => doc.id).toList();
 
     var followerSnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -197,41 +161,35 @@ Color endColor = userData['endColor'] != null
       'followersList': followersList,
       'followingList': followingList,
       'startColor': startColor,
-      'endColor':endColor,
-        'longBio': longBio, // Add this line to include the long bio
-
+      'endColor': endColor,
+      'longBio': longBio, // Add this line to include the long bio
     };
 
     update();
   }
 
+  void updateProfileBio(String bio) async {
+    if (_uid.value.isEmpty) {
+      return;
+    }
 
-void updateProfileBio(String bio) async {
-  if (_uid.value.isEmpty) {
-    return;
+    await FirebaseFirestore.instance.collection('users').doc(_uid.value).update({
+      'longBio': bio,
+    });
+
+    _user.update((userData) {
+      userData?.update('longBio', (_) => bio, ifAbsent: () => bio);
+    });
+
+    update();
   }
-  
-
-  await FirebaseFirestore.instance.collection('users').doc(_uid.value).update({
-    'longBio': bio,
-  });
-
-  _user.update((userData) {
-    userData?.update('longBio', (_) => bio, ifAbsent: () => bio);
-  });
-
-  update();
-}
 
   void updateProfileColors(String startColor, String endColor) async {
     if (_uid.value.isEmpty) {
       return;
     }
 
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_uid.value)
-        .update({
+    await FirebaseFirestore.instance.collection('users').doc(_uid.value).update({
       'startColor': startColor,
       'endColor': endColor,
     });
@@ -264,8 +222,6 @@ void updateProfileBio(String bio) async {
     if (_uid.value.isEmpty) {
       return;
     }
-
-
 
     var doc = await FirebaseFirestore.instance
         .collection('users')

@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/user.dart' as model;
-import 'package:vibe/views/screens/appScreen.dart';
+import 'package:vibe/views/screens/app_screen.dart';
 import 'package:vibe/views/screens/auth/login_screen.dart';
-import 'package:vibe/views/screens/web_app_screen.dart';
+import 'package:vibe/views/screens/desktop_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -26,21 +26,17 @@ class AuthController extends GetxController {
     ever(_user, _setInitialScreen);
   }
 
-_setInitialScreen(User? user) {
-
-  if (kIsWeb) {
-    Get.offAll(() => WebAppScreen());
-  } else {
-    if (user == null) {
-      Get.offAll(() => LoginScreen());
+  _setInitialScreen(User? user) {
+    if (kIsWeb) {
+      Get.offAll(() => WebAppScreen());
     } else {
-      Get.offAll(() => const AppScreen());
+      if (user == null) {
+        Get.offAll(() => LoginScreen());
+      } else {
+        Get.offAll(() => const AppScreen());
+      }
     }
   }
-}
-
-
-
 
   void pickImage() async {
     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -61,52 +57,51 @@ _setInitialScreen(User? user) {
   }
 
   // registering the user
-void registerUser(String username, String email, String password, File? image) async {
-  try {
-    if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-      // Save our user to our auth and Firebase Firestore
-      UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      
-      String downloadUrl = 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png'; 
-      if (image != null) {
+  void registerUser(String username, String email, String password, File? image) async {
+    try {
+      if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
+        // Save our user to our auth and Firebase Firestore
+        UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
 
-        downloadUrl = await _uploadToStorage(image);
+        String downloadUrl =
+            'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png';
+        if (image != null) {
+          downloadUrl = await _uploadToStorage(image);
+        }
+
+        model.User user = model.User(
+          name: username,
+          email: email,
+          uid: cred.user!.uid,
+          profilePhoto: downloadUrl,
+        );
+        await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
+
+        // Send notification for successful registration
+        _sendNotification('Registration Successful', 'Your account has been created successfully.');
+      } else {
+        Get.snackbar(
+          'Error Creating Account',
+          'Please enter all the fields',
+        );
       }
-      
-      model.User user = model.User(
-        name: username,
-        email: email,
-        uid: cred.user!.uid,
-        profilePhoto: downloadUrl,
-      );
-      await firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
-
-      // Send notification for successful registration
-      _sendNotification('Registration Successful', 'Your account has been created successfully.');
-    } else {
+    } catch (e) {
       Get.snackbar(
         'Error Creating Account',
-        'Please enter all the fields',
+        e.toString(),
       );
     }
-  } catch (e) {
-    Get.snackbar(
-      'Error Creating Account',
-      e.toString(),
-    );
   }
-}
-
 
   void loginUser(String email, String password) async {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
 
-           // Send notification for successful login
+        // Send notification for successful login
         _sendNotification('Login Successful', 'Welcome back!');
       } else {
         Get.snackbar(
@@ -126,16 +121,11 @@ void registerUser(String username, String email, String password, File? image) a
     await firebaseAuth.signOut();
   }
 
-
 // Send a notification to the user
   void _sendNotification(String title, String message) async {
     try {
       // Add notification to the user's UID collection
-      await firestore
-          .collection('users')
-          .doc(firebaseAuth.currentUser!.uid)
-          .collection('notifications')
-          .add({
+      await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).collection('notifications').add({
         'title': title,
         'message': message,
         'timestamp': DateTime.now(),
@@ -156,5 +146,4 @@ void registerUser(String username, String email, String password, File? image) a
       print('Error sending notification: $e');
     }
   }
-
 }

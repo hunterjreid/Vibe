@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/models/video.dart';
-import 'package:vibe/views/screens/appScreen.dart';
+import 'package:vibe/views/screens/app_screen.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,6 +12,7 @@ class UploadVideoController extends GetxController {
   RxDouble progress = 0.0.obs;
   String videoId = const Uuid().v4();
 
+  // Compresses the video file
   Future<File> _compressVideo(String videoPath) async {
     Get.snackbar(
       'Preparing Video',
@@ -35,6 +36,7 @@ class UploadVideoController extends GetxController {
     }
   }
 
+  // Uploads the compressed video to Firebase Storage
   Future<String> _uploadVideoToStorage(String videoPath) async {
     String videoId = const Uuid().v4();
     Reference ref = firebaseStorage.ref().child('videos').child(videoId);
@@ -62,11 +64,13 @@ class UploadVideoController extends GetxController {
     return downloadUrl;
   }
 
+  // Retrieves the thumbnail image from the video
   Future<File> _getThumbnail(String videoPath) async {
     final thumbnail = await VideoCompress.getFileThumbnail(videoPath);
     return thumbnail;
   }
 
+  // Uploads the thumbnail image to Firebase Storage
   Future<String> _uploadImageToStorage(String videoPath) async {
     Reference ref = firebaseStorage.ref().child('thumbnails').child(videoId);
     UploadTask uploadTask = ref.putFile(await _getThumbnail(videoPath));
@@ -75,15 +79,15 @@ class UploadVideoController extends GetxController {
     return downloadUrl;
   }
 
+  // Uploads the video to Firebase Storage and adds its details to the Firestore collection
   uploadVideo(String songName, String caption, String caption2, String caption3, String videoPath) async {
-
- if (songName.isEmpty) {
-    Get.snackbar(
-      'Error',
-      'Please provide a song name',
-    );
-    return;
-  }
+    if (songName.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please provide a song name',
+      );
+      return;
+    }
 
     try {
       String uid = firebaseAuth.currentUser!.uid;

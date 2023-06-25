@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
-import 'package:vibe/views/screens/comment_screen.dart';
+import 'package:vibe/views/screens/video/comment_screen.dart';
 import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
@@ -109,25 +109,25 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
         actions: [
           IconButton(
             icon: Icon(Icons.analytics_outlined),
-           onPressed: () {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('View-to-Like Ratio'),
-        content: Text('V/L Ratio: ${(widget.videoController.videoList[widget.videoIndex].likes.length/widget.videoController.videoList[widget.videoIndex].views)}%'),
-        actions: [
-          TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('View-to-Like Ratio'),
+                  content: Text(
+                      'V/L Ratio: ${(widget.videoController.videoList[widget.videoIndex].likes.length / widget.videoController.videoList[widget.videoIndex].views)}%'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Close'),
+                    ),
+                  ],
+                ),
+              );
             },
-            child: Text('Close'),
           ),
-        ],
-      ),
-    );
-  },
-          ),
-        
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
@@ -240,7 +240,6 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
                                 ],
                               ),
                             ),
-                       
                             InkWell(
                               onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute(

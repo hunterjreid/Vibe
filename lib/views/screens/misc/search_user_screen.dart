@@ -5,9 +5,9 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/controllers/get_dm_controller.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
-import 'package:vibe/views/screens/profile_screen.dart';
+import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/controllers/share_video_dm_controller.dart';
-import 'direct_message_screen.dart';
+import '../profile/direct_message_screen.dart';
 
 class SearchUserScreen extends StatelessWidget {
   final SearchController searchController = SearchController();

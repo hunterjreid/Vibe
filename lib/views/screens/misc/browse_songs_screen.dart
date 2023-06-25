@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:vibe/views/screens/confirm_screen.dart';
-import 'package:vibe/views/screens/record_sound_screen.dart';
+import 'package:vibe/views/screens/video/confirm_screen.dart';
+import 'package:vibe/views/screens/profile/record_sound_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
 
