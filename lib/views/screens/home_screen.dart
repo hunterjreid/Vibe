@@ -9,6 +9,8 @@ import 'package:vibe/views/screens/misc/searchOld_screen.dart';
 
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:vibe/views/screens/video/show_single_video.dart';
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -133,6 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
+
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ShowSingleVideo(

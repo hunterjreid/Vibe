@@ -14,8 +14,9 @@ import 'package:vibe/views/screens/profile/show_own_video_screen.dart';
 
 import 'package:vibe/views/screens/profile/userSettings_screen.dart';
 import 'package:vibe/views/screens/profile/your_dms_screen.dart';
-import 'package:vibe/views/screens/show_more_video.dart';
-import 'package:vibe/views/screens/show_single_video.dart';
+import 'package:vibe/views/screens/video/show_more_video.dart';
+import 'package:vibe/views/screens/video/show_single_video.dart';
+
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';

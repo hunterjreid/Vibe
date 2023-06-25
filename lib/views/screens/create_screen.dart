@@ -11,7 +11,7 @@ import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/misc/browse_songs_screen.dart';
 import 'package:vibe/views/screens/video/confirm_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
-import 'package:vibe/views/screens/uploadAudio_screen.dart';
+
 import 'package:vibe/views/screens/profile/your_dms_screen.dart';
 import 'package:video_player/video_player.dart';
 
