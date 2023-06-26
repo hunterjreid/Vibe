@@ -32,12 +32,14 @@ class ProfileController extends GetxController {
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
-
+ String username = userData['username'];
     String longBio = userData['longBio'] ?? ' This user hasn\'t set up there long bio yet';
     int likes = 0;
     int followers = 0;
     int following = 0;
+    Color startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Colors.red;
 
+    Color endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Colors.red;
     bool isFollowing = false;
 
     for (var item in myVideos.docs) {
@@ -80,6 +82,9 @@ class ProfileController extends GetxController {
       'thumbnails': thumbnails,
       'followersList': followersList,
       'followingList': followingList,
+            'startColor': startColor,
+      'endColor': endColor,
+       'username': username,
       'longBio': longBio,
     };
 
@@ -103,6 +108,7 @@ class ProfileController extends GetxController {
     final userData = userDoc.data()! as dynamic;
     String name = userData['name'];
     String profilePhoto = userData['profilePhoto'];
+    String username = userData['username'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
     String longBio = userData['longBio'] ?? '';
@@ -162,6 +168,7 @@ class ProfileController extends GetxController {
       'followingList': followingList,
       'startColor': startColor,
       'endColor': endColor,
+      'username': username,
       'longBio': longBio, // Add this line to include the long bio
     };
 

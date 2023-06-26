@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
@@ -70,7 +69,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                     controller.endColor.value = color;
                   });
                 }
-                // widget.onSaveChanges(widget.startColor, widget.endColor); // Save the updated colors
               },
               showLabel: true,
               pickerAreaHeightPercent: 0.8,
@@ -89,11 +87,30 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     );
   }
 
+  void saveChanges() {
+    controller.updateProfile();
+    widget.onSaveChanges(
+      controller.startColor.value,
+      controller.endColor.value,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit'),
+
+  leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    onPressed: () => Navigator.of(context).pop(),
+  ),
+  title: Text('Edit'),
+  actions: [
+    IconButton(
+      icon: Icon(Icons.logout),
+      onPressed: () => controller.authController.signOut(),
+    ),
+  ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -132,8 +149,8 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             ElevatedButton(
               onPressed: controller.pickImage,
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 153, 153, 153), // Set the background color of the button
-                onPrimary: Color.fromARGB(255, 26, 26, 26), // Set the text color of the button
+                primary: Color.fromARGB(255, 153, 153, 153),
+                onPrimary: Color.fromARGB(255, 26, 26, 26),
                 textStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -142,29 +159,27 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               ),
               child: Text('Change'),
             ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => showColorPicker(true),
-                  style: ElevatedButton.styleFrom(
-                    primary: widget.startColor,
-                  ),
-                  child: Text('Start Color'),
-                ),
-                ElevatedButton(
-                  onPressed: () => showColorPicker(false),
-                  style: ElevatedButton.styleFrom(
-                    primary: widget.endColor,
-                  ),
-                  child: Text('End Color'),
-                ),
-              ],
-            ),
-
-            // ElevatedButton(
-            //   onPressed: controller.uploadProfilePicture,
-            //   child: Text('UPLOAD PROFILE PICTURE'),
-            // ),
+        Expanded(
+  child: Row(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      ElevatedButton(
+        onPressed: () => showColorPicker(true),
+        style: ElevatedButton.styleFrom(
+          primary: widget.startColor,
+        ),
+        child: Text('Start Color'),
+      ),
+      ElevatedButton(
+        onPressed: () => showColorPicker(false),
+        style: ElevatedButton.styleFrom(
+          primary: widget.endColor,
+        ),
+        child: Text('End Color'),
+      ),
+    ],
+  ),
+),
             TextField(
               controller: usernameController,
               decoration: InputDecoration(
@@ -192,6 +207,16 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 controller.websiteController.text = value;
               },
             ),
+                Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Text(
+        'Email is not publicly visible',
+        style: TextStyle(
+          fontSize: 12,
+          color: Colors.grey,
+        ),
+      ),
+    ),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
@@ -201,44 +226,49 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 controller.emailController.text = value;
               },
             ),
-            ElevatedButton(
-              onPressed: () {
-                controller.updateProfile();
-              },
-              child: Text('UPDATE PROFILE'),
-            ),
-            Obx(() {
-              return SwitchListTile(
-                title: Text('Anonymous Account'),
-                value: controller.isAnonymous.value,
-                onChanged: (value) {
-                  controller.isAnonymous.value = value;
-                },
-              );
-            }),
 
-            ElevatedButton(
-              onPressed: () {
-                controller.updateProfile();
-                widget.onSaveChanges(
-                  controller.startColor.value,
-                  controller.endColor.value,
-                );
-              },
-              child: Text('Save Color and Changes'),
-            ),
-            ElevatedButton(
-              onPressed: () => controller.authController.signOut(),
-              child: Text(
-                'LOG OUT ',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                ),
-              ),
-            ),
-          ],
+               InkWell(
+                                          onTap: () {
+                                           saveChanges();
+                                          },
+           child:     Container(
+                                            width: 170,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors:  [Colors.red, Colors.pink]
+                                                    
+                                              ),
+                                              border: Border.all(),
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                               "Save Changes",
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+               ),
+                                
+  //  ElevatedButton(
+  //             onPressed: () => controller.authController.signOut(),
+  //             child: Text(
+  //               'LOG OUT ',
+  //               style: TextStyle(
+  //                 fontSize: 15,
+  //                 fontWeight: FontWeight.bold,
+  //                 fontFamily: 'MonaSansExtraBoldWideItalic',
+  //               ),
+  //             ),
+  //           ),
+           ],
         ),
       ),
     );

@@ -8,21 +8,16 @@ import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/create_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
 import 'package:vibe/views/screens/profile/show_own_video_screen.dart';
-
 import 'package:vibe/views/screens/profile/userSettings_screen.dart';
 import 'package:vibe/views/screens/profile/your_dms_screen.dart';
 import 'package:vibe/views/screens/video/show_more_video.dart';
 import 'package:vibe/views/screens/video/show_single_video.dart';
-
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:iconsax/iconsax.dart';
 
 class UserScreen extends StatefulWidget {
@@ -397,7 +392,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                   ),
                                 ),
                                 Text(
-                                  controller.user['username'] != null ? controller.user['username'] : 'No bio set',
+                                  controller.user['username'] != null ? controller.user['username'] : 'No username set',
                                   style: TextStyle(
                                     fontFamily: 'MonaSansExtraBoldWideItalic',
                                     fontSize: 12.0,

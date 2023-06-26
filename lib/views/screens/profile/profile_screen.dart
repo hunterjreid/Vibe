@@ -48,21 +48,56 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   final ProfileController profileController = Get.put(ProfileController());
   late TabController _tabController;
 
-  Color randomColor1 = Colors.blue;
-  Color randomColor2 = Color.fromARGB(255, 243, 33, 233);
-
   @override
   void initState() {
     super.initState();
     profileController.updateUserId(widget.uid);
+    profileController.getUserData();
+    
     _tabController = TabController(length: 2, vsync: this);
+    _fetchUserProfile(); // Fetch user profile data
+
   }
+  // Helper method to generate random colors
+  void _fetchUserProfile() async {
+      profileController.updateUserId(widget.uid);
+      print(widget.uid);
+      
+    await profileController.getUserData();
+
+    print(profileController.user['startColor']);
+
+    // Check if startColor and endColor are null, then set them to red
+    if (profileController.user['startColor'] == null) {
+      profileController.user['startColor'] = Color.fromARGB(0, 244, 67, 54);
+    }
+    if (profileController.user['endColor'] == null) {
+      profileController.user['endColor'] = Color.fromARGB(0, 244, 67, 54);
+    }
+
+    // Set the colors using the _updateColors method
+    _updateColors(
+      profileController.user['startColor'],
+      profileController.user['endColor'],
+    );
+  }
+  
+    Color randomColor1 = Color.fromARGB(0, 0, 0, 0);
+  Color randomColor2 = Color.fromARGB(87, 187, 174, 185);
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+
+    void _updateColors(Color startColor1, Color endColor1) async {
+    setState(() {
+      randomColor1 = startColor1;
+      randomColor2 = endColor1;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -163,16 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (widget.uid == authController.user.uid)
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const UserScreen()),
-                                );
-                              },
-                              child: Text('You are viewing your own profile'),
-                            ),
+              
                           SizedBox(
                             child: Column(
                               children: [
@@ -194,6 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         ),
                                       ),
                                     ),
+                                    
                                     ClipOval(
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
@@ -208,6 +235,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
+                                            if (widget.uid == authController.user.uid)
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const UserScreen()),
+                                );
+                              },
+                              child: Text('THIS IS YOUR PROFILE'),
+                            ),
                                 const SizedBox(height: 6.0),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
