@@ -22,6 +22,33 @@ class _HelpScreenState extends State<HelpScreen> {
       ),
       body: ListView(
         children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 100,
+                  height: 100,
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'FAQ',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'Here are some frequently asked questions for Vibe.',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
           _buildFAQItem(1, 'What can users upload to Vibe?',
               'Users can upload music and quick videos to express themselves and convey their creativity.'),
           _buildFAQItem(2, 'How can Vibe foster a fraternal community?',

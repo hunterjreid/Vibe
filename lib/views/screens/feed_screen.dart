@@ -61,12 +61,14 @@ buildProfile(String profilePhoto) {
 
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
+  
   AuthController authController = Get.put(AuthController());
   List<VideoPlayerController> videoControllers = [];
   List<ChewieController> chewieControllers = [];
   bool _isLoading = true;
   bool _isModalVisible = false;
   bool _refreshing = false; 
+  
 
   @override
   void initState() {
@@ -461,29 +463,36 @@ class _FeedScreenState extends State<FeedScreen> {
                           },
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isModalVisible = false;
-                          });
-                        },
-                        child: Visibility(
-                          visible: _isModalVisible,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: _isModalVisible ? 5 : 0, sigmaY: _isModalVisible ? 5 : 0),
-                            child: Container(
-                              color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
-                              child: Center(
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text('Share the Vibes!'),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      if (_isModalVisible)
+                 GestureDetector(
+  onTap: () {
+    setState(() {
+      _isModalVisible = !_isModalVisible;
+    });
+  },
+  child: Visibility(
+    visible: _isModalVisible,
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: _isModalVisible ? 5 : 0,
+        sigmaY: _isModalVisible ? 5 : 0,
+      ),
+      child: Container(
+        color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _isModalVisible = false;
+              });
+            },
+            child: Text('Share the Vibes!'),
+          ),
+        ),
+      ),
+    ),
+  ),
+),
+     if (_isModalVisible)
                         Container(
                           color: Theme.of(context).colorScheme.primary,
                           child: SizedBox(

@@ -6,14 +6,9 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/profile/direct_message_screen.dart';
-
 import 'package:vibe/views/screens/profile/show_own_video_screen.dart';
-
 import 'package:palette_generator/palette_generator.dart';
 import 'package:vibe/views/screens/video/show_single_video.dart';
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vibe/views/screens/profile/user_screen.dart';
 import 'dart:math';

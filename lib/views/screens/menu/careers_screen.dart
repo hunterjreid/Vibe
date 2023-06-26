@@ -7,7 +7,7 @@ class CareersScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Apply'),
-          content: Text('Please apply on the website.'),
+          content: Text('Sure, you can apply on our website.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -31,9 +31,16 @@ class CareersScreen extends StatelessWidget {
         children: [
           Card(
             child: ListTile(
+                   leading: Image.asset(
+                'assets/images/logo.png',
+                width: 50,
+                height: 50,
+              ),
               title: Text('Software Engineer'),
               subtitle: Text(
-                  'The Product Manager will be responsible for defining and executing product strategies, conducting market research, collaborating with cross-functional teams, and driving product innovation.'),
+                  'As a Software Engineer, you\'ll have the opportunity to design, develop, and implement software solutions. You\'ll collaborate with a team of talented engineers and contribute to building innovative applications that make a real impact.'   ,       style: TextStyle(
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                ),),
               trailing: ElevatedButton(
                 onPressed: () {
                   _showApplyDialog(context);
@@ -44,9 +51,16 @@ class CareersScreen extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              title: Text('Product Manager'),
+                          leading: Image.asset(
+                'assets/images/logo.png',
+                width: 50,
+                height: 50,
+              ),
+              title: Text('Content Manager'),
               subtitle: Text(
-                  'The Software Engineer will design, develop, and implement software solutions, collaborate with a team of engineers, and ensure the scalability and performance of applications.'),
+                  'Are you passionate about driving product innovation? As a Content Manager, you\'ll define and execute market strategies, conduct market research, and collaborate with cross-functional teams. Join us and help shape the future of our products!'     , style: TextStyle(
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                ),),
               trailing: ElevatedButton(
                 onPressed: () {
                   _showApplyDialog(context);
@@ -57,9 +71,16 @@ class CareersScreen extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+                          leading: Image.asset(
+                'assets/images/logo.png',
+                width: 50,
+                height: 50,
+              ),
               title: Text('Data Analyst'),
               subtitle: Text(
-                  'The Data Analyst will collect, analyze, and interpret large datasets to uncover insights, develop data models, and collaborate with stakeholders to support data-driven decision-making.'),
+                  'Love working with data? Join our team as a Data Analyst, where you\'ll collect, analyze, and interpret large datasets to uncover valuable insights. Your work will directly contribute to data-driven decision-making and support our organization in achieving its goals.',         style: TextStyle(
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                ),),
               trailing: ElevatedButton(
                 onPressed: () {
                   _showApplyDialog(context);

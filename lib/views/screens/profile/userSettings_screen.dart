@@ -94,6 +94,33 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
       controller.endColor.value,
     );
   }
+  void logout() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Log Out'),
+              onPressed: () {
+                // Perform logout logic here
+                controller.authController.signOut();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +135,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
   actions: [
     IconButton(
       icon: Icon(Icons.logout),
-      onPressed: () => controller.authController.signOut(),
+      onPressed: logout,
     ),
   ],
       ),

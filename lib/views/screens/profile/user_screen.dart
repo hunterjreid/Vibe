@@ -195,7 +195,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                     onPressed: () {
                       _navigateToUserSettingsScreen();
                     },
-                    icon: Icon(Iconsax.more_2),
+                    icon: Icon(Iconsax.more),
                   ),
                   IconButton(
                     onPressed: () {
@@ -535,6 +535,19 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                           ),
                         ),
                       ),
+
+
+
+ Image.asset(
+      'assets/images/trends/trend(1).jpg',
+      width: 200,
+      height: 200,
+    ),
+
+
+
+
+                      
                       Expanded(
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
