@@ -28,7 +28,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   final TextEditingController _captionController = TextEditingController();
   final TextEditingController _longCaptionController = TextEditingController();
   final TextEditingController _shortCaptionController = TextEditingController();
-  final TextEditingController _audioNameController = TextEditingController();
 
   final UploadVideoController uploadVideoController = Get.put(UploadVideoController());
 
@@ -50,12 +49,12 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   void dispose() {
     controller.dispose();
-    _videoEditorController?.dispose(); // Dispose the VideoEditorController as good habbit
+    _videoEditorController?.dispose(); // Dispose the VideoEditorController as a good habit
     super.dispose();
   }
 
   void openVideoEditor() async {
-    //  video editing
+    // Video editing
 
     _videoEditorController = VideoEditorController.file(
       File(widget.videoPath),
@@ -69,103 +68,91 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Confirm Video',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditScreen(videoFile: widget.videoFile),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.video_library),
-                        tooltip: 'Open Video Editor',
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BrowseSongsPage(),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.music_note),
-                        tooltip: 'Change Music',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        title: Text(
+          'Confirm Video',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditScreen(videoFile: widget.videoFile),
+                ),
+              );
+            },
+            icon: Icon(Icons.video_library),
+            tooltip: 'Open Video Editor',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BrowseSongsPage(),
+                ),
+              );
+            },
+            icon: Icon(Icons.music_note),
+            tooltip: 'Change Music',
+          ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextInputField(
+              controller: _songController,
+              labelText: 'Song',
+              icon: Icons.music_note,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              width: MediaQuery.of(context).size.width - 20,
-              child: TextInputField(
-                controller: _songController,
-                labelText: 'Song',
-                icon: Icons.music_note,
-              ),
+          ),
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: controller.value.aspectRatio,
+              child: VideoPlayer(controller),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.width / 1.2,
-              child: AspectRatio(
-                aspectRatio: 9 / 16,
-                child: VideoPlayer(controller),
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextInputField(
-                      controller: _captionController,
-                      labelText: 'Caption',
-                      icon: Icons.closed_caption,
-                    ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _captionController,
+                  decoration: InputDecoration(
+                    labelText: 'Brief',
+                    prefixIcon: Icon(Icons.architecture_outlined),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextInputField(
-                      controller: _longCaptionController,
-                      labelText: 'Long Caption',
-                      icon: Icons.closed_caption,
-                    ),
+                ),
+                TextField(
+                  controller: _longCaptionController,
+                  decoration: InputDecoration(
+                    labelText: 'Explanation',
+                    prefixIcon: Icon(Icons.closed_caption),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: MediaQuery.of(context).size.width - 30,
-                    child: TextInputField(
-                      controller: _shortCaptionController,
-                      labelText: 'Short Caption',
-                      icon: Icons.closed_caption,
-                    ),
+                ),
+                TextField(
+                  controller: _shortCaptionController,
+                  decoration: InputDecoration(
+                    labelText: 'Tag',
+                    prefixIcon: Icon(Icons.app_shortcut_outlined),
                   ),
-                  Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
-                  ElevatedButton(
+                ),
+                Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF00D2FF), Color(0xFF3A7BD5)],
+                      stops: [0.0, 1.0],
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ElevatedButton(
                     onPressed: () => uploadVideoController.uploadVideo(
                       _songController.text,
                       _captionController.text,
@@ -173,19 +160,24 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                       _shortCaptionController.text,
                       widget.videoPath,
                     ),
-                    child: const Text(
-                      'Share!',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
+                      primary: Colors.transparent,
+                      onPrimary: Colors.white,
+                    ),
+                    child: Text(
+                      'Share!',
+                      style: TextStyle(fontSize: 20, fontFamily: 'Montserrat'),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

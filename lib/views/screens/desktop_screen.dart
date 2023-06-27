@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
@@ -51,115 +52,120 @@ class _WebAppScreenState extends State<WebAppScreen> {
     });
   }
 
-  void openProfilePopup(BuildContext context, String username) async {
-    Get.put(ProfileController());
-    final profileController = Get.find<ProfileController>();
+void openProfilePopup(BuildContext context, String uid) async {
+  final firestore = FirebaseFirestore.instance;
 
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Profile'),
-          content: GetBuilder<ProfileController>(
-            init: profileController,
-            builder: (controller) {
-              if (controller.user == null) {
-                profileController.updateUserId(username);
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+  final userSnapshot = await firestore.collection('users').doc(uid).get();
 
-              final profilePhoto = controller.user['profilePhoto'] ?? '';
-              final name = controller.user['bio'] ?? ' bio';
+  final profilePhoto = userSnapshot['profilePhoto'] ?? '';
+  final bio = userSnapshot['bio'] ?? 'Bio goes here';
+  final website = userSnapshot['website'] ?? 'Website goes here';
 
-              return Column(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(profilePhoto),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    name ?? ' Bio goes here ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    username,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Close'),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      final randomColor1 = Colors.blue; // Replace with your desired colors
+      final randomColor2 = Colors.green; // Replace with your desired colors
+
+      return AlertDialog(
+        title: Text('Profile'),
+        content: Column(
+          children: [
+            Container(
+              width: 500,
+              height: 140,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                gradient: LinearGradient(
+                  colors: [
+                    randomColor1,
+                    randomColor2,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+            ),
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(profilePhoto),
+            ),
+            SizedBox(height: 10),
+            Text(
+              bio,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              website,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'UID: $uid',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
-        );
-      },
-    );
-  }
-
-  void navigateToUseThisSoundScreen(String title) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => RecordThisSoundScreen(
-          title: title,
         ),
-      ),
-    );
-  }
-
-  void preloadVideos() async {
-    for (int i = 0; i < 20; i++) {
-      final Video video = videoController.videoList[i];
-      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
-
-      await videoPlayerController.initialize();
-
-      videoController.addView(videoController.videoList[i].id);
-
-      videoControllers.add(videoPlayerController);
-
-      chewieControllers.add(
-        ChewieController(
-          videoPlayerController: videoPlayerController,
-          showControlsOnInitialize: false,
-          autoPlay: true,
-          materialProgressColors: ChewieProgressColors(
-            backgroundColor: Color.fromARGB(255, 40, 5, 165),
-            bufferedColor: Color.fromARGB(255, 255, 255, 255),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Close'),
           ),
-          additionalOptions: (context) {
-            return <OptionItem>[
-              OptionItem(
-                onTap: () => debugPrint('My option works!'),
-                iconData: Icons.report,
-                title: 'Report Video',
-              ),
-              OptionItem(
-                onTap: () => debugPrint('Another option working!'),
-                iconData: Icons.copy,
-                title: 'Copy Link to Video',
-              ),
-            ];
-          },
-          looping: true,
-          allowedScreenSleep: false,
-          overlay: Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
+        ],
+      );
+    },
+  );
+}
+
+void preloadVideos() async {
+  for (int i = 0; i < 20; i++) {
+    final Video video = videoController.videoList[i];
+    final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
+
+    await videoPlayerController.initialize();
+
+    videoController.addView(videoController.videoList[i].id);
+
+    videoControllers.add(videoPlayerController);
+
+    chewieControllers.add(
+      ChewieController(
+        videoPlayerController: videoPlayerController,
+        showControlsOnInitialize: false,
+        autoPlay: true,
+        looping: true,
+        showControls: false,
+        materialProgressColors: ChewieProgressColors(
+          backgroundColor: Color.fromARGB(255, 40, 5, 165),
+          bufferedColor: Color.fromARGB(255, 255, 255, 255),
+        ),
+        additionalOptions: (context) {
+          return <OptionItem>[
+            OptionItem(
+              onTap: () => debugPrint('My option works!'),
+              iconData: Icons.report,
+              title: 'Report Video',
+            ),
+            OptionItem(
+              onTap: () => debugPrint('Another option working!'),
+              iconData: Icons.copy,
+              title: 'Copy Link to Video',
+            ),
+          ];
+        },
+        allowedScreenSleep: false,
+        overlay: Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Center(
             child: Container(
               padding: const EdgeInsets.all(8.0),
               color: Colors.black54,
@@ -211,12 +217,13 @@ class _WebAppScreenState extends State<WebAppScreen> {
             ),
           ),
         ),
-      );
-    }
-    setState(() {
-      _isLoading = false;
-    });
+      ),
+    );
   }
+  setState(() {
+    _isLoading = false;
+  });
+}
 
   @override
   void dispose() {
@@ -243,12 +250,14 @@ class _WebAppScreenState extends State<WebAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         backgroundColor: Color.fromARGB(255, 0, 0, 0), 
         title: Row(
+          
           children: [
             Padding(
               padding: EdgeInsets.only(right: 8.0),
               child: Image.asset(
-                'assets/images/logo.png', 
+                'assets/images/logo.png',
                 height: 50,
                 width: 50,
               ),
@@ -266,7 +275,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
       body: Row(
         children: [
           AnimatedContainer(
-            color: Color.fromARGB(255, 83, 83, 83),
+            color: Color.fromARGB(255, 0, 0, 0),
             duration: const Duration(milliseconds: 200),
             width: _isModalVisible ? 250 : 0,
             child: ListView(
@@ -318,8 +327,8 @@ class _WebAppScreenState extends State<WebAppScreen> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.menu),
-                  title: Text('Open Big Menu'),
+                  leading: Icon(Icons.create_new_folder),
+                  title: Text('Extra'),
                   onTap: () {
                     showDialog(
                       context: context,
@@ -385,29 +394,51 @@ class _WebAppScreenState extends State<WebAppScreen> {
                         itemBuilder: (context, index) {
                           final Video video = videoController.videoList[index];
                           final data = videoController.videoList[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.75, // Set height to 75% of the available height
-                                  child: Chewie(
-                                    controller: chewieControllers[index],
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    print(data.uid);
-                                    openProfilePopup(context, data.uid);
-                                  },
-                                  child: Text('View Profile'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                    return Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.75, // Set height to 75% of the available height
+        child: Chewie(
+          controller: chewieControllers[index],
+        ),
+      ),
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            print(data.uid);
+            openProfilePopup(context, data.uid);
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.black,
+            minimumSize: Size(100, 0),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+              SizedBox(width: 8),
+              Text(
+                data.username,
+                style: TextStyle(
+                  fontFamily: 'MonaSans',
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  ),
+);
+  },
                       ),
                     ),
             ),
@@ -416,7 +447,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
       ),
       bottomNavigationBar: Container(
         height: 60,
-        color: Colors.grey,
+        color: Color.fromARGB(255, 0, 0, 0),
         child: Center(
           child: Text(
             'This is a demo version, you can access the full app on the app store.',
@@ -428,79 +459,186 @@ class _WebAppScreenState extends State<WebAppScreen> {
           ),
         ),
       ),
-      drawer: Drawer(
-        width: MediaQuery.of(context).size.width * 0.35,
-        child: Container(
-          color: Color.fromARGB(255, 95, 95, 95),
-          child: ListView(
-            children: [
-              ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('Donate'),
-                onTap: () {
-                  // Handle donate action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.code),
-                title: Text('GitHub Sponsor'),
-                onTap: () {
-                  // Handle GitHub sponsor action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.info),
-                title: Text('Learn More'),
-                onTap: () {
-                  // Handle learn more action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.person_add),
-                title: Text('Sign Up for Wait List'),
-                onTap: () {
-                  // Handle sign up for wait list action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
-                onTap: () {
-                  // Handle settings action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.info),
-                title: Text('About'),
-                onTap: () {
-                  // Handle "About" action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.help),
-                title: Text('Help'),
-                onTap: () {
-                  // Handle "Help" action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('Support Us'),
-                onTap: () {
-                  // Handle "Support Us" action
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.person_add),
-                title: Text('Join Waitlist'),
-                onTap: () {
-                  // Handle "Join Waitlist" action
-                },
-              ),
-            ],
-          ),
-        ),
+    drawer: Drawer(
+      backgroundColor: Color.fromARGB(0, 1, 1, 1),
+  width: MediaQuery.of(context).size.width * 0.35,
+  child: Container(
+    decoration: BoxDecoration(
+      image: DecorationImage(
+ image: AssetImage("assets/images/background_image.jpg"),
+
+        fit: BoxFit.cover,
       ),
+    ),
+    child: ListView(
+      children: [
+        ListTile(
+          leading: Icon(
+            Icons.favorite,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Donate',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle donate action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.code,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'GitHub Sponsor',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle GitHub sponsor action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.info,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Learn More',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle learn more action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.person_add,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Sign Up for Wait List',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle sign up for wait list action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.settings,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Settings',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle settings action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.info,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'About',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle "About" action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.help,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Help',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle "Help" action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.favorite,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Support Us',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle "Support Us" action
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.person_add,
+            size: 30,
+            color: Colors.white,
+          ),
+          title: Text(
+            'Join Waitlist',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          onTap: () {
+            // Handle "Join Waitlist" action
+          },
+        ),
+      ],
+    ),
+  ),
+),
+
     );
   }
 }

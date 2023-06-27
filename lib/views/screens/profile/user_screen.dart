@@ -562,44 +562,51 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                               // Extract the list of video titles from the snapshot
                               List<String> videoTitles = snapshot.data!.docs.map((doc) => doc['id'] as String).toList();
 
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: videoTitles.length,
-                                itemBuilder: (context, index) {
-                                  final videoId = videoTitles[index];
-                                  final videoData = snapshot.data!.docs.firstWhere(
-                                    (doc) => doc['id'] == videoId,
-                                  );
+                            return ListView.builder(
+  shrinkWrap: true,
+  itemCount: videoTitles.length,
+  itemBuilder: (context, index) {
+    final videoId = videoTitles[index];
+    final videoData = snapshot.data!.docs.firstWhere(
+      (doc) => doc['id'] == videoId,
+    );
 
-                                  final thumbnailUrl = videoData['thumbnail'] as String;
-                                  final caption = videoData['caption'] as String;
+    final thumbnailUrl = videoData['thumbnail'] as String;
+    final caption = videoData['caption'] as String;
 
-                                  return ListTile(
-                                    leading: Image.network(thumbnailUrl),
-                                    title: Text(
-                                      caption.isNotEmpty ? caption : 'This video has no caption',
-                                    ),
-                                    onTap: () {
-                                      // Open single video with the videoId
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ShowMoreVideo(
-                                            videoId: videoId,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            }
+    return ListTile(
+      leading: Image.network(thumbnailUrl),
+      title: Text(
+        caption.isNotEmpty ? caption : 'This video has no caption',
+        style: TextStyle(
+           fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+          fontStyle: caption.isNotEmpty ? FontStyle.italic : FontStyle.normal,
+          color: caption.isNotEmpty ? Colors.grey[300] : Colors.grey[800],
+        ),
+      ),
+      onTap: () {
+        // Open single video with the videoId
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ShowMoreVideo(
+              videoId: videoId,
+            ),
+          ),
+        );
+      },
+    );
+  },
+);
+      }
                           },
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text('Last updated: $currentTime'),
+                        child: Text('Last updated: $currentTime',  style:  TextStyle(  fontFamily: 'MonaSans'),),
                       ),
                     ],
                   )

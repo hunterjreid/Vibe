@@ -133,6 +133,7 @@ flutter:
     - assets/images/trends/trend(9).jpg
     - assets/images/trends/trend(10).jpg
     - assets/images/trending.png
+    - assets/images/background_image.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
