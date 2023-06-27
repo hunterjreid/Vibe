@@ -249,41 +249,46 @@ class ShowDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        // Set the background color based on the theme
+        Color backgroundColor = Colors.white; // Default color is white
+        ThemeData theme = Theme.of(context);
+        if (theme.brightness == Brightness.dark) {
+          // If the theme is dark, set the background color to black
+          backgroundColor = Colors.black;
+        }
+
         return AlertDialog(
+          backgroundColor: backgroundColor,
           title: Text(
             'Settings',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+              color: Colors.white, // Set text color to white
             ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'By defualt it will Automatically detect system theme',
-                style: TextStyle(fontSize: 14),
+                'By default, it will automatically detect system theme',
+                style: TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
               ),
-              // SizedBox(height: 8),
-              // ElevatedButton(
-              //   onPressed: () => updateColorTheme('System Detect'),
-              //   style: ButtonStyle(
-              //     backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-              //     minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
-              //   ),
-              //   child: Text('Detect Theme', style: TextStyle(fontSize: 16)),
-              // ),
-              // SizedBox(height: 16),
+              SizedBox(height: 8),
               Text(
                 'Select Color Theme',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
               ),
               SizedBox(height: 8),
               ElevatedButton(
-                onPressed: () => updateColorTheme('Marble White'),
+                onPressed: () {
+                  updateColorTheme('Marble White');
+                  Navigator.pop(context);
+                },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 0, 0, 0)),
-                  foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 255, 255, 255)),
+                  backgroundColor: MaterialStateProperty.all<Color>(backgroundColor), // Use the current background color
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                   textStyle: MaterialStateProperty.all<TextStyle>(
                     TextStyle(
                       fontSize: 22,
@@ -292,13 +297,17 @@ class ShowDialog {
                     ),
                   ),
                 ),
-                child: Text('Marble Theme'),
+                child: Text('Marble Theme', style: TextStyle(fontFamily: 'MonaSans')),
               ),
               ElevatedButton(
-                onPressed: () => updateColorTheme('Jet Black'),
+                onPressed: () {
+                  // Handle Jet Black theme selection
+                  updateColorTheme('Jet Black');
+                  Navigator.pop(context);
+                },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 255, 255, 255)),
-                  foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 15, 15, 15)),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                   textStyle: MaterialStateProperty.all<TextStyle>(
                     TextStyle(
                       fontSize: 22,
@@ -307,12 +316,12 @@ class ShowDialog {
                     ),
                   ),
                 ),
-                child: Text('Jet Theme'),
+                child: Text('Jet Theme', style: TextStyle(fontFamily: 'MonaSans')),
               ),
               SizedBox(height: 16),
               Text(
                 'You can also Alter the Search Algorithm',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -324,7 +333,7 @@ class ShowDialog {
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 42, 186, 230)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Educational Only', style: TextStyle(fontSize: 16)),
+                child: Text('Educational Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSans')),
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -339,7 +348,7 @@ class ShowDialog {
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Mixed', style: TextStyle(fontSize: 16)),
+                child: Text('Mixed', style: TextStyle(fontSize: 16, fontFamily: 'MonaSans')),
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -350,41 +359,14 @@ class ShowDialog {
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Entertainment Only', style: TextStyle(fontSize: 16)),
+                child: Text('Entertainment Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSans')),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  static void showClassDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Choose one:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
+              child: Text('Cancel', style: TextStyle(fontFamily: 'MonaSans')),
             ),
           ],
         );

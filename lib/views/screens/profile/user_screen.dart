@@ -525,24 +525,17 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text(
-                          'Trending Videos',
-                          style: TextStyle(
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 18.0),
+                        child:  Image.asset(
+      'assets/images/trending.png',
+      // width: 200,
+      // height: 200,
+    ),
                       ),
 
 
 
- Image.asset(
-      'assets/images/trends/trend(1).jpg',
-      width: 200,
-      height: 200,
-    ),
+
 
 
 

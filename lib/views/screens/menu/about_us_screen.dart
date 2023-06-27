@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AboutUsScreen extends StatelessWidget {
+  void _rateApp(BuildContext context) {
+    // Implement your rate app functionality here
+    // For example, you can launch an external URL to a rating page
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    print(theme.brightness);
     final isDarkTheme = theme.brightness == Brightness.dark;
 
     return Scaffold(
@@ -17,7 +21,7 @@ class AboutUsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/logo.png', // Replace with the path to your logo image
+              'assets/images/logo.png',
               width: 200,
               height: 200,
             ),
@@ -28,6 +32,7 @@ class AboutUsScreen extends StatelessWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: isDarkTheme ? Colors.white : Colors.black,
+                fontFamily: 'MonaSans',
               ),
             ),
             SizedBox(height: 16.0),
@@ -37,16 +42,35 @@ class AboutUsScreen extends StatelessWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: isDarkTheme ? Colors.white : Colors.black,
+                fontFamily: 'MonaSans',
               ),
             ),
             SizedBox(height: 16.0),
             Text(
-              'created by Hunter Reid Special mentions to Arthur, Mohammad, Rouwa',
+              'Created by Hunter Reid. Special mentions to Arthur, Mohammad, Rouwa.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
                 color: isDarkTheme ? Colors.white : Colors.black,
+                fontFamily: 'MonaSans',
               ),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                _rateApp(context);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.black,
+                onPrimary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                textStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSans',
+                ),
+              ),
+              child: Text('Rate App'),
             ),
           ],
         ),

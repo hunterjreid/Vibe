@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/get_dm_controller.dart';
-import 'package:vibe/models/dm.dart';
 import 'package:vibe/views/screens/misc/search_user_screen.dart';
 import 'direct_message_screen.dart';
 
@@ -14,22 +16,22 @@ class YourDMsScreen extends StatelessWidget {
 
   void navigateToConversation(String senderUID, String recipientUID) {
     Get.to(() => DirectMessageScreen(
-          senderUID: senderUID,
-          recipientUID: recipientUID,
-        ));
+      senderUID: senderUID,
+      recipientUID: recipientUID,
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DM Screen'),
+        title: Text('DM Screen', style: TextStyle(fontFamily: 'MonaSansExtraBoldWideItalic')),
         actions: [
           GestureDetector(
             onTap: navigateToSearchUserScreen,
             child: Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         ],
@@ -43,7 +45,8 @@ class YourDMsScreen extends StatelessWidget {
               'Direct Messages',
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'MonaSansExtraBoldWideItalic',
               ),
             ),
             SizedBox(height: 16),
@@ -52,20 +55,73 @@ class YourDMsScreen extends StatelessWidget {
                 builder: (controller) {
                   if (controller.dms.isEmpty) {
                     return Center(
-                      child: Text("No DMs Found"),
+                      child: Text(
+                        "No DMs Found",
+                        style: TextStyle(fontFamily: 'MonaSans', fontWeight: FontWeight.w400),
+                      ),
                     );
                   } else {
                     return ListView.builder(
                       itemCount: controller.dms.length,
                       itemBuilder: (context, index) {
                         final dm = controller.dms[index];
-                        return GestureDetector(
-                          onTap: () => navigateToConversation(dm.participants[0], dm.participants[1]),
-                          child: ListTile(
-                            title: Text(dm.participants.join(', ')),
-                            subtitle: dm.messages.isNotEmpty ? Text(dm.messages.last.text) : null,
-                            trailing: dm.messages.isNotEmpty ? Text(dm.messages.last.sent.toString()) : null,
-                          ),
+                        final participants = dm.participants;
+                        final senderUID = participants.contains(authController.user.uid)
+                            ? authController.user.uid
+                            : participants[0];
+                        final recipientUID = participants.contains(authController.user.uid)
+                            ? participants[0]
+                            : participants[1];
+
+                        return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                          stream: FirebaseFirestore.instance.collection('users').doc(recipientUID).snapshots(),
+                          builder: (context, userSnapshot) {
+                            if (userSnapshot.connectionState == ConnectionState.waiting) {
+                              return ListTile(
+                                title: Text(
+                                  'Loading...',
+                                  style: TextStyle(fontFamily: 'MonaSans', fontWeight: FontWeight.w400),
+                                ),
+                              );
+                            }
+
+                            final userData = userSnapshot.data?.data();
+                            final profileImageUrl = userData?['profilePhoto'];
+                            final profileName = userData?['name'];
+
+                            final lastMessage = dm.messages.isNotEmpty ? dm.messages.last : null;
+                            final lastMessageText = lastMessage != null ? lastMessage.text : 'No messages yet';
+                            final lastMessageTime = lastMessage != null ? lastMessage.sent : null;
+                            final formattedTime = lastMessageTime != null ? timeago.format(lastMessageTime) : '';
+
+                            return GestureDetector(
+                              onTap: () => navigateToConversation(senderUID, recipientUID),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(profileImageUrl),
+                                ),
+                                title: Text(
+                                  profileName ?? '',
+                                  style: TextStyle(fontFamily: 'MonaSans', fontWeight: FontWeight.w400),
+                                ),
+                                subtitle: Text(
+                                  lastMessageText,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MonaSans',
+                                  ),
+                                ),
+                                trailing: Text(
+                                  formattedTime,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'MonaSans',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         );
                       },
                     );
