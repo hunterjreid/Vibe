@@ -110,6 +110,8 @@ class SettingsController extends GetxController {
     String startColorHex = '#${startColorValue.value.toRadixString(10).padLeft(8, '0')}';
     String endColorHex = '#${endColorValue.value.toRadixString(10).padLeft(8, '0')}';
 
+      final ProfileController profileController = Get.put(ProfileController());
+
     startColorHex = startColorHex.replaceAll(RegExp(r'[^0-9]'), '');
 
     endColorHex = endColorHex.replaceAll(RegExp(r'[^0-9]'), '');
@@ -126,6 +128,15 @@ class SettingsController extends GetxController {
       'isAnonymous': updatedIsAnonymous,
     }).then((_) {
       print('Profile updated successfully');
+
+
+    profileController.updateUserId(authController.user.uid);
+
+
+
+
+
+
 
       // Create a notification for the profile update
       _createNotification('Profile Update', 'Your profile information has been updated.');

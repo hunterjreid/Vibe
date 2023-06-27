@@ -469,6 +469,7 @@ class _FeedScreenState extends State<FeedScreen> {
     });
   },
   child: Visibility(
+    
     visible: _isModalVisible,
     child: BackdropFilter(
       filter: ImageFilter.blur(

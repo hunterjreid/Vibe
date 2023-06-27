@@ -211,6 +211,12 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   "Your Profile",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                   
+                             
+                                    fontFamily: 'MonaSans',
+                                    fontSize: 22.0,
+                                 
+                               
                   ),
                 ),
               ),

@@ -136,31 +136,84 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   IconButton(
                     icon: Icon(Icons.report),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Report Profile'),
-                            content: Text('Are you sure you want to report this profile?'),
-                            actions: <Widget>[
-                              ElevatedButton(
-                                child: Text('Cancel'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              ElevatedButton(
-                                child: Text('Report'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  // ...
-                                  // Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                  showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.black, // Set the background color to black
+      title: Text(
+        'Report Profile',
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+          color: Colors.white,
+        ),
+      ),
+      content: Text(
+        'Are you sure you want to report this profile?',
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'MonaSansExtraBoldWideItalic',
+          color: Colors.white,
+        ),
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+          style: ButtonStyle(
+            // Set the button style with a red gradient background
+               backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+       
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+            ),
+          ),
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+              color: Colors.white,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            // Set the button style with a blue gradient background
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+            ),
+          ),
+          child: Text(
+            'Report',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+              color: Colors.white,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            // ...
+            // Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  },
+);
+
                     },
                   ),
                   IconButton(
@@ -509,7 +562,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   // Second tab view
                   Center(
-                    child: Text(profileController.user['longBio']),
+                    child: Text(profileController.user['longBio'], style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                                  color: Colors.white,
+                                                ),),
                   ),
                   // Third tab view
                 ],
