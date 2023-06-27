@@ -119,7 +119,13 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(currentSong.isNotEmpty ? currentSong : 'Nothing'),
+        title: Text(
+          currentSong.isNotEmpty ? 'Playing: '+currentSong : 'Nothing playing',
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: songs.length,
@@ -127,7 +133,13 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
           String songPath = songs[index];
           String songName = songPath.split('/').last.replaceAll('.mp3', '');
           return ListTile(
-            title: Text(songName),
+            title: Text(
+              songName,
+              style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'MonaSans',
+              ),
+            ),
             onTap: () {
               if (isPlaying && currentSong == songName) {
                 pauseSong();
@@ -154,7 +166,13 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
                   ),
                 if (currentSong == songName && isPlaying)
                   ElevatedButton(
-                    child: Text('Use this sound'),
+                    child: Text(
+                      'Use this sound',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
                     onPressed: () {
                       goToUseSoundScreen(songPath);
                     },

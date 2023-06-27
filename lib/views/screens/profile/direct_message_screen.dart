@@ -37,7 +37,22 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Direct Messages'),
+        title: StreamBuilder<DocumentSnapshot>(
+          stream: firestore.collection('users').doc(widget.recipientUID).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final userData = snapshot.data!.data() as Map<String, dynamic>;
+              final userName = userData['name'] as String;
+              return Text('Chat with '+ userName , style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',));
+            } else {
+              return Text('Loading DM...' , style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',) );
+            }
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -70,8 +85,9 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
                           child: Text(
                             message['text'] as String,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                              color: message['from'] == auth.currentUser!.uid ? Colors.white : Colors.black,
                             ),
                           ),
                         ),
@@ -92,6 +108,17 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
                     controller: _textEditingController,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
+                      fillColor: Color.fromARGB(255, 71, 71, 71),
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color: Colors.black,
                     ),
                     onSubmitted: (value) {
                       sendMessage('You: $value');

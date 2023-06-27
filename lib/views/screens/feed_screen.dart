@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
@@ -185,15 +184,15 @@ class _FeedScreenState extends State<FeedScreen> {
                     children: [
                       Expanded(
                         child: PageView.builder(
-                          itemCount: videoController.videoList.length,
-                          controller: PageController(initialPage: 0, viewportFraction: 1),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, index) {
-                            final Video video = videoController.videoList[index];
-                            final data = videoController.videoList[index];
-                            final VideoPlayerController videoPlayerController = videoControllers[index];
-                            final ChewieController chewieController =
-                                chewieControllers[index]; 
+  itemCount: videoController.videoList.length * 2,
+  controller: PageController(initialPage: 0, viewportFraction: 1),
+  scrollDirection: Axis.vertical,
+  itemBuilder: (context, index) {
+    final int pageIndex = index % videoController.videoList.length;
+    final Video video = videoController.videoList[pageIndex];
+    final data = videoController.videoList[pageIndex];
+    final VideoPlayerController videoPlayerController = videoControllers[pageIndex];
+    final ChewieController chewieController = chewieControllers[pageIndex];
 
                             return Stack(
                               children: [

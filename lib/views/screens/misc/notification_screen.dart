@@ -21,7 +21,13 @@ class NotificationScreen extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          title: Text('Notifications'),
+          title: Text(
+            'Notifications',
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'MonaSansExtraBoldWideItalic',
+            ),
+          ),
         ),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
@@ -41,14 +47,32 @@ class NotificationScreen extends StatelessWidget {
                   final message = notification['message'];
 
                   return ListTile(
-                    title: Text(title),
-                    subtitle: Text(message),
+                    title: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
+                    subtitle: Text(
+                      message,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                      ),
+                    ),
                   );
                 },
               );
             } else if (snapshot.hasError) {
               return Center(
-                child: Text('Error fetching notifications'),
+                child: Text(
+                  'Error fetching notifications',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                  ),
+                ),
               );
             } else {
               return Center(
