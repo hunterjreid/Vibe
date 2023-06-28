@@ -25,13 +25,13 @@ class YourDMsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DM Screen', style: TextStyle(fontFamily: 'MonaSansExtraBoldWideItalic')),
+        title: Text('Direct Messages', style: TextStyle(fontFamily: 'MonaSansExtraBoldWideItalic')),
         actions: [
           GestureDetector(
             onTap: navigateToSearchUserScreen,
             child: Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.add, color: Color.fromARGB(255, 0, 0, 0)),
+              child: Icon(Icons.add, color: Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
         ],
@@ -42,7 +42,7 @@ class YourDMsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Direct Messages',
+              'Your Inbox',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w400,

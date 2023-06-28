@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/feed_screen.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -21,10 +20,13 @@ class AppScreen extends StatefulWidget {
 class _AppScreenState extends State<AppScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIdx = 0;
-  int feedNotificationCount = 2; // Notification count for Feed
-  int homeNotificationCount = 4; // Notification count for Home
+  int feedNotificationCount = 0; 
+
 
   final ProfileController profileController = Get.put(ProfileController());
+
+
+  int homeNotificationCount = 99;
 
   String selectedColorOption = 'Jet Black';
 
@@ -124,7 +126,7 @@ class _AppScreenState extends State<AppScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/logo.png', // Replace with your logo image path
+                      'assets/images/logo.png',
                       width: 50,
                       height: 50,
                     ),
@@ -168,8 +170,8 @@ class _AppScreenState extends State<AppScreen> {
                   icon: Stack(
                     children: [
                       Icon(
-                        Iconsax.video_square,
-                        size: 38, // Adjust the icon size here
+                        FontAwesomeIcons.film,
+                        size: 38, 
                       ),
                       if (feedNotificationCount > 0)
                         Positioned(
@@ -199,7 +201,7 @@ class _AppScreenState extends State<AppScreen> {
                   icon: Stack(
                     children: [
                       Icon(
-                        Iconsax.home_2,
+                          FontAwesomeIcons.houseChimneyCrack,
                         size: 38, // Adjust the icon size here
                       ),
                       if (homeNotificationCount > 0)

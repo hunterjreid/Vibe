@@ -63,6 +63,7 @@ dependencies:
   url_launcher: ^6.1.11
   iconsax: ^0.0.8
   flutter_profile_picture: ^2.0.0
+  font_awesome_flutter: ^10.4.0
 
 
 

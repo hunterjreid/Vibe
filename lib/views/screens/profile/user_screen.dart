@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -31,16 +32,7 @@ class UserScreen extends StatefulWidget {
 
 ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
 
-Color generateRandomColor() {
-  Random random = Random();
-  int alpha = 255; // You can adjust the alpha value (transparency) if needed
 
-  int red = random.nextInt(256); // Random red value between 0 and 255
-  int green = random.nextInt(256); // Random green value between 0 and 255
-  int blue = random.nextInt(256); // Random blue value between 0 and 255
-
-  return Color.fromARGB(alpha, red, green, blue);
-}
 
 class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin {
   final ProfileController profileController = Get.put(ProfileController());
@@ -179,8 +171,12 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   labelColor: Theme.of(context).colorScheme.onBackground,
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
-                    Tab(icon: Icon(Icons.music_note_outlined)),
-                    Tab(icon: Icon(Icons.recommend_outlined)),
+                  Tab(
+  icon: Icon(FontAwesomeIcons.music),
+),
+                                   Tab(
+  icon: Icon(FontAwesomeIcons.thumbsUp),
+),
                   ],
                   indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(
@@ -195,7 +191,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                     onPressed: () {
                       _navigateToUserSettingsScreen();
                     },
-                    icon: Icon(Iconsax.more),
+                   icon: Icon(FontAwesomeIcons.cogs),
                   ),
                   IconButton(
                     onPressed: () {
@@ -211,17 +207,13 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   "Your Profile",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                   
-                             
-                                    fontFamily: 'MonaSans',
-                                    fontSize: 22.0,
-                                 
-                               
+                   fontFamily: 'MonaSans',
+                   fontSize: 22.0,                                 
                   ),
                 ),
               ),
               body: TabBarView(
-                controller: _tabController, // Set the TabController
+                controller: _tabController, 
                 children: [
                   // First tab view
                   SafeArea(

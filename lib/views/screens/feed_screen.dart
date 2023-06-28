@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/constants.dart';
@@ -279,14 +280,15 @@ class _FeedScreenState extends State<FeedScreen> {
                                                       : video.likes.add(authController.user.uid);
                                                 });
                                               },
-                                              child: Icon(
-                                                Iconsax.heart_circle,
+                                              child:                   Tab(
+  icon: Icon(FontAwesomeIcons.heartCrack,
+
                                                 size: 45,
                                                 color: video.likes.contains(authController.user.uid)
                                                     ? Color.fromARGB(255, 146, 17, 140)
                                                     : Color.fromARGB(255, 255, 255, 255),
                                               ),
-                                            ),
+                                            )),
                                             const SizedBox(height: 5),
                                             Text(
                                               videoController.videoList[index].likes.length.toString(),
@@ -397,7 +399,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                               child: Column(
                                                 children: [
                                                   Icon(
-                                                    Icons.folder,
+                                               
+  FontAwesomeIcons.folderOpen,
+
                                                     size: 30,
                                                     color: Colors.white,
                                                   ),
