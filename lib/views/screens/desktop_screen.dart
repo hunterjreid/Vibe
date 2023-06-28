@@ -15,6 +15,11 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class WebAppScreen extends StatefulWidget {
   @override
@@ -72,8 +77,8 @@ void openProfilePopup(BuildContext context, String uid) async {
   int following = 0;
 
   // Retrieve user videos and thumbnails
-  final myVideos = await firestore.collection('videos').where('uid', isEqualTo: uid).get();
-  final thumbnails = myVideos.docs.map((video) => video.data()['thumbnails']).whereType<List>().expand((e) => e).cast<String>().toList();
+  final myVideos = await FirebaseFirestore.instance.collection('videos').where('uid', isEqualTo: uid).get();
+  final thumbnails = myVideos.docs.map((video) => video.data()['thumbnail']).whereType<String>().toList();
   likes = myVideos.docs.map((video) => (video.data()['likes'] as List).length).reduce((value, element) => value + element);
 
   // Retrieve follower and following count
@@ -83,25 +88,38 @@ void openProfilePopup(BuildContext context, String uid) async {
   final followingDoc = await firestore.collection('users').doc(uid).collection('following').get();
   following = followingDoc.docs.length;
 
+  print(thumbnails);
+
   // Retrieve start and end colors
   final startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Colors.grey;
   final endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Colors.grey;
 
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(20.0),
+
+ showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Container(
+        width: 300.0,
+        padding: EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
               Container(
-                width: 500,
-                height: 140,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   gradient: LinearGradient(
@@ -114,7 +132,7 @@ void openProfilePopup(BuildContext context, String uid) async {
                   ),
                 ),
                 child: CircleAvatar(
-                  radius: 40.0,
+                  radius: 60.0,
                   backgroundImage: profilePhoto != null ? NetworkImage(profilePhoto) : null,
                   child: profilePhoto == null
                       ? Icon(
@@ -164,6 +182,11 @@ void openProfilePopup(BuildContext context, String uid) async {
                 children: [
                   Column(
                     children: [
+                      Icon(
+                        Icons.thumb_up,
+                        size: 20.0,
+                      ),
+                      SizedBox(height: 4.0),
                       Text(
                         'Likes',
                         style: TextStyle(
@@ -175,6 +198,11 @@ void openProfilePopup(BuildContext context, String uid) async {
                   ),
                   Column(
                     children: [
+                      Icon(
+                        Icons.people,
+                        size: 20.0,
+                      ),
+                      SizedBox(height: 4.0),
                       Text(
                         'Followers',
                         style: TextStyle(
@@ -186,6 +214,11 @@ void openProfilePopup(BuildContext context, String uid) async {
                   ),
                   Column(
                     children: [
+                      Icon(
+                        Icons.group,
+                        size: 20.0,
+                      ),
+                      SizedBox(height: 4.0),
                       Text(
                         'Following',
                         style: TextStyle(
@@ -207,41 +240,33 @@ void openProfilePopup(BuildContext context, String uid) async {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 10.0),
-              Expanded(
-                child: FutureBuilder(
-                  future: Future.wait(thumbnails.map((url) => precacheImage(NetworkImage(url), context))),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error loading thumbnails'));
-                    }
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 4.0,
-                        mainAxisSpacing: 4.0,
-                      ),
-                      itemCount: thumbnails.length,
-                      itemBuilder: (context, index) {
-                        return Image.network(
-                          thumbnails[index],
-                          fit: BoxFit.cover,
-                        );
-                      },
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0,
+                ),
+                itemCount: thumbnails.length,
+
+                  itemBuilder: (context, index) {
+                    return Image.network(
+                      thumbnails[index],
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                      headers: {'Access-Control-Allow-Origin': '*'},
                     );
                   },
-                ),
               ),
             ],
           ),
         ),
-      );
-    },
-  );
+      ),
+    );
+  },
+);
 }
 
 void preloadVideos() async {
@@ -369,153 +394,222 @@ void preloadVideos() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-         backgroundColor: Color.fromARGB(255, 0, 0, 0), 
-        title: Row(
-          
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: 50,
-                width: 50,
-              ),
-            ),
-            Text(
-              'Vibe',
-              style: const TextStyle(
-                fontSize: 38,
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-              ),
-            ),
-          ],
+  appBar: AppBar(
+  backgroundColor: Color.fromARGB(255, 0, 0, 0),
+  title: Center(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: 8.0),
+          child: Image.asset(
+            'assets/images/logo.png',
+            height: 50,
+            width: 50,
+          ),
+        ),
+        Text(
+          'Vibe',
+          style: const TextStyle(
+            fontSize: 38,
+            fontFamily: 'MonaSansExtraBoldWideItalic',
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+    body: Row(
+        children: [
+        AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      width: _isModalVisible ? 250 : 0,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF000000), Color(0xFF333333)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
-      body: Row(
+      child: ListView(
         children: [
-          AnimatedContainer(
-            color: Color.fromARGB(255, 0, 0, 0),
-            duration: const Duration(milliseconds: 200),
-            width: _isModalVisible ? 250 : 0,
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.search),
-                  title: Text('What is this App?',
-              style: const TextStyle(
+          
+          ListTile(
+            leading: Icon(Icons.mood),
+            title: Text(
+              'What is this App?',
+              style: TextStyle(
                 fontSize: 17,
                 fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
               ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('What is this App?'),
-                          content: Text('This app is a social media platform.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.person),
-                    title: Text('What is this App?',
-              style: const TextStyle(
-                fontSize: 17,
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-              ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Accessing the Full Version'),
-                          content: Text('To access the full version, you need to upgrade your account.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.create_new_folder),
-                     title: Text('What is this App?',
-              style: const TextStyle(
-                fontSize: 17,
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-              ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Accessing the Full Version'),
-                          content: Text('To access the full version, you need to upgrade your account.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.exit_to_app),
-                     title: Text('Get Support',
-              style: const TextStyle(
-                fontSize: 17,
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-              ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Visit Support'),
-                          content: Text('Please visit our support page for assistance.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
             ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/logo.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'What is this App?',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                    content: Text('This app is a social media platform.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Close'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
-          Expanded(
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text(
+              'Why was Vibe made?',
+              style: TextStyle(
+                fontSize: 17,
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
+              ),
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Row(
+                      children: [
+                        Image.asset(
+                             'assets/images/logo.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Why was Vibe made?',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                    content: Text('To access the full version, you need to upgrade your account.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Close'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.create_new_folder),
+            title: Text(
+              'What is this App?',
+              style: TextStyle(
+                fontSize: 17,
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
+              ),
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Row(
+                      children: [
+                        Image.asset(
+                              'assets/images/logo.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'What is this App?',
+                          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ],
+                    ),
+                    content: Text('To access the full version, you need to upgrade your account.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Close'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text(
+              'Get Support',
+              style: TextStyle(
+                fontSize: 17,
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
+              ),
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Row(
+                      children: [
+                        Image.asset(
+                'assets/images/logo.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Get Support',
+                          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                      ],
+                    ),
+                    content: Text('Please visit our support page for assistance.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Close'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    ),
+        Expanded(
             child: VisibilityDetector(
               key: Key('videosVisibilityKey'),
               onVisibilityChanged: (visibilityInfo) {
@@ -619,6 +713,14 @@ void preloadVideos() async {
     ),
    child: ListView(
   children: [
+
+     SizedBox(height: 46.0),
+               Image.asset(
+                  'assets/images/logo.png',
+                  width: 100,
+                  height: 100,
+                ),
+                SizedBox(height: 16.0),
     ListTile(
       leading: Icon(
         Icons.favorite,
