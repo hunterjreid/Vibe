@@ -413,24 +413,24 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                     const SizedBox(width: 4),
                                     GestureDetector(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.link,
-                                            color: Colors.blue,
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            controller.user['website'] != null
-                                                ? controller.user['website']
-                                                : 'No website set',
-                                            style: TextStyle(
-                                              color: Colors.blue,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
+      Icon(
+        Icons.link,
+        color: Colors.blue,
+      ),
+    SizedBox(width: 4),
+    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
+      Text(
+        controller.user['website'] ?? '',
+        style: TextStyle(
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+  ],
+),
                                     ),
                                   ],
                                 ),

@@ -12,9 +12,9 @@ class RecordThisSoundScreen extends StatefulWidget {
 
 class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
   late CameraController _controller;
-  late List<CameraDescription> _cameras;
+  late Future<void> _initializeControllerFuture;
+  late List<CameraDescription> cameras;
   bool _isRecording = false;
-  bool _isCameraInitialized = false;
 
   @override
   void initState() {
@@ -23,15 +23,11 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
   }
 
   Future<void> _initializeCamera() async {
-    _cameras = await availableCameras();
-    _controller = CameraController(_cameras[0], ResolutionPreset.high);
-    await _controller.initialize();
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _isCameraInitialized = true;
-    });
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+    _controller = CameraController(cameras[0], ResolutionPreset.high);
+    _initializeControllerFuture = _controller.initialize();
+    setState(() {});
   }
 
   @override
@@ -40,39 +36,32 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
     super.dispose();
   }
 
-  Future<void> _stopRecording() async {
-    if (_controller.value.isRecordingVideo) {
-      try {
-        await _controller.stopVideoRecording();
-        setState(() {
-          _isRecording = false;
-        });
-      } catch (e) {
-        print('Error stopping recording: $e');
-      }
+  Future<void> _toggleRecording() async {
+
+    setState(() {
+      _isRecording = !_isRecording;
+    });
+  }
+
+  Widget _buildCameraPreview() {
+    if (!_controller.value.isInitialized) {
+      return Container();
     }
+    return AspectRatio(
+      aspectRatio: _controller.value.aspectRatio,
+      child: CameraPreview(_controller),
+    );
   }
 
   Widget _buildRecordButton() {
-    if (!_isCameraInitialized) {
-      // Show a spinner/loader while the camera is being initialized
-      return CircularProgressIndicator();
-    }
-
     return GestureDetector(
-      onTap: () {
-        if (_isRecording) {
-          _stopRecording();
-        } else {
-          _startRecording();
-        }
-      },
+      onTap: _toggleRecording,
       child: Container(
         width: 80,
         height: 80,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.red,
+          color: _isRecording ? Colors.red : Colors.green,
         ),
         child: Icon(
           _isRecording ? Icons.stop : Icons.fiber_manual_record,
@@ -83,31 +72,8 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
     );
   }
 
-  void _startRecording() async {
-    // Implement recording logic here
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (!_controller.value.isInitialized) {
-      // Show a spinner/loader while the camera is being initialized
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Use Sound',
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MonaSansExtraBoldWideItalic',
-            ),
-          ),
-        ),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -119,30 +85,32 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'You are using song: ${widget.title}',
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MonaSansExtraBoldWideItalic',
-            ),
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: CameraPreview(_controller),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildRecordButton(),
-            ],
-          ),
-        ],
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error initializing camera'));
+          } else {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'You are using song: ${widget.title}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                  ),
+                ),
+                Expanded(child: _buildCameraPreview()),
+                SizedBox(height: 20),
+                _buildRecordButton(),
+              ],
+            );
+          }
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:vibe/constants.dart';
@@ -126,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 ),
                 bottom: TabBar(
                   controller: _tabController, // Set the TabController
-                  labelColor: Theme.of(context).colorScheme.surface,
+    
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
                     Tab(icon: Icon(Icons.more)),
@@ -283,16 +284,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
+                                              const SizedBox(height: 6.0),
                                             if (widget.uid == authController.user.uid)
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const UserScreen()),
-                                );
-                              },
-                              child: Text('THIS IS YOUR PROFILE'),
-                            ),
+                                            Text('THIS IS YOUR OWN PROFILE', style:  const TextStyle( fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'MonaSans',),),
+                   
                                 const SizedBox(height: 6.0),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -433,23 +430,27 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.link,
-                                      color: Colors.blue,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      controller.user['website'] ?? '',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                          
+Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
+      Icon(
+        Icons.link,
+        color: Colors.blue,
+      ),
+    SizedBox(width: 4),
+    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
+      Text(
+        controller.user['website'] ?? '',
+        style: TextStyle(
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+  ],
+),
+
                                 if (widget.uid != authController.user.uid)
                                   Center(
                                     child: Column(
@@ -562,7 +563,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   // Second tab view
                   Center(
-                    child: Text(profileController.user['longBio'], style: TextStyle(
+                    child: Text('Long Bio: '+ profileController.user['longBio'], style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                   fontFamily: 'MonaSansExtraBoldWideItalic',

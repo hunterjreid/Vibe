@@ -55,11 +55,30 @@ class YourDMsScreen extends StatelessWidget {
                 builder: (controller) {
                   if (controller.dms.isEmpty) {
                     return Center(
-                      child: Text(
-                        "No DMs Found",
-                        style: TextStyle(fontFamily: 'MonaSans', fontWeight: FontWeight.w400),
-                      ),
-                    );
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        "No DMs Found",
+        style: TextStyle(
+          fontFamily: 'MonaSans',
+          fontWeight: FontWeight.w400,
+          fontSize: 24, // Adjust the font size as desired
+        ),
+      ),
+      SizedBox(height: 16), // Add spacing between the texts
+      Text(
+        "Get started by clicking the '+' icon up the top",
+        style: TextStyle(
+          fontFamily: 'MonaSans',
+          fontWeight: FontWeight.w400,
+          fontSize: 16, // Adjust the font size as desired
+        ),
+      ),
+    ],
+  ),
+);
+
                   } else {
                     return ListView.builder(
                       itemCount: controller.dms.length,

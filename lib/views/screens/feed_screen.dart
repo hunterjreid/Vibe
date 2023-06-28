@@ -203,6 +203,7 @@ class _FeedScreenState extends State<FeedScreen> {
     final VideoPlayerController videoPlayerController = videoControllers[pageIndex];
     final ChewieController chewieController = chewieControllers[pageIndex];
 
+                            bool isFileOpen = true;
                             return Stack(
                               children: [
                                 VisibilityDetector(
@@ -391,47 +392,51 @@ const SizedBox(height: 5),
                                                 ],
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: Text("Video saved"),
-                                                      content: Text("Your video has been saved to your gallery."),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () => Navigator.pop(context),
-                                                          child: Text("OK"),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
+                                    
 
-                                                videoController.saveVideo(videoController.videoList[index].id);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Icon(
-                                               
-  FontAwesomeIcons.folderOpen,
+InkWell(
+  onTap: () {
+    setState(() {
+      isFileOpen = !isFileOpen;
+    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Video saved"),
+          content: Text("Your video has been saved to your gallery."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
 
-                                                    size: 30,
-                                                    color: Colors.white,
-                                                  ),
-                                                  const SizedBox(height: 5),
-                                                  Text(
-                                                    videoController.videoList[index].savedCount.toString(),
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.white,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+    videoController.saveVideo(videoController.videoList[index].id);
+  },
+  child: Column(
+    children: [
+      Icon(
+        isFileOpen != false ? FontAwesomeIcons.folderOpen : FontAwesomeIcons.folderClosed,
+        size: 30,
+        color: Colors.white,
+      ),
+      const SizedBox(height: 5),
+      Text(
+        videoController.videoList[index].savedCount.toString(),
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+        ),
+      )
+    ],
+  ),
+),],
                                         ),
                                       ),
                                       VideoTextOverlay(
@@ -440,7 +445,7 @@ const SizedBox(height: 5),
                                           videoController.videoList[index].caption2,
                                           videoController.videoList[index].caption,
                                           videoController.videoList[index].caption3,
-                                          'Soundtrack: ' + videoController.videoList[index].songName,
+                                          ' Soundtrack: ' + videoController.videoList[index].songName + ' 🎵🔊',
                                         ],
                                         textStyles: [
                                           TextStyle(
