@@ -1,3 +1,11 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ 
+//  Vibe Find your Vibes
+//
+//  feed_screen.dart
+//
+
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -518,19 +526,19 @@ const SizedBox(height: 5),
             IconButton(
               icon: Image.asset('assets/images/share_socials/instagram.png'),
               onPressed: () {
-                // Perform action for Instagram icon
+
               },
             ),
             IconButton(
               icon: Image.asset('assets/images/share_socials/linkedin.png'),
               onPressed: () {
-                // Perform action for LinkedIn icon
+           
               },
             ),
             IconButton(
               icon: Image.asset('assets/images/share_socials/slack.png'),
               onPressed: () {
-                // Perform action for Slack icon
+             
               },
             ),
             // IconButton(

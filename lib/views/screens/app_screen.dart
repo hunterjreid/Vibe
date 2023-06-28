@@ -1,3 +1,9 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ 
+//  Vibe Find your Vibes
+//
+//  app_screen.dart
+//
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:vibe/constants.dart';
@@ -231,7 +237,7 @@ class _AppScreenState extends State<AppScreen> {
                 BottomNavigationBarItem(
                   icon: Icon(
                     Iconsax.colors_square,
-                    size: 38, // Adjust the icon size here
+                    size: 38, 
                   ),
                   label: 'Create',
                 ),
@@ -251,8 +257,8 @@ class ShowDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // Set the background color based on the theme
-        Color backgroundColor = Colors.white; // Default color is white
+        // Set the background color based on the theme// Default color is white
+        Color backgroundColor = Colors.white; 
         ThemeData theme = Theme.of(context);
         if (theme.brightness == Brightness.dark) {
           // If the theme is dark, set the background color to black
@@ -267,7 +273,7 @@ class ShowDialog {
               fontSize: 20,
               fontWeight: FontWeight.bold,
               fontFamily: 'MonaSansExtraBoldWideItalic',
-              color: Colors.white, // Set text color to white
+              color: Colors.white, 
             ),
           ),
           content: Column(
@@ -328,7 +334,7 @@ class ShowDialog {
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-                  // Handle educational class selection
+           
                   Navigator.pop(context);
                 },
                 style: ButtonStyle(

@@ -1,3 +1,11 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ 
+//  Vibe Find your Vibes
+//
+//  home_screen.dart
+//
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -196,8 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           } else {
-                            return Container();
-                            // Placeholder widget while loading palette
+                            return Text('Loading');
                           }
                         },
                       );
@@ -238,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: 50, // Adjust the height as needed
+                    height: 50, 
                     child: Text('Your banner text here'),
                   ),
                   InkWell(

@@ -643,7 +643,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
             child: Column(
               children: [
                 Text(
-                  'Analytics',
+                  'Profile views in last 24 hours',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -669,18 +669,38 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
 
   List<charts.Series<LinearSales, int>> _createSampleData() {
     final data = [
-      LinearSales(0, 5),
-      LinearSales(1, 25),
-      LinearSales(2, 100),
-      LinearSales(3, 75),
-      LinearSales(4, 80),
-      LinearSales(5, 45),
-      LinearSales(6, 55),
+      LinearSales(0, 0),
+      LinearSales(1, 0),
+      LinearSales(2, 0),
+      LinearSales(3, 0),
+      LinearSales(4, 0),
+      LinearSales(5, 0),
+      LinearSales(6, 0),
+      LinearSales(7, 0),
+      LinearSales(8, 0),
+      LinearSales(9, 0),
+      LinearSales(10, 0),
+      LinearSales(11, 0),
+      LinearSales(12, 3),
+      LinearSales(13, 4),
+      LinearSales(14, 5),
+      LinearSales(15, 0),
+      LinearSales(16, 0),
+      LinearSales(17, 0),
+      LinearSales(18, 0),
+      LinearSales(19, 0),
+      LinearSales(20, 0),
+      LinearSales(21, 0),
+      LinearSales(22, 0),
+      LinearSales(23, 0),
+      LinearSales(24, 0),
+
     ];
 
     return [
       charts.Series<LinearSales, int>(
         id: 'Sales',
+
         domainFn: (LinearSales sales, _) => sales.year,
         measureFn: (LinearSales sales, _) => sales.sales,
         data: data,

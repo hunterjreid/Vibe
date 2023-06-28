@@ -71,7 +71,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       appBar: AppBar(
         title: Text(
           'Confirm Video',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 19,   fontFamily: 'MonaSansExtraBoldWideItalic', fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -100,84 +100,89 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: TextInputField(
-              controller: _songController,
-              labelText: 'Song',
-              icon: Icons.music_note,
+      body: SingleChildScrollView(
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextInputField(
+                controller: _songController,
+                labelText: 'Song',
+                icon: Icons.music_note,
+              ),
             ),
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: controller.value.aspectRatio,
-              child: VideoPlayer(controller),
+            Container(
+              height: 400, 
+              child: AspectRatio(
+                aspectRatio: controller.value.aspectRatio,
+                child: VideoPlayer(controller),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextField(
-                  controller: _captionController,
-                  decoration: InputDecoration(
-                    labelText: 'Brief',
-                    prefixIcon: Icon(Icons.architecture_outlined),
-                  ),
-                ),
-                TextField(
-                  controller: _longCaptionController,
-                  decoration: InputDecoration(
-                    labelText: 'Explanation',
-                    prefixIcon: Icon(Icons.closed_caption),
-                  ),
-                ),
-                TextField(
-                  controller: _shortCaptionController,
-                  decoration: InputDecoration(
-                    labelText: 'Tag',
-                    prefixIcon: Icon(Icons.app_shortcut_outlined),
-                  ),
-                ),
-                Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF00D2FF), Color(0xFF3A7BD5)],
-                      stops: [0.0, 1.0],
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextField(
+                    controller: _captionController,
+                    decoration: InputDecoration(
+                      labelText: 'Brief',
+                      prefixIcon: Icon(Icons.architecture_outlined),
                     ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: ElevatedButton(
-                    onPressed: () => uploadVideoController.uploadVideo(
-                      _songController.text,
-                      _captionController.text,
-                      _longCaptionController.text,
-                      _shortCaptionController.text,
-                      widget.videoPath,
+                  TextField(
+                    controller: _longCaptionController,
+                    decoration: InputDecoration(
+                      labelText: 'Explanation',
+                      prefixIcon: Icon(Icons.closed_caption),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  ),
+                  TextField(
+                    controller: _shortCaptionController,
+                    decoration: InputDecoration(
+                      labelText: 'Tag',
+                      prefixIcon: Icon(Icons.app_shortcut_outlined),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Obx(() => LinearProgressIndicator(value: uploadVideoController.progress.value / 100)),
+                  SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF00D2FF), Color(0xFF3A7BD5)],
+                        stops: [0.0, 1.0],
                       ),
-                      primary: Colors.transparent,
-                      onPrimary: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      'Share!',
-                      style: TextStyle(fontSize: 20, fontFamily: 'Montserrat'),
+                    child: ElevatedButton(
+                      onPressed: () => uploadVideoController.uploadVideo(
+                        _songController.text,
+                        _captionController.text,
+                        _longCaptionController.text,
+                        _shortCaptionController.text,
+                        widget.videoPath,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        primary: Colors.transparent,
+                        onPrimary: Colors.white,
+                      ),
+                      child: Text(
+                        'Share!',
+                        style: TextStyle(fontSize: 20, fontFamily: 'Montserrat'),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

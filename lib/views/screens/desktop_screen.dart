@@ -1,3 +1,10 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ 
+//  Vibe Find your Vibes
+//
+//  desktop_screen.dart
+//
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,7 +64,6 @@ class _WebAppScreenState extends State<WebAppScreen> {
       }
     });
   }
-
 void openProfilePopup(BuildContext context, String uid) async {
   final firestore = FirebaseFirestore.instance;
 
@@ -94,8 +100,7 @@ void openProfilePopup(BuildContext context, String uid) async {
   final startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Colors.grey;
   final endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Colors.grey;
 
-
- showDialog(
+showDialog(
   context: context,
   builder: (BuildContext context) {
     return Dialog(
@@ -103,170 +108,255 @@ void openProfilePopup(BuildContext context, String uid) async {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        width: 300.0,
-        padding: EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  gradient: LinearGradient(
-                    colors: [
-                      startColor,
-                      endColor,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: CircleAvatar(
-                  radius: 60.0,
-                  backgroundImage: profilePhoto != null ? NetworkImage(profilePhoto) : null,
-                  child: profilePhoto == null
-                      ? Icon(
-                          Icons.account_circle,
-                          size: 80.0,
-                          color: Colors.grey,
-                        )
-                      : null,
-                ),
-              ),
-              SizedBox(height: 20.0),
-              Text(
-                name,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                '@$username',
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                bio,
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                website,
-                style: TextStyle(
-                  color: Colors.blue,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        width: 600.0, // Adjust the width as needed
+        height: 600.0,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 200.0,
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.thumb_up,
-                        size: 20.0,
-                      ),
-                      SizedBox(height: 4.0),
-                      Text(
-                        'Likes',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(likes.toString()),
-                    ],
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                      textStyle: TextStyle(fontSize: 16.0),
+                    ),
+                    child: Text('Take me to the app!', style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),),
                   ),
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.people,
-                        size: 20.0,
-                      ),
-                      SizedBox(height: 4.0),
-                      Text(
-                        'Followers',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(followers.toString()),
-                    ],
+                  SizedBox(height: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                      textStyle: TextStyle(fontSize: 16.0),
+                    ),
+                    child: Text('Learn more', style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),),
                   ),
-                  Column(
+                  SizedBox(height: 10.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                      textStyle: TextStyle(fontSize: 16.0),
+                    ),
+                    child: Text('Get vibe to like, comment and remix!', style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                                          ),),
+                  ),
+                  SizedBox(height: 20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Icon(
-                        Icons.group,
-                        size: 20.0,
-                      ),
-                      SizedBox(height: 4.0),
-                      Text(
-                        'Following',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(following.toString()),
+                      Icon(Icons.e_mobiledata_outlined),
+                      Icon(Icons.tag_faces),
+                      Icon(Icons.dangerous_rounded),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
-              Text(
-                'Popular Videos',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          gradient: LinearGradient(
+                            colors: [
+                              startColor,
+                              endColor,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 60.0,
+                          backgroundImage: profilePhoto != null ? NetworkImage(profilePhoto) : null,
+                          child: profilePhoto == null
+                              ? Icon(
+                                  Icons.account_circle,
+                                  size: 80.0,
+                                  color: Colors.grey,
+                                )
+                              : null,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        '@$username',
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        bio,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        website,
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.thumb_up,
+                                size: 20.0,
+                              ),
+                              SizedBox(height: 4.0),
+                              Text(
+                                'Likes',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(likes.toString()),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.people,
+                                size: 20.0,
+                              ),
+                              SizedBox(height: 4.0),
+                              Text(
+                                'Followers',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(followers.toString()),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.group,
+                                size: 20.0,
+                              ),
+                              SizedBox(height: 4.0),
+                              Text(
+                                'Following',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(following.toString()),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'Popular Videos',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10.0),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 4.0,
+                          mainAxisSpacing: 4.0,
+                        ),
+                        itemCount: thumbnails.length,
+                        itemBuilder: (context, index) {
+                          return Image.network(
+                            thumbnails[index],
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            headers: {'Access-Control-Allow-Origin': '*'},
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10.0),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 4.0,
-                ),
-                itemCount: thumbnails.length,
-
-                  itemBuilder: (context, index) {
-                    return Image.network(
-                      thumbnails[index],
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                      headers: {'Access-Control-Allow-Origin': '*'},
-                    );
-                  },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   },
 );
+
+
+
+
 }
 
 void preloadVideos() async {
@@ -629,50 +719,50 @@ void preloadVideos() async {
                           final Video video = videoController.videoList[index];
                           final data = videoController.videoList[index];
                     return Padding(
-  padding: const EdgeInsets.all(8.0),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75, // Set height to 75% of the available height
-        child: Chewie(
-          controller: chewieControllers[index],
-        ),
-      ),
-      Center(
-        child: ElevatedButton(
-          onPressed: () {
-            print(data.uid);
-            openProfilePopup(context, data.uid);
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.black,
-            minimumSize: Size(100, 0),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.account_circle,
-                color: Colors.white,
-              ),
-              SizedBox(width: 8),
-              Text(
-                data.username,
-                style: TextStyle(
-                  fontFamily: 'MonaSans',
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ],
-  ),
-);
-  },
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.75, 
+                            child: Chewie(
+                              controller: chewieControllers[index],
+                            ),
+                          ),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                print(data.uid);
+                                openProfilePopup(context, data.uid);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                              minimumSize: Size(100, 0),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.account_circle,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Posted by ' + data.username,
+                                  style: TextStyle(
+                                    fontFamily: 'MonaSans',
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                    },
                       ),
                     ),
             ),
@@ -736,7 +826,7 @@ void preloadVideos() async {
         ),
       ),
       onTap: () {
-        // Handle donate action
+        // Handle HERE! - Todo
       },
     ),
     ListTile(
