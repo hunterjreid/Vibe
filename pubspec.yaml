@@ -64,6 +64,7 @@ dependencies:
   iconsax: ^0.0.8
   flutter_profile_picture: ^2.0.0
   font_awesome_flutter: ^10.4.0
+  charts_flutter: ^0.12.0
 
 
 

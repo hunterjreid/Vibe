@@ -20,7 +20,7 @@ class MenuWidget extends StatelessWidget {
             colorFilter: ColorFilter.mode(
               colorScheme.background.withOpacity(0.6),
               BlendMode.darken,
-            ), // Add black overlay
+            ), 
           ),
         ),
         child: ListView(
@@ -37,6 +37,13 @@ class MenuWidget extends StatelessWidget {
                 ),
               ),
             ),
+                 Image.asset(
+                  'assets/images/logo.png',
+                  width: 100,
+                  height: 100,
+                ),
+                SizedBox(height: 16.0),
+               
             buildMenuItem(
               title: 'Options',
               gradientColors: [

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -6,12 +5,9 @@ import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
 import 'package:vibe/views/screens/misc/notification_screen.dart';
 import 'package:vibe/views/screens/misc/searchOld_screen.dart';
-
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:vibe/views/screens/video/show_single_video.dart';
-
-
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,19 +20,19 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _searchQueryController = TextEditingController();
   bool _isSearching = false;
   OverlayEntry? _overlayEntry;
+  bool _isBannerAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchQueryController.addListener(_onSearchQueryChanged);
+  }
 
   @override
   void dispose() {
     _searchQueryController.dispose();
     _overlayEntry?.remove();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _searchQueryController.addListener(_onSearchQueryChanged);
   }
 
   void _onSearchQueryChanged() {
@@ -56,8 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<PaletteGenerator> generatePalette(String imageUrl) async {
-    final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    final PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
     return paletteGenerator;
+  }
+
+  void _removeBannerAd() {
+    setState(() {
+      _isBannerAdLoaded = false;
+    });
   }
 
   @override
@@ -117,14 +120,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemCount: _videoController.videoList.length,
                     itemBuilder: (context, index) {
-                      final reversedIndex = _videoController.videoList.length - 1 - index;
+                      final reversedIndex =
+                          _videoController.videoList.length - 1 - index;
                       final video = _videoController.videoList[index];
 
                       return FutureBuilder<PaletteGenerator>(
                         future: generatePalette(video.thumbnail),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            final color = snapshot.data!.dominantColor!.color;
+                            final color =
+                                snapshot.data!.dominantColor!.color;
                             final averageColor = Color.fromRGBO(
                               color.red,
                               color.green,
@@ -135,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
-
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ShowSingleVideo(
@@ -153,14 +157,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: averageColor,
                                     ),
                                     child: Image.network(
-                                      _videoController.videoList[index].thumbnail,
+                                      _videoController.videoList[index]
+                                          .thumbnail,
                                       fit: BoxFit.contain,
                                     ),
                                   ),
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Container(
-                                      margin: EdgeInsets.symmetric(horizontal: 8),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 8),
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         color: Colors.black54,
@@ -225,6 +231,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
+          if (_isBannerAdLoaded)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 50, // Adjust the height as needed
+                    child: Text('Your banner text here'),
+                  ),
+                  InkWell(
+                    onTap: _removeBannerAd,
+                    child: Container(
+                      color: Colors.grey.withOpacity(0.3),
+                      padding: EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.close),
+                          Text('Close Ad'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );

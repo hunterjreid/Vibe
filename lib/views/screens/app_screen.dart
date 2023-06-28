@@ -335,7 +335,7 @@ class ShowDialog {
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 42, 186, 230)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Educational Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSans')),
+                child: Text('Educational Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -350,7 +350,7 @@ class ShowDialog {
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Mixed', style: TextStyle(fontSize: 16, fontFamily: 'MonaSans')),
+                child: Text('Mixed', style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -361,7 +361,7 @@ class ShowDialog {
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Entertainment Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSans')),
+                child: Text('Entertainment Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
               ),
             ],
           ),

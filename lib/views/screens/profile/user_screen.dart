@@ -20,6 +20,8 @@ import 'dart:math';
 import 'dart:math';
 import 'dart:ui';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class UserScreen extends StatefulWidget {
   const UserScreen({
@@ -140,6 +142,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     }
 
     DateTime currentTime = DateTime.now();
+    String timeAgo = DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
 
     // Placeholder list of titles
     List<String> titles = [
@@ -186,7 +189,14 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                     insets: EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                 ),
+                 leading: IconButton(
+    onPressed: () {
+      _openAnalyticsDialog();
+    },
+    icon: Icon(FontAwesomeIcons.chartLine),
+  ),
                 actions: [
+                
                   IconButton(
                     onPressed: () {
                       _navigateToUserSettingsScreen();
@@ -604,7 +614,8 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text('Last updated: $currentTime',  style:  TextStyle(  fontFamily: 'MonaSans'),),
+                        child: Text('Last updated: $timeAgo', style: TextStyle(fontFamily: 'MonaSans'))
+,
                       ),
                     ],
                   )
@@ -619,6 +630,72 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
     return paletteGenerator;
   }
+
+ void _openAnalyticsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          content: Container(
+            width: double.maxFinite,
+            height: 300, // Adjust the height as needed
+            child: Column(
+              children: [
+                Text(
+                  'Analytics',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: 'MonaSans',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Expanded(
+                  child: charts.LineChart(
+                    _createSampleData(), // Replace with your own data
+                    animate: true,
+   
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  List<charts.Series<LinearSales, int>> _createSampleData() {
+    final data = [
+      LinearSales(0, 5),
+      LinearSales(1, 25),
+      LinearSales(2, 100),
+      LinearSales(3, 75),
+      LinearSales(4, 80),
+      LinearSales(5, 45),
+      LinearSales(6, 55),
+    ];
+
+    return [
+      charts.Series<LinearSales, int>(
+        id: 'Sales',
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        data: data,
+      ),
+    ];
+  }
+}
+
+
+class LinearSales {
+  final int year;
+  final int sales;
+
+  LinearSales(this.year, this.sales);
+}
 
   void _showFollowingPopup(BuildContext context, List<String> followingList) {
     showDialog(
@@ -691,4 +768,4 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       },
     );
   }
-}
+

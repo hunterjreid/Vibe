@@ -265,31 +265,38 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 ],
                                               ),
                                             ),
-                                            const SizedBox(height: 5),
-                                            InkWell(
-                                              onTap: () {
-                                                final video = videoController.videoList[index];
-                                                final videoId = video.id;
+                                  const SizedBox(height: 5),
+InkWell(
+  onTap: () {
+    final video = videoController.videoList[index];
+    final videoId = video.id;
 
-                                                videoController.likeVideo(videoId);
+    videoController.likeVideo(videoId);
 
-                                                setState(() {
-                                              
-                                                  video.likes.contains(authController.user.uid)
-                                                      ? video.likes.remove(authController.user.uid)
-                                                      : video.likes.add(authController.user.uid);
-                                                });
-                                              },
-                                              child:                   Tab(
-  icon: Icon(FontAwesomeIcons.heartCrack,
+    setState(() {
+      if (video.likes.contains(authController.user.uid)) {
+        video.likes.remove(authController.user.uid);
+      } else {
+        video.likes.add(authController.user.uid);
+      }
+    });
+  },
+  child: Tab(
+    icon: video.likes.contains(authController.user.uid)
+        ? Icon(
+            FontAwesomeIcons.solidHeart,
+            size: 45,
+            color: Colors.red,
+          )
+        : Icon(
+            FontAwesomeIcons.heartCrack,
+            size: 45,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+  ),
+),
+const SizedBox(height: 5),
 
-                                                size: 45,
-                                                color: video.likes.contains(authController.user.uid)
-                                                    ? Color.fromARGB(255, 146, 17, 140)
-                                                    : Color.fromARGB(255, 255, 255, 255),
-                                              ),
-                                            )),
-                                            const SizedBox(height: 5),
                                             Text(
                                               videoController.videoList[index].likes.length.toString(),
                                               style: const TextStyle(

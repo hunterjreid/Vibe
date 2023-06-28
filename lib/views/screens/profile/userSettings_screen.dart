@@ -94,6 +94,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
       controller.endColor.value,
     );
   }
+
   void logout() {
     showDialog(
       context: context,
@@ -126,22 +127,22 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-  leading: IconButton(
-    icon: Icon(Icons.arrow_back),
-    onPressed: () => Navigator.of(context).pop(),
-  ),
-  title: Text('Edit'),
-  actions: [
-    IconButton(
-      icon: Icon(Icons.logout),
-      onPressed: logout,
-    ),
-  ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text('Edit'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: logout,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               width: double.infinity,
@@ -155,8 +156,8 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        controller.startColor.value,
-                        controller.endColor.value,
+                        widget.startColor,
+                        widget.endColor,
                       ],
                       stops: [0.0, 1.0],
                       center: Alignment.center,
@@ -173,7 +174,10 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 ),
               ),
             ),
-            ElevatedButton(
+            Container(
+  width: 100,
+       child:     ElevatedButton(
+           
               onPressed: controller.pickImage,
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 153, 153, 153),
@@ -186,27 +190,31 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               ),
               child: Text('Change'),
             ),
-        Expanded(
-  child: Row(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-      ElevatedButton(
-        onPressed: () => showColorPicker(true),
-        style: ElevatedButton.styleFrom(
-          primary: widget.startColor,
-        ),
-        child: Text('Start Color'),
-      ),
-      ElevatedButton(
-        onPressed: () => showColorPicker(false),
-        style: ElevatedButton.styleFrom(
-          primary: widget.endColor,
-        ),
-        child: Text('End Color'),
-      ),
-    ],
-  ),
-),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => showColorPicker(true),
+                    style: ElevatedButton.styleFrom(
+                      primary: widget.startColor,
+                    ),
+                    child: Text('Start Color'),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => showColorPicker(false),
+                    style: ElevatedButton.styleFrom(
+                      primary: widget.endColor,
+                    ),
+                    child: Text('End Color'),
+                  ),
+                ),
+              ],
+            ),
             TextField(
               controller: usernameController,
               decoration: InputDecoration(
@@ -234,16 +242,16 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 controller.websiteController.text = value;
               },
             ),
-                Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Text(
-        'Email is not publicly visible',
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.grey,
-        ),
-      ),
-    ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                'Email is not publicly visible',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
@@ -253,49 +261,35 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 controller.emailController.text = value;
               },
             ),
-
-               InkWell(
-                                          onTap: () {
-                                           saveChanges();
-                                          },
-           child:     Container(
-                                            width: 170,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors:  [Colors.red, Colors.pink]
-                                                    
-                                              ),
-                                              border: Border.all(),
-                                              borderRadius: BorderRadius.circular(20),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                               "Save Changes",
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-
-               ),
-                                
-  //  ElevatedButton(
-  //             onPressed: () => controller.authController.signOut(),
-  //             child: Text(
-  //               'LOG OUT ',
-  //               style: TextStyle(
-  //                 fontSize: 15,
-  //                 fontWeight: FontWeight.bold,
-  //                 fontFamily: 'MonaSansExtraBoldWideItalic',
-  //               ),
-  //             ),
-  //           ),
-           ],
+            SizedBox(height: 16),
+            InkWell(
+              onTap: () {
+                saveChanges();
+              },
+              child: Container(
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.red, Colors.pink],
+                  ),
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    'Save Changes',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
