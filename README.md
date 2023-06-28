@@ -1,4 +1,7 @@
+<p align="center">
+
 <img width=150 alt='Vibe Logo' src='https://user-images.githubusercontent.com/62681404/233503168-ce39d966-297b-4343-9a1e-f2bc3d6fdddf.png'/>
+</p>
 
 # Vibe 🎵🎼
 Find your Vibes
