@@ -473,13 +473,8 @@ const SizedBox(height: 5),
                           },
                         ),
                       ),
-                 GestureDetector(
-  onTap: () {
-    setState(() {
-      _isModalVisible = !_isModalVisible;
-    });
-  },
-  child: Visibility(
+               
+  Visibility(
     
     visible: _isModalVisible,
     child: BackdropFilter(
@@ -490,68 +485,79 @@ const SizedBox(height: 5),
       child: Container(
         color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
         child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _isModalVisible = false;
-              });
-            },
-            child: Text('Share the Vibes!'),
           ),
-        ),
       ),
     ),
   ),
-),
+
      if (_isModalVisible)
-                        Container(
-                          color: Theme.of(context).colorScheme.primary,
-                          child: SizedBox(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.close),
-                                      onPressed: () {
-                                        setState(() {
-                                          _isModalVisible = false;
-                                        });
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.facebook),
-                                      onPressed: () {
-                                        // Perform action for Facebook icon
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.read_more),
-                                      onPressed: () {
-                                        // Perform action for Twitter icon
-                                      },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.e_mobiledata),
-                                      onPressed: () {
-                                        // Perform action for Instagram icon
-                                      },
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        _showShareOptions(context, '2');
-                                      },
-                                      child: const Text('MORE'),
-                                    ),
-                                    // Add more social icons as needed
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                    ],
+                     Container(
+  color: Theme.of(context).colorScheme.primary,
+  child: SizedBox(
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isModalVisible = false;
+                });
+              },
+              child: const Text('HIDE'),
+            ),
+            IconButton(
+              icon: Image.asset('assets/images/share_socials/facebook.png'),
+              onPressed: () {
+                setState(() {
+                  _isModalVisible = false;
+                });
+              },
+            ),
+            IconButton(
+              icon: Image.asset('assets/images/share_socials/instagram.png'),
+              onPressed: () {
+                // Perform action for Instagram icon
+              },
+            ),
+            IconButton(
+              icon: Image.asset('assets/images/share_socials/linkedin.png'),
+              onPressed: () {
+                // Perform action for LinkedIn icon
+              },
+            ),
+            IconButton(
+              icon: Image.asset('assets/images/share_socials/slack.png'),
+              onPressed: () {
+                // Perform action for Slack icon
+              },
+            ),
+            // IconButton(
+            //   icon: Image.asset('assets/images/share_socials/tik-tok.png'),
+            //   onPressed: () {
+            //     // Perform action for TikTok icon
+            //   },
+            // ),
+            IconButton(
+              icon: Image.asset('assets/images/share_socials/youtube.png'),
+              onPressed: () {
+                // Perform action for YouTube icon
+              },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _showShareOptions(context, '2');
+              },
+              child: const Text('MORE'),
+            ),
+            // Add more social icons as needed
+          ],
+        ),
+      ],
+    ),
+  ),
+),    ],
                   ),
                 ),
               ));

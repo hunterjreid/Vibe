@@ -34,6 +34,7 @@ class SearchOldScreen extends StatelessWidget {
           return searchController.searchedUsers.isEmpty
               ? Column(
                   children: [
+                     const SizedBox(height: 20), 
                     const Center(
                       child: Text(
                         'Search for users!',

@@ -1,83 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:vibe/constants.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool ignoreMode = false;
+  bool soundEnabled = true;
+  bool darkMode = false;
+  bool notificationsEnabled = true;
+  bool autoPlayEnabled = true;
+  bool saveHistory = true;
+
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
-    print(isDarkTheme);
-
-    if (isDarkTheme == null) {
-      // this is a Fallback theme in case of null value
-      themeData = ThemeData.light();
-    }
-
-    BottomNavigationBarThemeData bottomNavigationBarTheme = ThemeData().bottomNavigationBarTheme;
-    return MaterialApp(
-      theme: themeData,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text('Settings'),
-        ),
-        body: ListView(
-          padding: EdgeInsets.all(16.0),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Options', style: TextStyle(
+                      fontFamily: 'monaSans', // Apply monaSans font
+                      fontSize: 28,
+                      color: Colors.white,
+                    ),),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SwitchListTile(
-              title: Text('Incognito Mode'),
-              value: false,
+              title: Text('Ignore Mode'),
+              value: ignoreMode,
               onChanged: (value) {
-                // TODO: Implement logic to toggle incognito mode
+                setState(() {
+                  ignoreMode = value;
+                });
               },
             ),
-            ListTile(
-              title: Text('Notification Settings'),
-              onTap: () {
-                showPopupDialog(context, 'Notification Settings', 'This feature is coming soon!');
+            SwitchListTile(
+              title: Text('Sound'),
+              value: soundEnabled,
+              onChanged: (value) {
+                setState(() {
+                  soundEnabled = value;
+                });
               },
             ),
-            ListTile(
-              title: Text('Privacy Policy'),
-              onTap: () {
-                showPopupDialog(context, 'Privacy Policy',
-                    'At Vibe, we prioritize your privacy and want you to feel secure while using our services. We want to assure you that we do not store any of your personal information.\n\nWe believe that your data should be yours alone, and we respect your right to control and protect it. ');
+            SwitchListTile(
+              title: Text('Dark Mode'),
+              value: darkMode,
+              onChanged: (value) {
+                setState(() {
+                  darkMode = value;
+                });
               },
             ),
-            ListTile(
-              title: Text('Version'),
-              onTap: () {
-                showPopupDialog(context, 'Version', 'App Version 1.0.0');
+            SwitchListTile(
+              title: Text('Notifications'),
+              value: notificationsEnabled,
+              onChanged: (value) {
+                setState(() {
+                  notificationsEnabled = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text('Auto Play'),
+              value: autoPlayEnabled,
+              onChanged: (value) {
+                setState(() {
+                  autoPlayEnabled = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text('Save History'),
+              value: saveHistory,
+              onChanged: (value) {
+                setState(() {
+                  saveHistory = value;
+                });
               },
             ),
           ],
         ),
       ),
-    );
-  }
-
-  void showPopupDialog(BuildContext context, String title, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

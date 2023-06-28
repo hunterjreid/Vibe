@@ -26,17 +26,18 @@ class MenuWidget extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(),
-              child: Text(
-                'VIBE',
-                style: TextStyle(
-                  fontSize: 30,
-                  color: colorScheme.onBackground,
-                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                ),
-              ),
-            ),
+            // DrawerHeader(
+            //   decoration: BoxDecoration(),
+            //   child: Text(
+            //     'VIBE',
+            //     style: TextStyle(
+            //       fontSize: 30,
+            //       color: colorScheme.onBackground,
+            //       fontFamily: 'MonaSansExtraBoldWideItalic',
+            //     ),
+            //   ),
+            // ),
+              SizedBox(height: 56.0),
                  Image.asset(
                   'assets/images/logo.png',
                   width: 100,

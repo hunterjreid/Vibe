@@ -136,6 +136,12 @@ flutter:
     - assets/images/trends/trend(10).jpg
     - assets/images/trending.png
     - assets/images/background_image.jpg
+    - assets/images/share_socials/facebook.png
+        - assets/images/share_socials/instagram.png
+            - assets/images/share_socials/linkedin.png
+                - assets/images/share_socials/slack.png
+                    - assets/images/share_socials/tik-tok.png
+                        - assets/images/share_socials/youtube.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

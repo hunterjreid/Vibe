@@ -23,6 +23,7 @@ class SearchUserScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
+          style: TextStyle(fontFamily: 'monaSans'), // Apply monaSans font
           decoration: const InputDecoration(
             filled: false,
             hintText: 'Search',
@@ -39,10 +40,12 @@ class SearchUserScreen extends StatelessWidget {
         if (searchController.searchedUsers.isEmpty) {
           return Column(
             children: [
-              const Center(
+              const SizedBox(height: 20), 
+              Center(
                 child: Text(
                   'Search for a person to DM',
                   style: TextStyle(
+                    fontFamily: 'monaSans', 
                     fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -81,7 +84,8 @@ class SearchUserScreen extends StatelessWidget {
                   ),
                   title: Text(
                     user.name,
-                    style: const TextStyle(
+                    style: TextStyle(
+                      fontFamily: 'monaSans', // Apply monaSans font
                       fontSize: 18,
                       color: Colors.white,
                     ),
