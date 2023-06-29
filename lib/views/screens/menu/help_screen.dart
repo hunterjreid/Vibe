@@ -50,7 +50,7 @@ class _HelpScreenState extends State<HelpScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16.0), // Adding spacing below the text
+            const SizedBox(height: 16.0), 
 
             // FAQs
             _buildFAQItem(1, '🎵 What can users upload to Vibe?',

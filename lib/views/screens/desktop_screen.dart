@@ -5,6 +5,8 @@
 //  desktop_screen.dart
 //
 
+//dependencies import
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 
+//desktop_screen.dart
+//This screen is for web app
 class WebAppScreen extends StatefulWidget {
   @override
   _WebAppScreenState createState() => _WebAppScreenState();
@@ -90,19 +94,20 @@ class _WebAppScreenState extends State<WebAppScreen> {
     print(thumbnails);
 
     // Retrieve start and end colors
-    final startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Colors.grey;
-    final endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Colors.grey;
+    final startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Color.fromARGB(255, 0, 81, 255);
+    final endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Color.fromARGB(255, 221, 15, 228);
 
     // ignore: use_build_context_synchronously
 showDialog(
   context: context,
   builder: (BuildContext context) {
     return Dialog(
+      backgroundColor: Color.fromARGB(255, 0, 0, 0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        width: 600.0, // Adjust the width as needed
+        width: 600.0,
         height: 600.0,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,6 +118,7 @@ showDialog(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(height: 120.0),
                   ElevatedButton(
                     onPressed: () {
                       // Handle button press
@@ -120,13 +126,13 @@ showDialog(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                       textStyle: TextStyle(fontSize: 16.0),
-                      backgroundColor: Colors.black, // Set the background color to black
+                      backgroundColor: Color.fromARGB(0, 128, 128, 128),
                     ),
                     child: Text(
                       'Take me to the app!',
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 255, 0, 212),
                         fontFamily: 'MonaSansExtraBoldWideItalic',
                       ),
                     ),
@@ -139,13 +145,13 @@ showDialog(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                       textStyle: TextStyle(fontSize: 16.0),
-                      backgroundColor: Colors.black, // Set the background color to black
+                      backgroundColor: Color.fromARGB(0, 167, 138, 138),
                     ),
                     child: Text(
                       'Learn more',
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 0, 247, 255),
                         fontFamily: 'MonaSansExtraBoldWideItalic',
                       ),
                     ),
@@ -158,13 +164,13 @@ showDialog(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                       textStyle: TextStyle(fontSize: 16.0),
-                      backgroundColor: Colors.black, // Set the background color to black
+                      backgroundColor: Colors.black,
                     ),
                     child: Text(
                       'Get vibe to like, comment and remix!',
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.white,
+                        color: Color.fromARGB(255, 24, 115, 201),
                         fontFamily: 'MonaSansExtraBoldWideItalic',
                       ),
                     ),
@@ -182,9 +188,7 @@ showDialog(
               ),
             ),
             Expanded(
-         
-
-     child: SingleChildScrollView(
+              child: SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
@@ -199,34 +203,53 @@ showDialog(
                           },
                         ),
                       ),
-                      Container(
-                        width: double.infinity,
-                        child: CircleAvatar(
-                          radius: 60.0,
-                          backgroundImage: profilePhoto != null ? NetworkImage(profilePhoto) : null,
-                          child: profilePhoto == null
-                              ? Icon(
-                                  Icons.account_circle,
-                                  size: 80.0,
-                                  color: Colors.grey,
-                                )
-                              : null,
-                        ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 500,
+                            height: 140,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              gradient: LinearGradient(
+                                colors: [
+                                  startColor,
+                                  endColor,
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                          ),
+                          ClipOval(
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: profilePhoto,
+                              height: 90,
+                              width: 90,
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 20.0),
                       Text(
                         name,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: 32.0,
+                   fontFamily: 'MonaSansExtraBoldWideItalic',
                         ),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 8.0),
                       Text(
-                        '@$username',
+                        '$username',
                         style: TextStyle(
                           color: Colors.grey,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -235,6 +258,7 @@ showDialog(
                         bio,
                         style: TextStyle(
                           fontSize: 16.0,
+                          fontFamily: 'MonaSans',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -243,6 +267,7 @@ showDialog(
                         website,
                         style: TextStyle(
                           color: Colors.blue,
+                          fontFamily: 'MonaSans',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -254,48 +279,72 @@ showDialog(
                             children: [
                               Icon(
                                 Icons.thumb_up,
-                                size: 20.0,
+                                size: 24.0,
                               ),
                               SizedBox(height: 4.0),
                               Text(
                                 'Likes',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                  fontFamily: 'MonaSansExtraBoldWideItalic',
                                 ),
                               ),
-                              Text(likes.toString()),
+                              Text(
+                                likes.toString(),
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontFamily: 'MonaSans',
+                                ),
+                              ),
                             ],
                           ),
                           Column(
                             children: [
                               Icon(
                                 Icons.people,
-                                size: 20.0,
+                                size: 24.0,
                               ),
                               SizedBox(height: 4.0),
                               Text(
                                 'Followers',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                  fontFamily: 'MonaSans',
                                 ),
                               ),
-                              Text(followers.toString()),
+                              Text(
+                                followers.toString(),
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontFamily: 'MonaSans',
+                                ),
+                              ),
                             ],
                           ),
                           Column(
                             children: [
                               Icon(
                                 Icons.group,
-                                size: 20.0,
+                                size: 24.0,
                               ),
                               SizedBox(height: 4.0),
                               Text(
                                 'Following',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
                                 ),
                               ),
-                              Text(following.toString()),
+                              Text(
+                                following.toString(),
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontFamily: 'MonaSans',
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -306,6 +355,7 @@ showDialog(
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -325,69 +375,9 @@ showDialog(
                             width: 80,
                             height: 80,
                             fit: BoxFit.cover,
-                      
-                           
                           );
                         },
                       ),
-                      SizedBox(height: 20.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Handle button press
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                          textStyle: TextStyle(fontSize: 16.0),
-                          backgroundColor: Colors.black, // Set the background color to black
-                        ),
-                        child: Text(
-                          'Take me to the app!',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Handle button press
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                          textStyle: TextStyle(fontSize: 16.0),
-                          backgroundColor: Colors.black, // Set the background color to black
-                        ),
-                        child: Text(
-                          'Learn more',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Handle button press
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                          textStyle: TextStyle(fontSize: 16.0),
-                          backgroundColor: Colors.black, // Set the background color to black
-                        ),
-                        child: Text(
-                          'Get vibe to like, comment and remix!',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -400,7 +390,7 @@ showDialog(
                   ),
                 ),
               ),
-          ),
+            ),
           ],
         ),
       ),
@@ -408,11 +398,10 @@ showDialog(
   },
 );
 
-  
   }
 
   void preloadVideos() async {
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 9; i++) {
       final Video video = videoController.videoList[i];
       final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
 
@@ -429,24 +418,6 @@ showDialog(
           autoPlay: true,
           looping: true,
           showControls: false,
-          materialProgressColors: ChewieProgressColors(
-            backgroundColor: Color.fromARGB(255, 40, 5, 165),
-            bufferedColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          additionalOptions: (context) {
-            return <OptionItem>[
-              OptionItem(
-                onTap: () => debugPrint('My option works!'),
-                iconData: Icons.report,
-                title: 'Report Video',
-              ),
-              OptionItem(
-                onTap: () => debugPrint('Another option working!'),
-                iconData: Icons.copy,
-                title: 'Copy Link to Video',
-              ),
-            ];
-          },
           allowedScreenSleep: false,
           overlay: 
           Stack(
@@ -471,7 +442,7 @@ showDialog(
             color: Colors.white,
             size: 16,
           ),
-          SizedBox(width: 4),
+          SizedBox(width: 4),     SizedBox(width: 4.0),     SizedBox(width: 4.0),
           Text(
             video.views.toString(),
             style: TextStyle(
@@ -481,7 +452,7 @@ showDialog(
           ),
     
           
-              SizedBox(width: 4.0),
+              SizedBox(width: 4.0),     SizedBox(width: 4.0),     SizedBox(width: 4.0),
               Text(
                 'Likes: ${video.likes.length}',
                 style: TextStyle(
@@ -489,7 +460,7 @@ showDialog(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,   fontFamily: 'MonaSansExtraBoldWideItalic',
                 ),
-              ),
+              ),     SizedBox(width: 4.0),     SizedBox(width: 4.0),
               Text(
                 'Comments: ${video.commentCount}',
                 style: TextStyle(
@@ -638,12 +609,18 @@ showDialog(
                 ),
               ],
             ),
-            content: Text(
-              'This app is a social media platform.',
+            content: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+               child: Text(
+              'This app is a social media platform. It allows users to upload their favorite music and quick videos to express themselves and show off their creativity. \n\n Vibe aims to foster a tight-knit community where users can interact, collaborate on cool projects, and connect with others who share similar interests and hobbies. The platform stands out with its awesome features, such as music and video uploads, creative endeavors, and the ability to meet like-minded people who are all about good vibes. Vibe takes security seriously and employs the latest technology and cybersecurity measures to ensure a safe and reliable experience for its users. Users can connect with others on Vibe, meet new people, and collaborate on exciting projects. The platform also offers opportunities for users to monetize their content through sponsored collaborations, advertising partnerships, and merchandise sales. \n\nDiscovering new content on Vibe is easy with personalized recommendations, trending sections, and user-curated playlists. Vibe is accessible on smartphones, tablets, and computers, making it convenient to engage with the platform anytime, anywhere. If you have any more questions or need help, don\'t hesitate to reach out to the Vibe team. They are here to assist you and ensure you have the best experience on the platform.',
+            
+            
               style: TextStyle(
                 fontFamily: 'MonaSansExtraBoldWideItalic',
                 color: Colors.white,
               ),
+                ),
+              
             ),
             actions: [
               TextButton(
@@ -672,10 +649,13 @@ showDialog(
     onTap: () {
       showDialog(
         context: context,
+   
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.black,
+     
             title: Row(
+              
               children: [
                 Image.asset(
                   'assets/images/logo.png',
@@ -692,11 +672,14 @@ showDialog(
                 ),
               ],
             ),
-            content: Text(
-              'To access the full version, you need to upgrade your account.',
-              style: TextStyle(
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-                color: Colors.white,
+             content: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Text(
+                'Vibe was made to provide users with a platform to express themselves creatively and connect with like-minded individuals. It aims to foster a vibrant and inclusive community where users can share their passions, collaborate on projects, and spread good vibes. The platform offers various features and opportunities for users to explore their creativity, monetize their content, and discover new and exciting experiences. By creating Vibe, the developers wanted to empower individuals to unleash their creativity, connect with others, and have a platform that celebrates their unique talents and passions.',
+                style: TextStyle(
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                  color: Colors.white,
+                ),
               ),
             ),
             actions: [

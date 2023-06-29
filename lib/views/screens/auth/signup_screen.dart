@@ -1,3 +1,4 @@
+//dependencies import
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/auth_controller.dart';
@@ -5,6 +6,7 @@ import 'package:vibe/views/screens/auth/login_screen.dart';
 import 'package:vibe/views/widgets/text_input_field.dart';
 import 'package:get/get.dart';
 
+//Start sign up
 class SignupScreen extends StatelessWidget {
   SignupScreen({Key? key}) : super(key: key);
 

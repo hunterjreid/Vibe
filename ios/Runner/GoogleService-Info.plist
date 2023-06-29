@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>782902269864-nod047ogmlrel5vrohsdbi45m44ivn6t.apps.googleusercontent.com</string>
+	<string>569358034431-e6ep331o3u74rd9rhjmq6ptqo3hjr3uv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.782902269864-nod047ogmlrel5vrohsdbi45m44ivn6t</string>
+	<string>com.googleusercontent.apps.569358034431-e6ep331o3u74rd9rhjmq6ptqo3hjr3uv</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBBspdmiZmMJljDxckkSfHnbZ06I__I0Ig</string>
+	<string>AIzaSyCoWcYDUpxkrwg18CwczWlnKaLco5xIEkU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>782902269864</string>
+	<string>569358034431</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.vibe</string>
 	<key>PROJECT_ID</key>
-	<string>vibe-d9b2d</string>
+	<string>vibe-3926d</string>
 	<key>STORAGE_BUCKET</key>
-	<string>vibe-d9b2d.appspot.com</string>
+	<string>vibe-3926d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:782902269864:ios:99f783ceb1b2df56f5ef9d</string>
+	<string>1:569358034431:ios:9a4eaa1a34ee9d0c6ab3ca</string>
 </dict>
 </plist>
