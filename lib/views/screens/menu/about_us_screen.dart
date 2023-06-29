@@ -5,13 +5,58 @@ class AboutUsScreen extends StatelessWidget {
     // Implement your rate app functionality here
     // For example, you can launch an external URL to a rating page
   }
-
   void _requestDataDeletion(BuildContext context) {
-    // Implement your request deletion functionality here
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Request Deletion'),
+          content: Text('This action will delete everything associated with your account in Firebase.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Implement the deletion request here
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Confirm'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _socialMediaOptOut(BuildContext context) {
-    // Implement your social media opt-out functionality here
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Social Media Opt Out'),
+          content: Text('This action will lock you out of your account for 24 hours if you have been on social media for too long.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Implement the opt-out functionality here
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Confirm'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

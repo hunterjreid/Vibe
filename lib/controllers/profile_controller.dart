@@ -28,11 +28,11 @@ class ProfileController extends GetxController {
 
     DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(_uid.value).get();
     final userData = userDoc.data()! as dynamic;
-    String name = userData['name'];
+    String name = userData['name'] ?? '';
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
-    String username = userData['username'];
+    String username = userData['username'] ?? '';
     String longBio = userData['longBio'] ?? ' This user hasn\'t set up there long bio yet';
     int likes = 0;
     int followers = 0;
@@ -108,7 +108,7 @@ class ProfileController extends GetxController {
     final userData = userDoc.data()! as dynamic;
     String name = userData['name'];
     String profilePhoto = userData['profilePhoto'];
-    String username = userData['username'];
+    String username = userData['username'] ?? '';
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
     String longBio = userData['longBio'] ?? '';

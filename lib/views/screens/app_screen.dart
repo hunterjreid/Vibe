@@ -20,13 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
-import 'package:vibe/views/screens/feed_screen.dart';
 import 'package:vibe/views/widgets/side_menu_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:vibe/views/screens/auth/login_screen.dart';
+
 
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
@@ -38,11 +35,11 @@ class AppScreen extends StatefulWidget {
 class _AppScreenState extends State<AppScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIdx = 0;
-  int feedNotificationCount = 0;
-
+  int feedNotificationCount = 2;
+  int homeNotificationCount = 1;
   final ProfileController profileController = Get.put(ProfileController());
 
-  int homeNotificationCount = 99;
+  
 
   String selectedColorOption = 'Jet Black';
 
