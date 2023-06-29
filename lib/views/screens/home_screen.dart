@@ -198,7 +198,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           } else {
-                            return Text('Loading');
+                            return Center(
+        child: Text('Loading.....',
+                          style: const TextStyle(
+                            fontSize: 12,
+                          color: Color.fromARGB(255, 143, 143, 143),
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+      );
                           }
                         },
                       );
