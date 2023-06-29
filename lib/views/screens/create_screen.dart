@@ -264,12 +264,12 @@ class TrendsScreen extends StatelessWidget {
   final List<VideoData> videos = [
     VideoData(
       imagePath: 'assets/images/trends/trend(1).jpg',
-      title: 'Trend Name #vibes 1',
+      title: 'Buy the lake trend',
       description: 'This is what to do it and what makes it trendy! 1',
     ),
     VideoData(
       imagePath: 'assets/images/trends/trend(2).jpg',
-      title: 'Trend Name #vibes 2',
+      title: 'In mition',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
     VideoData(
@@ -279,7 +279,7 @@ class TrendsScreen extends StatelessWidget {
     ),
     VideoData(
       imagePath: 'assets/images/trends/trend(4).jpg',
-      title: 'Trend Name #vibes 4',
+      title: 'Explore',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
     VideoData(
@@ -341,7 +341,7 @@ class TrendsScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final video = videos[index];
                   return Container(
-                    margin: EdgeInsets.only(bottom: 16),
+                    margin: EdgeInsets.only(bottom: 36),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(8),
@@ -350,7 +350,7 @@ class TrendsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AspectRatio(
-                          aspectRatio: 16 / 9,
+                          aspectRatio: 12 / 9,
                           child: Image.asset(
                             video.imagePath,
                             fit: BoxFit.cover,

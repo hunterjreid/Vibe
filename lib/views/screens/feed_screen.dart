@@ -76,7 +76,7 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _refreshing = false;
   int _currentPageIndex = 0;
 int _currentVideoIndex = 0;
-int _videosPerPage = 3;
+int _videosPerPage = 8;
 
 @override
 void initState() {
@@ -114,6 +114,7 @@ void waitForValidVideoRange() {
 
 void preloadVideos() async {
   for (int i = _currentVideoIndex; i < _currentVideoIndex + _videosPerPage; i++) {
+    print(videoController.videoList.length);
     if (i >= videoController.videoList.length) {
       _currentVideoIndex = 0;
       i = 0;

@@ -60,7 +60,7 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
         height: 80,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _isRecording ? Colors.red : Colors.green,
+          color: _isRecording ? Colors.blueAccent : Colors.red,
         ),
         child: Icon(
           _isRecording ? Icons.stop : Icons.fiber_manual_record,
