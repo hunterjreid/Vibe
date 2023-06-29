@@ -54,6 +54,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
     });
   }
 
+
   void openProfilePopup(BuildContext context, String uid) async {
     final firestore = FirebaseFirestore.instance;
 
@@ -181,7 +182,9 @@ showDialog(
               ),
             ),
             Expanded(
-              child: SingleChildScrollView(
+         
+
+     child: SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
@@ -198,17 +201,6 @@ showDialog(
                       ),
                       Container(
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          gradient: LinearGradient(
-                            colors: [
-                              startColor,
-                              endColor,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
                         child: CircleAvatar(
                           radius: 60.0,
                           backgroundImage: profilePhoto != null ? NetworkImage(profilePhoto) : null,
@@ -310,7 +302,7 @@ showDialog(
                       ),
                       SizedBox(height: 20.0),
                       Text(
-                        'Popular Videos',
+                        'Videos',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -329,30 +321,86 @@ showDialog(
                         itemCount: thumbnails.length,
                         itemBuilder: (context, index) {
                           return Image.network(
-  thumbnails[index],
-  width: 80,
-  height: 80,
-  fit: BoxFit.cover,
-  headers: {'Access-Control-Allow-Origin': '*'},
-  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-    if (loadingProgress == null) return child;
-    return Center(
-      child: CircularProgressIndicator(
-        value: loadingProgress.expectedTotalBytes != null
-            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-            : null,
-      ),
-    );
-  },
-
-);
+                            thumbnails[index],
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                      
+                           
+                          );
                         },
+                      ),
+                      SizedBox(height: 20.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                          textStyle: TextStyle(fontSize: 16.0),
+                          backgroundColor: Colors.black, // Set the background color to black
+                        ),
+                        child: Text(
+                          'Take me to the app!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                          textStyle: TextStyle(fontSize: 16.0),
+                          backgroundColor: Colors.black, // Set the background color to black
+                        ),
+                        child: Text(
+                          'Learn more',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                          textStyle: TextStyle(fontSize: 16.0),
+                          backgroundColor: Colors.black, // Set the background color to black
+                        ),
+                        child: Text(
+                          'Get vibe to like, comment and remix!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(Icons.e_mobiledata_outlined),
+                          Icon(Icons.tag_faces),
+                          Icon(Icons.dangerous_rounded),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
+          ),
           ],
         ),
       ),
@@ -400,63 +448,92 @@ showDialog(
             ];
           },
           allowedScreenSleep: false,
-          overlay: Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.black54,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Views: ${video.views}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      'Likes: ${video.likes.length}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      'Comments: ${video.commentCount}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      '✨🤍 Caption: ${video.caption}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                    // Text(
-                    //   'Posted by: ${video.username}',
-                    //   style: TextStyle(
-                    //     fontSize: 16,
-                    //     color: Colors.white,
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
+          overlay: 
+          Stack(
+  children: [
+   Positioned(
+
+  left: 0,
+  right: 0,
+  bottom: 40,
+  child: Center(
+    child: Container(
+      padding: EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.visibility,
+            color: Colors.white,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Text(
+            video.views.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
             ),
           ),
-        ),
+    
+          
+              SizedBox(width: 4.0),
+              Text(
+                'Likes: ${video.likes.length}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,   fontFamily: 'MonaSansExtraBoldWideItalic',
+                ),
+              ),
+              Text(
+                'Comments: ${video.commentCount}',
+                style: TextStyle(
+                  fontSize: 16,   fontFamily: 'MonaSans',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(width: 4.0),
+              Text(
+                '✨🤍 Caption: ${video.caption}',
+                style: TextStyle(
+                  fontSize: 16,   fontFamily: 'MonaSansExtraBoldWideItalic',
+                  color: Colors.white,
+                ),
+              ),
+              // Text(
+              //   'Posted by: ${video.username}',
+              //   style: TextStyle(
+              //     fontSize: 16,
+              //     color: Colors.white,
+              //   ),
+              // ),
+         
+      
+        ],
+      ),
+    ),
+  ),
+),
+  Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          color: Colors.black54,
+      ),
+      ),
+    ),
+  ],
+),
+   ),
       );
     }
     setState(() {
@@ -526,200 +603,225 @@ showDialog(
               ),
             ),
             child: ListView(
+        children: [
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(Icons.mood),
+    title: Text(
+      'What is this App?',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Colors.white,
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
               children: [
-              ListTile(
-  tileColor: Colors.black, // Set the background color to black
-  leading: Icon(Icons.mood),
-  title: Text(
-    'What is this App?',
-    style: TextStyle(
-      fontSize: 17,
-      fontFamily: 'MonaSansExtraBoldWideItalic',
-      color: Colors.white,
-    ),
-  ),
-  onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black, // Set the background color of the dialog to black
-          title: Row(
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 24,
-                height: 24,
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'What is this App?',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            content: Text(
+              'This app is a social media platform.',
+              style: TextStyle(
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
               ),
-              SizedBox(width: 8),
-              Text(
-                'What is this App?',
-                style: TextStyle(   fontFamily: 'MonaSansExtraBoldWideItalic',color: Colors.white),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
               ),
             ],
-          ),
-          content: Text(
-            'This app is a social media platform.',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Close', style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  },
-),
-ListTile(
-  tileColor: Colors.black,
-leading: Icon(    FontAwesomeIcons.question),
-  title: Text(
-    'Why was Vibe made?',
-    style: TextStyle(
-      fontSize: 17,
-      fontFamily: 'MonaSansExtraBoldWideItalic',
-      color: Colors.white,
-    ),
+          );
+        },
+      );
+    },
   ),
-  onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 24,
-                height: 24,
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(FontAwesomeIcons.question),
+    title: Text(
+      'Why was Vibe made?',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Colors.white,
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Why was Vibe made?',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            content: Text(
+              'To access the full version, you need to upgrade your account.',
+              style: TextStyle(
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
               ),
-              SizedBox(width: 8),
-              Text(
-                'Why was Vibe made?',
-                style: TextStyle(color: Colors.white),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
               ),
             ],
-          ),
-          content: Text(
-            'To access the full version, you need to upgrade your account.',
-            style: TextStyle(   fontFamily: 'MonaSansExtraBoldWideItalic',color: Colors.white),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Close', style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  },
-),
-ListTile(
-  tileColor: Colors.black,
-  leading: Icon(    FontAwesomeIcons.info,),
-  title: Text(
-    'How do I Vibe?',
-    style: TextStyle(
-      fontSize: 17,
-      fontFamily: 'MonaSansExtraBoldWideItalic',
-      color: Colors.white,
-    ),
+          );
+        },
+      );
+    },
   ),
-  onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 24,
-                height: 24,
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(FontAwesomeIcons.info),
+    title: Text(
+      'How do I Vibe?',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Colors.white,
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'How do I Vibe?',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            content: Text(
+              'To access the full version, you need to upgrade your account.',
+              style: TextStyle(
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
               ),
-              SizedBox(width: 8),
-              Text(
-                'What is this App?',
-                style: TextStyle(color: Colors.white),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
               ),
             ],
-          ),
-          content: Text(
-            'To access the full version, you need to upgrade your account.',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Close', style: TextStyle(   fontFamily: 'MonaSansExtraBoldWideItalic',color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  },
-),
-ListTile(
-  tileColor: Colors.black,
-leading: Icon(    FontAwesomeIcons.personWalking),
-  title: Text(
-    'Get Support',
-    style: TextStyle(
-      fontSize: 17,
-      fontFamily: 'MonaSansExtraBoldWideItalic',
-      color: Colors.white,
-    ),
+          );
+        },
+      );
+    },
   ),
-  onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 24,
-                height: 24,
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(FontAwesomeIcons.personWalking),
+    title: Text(
+      'Get Support',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Colors.white,
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Get Support',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            content: Text(
+              'Please visit our support page for assistance.',
+              style: TextStyle(
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
               ),
-              SizedBox(width: 8),
-              Text(
-                'Get Support',
-                style: TextStyle(color: Colors.white),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
               ),
             ],
-          ),
-          content: Text(
-            'Please visit our support page for assistance.',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Close', style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  },
-),
- ],
+          );
+        },
+      );
+    },
+  ),
+],
+
             ),
           ),
           Expanded(

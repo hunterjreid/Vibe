@@ -21,6 +21,8 @@ import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vibe/controllers/auth_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:iconsax/iconsax.dart';
 
@@ -72,28 +74,33 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _isLoading = true;
   bool _isModalVisible = false;
   bool _refreshing = false;
+  int _currentPageIndex = 0;
+int _currentVideoIndex = 0;
+int _videosPerPage = 3;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+@override
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    waitForValidVideoRange();
+  });
+}
+
+
+bool hasValidVideoRange() {
+  return videoController.videoList.isNotEmpty;
+}
+
+void waitForValidVideoRange() {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (hasValidVideoRange()) {
+      preloadVideos();
+    } else {
       waitForValidVideoRange();
-    });
-  }
+    }
+  });
+}
 
-  bool hasValidVideoRange() {
-    return videoController.videoList.isNotEmpty;
-  }
-
-  void waitForValidVideoRange() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (hasValidVideoRange()) {
-        preloadVideos();
-      } else {
-        waitForValidVideoRange();
-      }
-    });
-  }
 
   void navigateToUseThisSoundScreen(String title) {
     Navigator.push(
@@ -105,49 +112,34 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  void preloadVideos() async {
-    for (int i = 0; i < 5; i++) {
-      final Video video = videoController.videoList[i];
-      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
-
-      await videoPlayerController.initialize();
-
-      videoController.addView(videoController.videoList[i].id);
-      setState(() {
-        _isLoading = false;
-      });
-      videoControllers.add(videoPlayerController);
-
-      chewieControllers.add(
-        ChewieController(
-          videoPlayerController: videoPlayerController,
-          showControlsOnInitialize: false,
-          autoPlay: true,
-          materialProgressColors: ChewieProgressColors(
-            backgroundColor: Color.fromARGB(255, 40, 5, 165),
-            bufferedColor: Color.fromARGB(255, 255, 255, 255),
-          ),
-          additionalOptions: (context) {
-            return <OptionItem>[
-              OptionItem(
-                onTap: () => debugPrint('My option works!'),
-                iconData: Icons.report,
-                title: 'Report Video',
-              ),
-              OptionItem(
-                onTap: () => debugPrint('Another option working!'),
-                iconData: Icons.copy,
-                title: 'Copy Link to Video',
-              ),
-            ];
-          },
-          looping: true,
-          allowedScreenSleep: false,
-          overlay: null,
-        ),
-      );
+void preloadVideos() async {
+  for (int i = _currentVideoIndex; i < _currentVideoIndex + _videosPerPage; i++) {
+    if (i >= videoController.videoList.length) {
+      _currentVideoIndex = 0;
+      i = 0;
     }
+
+    final Video video = videoController.videoList[i];
+    final VideoPlayerController videoPlayerController =
+        VideoPlayerController.network(video.videoUrl);
+
+    await videoPlayerController.initialize();
+
+    videoController.addView(videoController.videoList[i].id);
+    setState(() {
+      _isLoading = false;
+    });
+    videoControllers.add(videoPlayerController);
+
+    chewieControllers.add(
+      ChewieController(
+        videoPlayerController: videoPlayerController,
+        autoPlay: true,
+        looping: true,
+      ),
+    );
   }
+}
 
   ScrollController _scrollController = ScrollController();
 
@@ -283,6 +275,15 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   }
                                                 });
                                               },
+
+
+
+
+
+
+
+
+                                              
                                               child: Tab(
                                                 icon: video.likes.contains(authController.user.uid)
                                                     ? Icon(
