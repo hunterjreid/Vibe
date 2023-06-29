@@ -1,13 +1,11 @@
+// ██╗   ██╗██╗██████╗ ███████╗
+// ██║   ██║██║██╔══██╗██╔════╝
+// ██║   ██║██║██████╔╝█████╗
+// ╚██╗ ██╔╝██║██╔══██╗██╔══╝
+//  ╚████╔╝ ██║██████╔╝███████╗
+//   ╚═══╝  ╚═╝╚═════╝ ╚══════╝
 
-// ██╗   ██╗██╗██████╗ ███████╗   
-// ██║   ██║██║██╔══██╗██╔════╝   
-// ██║   ██║██║██████╔╝█████╗    
-// ╚██╗ ██╔╝██║██╔══██╗██╔══╝    
-//  ╚████╔╝ ██║██████╔╝███████╗  
-//   ╚═══╝  ╚═╝╚═════╝ ╚══════╝                         
-                                                                                                                                            
 //https://github.com/hunterjreid/vibe
-
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +19,7 @@ import 'package:vibe/views/screens/home_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/views/screens/profile/user_screen.dart';
 
+//injection -> app_screen.dart
 List pages = [
   FeedScreen(),
   HomeScreen(),
@@ -34,7 +33,7 @@ const Color backgroundColor = Colors.black;
 const Color buttonColor = Color.fromARGB(255, 44, 113, 179);
 const Color borderColor = Color.fromARGB(255, 214, 40, 147);
 
-// THEMES
+// COLOR THEMES
 ThemeData get lightTheme => ThemeData(
       brightness: Brightness.light,
       colorScheme: const ColorScheme.light(

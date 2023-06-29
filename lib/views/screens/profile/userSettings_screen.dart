@@ -175,21 +175,20 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               ),
             ),
             Container(
-  width: 100,
-       child:     ElevatedButton(
-           
-              onPressed: controller.pickImage,
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 153, 153, 153),
-                onPrimary: Color.fromARGB(255, 26, 26, 26),
-                textStyle: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'MonaSansExtraBoldWideItalic',
+              width: 100,
+              child: ElevatedButton(
+                onPressed: controller.pickImage,
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 153, 153, 153),
+                  onPrimary: Color.fromARGB(255, 26, 26, 26),
+                  textStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                  ),
                 ),
+                child: Text('Change'),
               ),
-              child: Text('Change'),
-            ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

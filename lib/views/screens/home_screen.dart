@@ -1,10 +1,9 @@
 // ------------------------------
-//  Hunter Reid 2023 ⓒ 
+//  Hunter Reid 2023 ⓒ
 //  Vibe Find your Vibes
 //
 //  home_screen.dart
 //
-
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<PaletteGenerator> generatePalette(String imageUrl) async {
-    final PaletteGenerator paletteGenerator =
-        await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
     return paletteGenerator;
   }
 
@@ -128,16 +126,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemCount: _videoController.videoList.length,
                     itemBuilder: (context, index) {
-                      final reversedIndex =
-                          _videoController.videoList.length - 1 - index;
+                      final reversedIndex = _videoController.videoList.length - 1 - index;
                       final video = _videoController.videoList[index];
 
                       return FutureBuilder<PaletteGenerator>(
                         future: generatePalette(video.thumbnail),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            final color =
-                                snapshot.data!.dominantColor!.color;
+                            final color = snapshot.data!.dominantColor!.color;
                             final averageColor = Color.fromRGBO(
                               color.red,
                               color.green,
@@ -165,16 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: averageColor,
                                     ),
                                     child: Image.network(
-                                      _videoController.videoList[index]
-                                          .thumbnail,
+                                      _videoController.videoList[index].thumbnail,
                                       fit: BoxFit.contain,
                                     ),
                                   ),
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 8),
+                                      margin: EdgeInsets.symmetric(horizontal: 8),
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
                                         color: Colors.black54,
@@ -245,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: 50, 
+                    height: 50,
                     child: Text('Your banner text here'),
                   ),
                   InkWell(

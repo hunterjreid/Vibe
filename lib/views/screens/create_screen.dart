@@ -1,26 +1,17 @@
 // ------------------------------
-//  Hunter Reid 2023 ⓒ 
+//  Hunter Reid 2023 ⓒ
 //  Vibe Find your Vibes
 //
 //  create_screen.dart
 //
 
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vibe/constants.dart';
-import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/views/screens/misc/browse_songs_screen.dart';
 import 'package:vibe/views/screens/video/confirm_screen.dart';
-import 'package:vibe/views/screens/profile/profile_screen.dart';
-
-import 'package:vibe/views/screens/profile/your_dms_screen.dart';
-import 'package:video_player/video_player.dart';
 
 class CreateScreen extends StatelessWidget {
   final ProfileController profileController = Get.put(ProfileController());
@@ -52,112 +43,113 @@ class CreateScreen extends StatelessWidget {
       );
     }
   }
-showOptionsDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) => SimpleDialog(
-      backgroundColor: Colors.black,
-      children: [
-        SimpleDialogOption(
-          onPressed: () => pickVideoFromGallery(context),
-          child: Row(
-            children: const [
-              Icon(Icons.video_library, color: Colors.white),
-              Padding(
-                padding: EdgeInsets.all(7.0),
-                child: Text(
-                  'Select Video',
-                  style: TextStyle(fontSize: 20, fontFamily: 'MonaSans', color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SimpleDialogOption(
-          onPressed: () => pickVideoFromCamera(context),
-          child: Row(
-            children: const [
-              Icon(Icons.videocam, color: Colors.white),
-              Padding(
-                padding: EdgeInsets.all(7.0),
-                child: Text(
-                  'Record Video',
-                  style: TextStyle(fontSize: 20, fontFamily: 'MonaSans', color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SimpleDialogOption(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Row(
-            children: const [
-              Icon(Icons.cancel, color: Colors.white),
-              Padding(
-                padding: EdgeInsets.all(7.0),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 20, fontFamily: 'MonaSans', color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
 
-showChangeBioDialog(BuildContext context) {
-  String bio = profileController.user['longBio'];
+  showOptionsDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        backgroundColor: Colors.black,
+        children: [
+          SimpleDialogOption(
+            onPressed: () => pickVideoFromGallery(context),
+            child: Row(
+              children: const [
+                Icon(Icons.video_library, color: Colors.white),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    'Select Video',
+                    style: TextStyle(fontSize: 20, fontFamily: 'MonaSans', color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SimpleDialogOption(
+            onPressed: () => pickVideoFromCamera(context),
+            child: Row(
+              children: const [
+                Icon(Icons.videocam, color: Colors.white),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    'Record Video',
+                    style: TextStyle(fontSize: 20, fontFamily: 'MonaSans', color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SimpleDialogOption(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Row(
+              children: const [
+                Icon(Icons.cancel, color: Colors.white),
+                Padding(
+                  padding: EdgeInsets.all(7.0),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(fontSize: 20, fontFamily: 'MonaSans', color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: Colors.black,
-      title: Text(
-        'Change Long Bio',
-        style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
-      ),
-      content: TextFormField(
-        initialValue: bio,
-        onChanged: (value) {
-          bio = value;
-        },
-        decoration: InputDecoration(
-          labelText: 'Enter your new long bio',
-          labelStyle: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
+  showChangeBioDialog(BuildContext context) {
+    String bio = profileController.user['longBio'];
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.black,
+        title: Text(
+          'Change Long Bio',
+          style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
         ),
-        style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(
-            'Cancel',
-            style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
-          ),
-        ),
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
-          onPressed: () {
-            profileController.updateProfileBio(bio);
-            Navigator.of(context).pop();
+        content: TextFormField(
+          initialValue: bio,
+          onChanged: (value) {
+            bio = value;
           },
-          child: Text(
-            'Save',
-            style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
+          decoration: InputDecoration(
+            labelText: 'Enter your new long bio',
+            labelStyle: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
           ),
+          style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
         ),
-      ],
-    ),
-  );
-}
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              profileController.updateProfileBio(bio);
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Save',
+              style: TextStyle(fontFamily: 'MonaSans', color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildButton(BuildContext context, String title, String imagePath, VoidCallback onTap) {
     return Column(

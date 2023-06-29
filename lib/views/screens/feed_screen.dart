@@ -1,30 +1,25 @@
 // ------------------------------
-//  Hunter Reid 2023 ⓒ 
+//  Hunter Reid 2023 ⓒ
 //  Vibe Find your Vibes
 //
 //  feed_screen.dart
 //
-
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
-import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/video/comment_screen.dart';
 import 'package:vibe/views/screens/misc/friendSearch_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/views/screens/misc/use_this_sound_screen.dart';
-import 'package:vibe/views/screens/profile/user_screen.dart';
+import 'package:vibe/views/widgets/folder_icon.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:video_player/video_player.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vibe/controllers/auth_controller.dart';
 
 import 'package:iconsax/iconsax.dart';
@@ -32,10 +27,11 @@ import 'package:iconsax/iconsax.dart';
 class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
+
   void refreshVideos() {
+    
 
   }
-
   final VideoController videoController = Get.put(VideoController());
 }
 
@@ -69,14 +65,13 @@ buildProfile(String profilePhoto) {
 
 class _FeedScreenState extends State<FeedScreen> {
   final VideoController videoController = Get.put(VideoController());
-  
+
   AuthController authController = Get.put(AuthController());
   List<VideoPlayerController> videoControllers = [];
   List<ChewieController> chewieControllers = [];
   bool _isLoading = true;
   bool _isModalVisible = false;
-  bool _refreshing = false; 
-  
+  bool _refreshing = false;
 
   @override
   void initState() {
@@ -158,7 +153,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void _scrollListener() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-
       preloadVideos();
     }
   }
@@ -180,28 +174,28 @@ class _FeedScreenState extends State<FeedScreen> {
         body: _isLoading
             ? Center(
                 child: Container(
-                  width: 100, 
-                  height: 100, 
+                  width: 100,
+                  height: 100,
                   child: CupertinoActivityIndicator(),
                 ),
               )
             : RefreshIndicator(
-                onRefresh: _refreshVideos, 
+                onRefresh: _refreshVideos,
                 child: Container(
                   color: Theme.of(context).colorScheme.surface,
                   child: Column(
                     children: [
                       Expanded(
                         child: PageView.builder(
-  itemCount: videoController.videoList.length * 2,
-  controller: PageController(initialPage: 0, viewportFraction: 1),
-  scrollDirection: Axis.vertical,
-  itemBuilder: (context, index) {
-    final int pageIndex = index % videoController.videoList.length;
-    final Video video = videoController.videoList[pageIndex];
-    final data = videoController.videoList[pageIndex];
-    final VideoPlayerController videoPlayerController = videoControllers[pageIndex];
-    final ChewieController chewieController = chewieControllers[pageIndex];
+                          itemCount: videoController.videoList.length * 2,
+                          controller: PageController(initialPage: 0, viewportFraction: 1),
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            final int pageIndex = index % videoController.videoList.length;
+                            final Video video = videoController.videoList[pageIndex];
+                            final data = videoController.videoList[pageIndex];
+                            final VideoPlayerController videoPlayerController = videoControllers[pageIndex];
+                            final ChewieController chewieController = chewieControllers[pageIndex];
 
                             bool isFileOpen = true;
                             return Stack(
@@ -253,7 +247,6 @@ class _FeedScreenState extends State<FeedScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                              
                                       Container(
                                         margin: EdgeInsets.only(top: 40),
                                         child: Column(
@@ -274,38 +267,37 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 ],
                                               ),
                                             ),
-                                  const SizedBox(height: 5),
-InkWell(
-  onTap: () {
-    final video = videoController.videoList[index];
-    final videoId = video.id;
+                                            const SizedBox(height: 5),
+                                            InkWell(
+                                              onTap: () {
+                                                final video = videoController.videoList[index];
+                                                final videoId = video.id;
 
-    videoController.likeVideo(videoId);
+                                                videoController.likeVideo(videoId);
 
-    setState(() {
-      if (video.likes.contains(authController.user.uid)) {
-        video.likes.remove(authController.user.uid);
-      } else {
-        video.likes.add(authController.user.uid);
-      }
-    });
-  },
-  child: Tab(
-    icon: video.likes.contains(authController.user.uid)
-        ? Icon(
-            FontAwesomeIcons.solidHeart,
-            size: 45,
-            color: Colors.red,
-          )
-        : Icon(
-            FontAwesomeIcons.heartCrack,
-            size: 45,
-            color: Color.fromARGB(255, 255, 255, 255),
-          ),
-  ),
-),
-const SizedBox(height: 5),
-
+                                                setState(() {
+                                                  if (video.likes.contains(authController.user.uid)) {
+                                                    video.likes.remove(authController.user.uid);
+                                                  } else {
+                                                    video.likes.add(authController.user.uid);
+                                                  }
+                                                });
+                                              },
+                                              child: Tab(
+                                                icon: video.likes.contains(authController.user.uid)
+                                                    ? Icon(
+                                                        FontAwesomeIcons.solidHeart,
+                                                        size: 45,
+                                                        color: Colors.red,
+                                                      )
+                                                    : Icon(
+                                                        FontAwesomeIcons.heartCrack,
+                                                        size: 45,
+                                                        color: Color.fromARGB(255, 255, 255, 255),
+                                                      ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
                                             Text(
                                               videoController.videoList[index].likes.length.toString(),
                                               style: const TextStyle(
@@ -392,9 +384,7 @@ const SizedBox(height: 5),
                                                 ],
                                               ),
                                             ),
-                                    
-
-InkWell(
+                                          InkWell(
   onTap: () {
     setState(() {
       isFileOpen = !isFileOpen;
@@ -419,24 +409,8 @@ InkWell(
 
     videoController.saveVideo(videoController.videoList[index].id);
   },
-  child: Column(
-    children: [
-      Icon(
-        isFileOpen != false ? FontAwesomeIcons.folderOpen : FontAwesomeIcons.folderClosed,
-        size: 30,
-        color: Colors.white,
-      ),
-      const SizedBox(height: 5),
-      Text(
-        videoController.videoList[index].savedCount.toString(),
-        style: const TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-        ),
-      )
-    ],
-  ),
-),],
+  child: FolderIcon(isFolderOpen: false, savedCount: videoController.videoList[index].savedCount,),
+),      ],
                                         ),
                                       ),
                                       VideoTextOverlay(
@@ -449,7 +423,7 @@ InkWell(
                                         ],
                                         textStyles: [
                                           TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             color: Colors.white,
                                             fontFamily: 'MonaSansExtraBoldWideItalic',
                                           ),
@@ -460,19 +434,19 @@ InkWell(
                                             fontFamily: 'MonaSans',
                                           ),
                                           TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 13,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'MonaSans',
                                           ),
                                           TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 13,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'MonaSans',
                                           ),
                                           TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 11,
                                             color: Colors.white,
                                             fontFamily: 'MonaSansExtraBoldWide',
                                           ),
@@ -486,98 +460,100 @@ InkWell(
                           },
                         ),
                       ),
-               
-  Visibility(
-    
-    visible: _isModalVisible,
-    child: BackdropFilter(
-      filter: ImageFilter.blur(
-        sigmaX: _isModalVisible ? 5 : 0,
-        sigmaY: _isModalVisible ? 5 : 0,
-      ),
-      child: Container(
-        color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
-        child: Center(
-          ),
-      ),
-    ),
-  ),
-
-     if (_isModalVisible)
-                     Container(
-  color: Theme.of(context).colorScheme.primary,
-  child: SizedBox(
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _isModalVisible = false;
-                });
-              },
-              child: const Text('HIDE'),
-            ),
-            IconButton(
-              icon: Image.asset('assets/images/share_socials/facebook.png'),
-              onPressed: () {
-                setState(() {
-                  _isModalVisible = false;
-                });
-              },
-            ),
-            IconButton(
-              icon: Image.asset('assets/images/share_socials/instagram.png'),
-              onPressed: () {
-
-              },
-            ),
-            IconButton(
-              icon: Image.asset('assets/images/share_socials/linkedin.png'),
-              onPressed: () {
-           
-              },
-            ),
-            IconButton(
-              icon: Image.asset('assets/images/share_socials/slack.png'),
-              onPressed: () {
-             
-              },
-            ),
-            // IconButton(
-            //   icon: Image.asset('assets/images/share_socials/tik-tok.png'),
-            //   onPressed: () {
-            //     // Perform action for TikTok icon
-            //   },
-            // ),
-            IconButton(
-              icon: Image.asset('assets/images/share_socials/youtube.png'),
-              onPressed: () {
-                // Perform action for YouTube icon
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _showShareOptions(context, '2');
-              },
-              child: const Text('MORE'),
-            ),
-            // Add more social icons as needed
-          ],
-        ),
-      ],
-    ),
-  ),
-),    ],
+                      Visibility(
+                        visible: _isModalVisible,
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: _isModalVisible ? 5 : 0,
+                            sigmaY: _isModalVisible ? 5 : 0,
+                          ),
+                          child: Container(
+                            color: Color.fromARGB(54, 0, 0, 0).withOpacity(0.5),
+                            child: Center(),
+                          ),
+                        ),
+                      ),
+                      if (_isModalVisible)
+                        Container(
+                          color: Theme.of(context).colorScheme.primary,
+                          child: SizedBox(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _isModalVisible = false;
+                                        });
+                                      },
+                                      child: const Text('HIDE'),
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset('assets/images/share_socials/facebook.png'),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isModalVisible = false;
+                                        });
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset('assets/images/share_socials/instagram.png'),
+                                      onPressed: () {
+                                          setState(() {
+                                          _isModalVisible = false;
+                                        });
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset('assets/images/share_socials/linkedin.png'),
+                                      onPressed: () {
+                                          setState(() {
+                                          _isModalVisible = false;
+                                        });
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset('assets/images/share_socials/slack.png'),
+                                      onPressed: () {
+                                          setState(() {
+                                          _isModalVisible = false;
+                                        });
+                                      },
+                                    ),
+                                    // IconButton(
+                                    //   icon: Image.asset('assets/images/share_socials/tik-tok.png'),
+                                    //   onPressed: () {
+                                    //     // Perform action for TikTok icon
+                                    //   },
+                                    // ),
+                                    IconButton(
+                                      icon: Image.asset('assets/images/share_socials/youtube.png'),
+                                      onPressed: () {
+                                        // Perform action for YouTube icon
+                                      },
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        _showShareOptions(context, '2');
+                                      },
+                                      child: const Text('MORE'),
+                                    ),
+                                    // Add more social icons as needed
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               ));
   }
 
   void _loadVideos() async {
-
     setState(() {
       _isLoading = false;
     });
@@ -688,28 +664,39 @@ void _showShareOptions(BuildContext context, String videoId) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Share Options'),
+        backgroundColor: Colors.black, // Set black background color
+        title: Text(
+          'Share Options',
+          style: TextStyle(color: Colors.white), // Set text color to white
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.people),
-              title: Text('Share other'),
+              leading: Icon(Icons.people, color: Colors.white), // Set icon color to white
+              title: Text(
+                'Share other',
+                style: TextStyle(       fontFamily: 'MonaSansExtraBoldWide',color: Colors.white), // Set text color to white
+              ),
               onTap: () {
                 // Share.share('Check out this video on vibe!', subject: 'Look what I made!');
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Share to DM'),
+              leading: Icon(Icons.message, color: Colors.white), // Set icon color to white
+              title: Text(
+                'Share to DM',
+                style: TextStyle(       fontFamily: 'MonaSansExtraBoldWide',color: Colors.white), // Set text color to white
+              ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => FriendSearchPage(
-                            videoId: videoId,
-                          )),
+                    builder: (context) => FriendSearchPage(
+                      videoId: videoId,
+                    ),
+                  ),
                 );
               },
             ),

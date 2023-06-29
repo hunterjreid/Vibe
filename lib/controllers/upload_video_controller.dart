@@ -110,6 +110,7 @@ class UploadVideoController extends GetxController {
         musicUseCount: 0,
         savedCount: 0,
         views: 0,
+        isFolderOpen: false,
         commentBy: [],
         videoUrl: videoUrl,
         profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],

@@ -34,8 +34,6 @@ class UserScreen extends StatefulWidget {
 
 ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
 
-
-
 class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin {
   final ProfileController profileController = Get.put(ProfileController());
   late TabController _tabController;
@@ -174,12 +172,12 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   labelColor: Theme.of(context).colorScheme.onBackground,
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
-                  Tab(
-  icon: Icon(FontAwesomeIcons.music),
-),
-                                   Tab(
-  icon: Icon(FontAwesomeIcons.thumbsUp),
-),
+                    Tab(
+                      icon: Icon(FontAwesomeIcons.music),
+                    ),
+                    Tab(
+                      icon: Icon(FontAwesomeIcons.thumbsUp),
+                    ),
                   ],
                   indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(
@@ -189,19 +187,18 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                     insets: EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                 ),
-                 leading: IconButton(
-    onPressed: () {
-      _openAnalyticsDialog();
-    },
-    icon: Icon(FontAwesomeIcons.chartLine),
-  ),
+                leading: IconButton(
+                  onPressed: () {
+                    _openAnalyticsDialog();
+                  },
+                  icon: Icon(FontAwesomeIcons.chartLine),
+                ),
                 actions: [
-                
                   IconButton(
                     onPressed: () {
                       _navigateToUserSettingsScreen();
                     },
-                   icon: Icon(FontAwesomeIcons.cogs),
+                    icon: Icon(FontAwesomeIcons.cogs),
                   ),
                   IconButton(
                     onPressed: () {
@@ -217,13 +214,13 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   "Your Profile",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                   fontFamily: 'MonaSans',
-                   fontSize: 22.0,                                 
+                    fontFamily: 'MonaSans',
+                    fontSize: 22.0,
                   ),
                 ),
               ),
               body: TabBarView(
-                controller: _tabController, 
+                controller: _tabController,
                 children: [
                   // First tab view
                   SafeArea(
@@ -413,24 +410,26 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                                     const SizedBox(width: 4),
                                     GestureDetector(
                                       child: Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
-      Icon(
-        Icons.link,
-        color: Colors.blue,
-      ),
-    SizedBox(width: 4),
-    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
-      Text(
-        controller.user['website'] ?? '',
-        style: TextStyle(
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-  ],
-),
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          if (controller.user['website'] != null &&
+                                              controller.user['website'].isNotEmpty)
+                                            Icon(
+                                              Icons.link,
+                                              color: Colors.blue,
+                                            ),
+                                          SizedBox(width: 4),
+                                          if (controller.user['website'] != null &&
+                                              controller.user['website'].isNotEmpty)
+                                            Text(
+                                              controller.user['website'] ?? '',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -534,21 +533,12 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 18.0),
-                        child:  Image.asset(
-      'assets/images/trending.png',
-      // width: 200,
-      // height: 200,
-    ),
+                        child: Image.asset(
+                          'assets/images/trending.png',
+                          // width: 200,
+                          // height: 200,
+                        ),
                       ),
-
-
-
-
-
-
-
-
-                      
                       Expanded(
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
@@ -570,52 +560,51 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                               // Extract the list of video titles from the snapshot
                               List<String> videoTitles = snapshot.data!.docs.map((doc) => doc['id'] as String).toList();
 
-                            return ListView.builder(
-  shrinkWrap: true,
-  itemCount: videoTitles.length,
-  itemBuilder: (context, index) {
-    final videoId = videoTitles[index];
-    final videoData = snapshot.data!.docs.firstWhere(
-      (doc) => doc['id'] == videoId,
-    );
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: videoTitles.length,
+                                itemBuilder: (context, index) {
+                                  final videoId = videoTitles[index];
+                                  final videoData = snapshot.data!.docs.firstWhere(
+                                    (doc) => doc['id'] == videoId,
+                                  );
 
-    final thumbnailUrl = videoData['thumbnail'] as String;
-    final caption = videoData['caption'] as String;
+                                  final thumbnailUrl = videoData['thumbnail'] as String;
+                                  final caption = videoData['caption'] as String;
 
-    return ListTile(
-      leading: Image.network(thumbnailUrl),
-      title: Text(
-        caption.isNotEmpty ? caption : 'This video has no caption',
-        style: TextStyle(
-           fontFamily: 'MonaSansExtraBoldWideItalic',
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-          fontStyle: caption.isNotEmpty ? FontStyle.italic : FontStyle.normal,
-          color: caption.isNotEmpty ? Colors.grey[300] : Colors.grey[800],
-        ),
-      ),
-      onTap: () {
-        // Open single video with the videoId
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ShowMoreVideo(
-              videoId: videoId,
-            ),
-          ),
-        );
-      },
-    );
-  },
-);
-      }
+                                  return ListTile(
+                                    leading: Image.network(thumbnailUrl),
+                                    title: Text(
+                                      caption.isNotEmpty ? caption : 'This video has no caption',
+                                      style: TextStyle(
+                                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: caption.isNotEmpty ? FontStyle.italic : FontStyle.normal,
+                                        color: caption.isNotEmpty ? Colors.grey[300] : Colors.grey[800],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // Open single video with the videoId
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ShowMoreVideo(
+                                            videoId: videoId,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            }
                           },
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text('Last updated: $timeAgo', style: TextStyle(fontFamily: 'MonaSans'))
-,
+                        child: Text('Last updated: $timeAgo', style: TextStyle(fontFamily: 'MonaSans')),
                       ),
                     ],
                   )
@@ -631,7 +620,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     return paletteGenerator;
   }
 
- void _openAnalyticsDialog() {
+  void _openAnalyticsDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -656,7 +645,6 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                   child: charts.LineChart(
                     _createSampleData(), // Replace with your own data
                     animate: true,
-   
                   ),
                 ),
               ],
@@ -694,13 +682,11 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       LinearSales(22, 0),
       LinearSales(23, 0),
       LinearSales(24, 0),
-
     ];
 
     return [
       charts.Series<LinearSales, int>(
         id: 'Sales',
-
         domainFn: (LinearSales sales, _) => sales.year,
         measureFn: (LinearSales sales, _) => sales.sales,
         data: data,
@@ -709,7 +695,6 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   }
 }
 
-
 class LinearSales {
   final int year;
   final int sales;
@@ -717,75 +702,74 @@ class LinearSales {
   LinearSales(this.year, this.sales);
 }
 
-  void _showFollowingPopup(BuildContext context, List<String> followingList) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Following'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: followingList.map((user) {
-                return ListTile(
-                  title: Text(user),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(uid: user),
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
+void _showFollowingPopup(BuildContext context, List<String> followingList) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Following'),
+        content: SingleChildScrollView(
+          child: Column(
+            children: followingList.map((user) {
+              return ListTile(
+                title: Text(user),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(uid: user),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showFollowerPopup(BuildContext context, List<String> followersList) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Followers'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: followersList.map((user) {
-                return ListTile(
-                  title: Text(user),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(uid: user),
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Close'),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ],
+      );
+    },
+  );
+}
 
+void _showFollowerPopup(BuildContext context, List<String> followersList) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Followers'),
+        content: SingleChildScrollView(
+          child: Column(
+            children: followersList.map((user) {
+              return ListTile(
+                title: Text(user),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(uid: user),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      );
+    },
+  );
+}

@@ -71,7 +71,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       appBar: AppBar(
         title: Text(
           'Confirm Video',
-          style: TextStyle(fontSize: 19,   fontFamily: 'MonaSansExtraBoldWideItalic', fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 19, fontFamily: 'MonaSansExtraBoldWideItalic', fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -113,7 +113,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               ),
             ),
             Container(
-              height: 400, 
+              height: 400,
               child: AspectRatio(
                 aspectRatio: controller.value.aspectRatio,
                 child: VideoPlayer(controller),

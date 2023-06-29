@@ -17,11 +17,14 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Options', style: TextStyle(
-                      fontFamily: 'monaSans', // Apply monaSans font
-                      fontSize: 28,
-                      color: Colors.white,
-                    ),),
+        title: Text(
+          'Options',
+          style: TextStyle(
+            fontFamily: 'monaSans', // Apply monaSans font
+            fontSize: 28,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

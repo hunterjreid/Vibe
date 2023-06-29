@@ -43,13 +43,17 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
             if (snapshot.hasData) {
               final userData = snapshot.data!.data() as Map<String, dynamic>;
               final userName = userData['name'] as String;
-              return Text('Chat with '+ userName , style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'MonaSansExtraBoldWideItalic',));
+              return Text('Chat with ' + userName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                  ));
             } else {
-              return Text('Loading DM...' , style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'MonaSansExtraBoldWideItalic',) );
+              return Text('Loading DM...',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                  ));
             }
           },
         ),

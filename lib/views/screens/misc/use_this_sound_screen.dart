@@ -37,7 +37,6 @@ class _RecordThisSoundScreenState extends State<RecordThisSoundScreen> {
   }
 
   Future<void> _toggleRecording() async {
-
     setState(() {
       _isRecording = !_isRecording;
     });

@@ -4,7 +4,6 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
-
 import 'package:vibe/controllers/share_video_dm_controller.dart';
 import '../profile/direct_message_screen.dart';
 
@@ -21,8 +20,10 @@ class FriendSearchPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
+          style: TextStyle(fontFamily: 'monaSans'), 
           decoration: const InputDecoration(
-            filled: false,
+            filled: true,
+            // fillColor: Colors.grey, 
             hintText: 'Search',
             hintStyle: TextStyle(
               fontSize: 18,
@@ -37,10 +38,12 @@ class FriendSearchPage extends StatelessWidget {
         if (searchController.searchedUsers.isEmpty) {
           return Column(
             children: [
-              const Center(
+              const SizedBox(height: 20),
+              Center(
                 child: Text(
-                  'Search for person to share video too..',
+                  'Search for a person to share the video with',
                   style: TextStyle(
+                    fontFamily: 'monaSans', 
                     fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -75,7 +78,8 @@ class FriendSearchPage extends StatelessWidget {
                   ),
                   title: Text(
                     user.name,
-                    style: const TextStyle(
+                    style: TextStyle(
+                      fontFamily: 'monaSans',
                       fontSize: 18,
                       color: Colors.white,
                     ),
@@ -86,6 +90,7 @@ class FriendSearchPage extends StatelessWidget {
           );
         }
       }),
+      backgroundColor: Colors.black, 
     );
   }
 }

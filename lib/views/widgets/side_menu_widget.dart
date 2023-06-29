@@ -20,7 +20,7 @@ class MenuWidget extends StatelessWidget {
             colorFilter: ColorFilter.mode(
               colorScheme.background.withOpacity(0.6),
               BlendMode.darken,
-            ), 
+            ),
           ),
         ),
         child: ListView(
@@ -37,14 +37,14 @@ class MenuWidget extends StatelessWidget {
             //     ),
             //   ),
             // ),
-              SizedBox(height: 56.0),
-                 Image.asset(
-                  'assets/images/logo.png',
-                  width: 100,
-                  height: 100,
-                ),
-                SizedBox(height: 16.0),
-               
+            SizedBox(height: 56.0),
+            Image.asset(
+              'assets/images/logo.png',
+              width: 100,
+              height: 100,
+            ),
+            SizedBox(height: 16.0),
+
             buildMenuItem(
               title: 'Options',
               gradientColors: [
@@ -82,7 +82,7 @@ class MenuWidget extends StatelessWidget {
               ),
             ),
             buildMenuItem(
-              title: 'About Us',
+              title: 'More',
               gradientColors: [
                 colorScheme.primary,
                 colorScheme.secondary,

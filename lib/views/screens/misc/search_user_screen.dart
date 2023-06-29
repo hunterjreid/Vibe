@@ -5,9 +5,10 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/controllers/get_dm_controller.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
+import 'package:vibe/views/screens/profile/direct_message_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/controllers/share_video_dm_controller.dart';
-import '../profile/direct_message_screen.dart';
+
 
 class SearchUserScreen extends StatelessWidget {
   final SearchController searchController = SearchController();
@@ -40,12 +41,12 @@ class SearchUserScreen extends StatelessWidget {
         if (searchController.searchedUsers.isEmpty) {
           return Column(
             children: [
-              const SizedBox(height: 20), 
+              const SizedBox(height: 20),
               Center(
                 child: Text(
                   'Search for a person to DM',
                   style: TextStyle(
-                    fontFamily: 'monaSans', 
+                    fontFamily: 'monaSans',
                     fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

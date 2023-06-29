@@ -227,10 +227,3 @@ class CareersScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-

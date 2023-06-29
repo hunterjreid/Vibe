@@ -120,7 +120,7 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          currentSong.isNotEmpty ? 'Playing: '+currentSong : 'Nothing playing',
+          currentSong.isNotEmpty ? 'Playing: ' + currentSong : 'Nothing playing',
           style: TextStyle(
             fontSize: 12,
             fontFamily: 'MonaSansExtraBoldWideItalic',

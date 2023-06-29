@@ -6,6 +6,14 @@ class AboutUsScreen extends StatelessWidget {
     // For example, you can launch an external URL to a rating page
   }
 
+  void _requestDataDeletion(BuildContext context) {
+    // Implement your request deletion functionality here
+  }
+
+  void _socialMediaOptOut(BuildContext context) {
+    // Implement your social media opt-out functionality here
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -13,7 +21,7 @@ class AboutUsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('About Us'),
+        title: Text('More'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -71,6 +79,40 @@ class AboutUsScreen extends StatelessWidget {
                 ),
               ),
               child: Text('Rate App'),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                _requestDataDeletion(context);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+                onPrimary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                textStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSans',
+                ),
+              ),
+              child: Text('Request Deletion of All Data'),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                _socialMediaOptOut(context);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.orange,
+                onPrimary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                textStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MonaSans',
+                ),
+              ),
+              child: Text('Media Opt Out'),
             ),
           ],
         ),

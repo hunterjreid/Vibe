@@ -18,6 +18,7 @@ class Video {
   String videoUrl;
   String thumbnail;
   String profilePhoto;
+   bool isFolderOpen;
   Timestamp timestamp;
 
   Video({
@@ -39,6 +40,7 @@ class Video {
     required this.musicUseCount,
     required this.savedCount,
     required this.timestamp,
+    required this.isFolderOpen
   });
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +62,7 @@ class Video {
         "musicUseCount": musicUseCount,
         "savedCount": savedCount,
         "timestamp": timestamp,
+        "isFolderOpen": isFolderOpen,
       };
 
   static Video fromSnap(DocumentSnapshot<Object?> snap) {
@@ -84,6 +87,7 @@ class Video {
       musicUseCount: snapshot['musicUseCount'] ?? 0,
       savedCount: snapshot['savedCount'] ?? 0,
       timestamp: snapshot['timestamp'],
+          isFolderOpen:false,
     );
   }
 

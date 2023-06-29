@@ -1,5 +1,17 @@
+
+
+//  █████  ██████  ██████  ██      ██  ██████  █████  ████████ ██  ██████  ███    ██     ██       █████  ██    ██ ███████ ██████  
+// ██   ██ ██   ██ ██   ██ ██      ██ ██      ██   ██    ██    ██ ██    ██ ████   ██     ██      ██   ██  ██  ██  ██      ██   ██ 
+// ███████ ██████  ██████  ██      ██ ██      ███████    ██    ██ ██    ██ ██ ██  ██     ██      ███████   ████   █████   ██████  
+// ██   ██ ██      ██      ██      ██ ██      ██   ██    ██    ██ ██    ██ ██  ██ ██     ██      ██   ██    ██    ██      ██   ██ 
+// ██   ██ ██      ██      ███████ ██  ██████ ██   ██    ██    ██  ██████  ██   ████     ███████ ██   ██    ██    ███████ ██   ██ 
+                                                                                                                               
+                                                                                                                               
+
+
+
 // ------------------------------
-//  Hunter Reid 2023 ⓒ 
+//  Hunter Reid 2023 ⓒ
 //  Vibe Find your Vibes
 //
 //  app_screen.dart
@@ -26,11 +38,9 @@ class AppScreen extends StatefulWidget {
 class _AppScreenState extends State<AppScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIdx = 0;
-  int feedNotificationCount = 0; 
-
+  int feedNotificationCount = 0;
 
   final ProfileController profileController = Get.put(ProfileController());
-
 
   int homeNotificationCount = 99;
 
@@ -177,7 +187,7 @@ class _AppScreenState extends State<AppScreen> {
                     children: [
                       Icon(
                         FontAwesomeIcons.film,
-                        size: 38, 
+                        size: 38,
                       ),
                       if (feedNotificationCount > 0)
                         Positioned(
@@ -207,7 +217,7 @@ class _AppScreenState extends State<AppScreen> {
                   icon: Stack(
                     children: [
                       Icon(
-                          FontAwesomeIcons.houseChimneyCrack,
+                        FontAwesomeIcons.houseChimneyCrack,
                         size: 38, // Adjust the icon size here
                       ),
                       if (homeNotificationCount > 0)
@@ -237,7 +247,7 @@ class _AppScreenState extends State<AppScreen> {
                 BottomNavigationBarItem(
                   icon: Icon(
                     Iconsax.colors_square,
-                    size: 38, 
+                    size: 38,
                   ),
                   label: 'Create',
                 ),
@@ -258,7 +268,7 @@ class ShowDialog {
       context: context,
       builder: (BuildContext context) {
         // Set the background color based on the theme// Default color is white
-        Color backgroundColor = Colors.white; 
+        Color backgroundColor = Colors.white;
         ThemeData theme = Theme.of(context);
         if (theme.brightness == Brightness.dark) {
           // If the theme is dark, set the background color to black
@@ -273,7 +283,7 @@ class ShowDialog {
               fontSize: 20,
               fontWeight: FontWeight.bold,
               fontFamily: 'MonaSansExtraBoldWideItalic',
-              color: Colors.white, 
+              color: Colors.white,
             ),
           ),
           content: Column(
@@ -281,12 +291,14 @@ class ShowDialog {
             children: [
               Text(
                 'By default, it will automatically detect system theme',
-                style: TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
+                style:
+                    TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
               ),
               SizedBox(height: 8),
               Text(
                 'Select Color Theme',
-                style: TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
+                style:
+                    TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -295,7 +307,8 @@ class ShowDialog {
                   Navigator.pop(context);
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(backgroundColor), // Use the current background color
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(backgroundColor), // Use the current background color
                   foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                   textStyle: MaterialStateProperty.all<TextStyle>(
                     TextStyle(
@@ -329,29 +342,32 @@ class ShowDialog {
               SizedBox(height: 16),
               Text(
                 'You can also Alter the Search Algorithm',
-                style: TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
+                style:
+                    TextStyle(fontSize: 14, fontFamily: 'MonaSans', fontWeight: FontWeight.w400, color: Colors.white),
               ),
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-           
-                  Navigator.pop(context);
-                },
+Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>  const AppScreen()));
+},
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 42, 186, 230)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Educational Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
+                child:
+                    Text('Educational Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
               ),
               SizedBox(height: 8),
               ElevatedButton(
-                onPressed: () {
-                  FeedScreen? feedScreen = context.findAncestorWidgetOfExactType<FeedScreen>();
-                  if (feedScreen != null) {
-                    feedScreen.refreshVideos();
-                  }
-                  Navigator.pop(context);
-                },
+           onPressed: () {
+Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>  const AppScreen()));
+},
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
@@ -360,14 +376,18 @@ class ShowDialog {
               ),
               SizedBox(height: 8),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                 onPressed: () {
+Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) =>  const AppScreen()));
+},
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
                 ),
-                child: Text('Entertainment Only', style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
+                child: Text('Entertainment Only',
+                    style: TextStyle(fontSize: 16, fontFamily: 'MonaSansExtraBoldWideItalic')),
               ),
             ],
           ),

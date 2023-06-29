@@ -16,9 +16,9 @@ class YourDMsScreen extends StatelessWidget {
 
   void navigateToConversation(String senderUID, String recipientUID) {
     Get.to(() => DirectMessageScreen(
-      senderUID: senderUID,
-      recipientUID: recipientUID,
-    ));
+          senderUID: senderUID,
+          recipientUID: recipientUID,
+        ));
   }
 
   @override
@@ -55,42 +55,39 @@ class YourDMsScreen extends StatelessWidget {
                 builder: (controller) {
                   if (controller.dms.isEmpty) {
                     return Center(
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        "No DMs Found",
-        style: TextStyle(
-          fontFamily: 'MonaSans',
-          fontWeight: FontWeight.w400,
-          fontSize: 24, // Adjust the font size as desired
-        ),
-      ),
-      SizedBox(height: 16), // Add spacing between the texts
-      Text(
-        "Get started by clicking the '+' icon up the top",
-        style: TextStyle(
-          fontFamily: 'MonaSans',
-          fontWeight: FontWeight.w400,
-          fontSize: 16, // Adjust the font size as desired
-        ),
-      ),
-    ],
-  ),
-);
-
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "No DMs Found",
+                            style: TextStyle(
+                              fontFamily: 'MonaSans',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 24, // Adjust the font size as desired
+                            ),
+                          ),
+                          SizedBox(height: 16), // Add spacing between the texts
+                          Text(
+                            "Get started by clicking the '+' icon up the top",
+                            style: TextStyle(
+                              fontFamily: 'MonaSans',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16, // Adjust the font size as desired
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   } else {
                     return ListView.builder(
                       itemCount: controller.dms.length,
                       itemBuilder: (context, index) {
                         final dm = controller.dms[index];
                         final participants = dm.participants;
-                        final senderUID = participants.contains(authController.user.uid)
-                            ? authController.user.uid
-                            : participants[0];
-                        final recipientUID = participants.contains(authController.user.uid)
-                            ? participants[0]
-                            : participants[1];
+                        final senderUID =
+                            participants.contains(authController.user.uid) ? authController.user.uid : participants[0];
+                        final recipientUID =
+                            participants.contains(authController.user.uid) ? participants[0] : participants[1];
 
                         return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                           stream: FirebaseFirestore.instance.collection('users').doc(recipientUID).snapshots(),

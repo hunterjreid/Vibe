@@ -49,16 +49,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     super.initState();
     profileController.updateUserId(widget.uid);
     profileController.getUserData();
-    
+
     _tabController = TabController(length: 2, vsync: this);
     _fetchUserProfile(); // Fetch user profile data
-
   }
+
   // Helper method to generate random colors
   void _fetchUserProfile() async {
-      profileController.updateUserId(widget.uid);
-      print(widget.uid);
-      
+    profileController.updateUserId(widget.uid);
+    print(widget.uid);
+
     await profileController.getUserData();
 
     print(profileController.user['startColor']);
@@ -77,8 +77,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       profileController.user['endColor'],
     );
   }
-  
-    Color randomColor1 = Color.fromARGB(0, 0, 0, 0);
+
+  Color randomColor1 = Color.fromARGB(0, 0, 0, 0);
   Color randomColor2 = Color.fromARGB(87, 187, 174, 185);
 
   @override
@@ -87,13 +87,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     super.dispose();
   }
 
-    void _updateColors(Color startColor1, Color endColor1) async {
+  void _updateColors(Color startColor1, Color endColor1) async {
     setState(() {
       randomColor1 = startColor1;
       randomColor2 = endColor1;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 ),
                 bottom: TabBar(
                   controller: _tabController, // Set the TabController
-    
+
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
                     Tab(icon: Icon(Icons.more)),
@@ -137,84 +136,83 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   IconButton(
                     icon: Icon(Icons.report),
                     onPressed: () {
-                  showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.black, // Set the background color to black
-      title: Text(
-        'Report Profile',
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'MonaSansExtraBoldWideItalic',
-          color: Colors.white,
-        ),
-      ),
-      content: Text(
-        'Are you sure you want to report this profile?',
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'MonaSansExtraBoldWideItalic',
-          color: Colors.white,
-        ),
-      ),
-      actions: <Widget>[
-        ElevatedButton(
-          style: ButtonStyle(
-            // Set the button style with a red gradient background
-               backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-       
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-            ),
-          ),
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MonaSansExtraBoldWideItalic',
-              color: Colors.white,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        ElevatedButton(
-          style: ButtonStyle(
-            // Set the button style with a blue gradient background
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-            ),
-          ),
-          child: Text(
-            'Report',
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MonaSansExtraBoldWideItalic',
-              color: Colors.white,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-            // ...
-            // Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  },
-);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: Colors.black, // Set the background color to black
+                            title: Text(
+                              'Report Profile',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                                color: Colors.white,
+                              ),
+                            ),
+                            content: Text(
+                              'Are you sure you want to report this profile?',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                                color: Colors.white,
+                              ),
+                            ),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  // Set the button style with a red gradient background
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
 
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  // Set the button style with a blue gradient background
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Report',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  // ...
+                                  // Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                   IconButton(
@@ -247,7 +245,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-              
                           SizedBox(
                             child: Column(
                               children: [
@@ -269,7 +266,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                         ),
                                       ),
                                     ),
-                                    
                                     ClipOval(
                                       child: CachedNetworkImage(
                                         fit: BoxFit.cover,
@@ -284,12 +280,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     ),
                                   ],
                                 ),
-                                              const SizedBox(height: 6.0),
-                                            if (widget.uid == authController.user.uid)
-                                            Text('THIS IS YOUR OWN PROFILE', style:  const TextStyle( fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'MonaSans',),),
-                   
+                                const SizedBox(height: 6.0),
+                                if (widget.uid == authController.user.uid)
+                                  Text(
+                                    'THIS IS YOUR OWN PROFILE',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                  ),
                                 const SizedBox(height: 6.0),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -430,27 +430,25 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                          
-Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
-      Icon(
-        Icons.link,
-        color: Colors.blue,
-      ),
-    SizedBox(width: 4),
-    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
-      Text(
-        controller.user['website'] ?? '',
-        style: TextStyle(
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-  ],
-),
-
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
+                                      Icon(
+                                        Icons.link,
+                                        color: Colors.blue,
+                                      ),
+                                    SizedBox(width: 4),
+                                    if (controller.user['website'] != null && controller.user['website'].isNotEmpty)
+                                      Text(
+                                        controller.user['website'] ?? '',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                  ],
+                                ),
                                 if (widget.uid != authController.user.uid)
                                   Center(
                                     child: Column(
@@ -563,12 +561,15 @@ Row(
 
                   // Second tab view
                   Center(
-                    child: Text('Long Bio: '+ profileController.user['longBio'], style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                                  color: Colors.white,
-                                                ),),
+                    child: Text(
+                      'Long Bio: ' + profileController.user['longBio'],
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'MonaSansExtraBoldWideItalic',
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                   // Third tab view
                 ],

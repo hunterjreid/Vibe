@@ -3,8 +3,6 @@ import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/views/screens/video/comment_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
-import 'package:vibe/views/screens/profile/user_screen.dart';
-import 'package:vibe/views/widgets/video_player_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:get/get.dart';
 

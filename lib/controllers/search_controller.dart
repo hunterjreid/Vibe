@@ -9,11 +9,15 @@ class SearchController extends GetxController {
   List<User> get searchedUsers => _searchedUsers.value; // Getter to access the value of searchedUsers
 
   Future<void> searchUser(String typedUser) async {
-    _searchedUsers.bindStream(FirebaseFirestore.instance // Binding the stream of Firestore query results to the _searchedUsers variable
+    _searchedUsers.bindStream(FirebaseFirestore
+        .instance // Binding the stream of Firestore query results to the _searchedUsers variable
         .collection('users') // Accessing the 'users' collection in Firestore
-        .where('name', isGreaterThanOrEqualTo: typedUser) // Querying documents where the 'name' field is greater than or equal to the typedUser string
+        .where('name',
+            isGreaterThanOrEqualTo:
+                typedUser) // Querying documents where the 'name' field is greater than or equal to the typedUser string
         .snapshots() // Listening to the snapshots of the query results
-        .map((QuerySnapshot query) { // Mapping the QuerySnapshot to a List of User objects
+        .map((QuerySnapshot query) {
+      // Mapping the QuerySnapshot to a List of User objects
       List<User> retVal = [];
       for (var elem in query.docs) {
         retVal.add(User.fromSnap(elem)); // Creating a User object from each document snapshot and adding it to the list

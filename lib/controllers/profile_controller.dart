@@ -32,7 +32,7 @@ class ProfileController extends GetxController {
     String profilePhoto = userData['profilePhoto'];
     String bio = userData['bio'] ?? '';
     String website = userData['website'] ?? '';
- String username = userData['username'];
+    String username = userData['username'];
     String longBio = userData['longBio'] ?? ' This user hasn\'t set up there long bio yet';
     int likes = 0;
     int followers = 0;
@@ -82,9 +82,9 @@ class ProfileController extends GetxController {
       'thumbnails': thumbnails,
       'followersList': followersList,
       'followingList': followingList,
-            'startColor': startColor,
+      'startColor': startColor,
       'endColor': endColor,
-       'username': username,
+      'username': username,
       'longBio': longBio,
     };
 
