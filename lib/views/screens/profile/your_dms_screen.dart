@@ -63,16 +63,16 @@ class YourDMsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: 'MonaSans',
                               fontWeight: FontWeight.w400,
-                              fontSize: 24, // Adjust the font size as desired
+                              fontSize: 24, 
                             ),
                           ),
-                          SizedBox(height: 16), // Add spacing between the texts
+                          SizedBox(height: 16), 
                           Text(
                             "Get started by clicking the '+' icon up the top",
                             style: TextStyle(
                               fontFamily: 'MonaSans',
                               fontWeight: FontWeight.w400,
-                              fontSize: 16, // Adjust the font size as desired
+                              fontSize: 16, 
                             ),
                           ),
                         ],
@@ -88,7 +88,6 @@ class YourDMsScreen extends StatelessWidget {
                             participants.contains(authController.user.uid) ? authController.user.uid : participants[0];
                         final recipientUID =
                             participants.contains(authController.user.uid) ? participants[0] : participants[1];
-
                         return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                           stream: FirebaseFirestore.instance.collection('users').doc(recipientUID).snapshots(),
                           builder: (context, userSnapshot) {
@@ -100,16 +99,13 @@ class YourDMsScreen extends StatelessWidget {
                                 ),
                               );
                             }
-
                             final userData = userSnapshot.data?.data();
                             final profileImageUrl = userData?['profilePhoto'];
                             final profileName = userData?['name'];
-
                             final lastMessage = dm.messages.isNotEmpty ? dm.messages.last : null;
                             final lastMessageText = lastMessage != null ? lastMessage.text : 'No messages yet';
                             final lastMessageTime = lastMessage != null ? lastMessage.sent : null;
                             final formattedTime = lastMessageTime != null ? timeago.format(lastMessageTime) : '';
-
                             return GestureDetector(
                               onTap: () => navigateToConversation(senderUID, recipientUID),
                               child: ListTile(

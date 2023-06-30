@@ -98,13 +98,15 @@ class LoginScreen extends StatelessWidget {
                 isObscure: true,
               ),
             ),
-                 const SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(width: 20,),
+                const SizedBox(
+                  width: 20,
+                ),
                 InkWell(
                   onTap: () => _showForgotPasswordDialog(context),
                   child: Text(

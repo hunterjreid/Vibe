@@ -11,7 +11,7 @@ import 'package:vibe/controllers/video_controller.dart';
 import 'package:vibe/controllers/search_controller.dart';
 import 'package:vibe/models/user.dart';
 import 'package:vibe/views/screens/misc/notification_screen.dart';
-import 'package:vibe/views/screens/misc/searchOld_screen.dart';
+import 'package:vibe/views/screens/misc/search_profile_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:vibe/views/screens/video/show_single_video.dart';
@@ -199,14 +199,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           } else {
                             return Center(
-        child: Text('Loading.....',
-                          style: const TextStyle(
-                            fontSize: 12,
-                          color: Color.fromARGB(255, 143, 143, 143),
-                            fontFamily: 'MonaSansExtraBoldWideItalic',
-                          ),
-                        ),
-      );
+                              child: Text(
+                                'Loading.....',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color.fromARGB(255, 143, 143, 143),
+                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                ),
+                              ),
+                            );
                           }
                         },
                       );

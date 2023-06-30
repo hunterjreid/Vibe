@@ -312,8 +312,6 @@ class TrendsScreen extends StatelessWidget {
       title: 'Trend Name #vibes 10',
       description: 'This is what to do it and what makes it trendy! 2',
     ),
-
-    // Add more video data as needed
   ];
 
   @override

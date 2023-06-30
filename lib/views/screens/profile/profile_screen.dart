@@ -31,11 +31,12 @@ ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
 
 Color generateRandomColor() {
   Random random = Random();
-  int alpha = 255; // You can adjust the alpha value (transparency) if needed
+  int alpha = 255; 
 
-  int red = random.nextInt(256); // Random red value between 0 and 255
-  int green = random.nextInt(256); // Random green value between 0 and 255
-  int blue = random.nextInt(256); // Random blue value between 0 and 255
+// Random red value between 0 and 255
+  int red = random.nextInt(256); 
+  int green = random.nextInt(256); 
+  int blue = random.nextInt(256); 
 
   return Color.fromARGB(alpha, red, green, blue);
 }
@@ -63,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
     print(profileController.user['startColor']);
 
-    // Check if startColor and endColor are null, then set them to red
+    // Check if startColor and endColor are null, then set them to grey
     if (profileController.user['startColor'] == null) {
       profileController.user['startColor'] = Color.fromARGB(0, 244, 67, 54);
     }
@@ -125,8 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   },
                 ),
                 bottom: TabBar(
-                  controller: _tabController, // Set the TabController
-
+                  controller: _tabController, 
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
                     Tab(icon: Icon(Icons.more)),
@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            backgroundColor: Colors.black, // Set the background color to black
+                            backgroundColor: Colors.black,
                             title: Text(
                               'Report Profile',
                               style: TextStyle(
@@ -162,9 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             actions: <Widget>[
                               ElevatedButton(
                                 style: ButtonStyle(
-                                  // Set the button style with a red gradient background
                                   backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
@@ -186,7 +184,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               ),
                               ElevatedButton(
                                 style: ButtonStyle(
-                                  // Set the button style with a blue gradient background
                                   backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -205,8 +202,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                  // ...
-                                  // Navigator.of(context).pop();
                                 },
                               ),
                             ],
@@ -238,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 ),
               ),
               body: TabBarView(
-                controller: _tabController, // Set the TabController
+                controller: _tabController,
                 children: [
                   // First tab view
                   SafeArea(
@@ -558,8 +553,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       ),
                     ),
                   ),
-
-                  // Second tab view
+                  // Second tab view Long Bio
                   Center(
                     child: Text(
                       'Long Bio: ' + profileController.user['longBio'],
@@ -571,7 +565,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       ),
                     ),
                   ),
-                  // Third tab view
                 ],
               ),
             );
@@ -579,6 +572,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         ));
   }
 
+//Make colors
+Future<PaletteGenerator> generatePalette(String imageUrl) async {
+    final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
+    return paletteGenerator;
+  }
+
+// Show following
   void _showFollowingPopup(BuildContext context, List<String> followingList) {
     showDialog(
       context: context,
@@ -615,11 +615,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     );
   }
 
-  Future<PaletteGenerator> generatePalette(String imageUrl) async {
-    final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
-    return paletteGenerator;
-  }
-
+// Show followers
   void _showFollowerPopup(BuildContext context, List<String> followersList) {
     showDialog(
       context: context,

@@ -18,30 +18,29 @@ class Video {
   String videoUrl;
   String thumbnail;
   String profilePhoto;
-   bool isFolderOpen;
+  bool isFolderOpen;
   Timestamp timestamp;
 
-  Video({
-    required this.username,
-    required this.uid,
-    required this.id,
-    required this.likes,
-    required this.commentCount,
-    required this.commentBy,
-    required this.shareCount,
-    required this.views,
-    required this.songName,
-    required this.caption,
-    required this.caption2,
-    required this.caption3,
-    required this.videoUrl,
-    required this.profilePhoto,
-    required this.thumbnail,
-    required this.musicUseCount,
-    required this.savedCount,
-    required this.timestamp,
-    required this.isFolderOpen
-  });
+  Video(
+      {required this.username,
+      required this.uid,
+      required this.id,
+      required this.likes,
+      required this.commentCount,
+      required this.commentBy,
+      required this.shareCount,
+      required this.views,
+      required this.songName,
+      required this.caption,
+      required this.caption2,
+      required this.caption3,
+      required this.videoUrl,
+      required this.profilePhoto,
+      required this.thumbnail,
+      required this.musicUseCount,
+      required this.savedCount,
+      required this.timestamp,
+      required this.isFolderOpen});
 
   Map<String, dynamic> toJson() => {
         "username": username,
@@ -87,7 +86,7 @@ class Video {
       musicUseCount: snapshot['musicUseCount'] ?? 0,
       savedCount: snapshot['savedCount'] ?? 0,
       timestamp: snapshot['timestamp'],
-          isFolderOpen:false,
+      isFolderOpen: false,
     );
   }
 

@@ -11,9 +11,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibe/views/screens/video/comment_screen.dart';
-import 'package:vibe/views/screens/misc/friendSearch_screen.dart';
+import 'package:vibe/views/screens/misc/friend_search_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
-import 'package:vibe/views/screens/misc/use_this_sound_screen.dart';
+import 'package:vibe/views/screens/misc/use_sound_screen.dart';
 import 'package:vibe/views/widgets/folder_icon.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vibe/controllers/video_controller.dart';
@@ -30,10 +30,7 @@ class FeedScreen extends StatefulWidget {
   @override
   _FeedScreenState createState() => _FeedScreenState();
 
-  void refreshVideos() {
-    
-
-  }
+  void refreshVideos() {}
   final VideoController videoController = Get.put(VideoController());
 }
 
@@ -75,32 +72,30 @@ class _FeedScreenState extends State<FeedScreen> {
   bool _isModalVisible = false;
   bool _refreshing = false;
   int _currentPageIndex = 0;
-int _currentVideoIndex = 0;
-int _videosPerPage = 8;
+  int _currentVideoIndex = 0;
+  int _videosPerPage = 8;
 
-@override
-void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    waitForValidVideoRange();
-  });
-}
-
-
-bool hasValidVideoRange() {
-  return videoController.videoList.isNotEmpty;
-}
-
-void waitForValidVideoRange() {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (hasValidVideoRange()) {
-      preloadVideos();
-    } else {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       waitForValidVideoRange();
-    }
-  });
-}
+    });
+  }
 
+  bool hasValidVideoRange() {
+    return videoController.videoList.isNotEmpty;
+  }
+
+  void waitForValidVideoRange() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (hasValidVideoRange()) {
+        preloadVideos();
+      } else {
+        waitForValidVideoRange();
+      }
+    });
+  }
 
   void navigateToUseThisSoundScreen(String title) {
     Navigator.push(
@@ -112,35 +107,34 @@ void waitForValidVideoRange() {
     );
   }
 
-void preloadVideos() async {
-  for (int i = _currentVideoIndex; i < _currentVideoIndex + _videosPerPage; i++) {
-    print(videoController.videoList.length);
-    if (i >= videoController.videoList.length) {
-      _currentVideoIndex = 0;
-      i = 0;
+  void preloadVideos() async {
+    for (int i = _currentVideoIndex; i < _currentVideoIndex + _videosPerPage; i++) {
+      print(videoController.videoList.length);
+      if (i >= videoController.videoList.length) {
+        _currentVideoIndex = 0;
+        i = 0;
+      }
+
+      final Video video = videoController.videoList[i];
+      final VideoPlayerController videoPlayerController = VideoPlayerController.network(video.videoUrl);
+
+      await videoPlayerController.initialize();
+
+      videoController.addView(videoController.videoList[i].id);
+      setState(() {
+        _isLoading = false;
+      });
+      videoControllers.add(videoPlayerController);
+
+      chewieControllers.add(
+        ChewieController(
+          videoPlayerController: videoPlayerController,
+          autoPlay: true,
+          looping: true,
+        ),
+      );
     }
-
-    final Video video = videoController.videoList[i];
-    final VideoPlayerController videoPlayerController =
-        VideoPlayerController.network(video.videoUrl);
-
-    await videoPlayerController.initialize();
-
-    videoController.addView(videoController.videoList[i].id);
-    setState(() {
-      _isLoading = false;
-    });
-    videoControllers.add(videoPlayerController);
-
-    chewieControllers.add(
-      ChewieController(
-        videoPlayerController: videoPlayerController,
-        autoPlay: true,
-        looping: true,
-      ),
-    );
   }
-}
 
   ScrollController _scrollController = ScrollController();
 
@@ -276,15 +270,6 @@ void preloadVideos() async {
                                                   }
                                                 });
                                               },
-
-
-
-
-
-
-
-
-                                              
                                               child: Tab(
                                                 icon: video.likes.contains(authController.user.uid)
                                                     ? Icon(
@@ -386,33 +371,37 @@ void preloadVideos() async {
                                                 ],
                                               ),
                                             ),
-                                          InkWell(
-  onTap: () {
-    setState(() {
-      isFileOpen = !isFileOpen;
-    });
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Video saved"),
-          content: Text("Your video has been saved to your gallery."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  isFileOpen = !isFileOpen;
+                                                });
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text("Video saved"),
+                                                      content: Text("Your video has been saved to your gallery."),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Text("OK"),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
 
-    videoController.saveVideo(videoController.videoList[index].id);
-  },
-  child: FolderIcon(isFolderOpen: false, savedCount: videoController.videoList[index].savedCount,),
-),      ],
+                                                videoController.saveVideo(videoController.videoList[index].id);
+                                              },
+                                              child: FolderIcon(
+                                                isFolderOpen: false,
+                                                savedCount: videoController.videoList[index].savedCount,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       VideoTextOverlay(
@@ -503,7 +492,7 @@ void preloadVideos() async {
                                     IconButton(
                                       icon: Image.asset('assets/images/share_socials/instagram.png'),
                                       onPressed: () {
-                                          setState(() {
+                                        setState(() {
                                           _isModalVisible = false;
                                         });
                                       },
@@ -511,7 +500,7 @@ void preloadVideos() async {
                                     IconButton(
                                       icon: Image.asset('assets/images/share_socials/linkedin.png'),
                                       onPressed: () {
-                                          setState(() {
+                                        setState(() {
                                           _isModalVisible = false;
                                         });
                                       },
@@ -519,7 +508,7 @@ void preloadVideos() async {
                                     IconButton(
                                       icon: Image.asset('assets/images/share_socials/slack.png'),
                                       onPressed: () {
-                                          setState(() {
+                                        setState(() {
                                           _isModalVisible = false;
                                         });
                                       },
@@ -678,7 +667,7 @@ void _showShareOptions(BuildContext context, String videoId) {
               leading: Icon(Icons.people, color: Colors.white), // Set icon color to white
               title: Text(
                 'Share other',
-                style: TextStyle(       fontFamily: 'MonaSansExtraBoldWide',color: Colors.white), // Set text color to white
+                style: TextStyle(fontFamily: 'MonaSansExtraBoldWide', color: Colors.white), // Set text color to white
               ),
               onTap: () {
                 // Share.share('Check out this video on vibe!', subject: 'Look what I made!');
@@ -689,7 +678,7 @@ void _showShareOptions(BuildContext context, String videoId) {
               leading: Icon(Icons.message, color: Colors.white), // Set icon color to white
               title: Text(
                 'Share to DM',
-                style: TextStyle(       fontFamily: 'MonaSansExtraBoldWide',color: Colors.white), // Set text color to white
+                style: TextStyle(fontFamily: 'MonaSansExtraBoldWide', color: Colors.white), // Set text color to white
               ),
               onTap: () {
                 Navigator.push(

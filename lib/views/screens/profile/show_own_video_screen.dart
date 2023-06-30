@@ -82,12 +82,12 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
 
     FirebaseFirestore.instance.collection('videos').doc(data.id).delete().then((_) {
       // Video deleted successfully
-      // You can perform any additional tasks or show a success message
+
       print('Video deleted successfully');
       Navigator.popUntil(context, (route) => route.isFirst);
     }).catchError((error) {
       // An error occurred while deleting the video
-      // Handle the error or show an error message
+
       print('Error deleting video: $error');
     });
   }

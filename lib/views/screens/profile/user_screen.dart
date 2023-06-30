@@ -10,9 +10,9 @@ import 'package:vibe/views/screens/create_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vibe/views/screens/profile/show_own_video_screen.dart';
-import 'package:vibe/views/screens/profile/userSettings_screen.dart';
+import 'package:vibe/views/screens/profile/user_settings_screen.dart';
 import 'package:vibe/views/screens/profile/your_dms_screen.dart';
-import 'package:vibe/views/screens/video/show_more_video.dart';
+import 'package:vibe/views/screens/video/show_video.dart';
 import 'package:vibe/views/screens/video/show_single_video.dart';
 import 'direct_message_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,9 +31,7 @@ class UserScreen extends StatefulWidget {
   @override
   State<UserScreen> createState() => _UserScreenState();
 }
-
 ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
-
 class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin {
   final ProfileController profileController = Get.put(ProfileController());
   late TabController _tabController;
@@ -47,11 +45,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   Color endColor = Color.fromARGB(0, 121, 113, 120);
 
   Future<void> _refreshData() async {
-    // Add your refresh logic here, such as fetching new data
     await profileController.getProfileData();
-    // ...
-
-    // Update the colors using the _updateColors method
     _updateColors(
       profileController.user['startColor'],
       profileController.user['endColor'],
@@ -69,17 +63,13 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
 
   void _fetchUserProfile() async {
     await profileController.getProfileData();
-
-    print(profileController.user['startColor']);
-
-    // Check if startColor and endColor are null, then set them to red
+    // Check if startColor and endColor are null, then set them to grey
     if (profileController.user['startColor'] == null) {
       profileController.user['startColor'] = Color.fromARGB(0, 244, 67, 54);
     }
     if (profileController.user['endColor'] == null) {
       profileController.user['endColor'] = Color.fromARGB(0, 244, 67, 54);
     }
-
     // Set the colors using the _updateColors method
     _updateColors(
       profileController.user['startColor'],
@@ -108,12 +98,11 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     });
   }
 
-// Navigate to the UserSettingsScreen and handle the returned colors
-
+// Fetch user profile data on change
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _fetchUserProfile(); // Fetch user profile data
+    _fetchUserProfile(); 
   }
 
   void _tabControllerListener() {
@@ -123,7 +112,6 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   @override
   void dispose() {
     _tabController.dispose();
-
     super.dispose();
   }
 
@@ -131,17 +119,14 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
     print(isDarkTheme);
-
     Color _getTabIndicatorColor() {
       // Calculate the interpolation factor based on the current tab index
       double factor = (_tabController.index % 2) / 2.0;
       // Interpolate between the leftmost and rightmost colors
       return Color.lerp(tabColors[0], tabColors[1], factor)!;
     }
-
     DateTime currentTime = DateTime.now();
     String timeAgo = DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
-
     // Placeholder list of titles
     List<String> titles = [
       "Video you saved Title 1",
@@ -154,21 +139,16 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       // Fallback theme in case of null value
       themeData = ThemeData.light();
     }
-
     return MaterialApp(
-        theme: themeData, // Apply dark theme
+        theme: themeData, 
         debugShowCheckedModeBanner: false,
         home: GetBuilder<ProfileController>(
           init: ProfileController(),
           builder: (controller) {
-            // print(controller.user['startColor']);
-
-            //
-
             return Scaffold(
               appBar: AppBar(
                 bottom: TabBar(
-                  controller: _tabController, // Set the TabController
+                  controller: _tabController, 
                   labelColor: Theme.of(context).colorScheme.onBackground,
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),

@@ -12,20 +12,19 @@ class BrowseSongsPage extends StatefulWidget {
   _BrowseSongsPageState createState() => _BrowseSongsPageState();
 }
 
-
 class _BrowseSongsPageState extends State<BrowseSongsPage> {
-List<String> songs = [
-  'sounds/epic-opener-115681.mp3',
-'sounds/uplifting-summer-10356.mp3',
-'sounds/funny-guy-loop-121180.mp3',
-'sounds/upbeat-future-bass-138706.mp3',
-   'sounds/[FREE] Future Type Beat 2021 _Big Tools_ [Prod.Onokey] (320 kbps).mp3',
-'sounds/chiller-144272.mp3',
-'sounds/forgotten-bird-144412.mp3',
-'sounds/like-a-boss-136519.mp3',
-'sounds/short-intro-music-20-30-seconds-109414.mp3',
+  List<String> songs = [
+    'sounds/epic-opener-115681.mp3',
+    'sounds/uplifting-summer-10356.mp3',
+    'sounds/funny-guy-loop-121180.mp3',
+    'sounds/upbeat-future-bass-138706.mp3',
+    'sounds/[FREE] Future Type Beat 2021 _Big Tools_ [Prod.Onokey] (320 kbps).mp3',
+    'sounds/chiller-144272.mp3',
+    'sounds/forgotten-bird-144412.mp3',
+    'sounds/like-a-boss-136519.mp3',
+    'sounds/short-intro-music-20-30-seconds-109414.mp3',
 // other songs
-];
+  ];
 
   AudioPlayer audioPlayer = AudioPlayer();
   String currentSong = '';

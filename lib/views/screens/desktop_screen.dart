@@ -6,6 +6,7 @@
 //
 
 //dependencies import
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,8 +20,8 @@ import 'package:vibe/controllers/auth_controller.dart';
 import 'package:vibe/models/video.dart';
 import 'package:video_player/video_player.dart';
 
-//desktop_screen.dart
-//This screen is for web app
+//desktop_screen.dart//This screen is for web app
+
 class WebAppScreen extends StatefulWidget {
   @override
   _WebAppScreenState createState() => _WebAppScreenState();
@@ -58,7 +59,6 @@ class _WebAppScreenState extends State<WebAppScreen> {
     });
   }
 
-
   void openProfilePopup(BuildContext context, String uid) async {
     final firestore = FirebaseFirestore.instance;
 
@@ -94,291 +94,90 @@ class _WebAppScreenState extends State<WebAppScreen> {
     print(thumbnails);
 
     // Retrieve start and end colors
-    final startColor = userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Color.fromARGB(255, 0, 81, 255);
-    final endColor = userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Color.fromARGB(255, 221, 15, 228);
+    final startColor =
+        userData['startColor'] != null ? Color(int.parse(userData['startColor'])) : Color.fromARGB(255, 0, 81, 255);
+    final endColor =
+        userData['endColor'] != null ? Color(int.parse(userData['endColor'])) : Color.fromARGB(255, 221, 15, 228);
 
     // ignore: use_build_context_synchronously
-showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return Dialog(
-      backgroundColor: Color.fromARGB(255, 0, 0, 0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Container(
-        width: 600.0,
-        height: 600.0,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 200.0,
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 120.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                      textStyle: TextStyle(fontSize: 16.0),
-                      backgroundColor: Color.fromARGB(0, 128, 128, 128),
-                    ),
-                    child: Text(
-                      'Take me to the app!',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 255, 0, 212),
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                      textStyle: TextStyle(fontSize: 16.0),
-                      backgroundColor: Color.fromARGB(0, 167, 138, 138),
-                    ),
-                    child: Text(
-                      'Learn more',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 0, 247, 255),
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle button press
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                      textStyle: TextStyle(fontSize: 16.0),
-                      backgroundColor: Colors.black,
-                    ),
-                    child: Text(
-                      'Get vibe to like, comment and remix!',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 24, 115, 201),
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(Icons.e_mobiledata_outlined),
-                      Icon(Icons.tag_faces),
-                      Icon(Icons.dangerous_rounded),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Container(
+            width: 600.0,
+            height: 600.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 200.0,
                   padding: EdgeInsets.all(20.0),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
+                      SizedBox(height: 120.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                          textStyle: TextStyle(fontSize: 16.0),
+                          backgroundColor: Color.fromARGB(0, 128, 128, 128),
                         ),
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            width: 500,
-                            height: 140,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              gradient: LinearGradient(
-                                colors: [
-                                  startColor,
-                                  endColor,
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                          ),
-                          ClipOval(
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: profilePhoto,
-                              height: 90,
-                              width: 90,
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.error,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 32.0,
-                   fontFamily: 'MonaSansExtraBoldWideItalic',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        '$username',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        fontFamily: 'MonaSansExtraBoldWideItalic',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        bio,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'MonaSans',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        website,
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontFamily: 'MonaSans',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              Icon(
-                                Icons.thumb_up,
-                                size: 24.0,
-                              ),
-                              SizedBox(height: 4.0),
-                              Text(
-                                'Likes',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                ),
-                              ),
-                              Text(
-                                likes.toString(),
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'MonaSans',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Icon(
-                                Icons.people,
-                                size: 24.0,
-                              ),
-                              SizedBox(height: 4.0),
-                              Text(
-                                'Followers',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                  fontFamily: 'MonaSans',
-                                ),
-                              ),
-                              Text(
-                                followers.toString(),
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'MonaSans',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Icon(
-                                Icons.group,
-                                size: 24.0,
-                              ),
-                              SizedBox(height: 4.0),
-                              Text(
-                                'Following',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0,
-                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                                ),
-                              ),
-                              Text(
-                                following.toString(),
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'MonaSans',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.0),
-                      Text(
-                        'Videos',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                        child: Text(
+                          'Take me to the app!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 255, 0, 212),
                             fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 10.0),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 4.0,
-                          mainAxisSpacing: 4.0,
-                        ),
-                        itemCount: thumbnails.length,
-                        itemBuilder: (context, index) {
-                          return Image.network(
-                            thumbnails[index],
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            
-                          );
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press
                         },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                          textStyle: TextStyle(fontSize: 16.0),
+                          backgroundColor: Color.fromARGB(0, 167, 138, 138),
+                        ),
+                        child: Text(
+                          'Learn more',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 0, 247, 255),
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
                       ),
+                      SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle button press
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                          textStyle: TextStyle(fontSize: 16.0),
+                          backgroundColor: Colors.black,
+                        ),
+                        child: Text(
+                          'Get vibe to like, comment and remix!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 24, 115, 201),
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -390,15 +189,216 @@ showDialog(
                     ],
                   ),
                 ),
-              ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                width: 500,
+                                height: 140,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      startColor,
+                                      endColor,
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                              ),
+                              ClipOval(
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: profilePhoto,
+                                  height: 90,
+                                  width: 90,
+                                  placeholder: (context, url) => const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => const Icon(
+                                    Icons.error,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 32.0,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            '$username',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            bio,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'MonaSans',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            website,
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontFamily: 'MonaSans',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 20.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  Icon(
+                                    Icons.thumb_up,
+                                    size: 24.0,
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Text(
+                                    'Likes',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    ),
+                                  ),
+                                  Text(
+                                    likes.toString(),
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Icon(
+                                    Icons.people,
+                                    size: 24.0,
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Text(
+                                    'Followers',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                  ),
+                                  Text(
+                                    followers.toString(),
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Icon(
+                                    Icons.group,
+                                    size: 24.0,
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Text(
+                                    'Following',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                                    ),
+                                  ),
+                                  Text(
+                                    following.toString(),
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'MonaSans',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                          Text(
+                            'Videos',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10.0),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 4.0,
+                              mainAxisSpacing: 4.0,
+                            ),
+                            itemCount: thumbnails.length,
+                            itemBuilder: (context, index) {
+                              return Image.network(
+                                thumbnails[index],
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.e_mobiledata_outlined),
+                              Icon(Icons.tag_faces),
+                              Icon(Icons.dangerous_rounded),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
-  },
-);
-
   }
 
   void preloadVideos() async {
@@ -420,92 +420,92 @@ showDialog(
           looping: true,
           showControls: false,
           allowedScreenSleep: false,
-          overlay: 
-          Stack(
-  children: [
-   Positioned(
+          overlay: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 40,
+                child: Center(
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.visibility,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        SizedBox(width: 4), SizedBox(width: 4.0), SizedBox(width: 4.0),
+                        Text(
+                          video.views.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
 
-  left: 0,
-  right: 0,
-  bottom: 40,
-  child: Center(
-    child: Container(
-      padding: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.visibility,
-            color: Colors.white,
-            size: 16,
-          ),
-          SizedBox(width: 4),     SizedBox(width: 4.0),     SizedBox(width: 4.0),
-          Text(
-            video.views.toString(),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-            ),
-          ),
-    
-          
-              SizedBox(width: 4.0),     SizedBox(width: 4.0),     SizedBox(width: 4.0),
-              Text(
-                'Likes: ${video.likes.length}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,   fontFamily: 'MonaSansExtraBoldWideItalic',
-                ),
-              ),     SizedBox(width: 4.0),     SizedBox(width: 4.0),
-              Text(
-                'Comments: ${video.commentCount}',
-                style: TextStyle(
-                  fontSize: 16,   fontFamily: 'MonaSans',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                        SizedBox(width: 4.0), SizedBox(width: 4.0), SizedBox(width: 4.0),
+                        Text(
+                          'Likes: ${video.likes.length}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                          ),
+                        ),
+                        SizedBox(width: 4.0),
+                        SizedBox(width: 4.0),
+                        Text(
+                          'Comments: ${video.commentCount}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'MonaSans',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 4.0),
+                        Text(
+                          '✨🤍 Caption: ${video.caption}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'MonaSansExtraBoldWideItalic',
+                            color: Colors.white,
+                          ),
+                        ),
+                        // Text(
+                        //   'Posted by: ${video.username}',
+                        //   style: TextStyle(
+                        //     fontSize: 16,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(width: 4.0),
-              Text(
-                '✨🤍 Caption: ${video.caption}',
-                style: TextStyle(
-                  fontSize: 16,   fontFamily: 'MonaSansExtraBoldWideItalic',
-                  color: Colors.white,
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    color: Colors.black54,
+                  ),
                 ),
               ),
-              // Text(
-              //   'Posted by: ${video.username}',
-              //   style: TextStyle(
-              //     fontSize: 16,
-              //     color: Colors.white,
-              //   ),
-              // ),
-         
-      
-        ],
-      ),
-    ),
-  ),
-),
-  Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          color: Colors.black54,
-      ),
-      ),
-    ),
-  ],
-),
-   ),
+            ],
+          ),
+        ),
       );
     }
     setState(() {
@@ -575,237 +575,232 @@ showDialog(
               ),
             ),
             child: ListView(
-        children: [
-  ListTile(
-    tileColor: Colors.black,
-    leading: Icon(Icons.mood),
-    title: Text(
-      'What is this App?',
-      style: TextStyle(
-        fontSize: 17,
-        fontFamily: 'MonaSansExtraBoldWideItalic',
-        color: Colors.white,
-      ),
-    ),
-    onTap: () {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            title: Row(
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 24,
-                  height: 24,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'What is this App?',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            content: Container(
-              constraints: BoxConstraints(maxWidth: 600),
-               child: Text(
-              'This app is a social media platform. It allows users to upload their favorite music and quick videos to express themselves and show off their creativity. \n\n Vibe aims to foster a tight-knit community where users can interact, collaborate on cool projects, and connect with others who share similar interests and hobbies. The platform stands out with its awesome features, such as music and video uploads, creative endeavors, and the ability to meet like-minded people who are all about good vibes. Vibe takes security seriously and employs the latest technology and cybersecurity measures to ensure a safe and reliable experience for its users. Users can connect with others on Vibe, meet new people, and collaborate on exciting projects. The platform also offers opportunities for users to monetize their content through sponsored collaborations, advertising partnerships, and merchandise sales. \n\nDiscovering new content on Vibe is easy with personalized recommendations, trending sections, and user-curated playlists. Vibe is accessible on smartphones, tablets, and computers, making it convenient to engage with the platform anytime, anywhere. If you have any more questions or need help, don\'t hesitate to reach out to the Vibe team. They are here to assist you and ensure you have the best experience on the platform.',
-            
-            
-              style: TextStyle(
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-                color: Colors.white,
-              ),
-                ),
-              
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Close', style: TextStyle(color: Colors.white)),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  ),
-  ListTile(
-    tileColor: Colors.black,
-    leading: Icon(FontAwesomeIcons.question),
-    title: Text(
-      'Why was Vibe made?',
-      style: TextStyle(
-        fontSize: 17,
-        fontFamily: 'MonaSansExtraBoldWideItalic',
-        color: Colors.white,
-      ),
-    ),
-    onTap: () {
-      showDialog(
-        context: context,
-   
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-     
-            title: Row(
-              
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 24,
-                  height: 24,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'Why was Vibe made?',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-             content: Container(
-              constraints: BoxConstraints(maxWidth: 600),
-              child: Text(
-                'Vibe was made to provide users with a platform to express themselves creatively and connect with like-minded individuals. It aims to foster a vibrant and inclusive community where users can share their passions, collaborate on projects, and spread good vibes. The platform offers various features and opportunities for users to explore their creativity, monetize their content, and discover new and exciting experiences. By creating Vibe, the developers wanted to empower individuals to unleash their creativity, connect with others, and have a platform that celebrates their unique talents and passions.',
-                style: TextStyle(
-                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Close', style: TextStyle(color: Colors.white)),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  ),
-  ListTile(
-    tileColor: Colors.black,
-    leading: Icon(FontAwesomeIcons.info),
-    title: Text(
-      'How do I Vibe?',
-      style: TextStyle(
-        fontSize: 17,
-        fontFamily: 'MonaSansExtraBoldWideItalic',
-        color: Colors.white,
-      ),
-    ),
-    onTap: () {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 24,
-                  height: 24,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'How do I Vibe?',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            content: Text(
-              'To access the full version, you need to upgrade your account.',
-              style: TextStyle(
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-                color: Colors.white,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Close', style: TextStyle(color: Colors.white)),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  ),
-  ListTile(
-    tileColor: Colors.black,
-    leading: Icon(FontAwesomeIcons.personWalking),
-    title: Text(
-      'Get Support',
-      style: TextStyle(
-        fontSize: 17,
-        fontFamily: 'MonaSansExtraBoldWideItalic',
-        color: Colors.white,
-      ),
-    ),
-    onTap: () {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 24,
-                  height: 24,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'Get Support',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            content: Text(
-              'Please visit our support page for assistance.',
-              style: TextStyle(
-                fontFamily: 'MonaSansExtraBoldWideItalic',
-                color: Colors.white,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Close', style: TextStyle(color: Colors.white)),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  ),
-],
+                ListTile(
+                  tileColor: Colors.black,
+                  leading: Icon(Icons.mood),
+                  title: Text(
+                    'What is this App?',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color:  Color.fromARGB(255, 0, 81, 255),
 
+       
+                    ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                          title: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/logo.png',
+                                width: 24,
+                                height: 24,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'What is this App?',
+                                style: TextStyle(
+                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Container(
+                            constraints: BoxConstraints(maxWidth: 600),
+                            child: Text(
+                              'This app is a social media platform. It allows users to upload their favorite music and quick videos to express themselves and show off their creativity. \n\n Vibe aims to foster a tight-knit community where users can interact, collaborate on cool projects, and connect with others who share similar interests and hobbies. The platform stands out with its awesome features, such as music and video uploads, creative endeavors, and the ability to meet like-minded people who are all about good vibes. Vibe takes security seriously and employs the latest technology and cybersecurity measures to ensure a safe and reliable experience for its users. Users can connect with others on Vibe, meet new people, and collaborate on exciting projects. The platform also offers opportunities for users to monetize their content through sponsored collaborations, advertising partnerships, and merchandise sales. \n\nDiscovering new content on Vibe is easy with personalized recommendations, trending sections, and user-curated playlists. Vibe is accessible on smartphones, tablets, and computers, making it convenient to engage with the platform anytime, anywhere. If you have any more questions or need help, don\'t hesitate to reach out to the Vibe team. They are here to assist you and ensure you have the best experience on the platform.',
+                              style: TextStyle(
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close', style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                ListTile(
+                  tileColor: Colors.black,
+                  leading: Icon(FontAwesomeIcons.question),
+                  title: Text(
+                    'Why was Vibe made?',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color: Colors.white,
+                    ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                          title: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/logo.png',
+                                width: 24,
+                                height: 24,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Why was Vibe made?',
+                                style: TextStyle(
+                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Container(
+                            constraints: BoxConstraints(maxWidth: 600),
+                            child: Text(
+                              'Vibe was made to provide users with a platform to express themselves creatively and connect with like-minded individuals. It aims to foster a vibrant and inclusive community where users can share their passions, collaborate on projects, and spread good vibes. The platform offers various features and opportunities for users to explore their creativity, monetize their content, and discover new and exciting experiences. By creating Vibe, the developers wanted to empower individuals to unleash their creativity, connect with others, and have a platform that celebrates their unique talents and passions.',
+                              style: TextStyle(
+                                fontFamily: 'MonaSansExtraBoldWideItalic',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close', style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                ListTile(
+                  tileColor: Colors.black,
+                  leading: Icon(FontAwesomeIcons.info),
+                  title: Text(
+                    'How do I Vibe?',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color:  Color.fromARGB(255, 221, 15, 228),
+                    ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                          title: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/logo.png',
+                                width: 24,
+                                height: 24,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'How do I Vibe?',
+                                style: TextStyle(
+                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            'To access the full version, you need to upgrade your account.',
+                            style: TextStyle(
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                              color: Colors.white,
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close', style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                ListTile(
+                  tileColor: Colors.black,
+                  leading: Icon(FontAwesomeIcons.personWalking),
+                  title: Text(
+                    'Get Support',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: 'MonaSansExtraBoldWideItalic',
+                      color: Colors.white,
+                    ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                          title: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/logo.png',
+                                width: 24,
+                                height: 24,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Get Support',
+                                style: TextStyle(
+                                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            'Please visit our support page for assistance.',
+                            style: TextStyle(
+                              fontFamily: 'MonaSansExtraBoldWideItalic',
+                              color: Colors.white,
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Close', style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -818,13 +813,12 @@ showDialog(
               },
               child: _isLoading
                   ? Container(
-  width: 300,
-  height: 300, 
-  child: Center(
-                    
-                      child: CupertinoActivityIndicator(),
-                    ),
-                  )
+                      width: 300,
+                      height: 300,
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    )
                   : RefreshIndicator(
                       onRefresh: _onRefresh,
                       child: ListView.builder(

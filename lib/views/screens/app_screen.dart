@@ -1,14 +1,8 @@
-
-
-//  █████  ██████  ██████  ██      ██  ██████  █████  ████████ ██  ██████  ███    ██     ██       █████  ██    ██ ███████ ██████  
-// ██   ██ ██   ██ ██   ██ ██      ██ ██      ██   ██    ██    ██ ██    ██ ████   ██     ██      ██   ██  ██  ██  ██      ██   ██ 
-// ███████ ██████  ██████  ██      ██ ██      ███████    ██    ██ ██    ██ ██ ██  ██     ██      ███████   ████   █████   ██████  
-// ██   ██ ██      ██      ██      ██ ██      ██   ██    ██    ██ ██    ██ ██  ██ ██     ██      ██   ██    ██    ██      ██   ██ 
-// ██   ██ ██      ██      ███████ ██  ██████ ██   ██    ██    ██  ██████  ██   ████     ███████ ██   ██    ██    ███████ ██   ██ 
-                                                                                                                               
-                                                                                                                               
-
-
+//  █████  ██████  ██████  ██      ██  ██████  █████  ████████ ██  ██████  ███    ██     ██       █████  ██    ██ ███████ ██████
+// ██   ██ ██   ██ ██   ██ ██      ██ ██      ██   ██    ██    ██ ██    ██ ████   ██     ██      ██   ██  ██  ██  ██      ██   ██
+// ███████ ██████  ██████  ██      ██ ██      ███████    ██    ██ ██    ██ ██ ██  ██     ██      ███████   ████   █████   ██████
+// ██   ██ ██      ██      ██      ██ ██      ██   ██    ██    ██ ██    ██ ██  ██ ██     ██      ██   ██    ██    ██      ██   ██
+// ██   ██ ██      ██      ███████ ██  ██████ ██   ██    ██    ██  ██████  ██   ████     ███████ ██   ██    ██    ███████ ██   ██
 
 // ------------------------------
 //  Hunter Reid 2023 ⓒ
@@ -24,7 +18,6 @@ import 'package:vibe/views/widgets/side_menu_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
 
@@ -38,8 +31,6 @@ class _AppScreenState extends State<AppScreen> {
   int feedNotificationCount = 2;
   int homeNotificationCount = 1;
   final ProfileController profileController = Get.put(ProfileController());
-
-  
 
   String selectedColorOption = 'Jet Black';
 
@@ -345,11 +336,9 @@ class ShowDialog {
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>  const AppScreen()));
-},
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (BuildContext context) => const AppScreen()));
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 42, 186, 230)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
@@ -359,12 +348,10 @@ Navigator.pushReplacement(
               ),
               SizedBox(height: 8),
               ElevatedButton(
-           onPressed: () {
-Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>  const AppScreen()));
-},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (BuildContext context) => const AppScreen()));
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 189, 189, 189)),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),
@@ -373,12 +360,10 @@ Navigator.pushReplacement(
               ),
               SizedBox(height: 8),
               ElevatedButton(
-                 onPressed: () {
-Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>  const AppScreen()));
-},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (BuildContext context) => const AppScreen()));
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
                   minimumSize: MaterialStateProperty.all<Size>(Size.fromHeight(48)),

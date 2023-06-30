@@ -38,7 +38,8 @@ class AboutUsScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Social Media Opt Out'),
-          content: Text('This action will lock you out of your account for 24 hours if you have been on social media for too long.'),
+          content: Text(
+              'This action will lock you out of your account for 24 hours if you have been on social media for too long.'),
           actions: [
             TextButton(
               onPressed: () {

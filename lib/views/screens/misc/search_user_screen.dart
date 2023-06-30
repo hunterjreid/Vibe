@@ -9,22 +9,19 @@ import 'package:vibe/views/screens/profile/direct_message_screen.dart';
 import 'package:vibe/views/screens/profile/profile_screen.dart';
 import 'package:vibe/controllers/share_video_dm_controller.dart';
 
-
 class SearchUserScreen extends StatelessWidget {
   final SearchController searchController = SearchController();
   final ShareVideoDMController shareVideoDMController = ShareVideoDMController();
   final GetDMController getDMController = Get.find<GetDMController>();
-  // Assuming you have an AuthController
   final AuthController authController = Get.find<AuthController>();
 
   SearchUserScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
-          style: TextStyle(fontFamily: 'monaSans'), // Apply monaSans font
+          style: TextStyle(fontFamily: 'monaSans'),
           decoration: const InputDecoration(
             filled: false,
             hintText: 'Search',
