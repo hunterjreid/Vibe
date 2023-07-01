@@ -3,13 +3,10 @@
 </p>
 
 # Vibe 🎵🎼
-Find your Vibes
+An app for sharing <i>short videos</i> called Vibe emphasises privacy first. Right now, discover your <b>Vibe</b>! Using my video-sharing application, Vibe, you are allowed to upload videos with music and other effects. This repository has the master copy and all of the files for the web, Android, and iOS applications. <i>Written in Dart and Flutter. Toutes droits réservés. </i>
 
-Vibe is a video sharing app where you can add filters and music to your videos. Inside this repo includes Andriod, iOS, and web-app files and is the master copy.
 
-<i>Written in Dart using Flutter</i>
-
-<i>Built 100% by Hunter Reid as a project for Yoobee Colleges CS301 lectures: Arthur, Mohammad, Rouwa, All rights resereved.</i>
+Hunter Reid was the sole contributor and creator for the entire system as a project with lecturers Arthur, Mohammad, and Rouwa for CS301 course at Yoobee Colleges.
 
 <hr>
 
