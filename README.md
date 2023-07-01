@@ -40,7 +40,7 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 
 | Dark theme | Light theme |   
 | --- | --- |  
-| ![Screenshot_1687402156](https://github.com/hunterjreid/Vibe/assets/62681404/48d00f09-db24-4d48-bfb4-c437341dce96) | ![Screenshot_1687402090](https://github.com/hunterjreid/Vibe/assets/62681404/3359960c-4134-41ab-9e2d-440078d7056d) |
+| ![e121e2e21e1e1e12e12e](https://github.com/hunterjreid/Vibe/assets/62681404/7b42c78a-6c80-4013-a6c1-ff3efb14bcde) | ![dwqdwwqddqw](https://github.com/hunterjreid/Vibe/assets/62681404/4ec8d70c-9191-4f5e-8141-97d38181af68) |
 | ![Screenshot_1688167684](https://github.com/hunterjreid/Vibe/assets/62681404/fdf5e43e-0eae-4499-8810-3460f3199919) | ![Screenshot_1688167690](https://github.com/hunterjreid/Vibe/assets/62681404/86b94835-5769-4840-847a-9ab7997a3247) | 
 | ![Screenshot_1688170186](https://github.com/hunterjreid/Vibe/assets/62681404/aefd177a-ab97-4298-9032-6ca35507fd42) | ![Screenshot_1688170364](https://github.com/hunterjreid/Vibe/assets/62681404/4d7da163-3550-4391-931f-02021fac567f) |
 | ![Screenshot_1688172194](https://github.com/hunterjreid/Vibe/assets/62681404/50a37a51-7848-44a8-9dbb-6f4a958ccc59) | ![Screenshot_1688172182](https://github.com/hunterjreid/Vibe/assets/62681404/a792e330-c641-4a42-a62a-65740dc929fe) | 
