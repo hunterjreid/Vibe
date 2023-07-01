@@ -19,6 +19,8 @@
 // Vibe is a video sharing app where you can add filters and music to your videos. Inside this repo includes Andriod, iOS, and web-app files and is the master copy.
 // Built 100% by Hunter Reid as a project for Yoobee Colleges CS301 lectures: Arthur, Mohammad, Rouwa, All rights resereved.
 
+// MAIN FILE START
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';

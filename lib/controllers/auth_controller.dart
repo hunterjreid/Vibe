@@ -1,3 +1,6 @@
+// Vibe - Find your Vibe
+// Architected by Hunter Reid
+//
 //dependencies import
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';

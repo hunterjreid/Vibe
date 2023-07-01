@@ -1,3 +1,7 @@
+// Vibe - Find your Vibe
+// Architected by Hunter Reid
+//
+//dependencies import
 import 'package:cloud_firestore/cloud_firestore.dart'; // Importing the cloud_firestore package for Firestore database operations
 import 'package:get/get.dart'; // Importing the get package for state management
 import 'package:vibe/constants.dart'; // Importing the constants.dart file from the vibe package

@@ -1,3 +1,7 @@
+// Vibe - Find your Vibe
+// Architected by Hunter Reid
+//
+//dependencies import
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
