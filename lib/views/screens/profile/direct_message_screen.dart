@@ -1,10 +1,14 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DirectMessageScreen extends StatefulWidget {
-  final String recipientUID; // UID of the recipient user
-  final String senderUID; // UID of the recipient user
+  final String recipientUID;
+  final String senderUID;
 
   DirectMessageScreen({required this.recipientUID, required this.senderUID});
 
@@ -73,7 +77,7 @@ class _DirectMessageScreenState extends State<DirectMessageScreen> {
 
                   return ListView.builder(
                     padding: EdgeInsets.all(8.0),
-                    reverse: true, // Display messages in reverse order
+                    reverse: true,
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index].data() as Map<String, dynamic>;

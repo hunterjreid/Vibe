@@ -1,9 +1,14 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
+//  user_settings_screen.dart
+//
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
 import 'package:vibe/controllers/settings_controller.dart';
 
@@ -112,7 +117,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             TextButton(
               child: Text('Log Out'),
               onPressed: () {
-                // Perform logout logic here
                 controller.authController.signOut();
                 Navigator.of(context).pop();
               },

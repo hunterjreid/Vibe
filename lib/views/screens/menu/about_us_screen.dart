@@ -1,10 +1,11 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'package:flutter/material.dart';
 
 class AboutUsScreen extends StatelessWidget {
-  void _rateApp(BuildContext context) {
-    // Implement your rate app functionality here
-    // For example, you can launch an external URL to a rating page
-  }
+  void _rateApp(BuildContext context) {}
   void _requestDataDeletion(BuildContext context) {
     showDialog(
       context: context,
@@ -15,7 +16,6 @@ class AboutUsScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                // Implement the deletion request here
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: Text('Confirm'),
@@ -43,7 +43,6 @@ class AboutUsScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                // Implement the opt-out functionality here
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: Text('Confirm'),

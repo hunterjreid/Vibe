@@ -20,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(
           'Options',
           style: TextStyle(
-            fontFamily: 'monaSans', // Apply monaSans font
+            fontFamily: 'monaSans',
             fontSize: 28,
             color: Colors.white,
           ),

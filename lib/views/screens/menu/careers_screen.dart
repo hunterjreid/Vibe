@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'package:flutter/material.dart';
 
 class CareersScreen extends StatelessWidget {
@@ -57,12 +61,12 @@ class CareersScreen extends StatelessWidget {
                     _showApplyDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent, // Set the button background color to transparent
-                    elevation: 0, // Remove button elevation
+                    primary: Colors.transparent,
+                    elevation: 0,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: Colors.blue), // Apply blue border color
+                      side: BorderSide(color: Colors.blue),
                     ),
                   ),
                   child: Text(
@@ -173,7 +177,6 @@ class CareersScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Add more job positions as needed
           Card(
             child: ListTile(
               leading: Image.asset(

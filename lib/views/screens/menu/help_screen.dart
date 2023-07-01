@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'package:flutter/material.dart';
 
 class HelpScreen extends StatefulWidget {
@@ -11,7 +15,7 @@ class _HelpScreenState extends State<HelpScreen> {
   @override
   void initState() {
     super.initState();
-    _expandedList = List<bool>.generate(16, (_) => false); // Adjust the count based on the number of FAQs
+    _expandedList = List<bool>.generate(16, (_) => false);
   }
 
   @override
@@ -21,7 +25,7 @@ class _HelpScreenState extends State<HelpScreen> {
         title: Text('Help'),
       ),
       body: Container(
-        padding: EdgeInsets.all(16.0), // Adding padding around the container
+        padding: EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Column(
@@ -90,7 +94,7 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget _buildFAQItem(int index, String question, String answer) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0), // Adding border radius
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: ExpansionPanelList(
         elevation: 2,
@@ -114,7 +118,7 @@ class _HelpScreenState extends State<HelpScreen> {
               );
             },
             body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Adding padding below the text
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 answer,
                 style: TextStyle(

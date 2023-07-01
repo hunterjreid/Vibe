@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,16 +67,16 @@ class YourDMsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: 'MonaSans',
                               fontWeight: FontWeight.w400,
-                              fontSize: 24, 
+                              fontSize: 24,
                             ),
                           ),
-                          SizedBox(height: 16), 
+                          SizedBox(height: 16),
                           Text(
                             "Get started by clicking the '+' icon up the top",
                             style: TextStyle(
                               fontFamily: 'MonaSans',
                               fontWeight: FontWeight.w400,
-                              fontSize: 16, 
+                              fontSize: 16,
                             ),
                           ),
                         ],

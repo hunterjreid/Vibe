@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibe/constants.dart';
@@ -83,7 +87,7 @@ class SearchUserScreen extends StatelessWidget {
                   title: Text(
                     user.name,
                     style: TextStyle(
-                      fontFamily: 'monaSans', // Apply monaSans font
+                      fontFamily: 'monaSans',
                       fontSize: 18,
                       color: Colors.white,
                     ),

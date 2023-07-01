@@ -78,8 +78,6 @@ class _ShowOwnVideoState extends State<ShowOwnVideo> {
   void _deleteVideo() {
     final data = widget.videoController.videoList[widget.videoIndex];
 
-    debugPrint(data.uid);
-
     FirebaseFirestore.instance.collection('videos').doc(data.id).delete().then((_) {
       // Video deleted successfully
 

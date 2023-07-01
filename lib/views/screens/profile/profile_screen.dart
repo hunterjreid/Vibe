@@ -1,19 +1,20 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
+
 import 'package:vibe/constants.dart';
 import 'package:vibe/controllers/profile_controller.dart';
-import 'package:vibe/controllers/video_controller.dart';
+
 import 'package:vibe/views/screens/profile/direct_message_screen.dart';
-import 'package:vibe/views/screens/profile/show_own_video_screen.dart';
+
 import 'package:palette_generator/palette_generator.dart';
 import 'package:vibe/views/screens/video/show_single_video.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vibe/views/screens/profile/user_screen.dart';
 import 'dart:math';
-import 'dart:ui';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -31,12 +32,12 @@ ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
 
 Color generateRandomColor() {
   Random random = Random();
-  int alpha = 255; 
+  int alpha = 255;
 
 // Random red value between 0 and 255
-  int red = random.nextInt(256); 
-  int green = random.nextInt(256); 
-  int blue = random.nextInt(256); 
+  int red = random.nextInt(256);
+  int green = random.nextInt(256);
+  int blue = random.nextInt(256);
 
   return Color.fromARGB(alpha, red, green, blue);
 }
@@ -126,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   },
                 ),
                 bottom: TabBar(
-                  controller: _tabController, 
+                  controller: _tabController,
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
                     Tab(icon: Icon(Icons.more)),
@@ -573,7 +574,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   }
 
 //Make colors
-Future<PaletteGenerator> generatePalette(String imageUrl) async {
+  Future<PaletteGenerator> generatePalette(String imageUrl) async {
     final PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(imageUrl));
     return paletteGenerator;
   }

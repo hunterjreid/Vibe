@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';

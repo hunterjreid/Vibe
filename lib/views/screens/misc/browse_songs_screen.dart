@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -92,7 +96,7 @@ class _BrowseSongsPageState extends State<BrowseSongsPage> {
 
     final video = await ImagePicker().pickVideo(
       source: ImageSource.camera,
-      preferredCameraDevice: CameraDevice.front, // or CameraDevice.rear for back camera
+      preferredCameraDevice: CameraDevice.front,
     );
 
     if (video != null) {

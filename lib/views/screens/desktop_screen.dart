@@ -584,9 +584,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
                     style: TextStyle(
                       fontSize: 17,
                       fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color:  Color.fromARGB(255, 0, 81, 255),
-
-       
+                      color: Color.fromARGB(255, 0, 81, 255),
                     ),
                   ),
                   onTap: () {
@@ -700,7 +698,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
                     style: TextStyle(
                       fontSize: 17,
                       fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color:  Color.fromARGB(255, 221, 15, 228),
+                      color: Color.fromARGB(255, 221, 15, 228),
                     ),
                   ),
                   onTap: () {

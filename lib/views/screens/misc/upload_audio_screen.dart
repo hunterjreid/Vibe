@@ -1,3 +1,7 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
 import 'dart:io';
 import 'package:flutter/material.dart';
 
@@ -76,10 +80,7 @@ class _AudioUploadScreenState extends State<AudioUploadScreen> {
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: () {
-                // Handle the extraction of audio from video and MP3 file upload
-                // based on the selected options (_selectedFile, _useProfilePicture, _soundTitle).
-              },
+              onPressed: () {},
               child: Text('Upload mp3 file.'),
             ),
           ],

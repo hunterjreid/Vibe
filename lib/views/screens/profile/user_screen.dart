@@ -31,7 +31,9 @@ class UserScreen extends StatefulWidget {
   @override
   State<UserScreen> createState() => _UserScreenState();
 }
+
 ThemeData themeData = isDarkTheme == false ? lightTheme : darkTheme;
+
 class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin {
   final ProfileController profileController = Get.put(ProfileController());
   late TabController _tabController;
@@ -102,7 +104,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _fetchUserProfile(); 
+    _fetchUserProfile();
   }
 
   void _tabControllerListener() {
@@ -125,6 +127,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       // Interpolate between the leftmost and rightmost colors
       return Color.lerp(tabColors[0], tabColors[1], factor)!;
     }
+
     DateTime currentTime = DateTime.now();
     String timeAgo = DateFormat('yyyy-MM-dd HH:mm:ss').format(currentTime);
     // Placeholder list of titles
@@ -140,7 +143,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       themeData = ThemeData.light();
     }
     return MaterialApp(
-        theme: themeData, 
+        theme: themeData,
         debugShowCheckedModeBanner: false,
         home: GetBuilder<ProfileController>(
           init: ProfileController(),
@@ -148,7 +151,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
             return Scaffold(
               appBar: AppBar(
                 bottom: TabBar(
-                  controller: _tabController, 
+                  controller: _tabController,
                   labelColor: Theme.of(context).colorScheme.onBackground,
                   tabs: [
                     Tab(icon: Icon(Icons.person_2_outlined)),
@@ -605,10 +608,10 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.black,
+          backgroundColor: Color.fromARGB(255, 14, 20, 58),
           content: Container(
             width: double.maxFinite,
-            height: 300, // Adjust the height as needed
+            height: 300,
             child: Column(
               children: [
                 Text(
@@ -623,7 +626,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                 SizedBox(height: 10),
                 Expanded(
                   child: charts.LineChart(
-                    _createSampleData(), // Replace with your own data
+                    _createSampleData(),
                     animate: true,
                   ),
                 ),

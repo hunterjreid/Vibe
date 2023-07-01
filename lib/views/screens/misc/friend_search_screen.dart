@@ -23,7 +23,6 @@ class FriendSearchPage extends StatelessWidget {
           style: TextStyle(fontFamily: 'monaSans'),
           decoration: const InputDecoration(
             filled: true,
-            // fillColor: Colors.grey,
             hintText: 'Search',
             hintStyle: TextStyle(
               fontSize: 18,

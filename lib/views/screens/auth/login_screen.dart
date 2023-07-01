@@ -1,3 +1,10 @@
+// ------------------------------
+//  Hunter Reid 2023 ⓒ
+//  Vibe Find your Vibes
+//
+//  login_screen.dart
+//
+
 import 'package:flutter/material.dart';
 import 'package:vibe/constants.dart';
 import 'package:vibe/views/screens/auth/signup_screen.dart';
