@@ -21,8 +21,9 @@ Vibe is a video sharing app where you can add filters and music to your videos. 
 
 <hr>
 
-# Preview 🎫📸 🎮👀
-![Untitled-2](https://github.com/hunterjreid/Vibe/assets/62681404/cfd63d15-fb06-4e7c-bc36-dc5e91e1047b)
+# Preview 🎫📸🎮👀
+![250217651-cfd63d15-e1e21e1ebc36-dc5e91e1047be122e1e1e12e121e12ee](https://github.com/hunterjreid/Vibe/assets/62681404/0b865e70-4a97-4dbe-9ddd-511c40b6f8db)
+
 
 # Features 👷‍♂️🌎 
 - [x] Vibe app doesn't drain the user's battery or use excessive data.  
