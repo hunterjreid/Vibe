@@ -10,7 +10,7 @@ Hunter Reid was the sole contributor and creator for the entire system as a proj
 
 <hr>
 
-## Want to feel the vibes now?
+## Try Vibe today!🤙 <br> What are you waiting for?📲
 
 | Android | iOS | Web |
 | --- | ---| --- |
@@ -29,7 +29,7 @@ Hunter Reid was the sole contributor and creator for the entire system as a proj
 ✅ Vibe works on alot of different types of devices.  
 ✅ Vibe app/web-app is relatively easy to use and navigate.
       
-## Try Vibe today!🤙 <br> What are you waiting for?📲
+## Screenshots
 
 | Dark theme | Light theme |   
 | --- | --- |  
