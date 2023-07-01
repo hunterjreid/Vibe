@@ -575,230 +575,236 @@ class _WebAppScreenState extends State<WebAppScreen> {
               ),
             ),
             child: ListView(
+        children: [
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(Icons.mood),
+    title: Text(
+      'What is this App?',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Color.fromARGB(255, 0, 81, 255),
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
               children: [
-                ListTile(
-                  tileColor: Colors.black,
-                  leading: Icon(Icons.mood),
-                  title: Text(
-                    'What is this App?',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color: Color.fromARGB(255, 0, 81, 255),
-                    ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.black,
-                          title: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/logo.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'What is this App?',
-                                style: TextStyle(
-                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Container(
-                            constraints: BoxConstraints(maxWidth: 600),
-                            child: Text(
-                              'This app is a social media platform. It allows users to upload their favorite music and quick videos to express themselves and show off their creativity. \n\n Vibe aims to foster a tight-knit community where users can interact, collaborate on cool projects, and connect with others who share similar interests and hobbies. The platform stands out with its awesome features, such as music and video uploads, creative endeavors, and the ability to meet like-minded people who are all about good vibes. Vibe takes security seriously and employs the latest technology and cybersecurity measures to ensure a safe and reliable experience for its users. Users can connect with others on Vibe, meet new people, and collaborate on exciting projects. The platform also offers opportunities for users to monetize their content through sponsored collaborations, advertising partnerships, and merchandise sales. \n\nDiscovering new content on Vibe is easy with personalized recommendations, trending sections, and user-curated playlists. Vibe is accessible on smartphones, tablets, and computers, making it convenient to engage with the platform anytime, anywhere. If you have any more questions or need help, don\'t hesitate to reach out to the Vibe team. They are here to assist you and ensure you have the best experience on the platform.',
-                              style: TextStyle(
-                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close', style: TextStyle(color: Colors.white)),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
                 ),
-                ListTile(
-                  tileColor: Colors.black,
-                  leading: Icon(FontAwesomeIcons.question),
-                  title: Text(
-                    'Why was Vibe made?',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color: Colors.white,
-                    ),
+                SizedBox(width: 8),
+                Text(
+                  '🎵 What is this App? 🤔',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
                   ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.black,
-                          title: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/logo.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'Why was Vibe made?',
-                                style: TextStyle(
-                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Container(
-                            constraints: BoxConstraints(maxWidth: 600),
-                            child: Text(
-                              'Vibe was made to provide users with a platform to express themselves creatively and connect with like-minded individuals. It aims to foster a vibrant and inclusive community where users can share their passions, collaborate on projects, and spread good vibes. The platform offers various features and opportunities for users to explore their creativity, monetize their content, and discover new and exciting experiences. By creating Vibe, the developers wanted to empower individuals to unleash their creativity, connect with others, and have a platform that celebrates their unique talents and passions.',
-                              style: TextStyle(
-                                fontFamily: 'MonaSansExtraBoldWideItalic',
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close', style: TextStyle(color: Colors.white)),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  tileColor: Colors.black,
-                  leading: Icon(FontAwesomeIcons.info),
-                  title: Text(
-                    'How do I Vibe?',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color: Color.fromARGB(255, 221, 15, 228),
-                    ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.black,
-                          title: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/logo.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'How do I Vibe?',
-                                style: TextStyle(
-                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Text(
-                            'To access the full version, you need to upgrade your account.',
-                            style: TextStyle(
-                              fontFamily: 'MonaSansExtraBoldWideItalic',
-                              color: Colors.white,
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close', style: TextStyle(color: Colors.white)),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  tileColor: Colors.black,
-                  leading: Icon(FontAwesomeIcons.personWalking),
-                  title: Text(
-                    'Get Support',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontFamily: 'MonaSansExtraBoldWideItalic',
-                      color: Colors.white,
-                    ),
-                  ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.black,
-                          title: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/logo.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'Get Support',
-                                style: TextStyle(
-                                  fontFamily: 'MonaSansExtraBoldWideItalic',
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Text(
-                            'Please visit our support page for assistance.',
-                            style: TextStyle(
-                              fontFamily: 'MonaSansExtraBoldWideItalic',
-                              color: Colors.white,
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Close', style: TextStyle(color: Colors.white)),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
                 ),
               ],
+            ),
+            content: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Text(
+                'Hey there! This app is all about spreading good vibes! 😄🎉 It\'s a social media platform where you can express yourself through your favorite music and quick videos. 🎵📹 Vibe aims to create a tight-knit community where you can connect with others who share your interests and hobbies. It\'s the perfect place to show off your creativity and collaborate on cool projects! 😎💡 To ensure your safety, Vibe takes security seriously and uses the latest technology and cybersecurity measures. 💪💻 You can use Vibe on your smartphone, tablet, or computer, so you can enjoy the platform anytime, anywhere! If you have any questions or need assistance, don\'t hesitate to reach out to the Vibe team. They\'re here to help you have the best experience! 🌟🤗',
+                style: TextStyle(
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  ),
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(FontAwesomeIcons.question),
+    title: Text(
+      'Why was Vibe made?',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Colors.white,
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  '❓ Why was Vibe made? 🎶',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            content: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Text(
+                'Vibe was created with one purpose in mind: to bring people together and celebrate their creativity! 🤗🎉 The platform provides you with a space to express yourself, connect with like-minded individuals, and share your passions. It\'s a vibrant and inclusive community where you can collaborate on projects, spread good vibes, and discover new experiences. The developers wanted to empower individuals like you to unleash their creativity and have a platform that celebrates their unique talents and passions. So go ahead, be yourself, and let your creativity shine on Vibe! 🌟😊',
+                style: TextStyle(
+                  fontFamily: 'MonaSansExtraBoldWideItalic',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  ),
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(FontAwesomeIcons.info),
+    title: Text(
+      'How do I Vibe?',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Color.fromARGB(255, 221, 15, 228),
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  '🎧 How do I Vibe? 🕺',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            content: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Text(
+              'To access the full version and unlock all the amazing features, you need to upgrade your account. 📲💎 Don\'t worry, it\'s super easy! Just follow the instructions in the app, and you\'ll be vibing in no time! If you need any assistance or have questions, our support team is here to help. 😊👍',
+              style: TextStyle(
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
+              ),
+            ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  ),
+  ListTile(
+    tileColor: Colors.black,
+    leading: Icon(FontAwesomeIcons.personWalking),
+    title: Text(
+      'Get Support',
+      style: TextStyle(
+        fontSize: 17,
+        fontFamily: 'MonaSansExtraBoldWideItalic',
+        color: Colors.white,
+      ),
+    ),
+    onTap: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  '🤝 Get Support 🆘',
+                  style: TextStyle(
+                    fontFamily: 'MonaSansExtraBoldWideItalic',
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+              content: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Text(
+              'If you need any assistance, please visit our support page. Our dedicated support team is ready to help you with any questions or concerns you may have. 🤗📞',
+              style: TextStyle(
+                fontFamily: 'MonaSansExtraBoldWideItalic',
+                color: Colors.white,
+              ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Close', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  ),
+],
             ),
           ),
           Expanded(
@@ -968,116 +974,7 @@ class _WebAppScreenState extends State<WebAppScreen> {
                 onTap: () {
                   // Handle learn more action
                 },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.person_add,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Sign Up for Wait List',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle sign up for wait list action
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.settings,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle settings action
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.info,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'About',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle "About" action
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.help,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Help',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle "Help" action
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.favorite,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Support Us',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle "Support Us" action
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.person_add,
-                  size: 40,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Join Waitlist',
-                  style: TextStyle(
-                    fontFamily: 'MonaSansExtraBoldWideItalic',
-                    fontSize: 40,
-                    color: Colors.white,
-                  ),
-                ),
-                onTap: () {
-                  // Handle "Join Waitlist" action
-                },
-              ),
-            ],
+              ),   ],
           ),
         ),
       ),
