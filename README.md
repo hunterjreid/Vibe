@@ -3,7 +3,7 @@
 </p>
 
 # Vibe 🎵🎼
-An app for sharing <i>short videos</i> called Vibe emphasises privacy first. Right now, discover your <b>Vibe</b>! Using my video-sharing application, Vibe, you are allowed to upload videos with music and other effects. This repository has the master copy and all of the files for the web, Android, and iOS applications. <i>Written in Dart and Flutter. Toutes droits réservés. </i>
+Vibe is an app for sharing <i>short videos</i> but puts privacy first. Right now, discover your <b>Vibe</b>! Using my video-sharing application, Vibe, you are allowed to upload videos with music and other effects. This repository has the master copy and all of the files for the web, Android, and iOS applications. <i>Written in Dart and Flutter. Toutes droits réservés. </i>
 
 
 Hunter Reid was the sole contributor and creator for the entire system as a project with lecturers Arthur, Mohammad, and Rouwa for CS301 course at Yoobee Colleges.
